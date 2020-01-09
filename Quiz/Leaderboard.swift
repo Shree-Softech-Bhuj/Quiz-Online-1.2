@@ -35,6 +35,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let a = 100
     let b = 150
     
+    let nm = "ShreeSoftech"
+    
     @IBOutlet weak var buttonAll: UIButton!
     
     var isInitial = true
