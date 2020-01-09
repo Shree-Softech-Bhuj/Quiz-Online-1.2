@@ -58,6 +58,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
            
         getLeaders(sel: "All")//get data from server
+        print(nm)
     }
     
     //get data from server
