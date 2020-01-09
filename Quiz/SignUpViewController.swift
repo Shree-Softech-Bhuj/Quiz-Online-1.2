@@ -25,8 +25,14 @@ class SignUpViewController: UIViewController {
 //        let emailTxt = ""
 //        email.text = emailTxt
         
-        var isInitial = true
-        var Loader: UIAlertController = UIAlertController()
+//        var isInitial = true
+//        var Loader: UIAlertController = UIAlertController()
+        
+        //create referernce to the data user enter
+        var nameTxt = ""
+        var emailTxt =  ""
+        var passwordTxt = ""
+        var refCodeTxt = ""
         
         self.hideKeyboardWhenTappedAround()
 //        if email.isHidden == false {
@@ -39,13 +45,11 @@ class SignUpViewController: UIViewController {
     }
     @IBAction func SignupUser(_ sender: Any) {
         //"refer_code"
-        
         //create referernce to the data user enter
-                  let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                  let emailTxt =  email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                  let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                  let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+        let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let emailTxt =  email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
        //create a user
         Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
             if err != nil {
@@ -69,32 +73,55 @@ class SignUpViewController: UIViewController {
                         print("Error Saving User Data")
                     }else{
                          //send verification link to given email id -> emailTxt here
-                        //send Email verification link to given email adrs - emailTxt here
-                        let actionCodeSettings = ActionCodeSettings()
-                        actionCodeSettings.url = URL(string: "https://www.example.com")
-                        // The sign-in operation has to always be completed in the app.
-                        actionCodeSettings.handleCodeInApp = true
-                        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
-                        actionCodeSettings.setAndroidPackageName("com.example.android",installIfNotAvailable: false, minimumVersion: "12")
-                        Auth.auth().sendSignInLink(toEmail:emailTxt,actionCodeSettings: actionCodeSettings) { error in
-                            if let error = error {
-                                // self.showMessagePrompt(error.localizedDescription)
-                                print(error.localizedDescription)
-                                return
-                            }
-                            // The link was successfully sent. Inform the user.
-                            // Save the email locally so you don't need to ask the user for it again
-                            // if they open the link on the same device.
-                            UserDefaults.standard.set(emailTxt, forKey: "Email")
-                            // self.showMessagePrompt("Check your email for link")
-                            print("Check your email for link")
-                        }
+                        guard let user = Auth.auth().currentUser else {
+                           return signin(auth: Auth.auth())
                     }
+                           user.reload { (error) in
+                                     user.sendEmailVerification { (error) in
+                                         guard let error = error else {
+                                                print("user email verification sent")
+                                             return myAlert("user email verification sent")
+                                         }
+                                        let alert = UIAlertController(title: "", message: "Error", preferredStyle: UIAlertController.Style.alert)
+                                            // add the actions (buttons)
+                                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                                            // show the alert
+                                            self.present(alert, animated: true, completion: nil)
+                                        //myAlert("\(error)")
+                                        //print(error)
+                                     }
+                             }
+                    } // else of db.collection
+                } //db.collection
+            } //else
+        } //signup user
+        
+//        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+//        self.present(subView, animated: true, completion: nil)
+    
+    
+       func signin (auth: Auth){
+               Auth.auth().signIn(withEmail: emailTxt, password: passwordTxt) { (result, error) in
+                guard error == nil else {
+                    return print(error!)
                 }
-            }
+                guard let user = result?.user else{
+                    fatalError("User Not Found, Something went wrong")
+                }
+                print("Signed in user: \(user.email ?? emailTxt)")
         }
-        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-        self.present(subView, animated: true, completion: nil)
+       }
+        func myAlert(_ msg: String) {
+            let alert = UIAlertController(title: "", message: msg, preferredStyle: UIAlertController.Style.alert)
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        
+            // show the alert
+            self.present(alert, animated: true, completion: nil)
+            //alert.view.tintColor = UIColor.red //alert Action font color changes to red
+            
+        }
+    
     }
         
    
