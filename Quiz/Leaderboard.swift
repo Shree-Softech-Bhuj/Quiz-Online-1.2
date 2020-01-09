@@ -32,10 +32,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var user1View: UIView!
     @IBOutlet weak var user3View: UIView!
     
-    let a = 100
-    let b = 150
-    
-    let nm = "ShreeSoftech"
     
     @IBOutlet weak var buttonAll: UIButton!
     
@@ -58,7 +54,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
            
         getLeaders(sel: "All")//get data from server
-        print(nm)
     }
     
     //get data from server
