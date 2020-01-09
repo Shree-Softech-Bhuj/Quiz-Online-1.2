@@ -32,6 +32,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var user1View: UIView!
     @IBOutlet weak var user3View: UIView!
     
+    let a = 100
+    let b = 150
     
     @IBOutlet weak var buttonAll: UIButton!
     
