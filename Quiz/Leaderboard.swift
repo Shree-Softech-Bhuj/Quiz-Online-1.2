@@ -194,26 +194,26 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 //set top 3 rank data here
                 
                // print("total count is -> \(self.LeaderData.count)")
-                if self.LeaderData.count < 2{
+                if self.LeaderData.count < 1 {
                     self.ShowAlert(title: "No Data", message: "No data avalable to show !")
                     return
                 }
                 //hide views if in Daily leaderboard just contain 1 or 2 entries, otherwise show all data in default case.
                 switch self.LeaderData.count{
                 case 1:
-                        if(!self.LeaderData[1].image.isEmpty){
-                            self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
+                        if(!self.LeaderData[0].image.isEmpty){
+                            self.usr2.loadImageUsingCache(withUrl: self.LeaderData[0].image)
                         }
-                        if (!self.LeaderData[1].name.isEmpty) && (!self.LeaderData[1].score.isEmpty) {
-                                self.usr1Lbl.text = "\(self.LeaderData[1].name)"
-                                self.score1Lbl.text = "\(self.LeaderData[1].score)"
+                        if (!self.LeaderData[0].name.isEmpty) && (!self.LeaderData[0].score.isEmpty) {
+                                self.usr2Lbl.text = "\(self.LeaderData[0].name)"
+                                self.score2Lbl.text = "\(self.LeaderData[0].score)"
                                 //self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
                            }
                            else{
-                                self.user2View.isHidden = true
+                                self.user1View.isHidden = true
                            }
                         //if there is no other users data there then just hide that view.!
-                            self.user1View.isHidden = true
+                            self.user2View.isHidden = true
                             self.user3View.isHidden = true
                case 2:
                         //user 1

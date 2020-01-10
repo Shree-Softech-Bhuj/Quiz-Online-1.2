@@ -54,44 +54,44 @@ class LoginView: UIViewController,GIDSignInDelegate{
         self.present(subView, animated: true, completion: nil)
     }
     
-    @IBAction func loginBtn(_ sender: UIButton) {
+    @IBAction func loginBtn(_ sender: UIButton)
+    {
         if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""||pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
             //return "Please fill in all fields"
             //let error = "Please fill in all fields"
-            print("check username and password first")
+            print("Please enter correct username and password")
+            let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true)
         }
         else{
             //create referernce to the data user enter
-             let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-             let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                    //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
-                    if Auth.auth().currentUser?.isEmailVerified == true {
-                        Auth.auth().signIn(withEmail: username, password: password){
-                                  (result,error) in
-                                  if error != nil {
-                                      //unable to sign in
-                                    //  self.showError(error!.localizedDescription)
-                                   print(error!.localizedDescription)
-                                  }
-                                  else{
-                                          UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                                          let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-                                          self.present(subView, animated: true, completion: nil)
-                                  }
-                              }
-                    }else{
-                        let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true)
-                    }                      
+            let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
+            Auth.auth().currentUser?.reload { (error) in
+              if Auth.auth().currentUser?.isEmailVerified == true {
+                 Auth.auth().signIn(withEmail: username, password: password){
+                      (result,error) in
+                      if error != nil {
+                          //unable to sign in
+                        //  self.showError(error!.localizedDescription)
+                       print(error!.localizedDescription)
+                      }
+                      else{
+                        UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
+                        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+                        self.present(subView, animated: true, completion: nil)
+                      }
+                  }
+            }else{
+                let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true)
+                }
+            }
         }
     }
-    
-//    func showError(_ message : String){
-//            errorLabel.text = message
-//            errorLabel.alpha=1
-//        }
-  
     
     @IBAction func forgotPswd(_ sender: UIButton) {
 //               let storyboard = UIStoryboard(name: "Main", bundle: nil)

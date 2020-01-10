@@ -21,36 +21,44 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         
-//        let emailTxt = ""
-//        email.text = emailTxt
-        
-//        var isInitial = true
-//        var Loader: UIAlertController = UIAlertController()
-        
         //create referernce to the data user enter
         var nameTxt = ""
         var emailTxt =  ""
         var passwordTxt = ""
         var refCodeTxt = ""
-        
         self.hideKeyboardWhenTappedAround()
-//        if email.isHidden == false {
-//            if isValidEmail(email) == false {
-//                //return "1"
-//                email.text = ""
-//                email.becomeFirstResponder()
-//            }
-//        }
     }
+    
     @IBAction func SignupUser(_ sender: Any) {
+        
         //"refer_code"
         //create referernce to the data user enter
         let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let emailTxt =  email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-       //create a user
+        
+//        //validate fields
+//        if  name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+//            name.placeholder? = ("Please enter Name Here")
+//            name.placeHolderColor = UIColor.red
+//        }else{
+//            name.placeholder? = ("Name")
+//        }
+//        if  email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+//            email.placeholder? = ("Please enter Email Here")
+//            email.placeHolderColor = UIColor.red
+//        }else{
+//            email.placeholder? = ("Email")
+//        }
+//        if password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+//           password.placeholder? = ("Please enter Password Here")
+//           password.placeHolderColor = UIColor.red
+//        }else{
+//            password.placeholder? = ("Password")
+//        }
+        
+        //create a user
         Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
             if err != nil {
                 let error_descr = err?.localizedDescription
@@ -75,6 +83,13 @@ class SignUpViewController: UIViewController {
                 self.present(alert, animated: true)
             }
             else {
+                if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+                   {
+                        let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                            self.present(alert, animated: true)
+                   }
+                
                 //store first name & last name as user created successfully
                 let db =  Firestore.firestore()
                 db.collection("users").addDocument(data: ["name": nameTxt,"refcode": refCodeTxt,"uid": result!.user.uid ]) { (error) in
@@ -123,15 +138,15 @@ class SignUpViewController: UIViewController {
                 }
                 print("Signed in user: \(user.email ?? emailTxt)")
         }
-       }
-        func myAlert(_ msg: String) {
-            let alert = UIAlertController(title: "", message: msg, preferredStyle: UIAlertController.Style.alert)
-            // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        
-            // show the alert
-            self.present(alert, animated: true, completion: nil)
-            //alert.view.tintColor = UIColor.red //alert Action font color changes to red
-        }
+    }
+//        func myAlert(_ msg: String) {
+//            let alert = UIAlertController(title: "", message: msg, preferredStyle: UIAlertController.Style.alert)
+//            // add the actions (buttons)
+//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//
+//            // show the alert
+//            self.present(alert, animated: true, completion: nil)
+//            //alert.view.tintColor = UIColor.red //alert Action font color changes to red
+//        }
     }
 }
