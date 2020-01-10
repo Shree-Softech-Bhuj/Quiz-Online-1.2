@@ -251,8 +251,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                 self.usr1Lbl.text = "\(self.LeaderData[1].name)"
                                 self.score1Lbl.text = "\(self.LeaderData[1].score)"
                                 //self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
-                           }
-                           else{
+                           }else{
                               self.user2View.isHidden = true
                             //print("no data for user 1")
                            }
@@ -264,8 +263,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                              self.usr2Lbl.text = "\(self.LeaderData[0].name)"
                              self.score2Lbl.text = "\(self.LeaderData[0].score)"
                            //  self.usr2.loadImageUsingCache(withUrl: self.LeaderData[0].image)
-                        }
-                        else{
+                        } else{
                             self.user1View.isHidden = true
                         }
                         //user 3

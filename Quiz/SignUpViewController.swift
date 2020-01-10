@@ -17,7 +17,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var password: FloatingTF!
     
     @IBOutlet weak var referralCode: FloatingTF!
-        
+     
+    @IBOutlet weak var pswdButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,21 @@ class SignUpViewController: UIViewController {
         var refCodeTxt = ""
         self.hideKeyboardWhenTappedAround()
     }
-    
+      @IBAction func pswdBtn(_ sender: UIButton) {
+    //            guard let image = UIImage(named: "unlock") else {
+    //                       print("Image Not Found")
+    //                       return
+    //                   }
+        //change img/icon accordingly and set text secure and unsecure as button tapped
+        if password.isSecureTextEntry == true {
+                pswdButton.setImage(UIImage(named: "unlock"), for: UIControlState.normal)
+                password.isSecureTextEntry = false
+            }else{
+               // pswdButton.setImage(image, for: UIControlState.normal)
+                pswdButton.setImage(UIImage(named: "lock"), for: UIControlState.normal)
+                password.isSecureTextEntry = true
+            }
+        }
     @IBAction func SignupUser(_ sender: Any) {
         
         //"refer_code"
@@ -58,8 +73,17 @@ class SignUpViewController: UIViewController {
 //            password.placeholder? = ("Password")
 //        }
         
-        //create a user
-        Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
+         //chk for name As its not optional
+        if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+          {
+               self.name.becomeFirstResponder()
+               let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
+                   alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                   self.present(alert, animated: true)
+       }
+       else{
+         //create a user
+         Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
             if err != nil {
                 let error_descr = err?.localizedDescription
                 if error_descr != nil {
@@ -83,14 +107,10 @@ class SignUpViewController: UIViewController {
                 self.present(alert, animated: true)
             }
             else {
-                if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
-                   {
-                        let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                            self.present(alert, animated: true)
-                   }
+            //store first name & last name as user created successfully
+              //Firestore.firestore().collection("users").document(email).setData(emailTxt)
                 
-                //store first name & last name as user created successfully
+                
                 let db =  Firestore.firestore()
                 db.collection("users").addDocument(data: ["name": nameTxt,"refcode": refCodeTxt,"uid": result!.user.uid ]) { (error) in
                     if error != nil {
@@ -101,28 +121,29 @@ class SignUpViewController: UIViewController {
                         guard let user = Auth.auth().currentUser else {
                            return signin(auth: Auth.auth())
                     }
-                           user.reload { (error) in
-                                     user.sendEmailVerification { (error) in
-                                         guard let error = error else {
-                                                print("user email verification sent")
-                                                let alert = UIAlertController(title: "", message: "User email verification sent", preferredStyle: UIAlertController.Style.alert)
-                                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-                                                    self.dismissCurrView()
-                                                    let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-                                                    self.present(subView, animated: true, completion: nil)
-                                                  }))
-                                                return self.present(alert, animated: true, completion: nil)
-                                                 // return myAlert("user email verification sent")
-                                         }
-                                        let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                                        self.present(alert, animated: true)
-                                        print("error - \(error.localizedDescription)")
-                                       // myAlert(error.localizedDescription)
-                                     }
+                   user.reload { (error) in
+                             user.sendEmailVerification { (error) in
+                                 guard let error = error else {
+                                        print("user verification email sent")
+                                        let alert = UIAlertController(title: "", message: "User verification email sent", preferredStyle: UIAlertController.Style.alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                                            self.dismissCurrView()
+                                            let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+                                            self.present(subView, animated: true, completion: nil)
+                                          }))
+                                        return self.present(alert, animated: true, completion: nil)
+                                         // return myAlert("user email verification sent")
+                                 }
+                                let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                                self.present(alert, animated: true)
+                                print("error - \(error.localizedDescription)")
+                               // myAlert(error.localizedDescription)
                              }
+                        }
                     } // else of db.collection
-                } //db.collection
-            } //else
+                 } //db.collection
+              } //else inside else
+           } //else
         } //signup user
         
 //        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")

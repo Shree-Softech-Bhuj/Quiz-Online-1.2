@@ -22,7 +22,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBOutlet weak var emailTxt: FloatingTF!
     @IBOutlet weak var pswdTxt: FloatingTF!
     
-    
     //var iconClick = true //pswd text
     
     var email = ""
@@ -36,8 +35,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
         GIDSignIn.sharedInstance().delegate=self
         //GIDSignIn.sharedInstance().uiDelegate=self
         GIDSignIn.sharedInstance()?.presentingViewController = self
-        
-        
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         
@@ -56,7 +53,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
     
     @IBAction func loginBtn(_ sender: UIButton)
     {
-        if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""||pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+        print("login btn clicked")
+        if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
             //return "Please fill in all fields"
             //let error = "Please fill in all fields"
             print("Please enter correct username and password")
@@ -69,28 +67,46 @@ class LoginView: UIViewController,GIDSignInDelegate{
             let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
+            print("before reload")
+            //assign user first here
             Auth.auth().currentUser?.reload { (error) in
+                print("inside reload")
               if Auth.auth().currentUser?.isEmailVerified == true {
                  Auth.auth().signIn(withEmail: username, password: password){
-                      (result,error) in
+                      (user,error) in
                       if error != nil {
                           //unable to sign in
                         //  self.showError(error!.localizedDescription)
                        print(error!.localizedDescription)
+                        print("errorrrr")
                       }
                       else{
                         UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
+                        print("forKey set to islogedin")
+//                           let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)",phone: "\(user?.user.phoneNumber)", address: " ", userType: "email", image: "\((user?.user.photoURL)!)", status: "0")
+//                           UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
+//
+//                           // send data to server after successfully loged in
+//                           let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=null&ip_address=1.0.0&status=0"
+//                           self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
+
                         let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
                         self.present(subView, animated: true, completion: nil)
+                        print("vc presented")
                       }
+                    print("end of signin")
                   }
+                print("end of authentication mail verified")
             }else{
                 let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true)
                 }
+               print("end of reload")
             }
+            print("end of else of blank fields")
         }
+        print("end of btn functions")
     }
     
     @IBAction func forgotPswd(_ sender: UIButton) {

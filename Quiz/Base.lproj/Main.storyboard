@@ -234,7 +234,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="namePhonePad" secureTextEntry="YES" textContentType="password"/>
+                                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="enableFloatingTitle" value="YES"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="activeBottomLineColor">
@@ -4261,7 +4261,7 @@ You have completed yhe level.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XiT-Xb-YEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4356" y="1468.5157421289357"/>
+            <point key="canvasLocation" x="4135" y="1470"/>
         </scene>
         <!--Robot Play View-->
         <scene sceneID="Img-bZ-neo">
@@ -4740,7 +4740,7 @@ You have completed yhe level.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PgK-aV-2pb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5229.6000000000004" y="1468.5157421289357"/>
+            <point key="canvasLocation" x="4804" y="1470"/>
         </scene>
         <!--Terms Service-->
         <scene sceneID="uB1-TJ-QtB">
@@ -4900,7 +4900,7 @@ You have completed yhe level.</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="namePhonePad" secureTextEntry="YES" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="enableFloatingTitle" value="YES"/>
                                             <userDefinedRuntimeAttribute type="color" keyPath="activeBottomLineColor">
@@ -4930,7 +4930,7 @@ You have completed yhe level.</string>
                                             <color key="titleColor" red="0.2470588235" green="0.27058823529999998" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="pswdBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9QE-yJ-tQh"/>
+                                            <action selector="pswdBtn:" destination="XaZ-Uy-YwC" eventType="touchUpInside" id="cps-i5-6I4"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Referral Code (optional)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xJp-cg-idx" customClass="FloatingTF" customModule="Quiz" customModuleProvider="target">
@@ -4938,7 +4938,7 @@ You have completed yhe level.</string>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="tel"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="enableFloatingTitle" value="YES"/>
                                             <userDefinedRuntimeAttribute type="color" keyPath="activeBottomLineColor">
@@ -4984,6 +4984,7 @@ You have completed yhe level.</string>
                         <outlet property="email" destination="c5R-mS-nuW" id="muG-hQ-5hF"/>
                         <outlet property="name" destination="h96-Jf-xFs" id="MZO-ez-NIW"/>
                         <outlet property="password" destination="C2d-52-Lym" id="tHM-Pk-A5g"/>
+                        <outlet property="pswdButton" destination="ROw-Mr-9Pz" id="Gbh-Fe-Sre"/>
                         <outlet property="referralCode" destination="xJp-cg-idx" id="tmI-py-9En"/>
                     </connections>
                 </viewController>
@@ -5151,7 +5152,7 @@ You have completed yhe level.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vm5-gz-Gdx" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5229" y="227"/>
+            <point key="canvasLocation" x="6090" y="775"/>
         </scene>
         <!--Forgot Pswd View-->
         <scene sceneID="6m3-qP-WYc">
