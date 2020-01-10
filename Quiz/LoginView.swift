@@ -62,22 +62,28 @@ class LoginView: UIViewController,GIDSignInDelegate{
         }
         else{
             //create referernce to the data user enter
-                     let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                     let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-                       //signIn user
-                       Auth.auth().signIn(withEmail: username, password: password){
-                           (result,error) in
-                           if error != nil {
-                               //unable to sign in
-                             //  self.showError(error!.localizedDescription)
-                            print(error!.localizedDescription)
-                           }
-                           else{
-                                   UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                                   let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-                                   self.present(subView, animated: true, completion: nil)
-                           }
-                       }
+             let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+             let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                    //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
+                    if Auth.auth().currentUser?.isEmailVerified == true {
+                        Auth.auth().signIn(withEmail: username, password: password){
+                                  (result,error) in
+                                  if error != nil {
+                                      //unable to sign in
+                                    //  self.showError(error!.localizedDescription)
+                                   print(error!.localizedDescription)
+                                  }
+                                  else{
+                                          UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
+                                          let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+                                          self.present(subView, animated: true, completion: nil)
+                                  }
+                              }
+                    }else{
+                        let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true)
+                    }                      
         }
     }
     

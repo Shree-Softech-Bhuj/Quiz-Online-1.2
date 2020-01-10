@@ -55,14 +55,24 @@ class SignUpViewController: UIViewController {
             if err != nil {
                 let error_descr = err?.localizedDescription
                 if error_descr != nil {
-                    print(error_descr!)
+                    print(" error -- creating user \(error_descr!)")
+                    let alert = UIAlertController(title: "", message: error_descr!, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true)
                     //self.showError(error_descr!)
                 }
                 else{
                     print("Error Creating User")
+                    let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true)
                     //self.showError("Error Creating User")
                 }
                     //self.showError("Error Creating User") // for general use
+                print("Error Creating User")
+                let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true)
             }
             else {
                 //store first name & last name as user created successfully
@@ -80,15 +90,19 @@ class SignUpViewController: UIViewController {
                                      user.sendEmailVerification { (error) in
                                          guard let error = error else {
                                                 print("user email verification sent")
-                                             return myAlert("user email verification sent")
+                                                let alert = UIAlertController(title: "", message: "User email verification sent", preferredStyle: UIAlertController.Style.alert)
+                                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                                                    self.dismissCurrView()
+                                                    let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+                                                    self.present(subView, animated: true, completion: nil)
+                                                  }))
+                                                return self.present(alert, animated: true, completion: nil)
+                                                 // return myAlert("user email verification sent")
                                          }
-                                        let alert = UIAlertController(title: "", message: "Error", preferredStyle: UIAlertController.Style.alert)
-                                            // add the actions (buttons)
-                                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                                            // show the alert
-                                            self.present(alert, animated: true, completion: nil)
-                                        //myAlert("\(error)")
-                                        //print(error)
+                                        let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                                        self.present(alert, animated: true)
+                                        print("error - \(error.localizedDescription)")
+                                       // myAlert(error.localizedDescription)
                                      }
                              }
                     } // else of db.collection
@@ -98,7 +112,6 @@ class SignUpViewController: UIViewController {
         
 //        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
 //        self.present(subView, animated: true, completion: nil)
-    
     
        func signin (auth: Auth){
                Auth.auth().signIn(withEmail: emailTxt, password: passwordTxt) { (result, error) in
@@ -119,16 +132,6 @@ class SignUpViewController: UIViewController {
             // show the alert
             self.present(alert, animated: true, completion: nil)
             //alert.view.tintColor = UIColor.red //alert Action font color changes to red
-            
         }
-    
     }
-        
-   
-//    func isValidEmail(_ testStr : FloatingTF) -> Bool {
-//            //print("validate emilId: \(testStr)")
-//            let emailRegEx = "^(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?(?:(?:(?:[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+(?:\\.[-A-Za-z0-9!#$%&’*+/=?^_'{|}~]+)*)|(?:\"(?:(?:(?:(?: )*(?:(?:[!#-Z^-~]|\\[|\\])|(?:\\\\(?:\\t|[ -~]))))+(?: )*)|(?: )+)\"))(?:@)(?:(?:(?:[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)(?:\\.[A-Za-z0-9](?:[-A-Za-z0-9]{0,61}[A-Za-z0-9])?)*)|(?:\\[(?:(?:(?:(?:(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))\\.){3}(?:[0-9]|(?:[1-9][0-9])|(?:1[0-9][0-9])|(?:2[0-4][0-9])|(?:25[0-5]))))|(?:(?:(?: )*[!-Z^-~])*(?: )*)|(?:[Vv][0-9A-Fa-f]+\\.[-A-Za-z0-9._~!$&'()*+,;=:]+))\\])))(?:(?:(?:(?: )*(?:(?:(?:\\t| )*\\r\\n)?(?:\\t| )+))+(?: )*)|(?: )+)?$"
-//            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-//            return emailTest.evaluate(with: testStr)
-//        }
 }

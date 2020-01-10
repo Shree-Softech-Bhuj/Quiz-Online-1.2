@@ -43,7 +43,7 @@ class ForgotPswdView: UIViewController {
                             //do nothing or give chance to enter proper email
                             self.present(resetFailedAlert, animated: true, completion: nil)
                          } else {
-                             let resetEmailSentAlert = UIAlertController(title: "Reset email sent successfully", message: "Check your email", preferredStyle: .alert)
+                             let resetEmailSentAlert = UIAlertController(title: "To Reset Password, Email sent successfully", message: "Check your email", preferredStyle: .alert)
                             // resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                              resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                                 self.dismissView()
