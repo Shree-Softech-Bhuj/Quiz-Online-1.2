@@ -24,7 +24,6 @@ class UpdateProfileView: UIViewController{
         super.viewDidLoad()
       
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        
         imgView.layer.cornerRadius = imgView.frame.height/2
         
         self.usrImg.contentMode = .scaleAspectFill
@@ -32,6 +31,7 @@ class UpdateProfileView: UIViewController{
         usrImg.layer.cornerRadius = usrImg.frame.height / 2
         
         nameTxt.text = dUser!.name
+        print("get name - \(nameTxt.text)")
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
@@ -127,6 +127,7 @@ class UpdateProfileView: UIViewController{
             Loader = LoadLoader(loader: Loader)
             let apiURL = "email=\(emailTxt.text)&name=\(nameTxt.text)&mobile=\(nmbrTxt.text)"
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
+            print("Data updated")
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }

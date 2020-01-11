@@ -3,12 +3,9 @@ import FirebaseAuth
 import Firebase
 import FirebaseCore
 import GoogleSignIn
-
 //import FBSDKLoginKit
 
-
 class SignUpViewController: UIViewController {
-       
     
     @IBOutlet weak var name: FloatingTF!
     
@@ -23,10 +20,11 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //create referernce to the data user enter
-        var nameTxt = ""
-        var emailTxt =  ""
-        var passwordTxt = ""
-        var refCodeTxt = ""
+//        var nameTxt = ""
+//        var emailTxt =  ""
+//        var passwordTxt = ""
+//        var refCodeTxt = ""
+        
         self.hideKeyboardWhenTappedAround()
     }
       @IBAction func pswdBtn(_ sender: UIButton) {
@@ -45,7 +43,6 @@ class SignUpViewController: UIViewController {
             }
         }
     @IBAction func SignupUser(_ sender: Any) {
-        
         //"refer_code"
         //create referernce to the data user enter
         let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -72,7 +69,7 @@ class SignUpViewController: UIViewController {
 //        }else{
 //            password.placeholder? = ("Password")
 //        }
-        
+         var providers = ""
          //chk for name As its not optional
         if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
           {
@@ -80,8 +77,10 @@ class SignUpViewController: UIViewController {
                let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                    self.present(alert, animated: true)
-       }
-       else{
+                  
+//         }else if providers = Auth.auth().fetchSignInMethods(forEmail: emailTxt, completion: <#T##SignInMethodQueryCallback?##SignInMethodQueryCallback?##([String]?, Error?) -> Void#>) {
+//            //chk for user authentication as its email id is not used with fb or google already! if return true then dnt allow to save data / signup
+        }else{
          //create a user
          Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
             if err != nil {
@@ -109,7 +108,6 @@ class SignUpViewController: UIViewController {
             else {
             //store first name & last name as user created successfully
               //Firestore.firestore().collection("users").document(email).setData(emailTxt)
-                
                 
                 let db =  Firestore.firestore()
                 db.collection("users").addDocument(data: ["name": nameTxt,"refcode": refCodeTxt,"uid": result!.user.uid ]) { (error) in

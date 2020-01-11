@@ -1,5 +1,3 @@
-
-
 import UIKit
 import Firebase
 import GoogleSignIn
@@ -25,7 +23,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
     //var iconClick = true //pswd text
     
     var email = ""
-    
+        
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
@@ -44,71 +42,12 @@ class LoginView: UIViewController,GIDSignInDelegate{
         loginSignUpView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
     }
     
-    
     @IBAction func signUpBtn(_ sender: UIButton) {
         //show signup View
         let subView = self.storyboard!.instantiateViewController(withIdentifier: "SignUpView")
         self.present(subView, animated: true, completion: nil)
     }
-    
-    @IBAction func loginBtn(_ sender: UIButton)
-    {
-        print("login btn clicked")
-        if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-            //return "Please fill in all fields"
-            //let error = "Please fill in all fields"
-            print("Please enter correct username and password")
-            let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true)
-        }
-        else{
-            //create referernce to the data user enter
-            let username = emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            let password = pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-            //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
-            print("before reload")
-            //assign user first here
-            Auth.auth().currentUser?.reload { (error) in
-                print("inside reload")
-              if Auth.auth().currentUser?.isEmailVerified == true {
-                 Auth.auth().signIn(withEmail: username, password: password){
-                      (user,error) in
-                      if error != nil {
-                          //unable to sign in
-                        //  self.showError(error!.localizedDescription)
-                       print(error!.localizedDescription)
-                        print("errorrrr")
-                      }
-                      else{
-                        UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                        print("forKey set to islogedin")
-//                           let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)",phone: "\(user?.user.phoneNumber)", address: " ", userType: "email", image: "\((user?.user.photoURL)!)", status: "0")
-//                           UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
-//
-//                           // send data to server after successfully loged in
-//                           let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=null&ip_address=1.0.0&status=0"
-//                           self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
 
-                        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-                        self.present(subView, animated: true, completion: nil)
-                        print("vc presented")
-                      }
-                    print("end of signin")
-                  }
-                print("end of authentication mail verified")
-            }else{
-                let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true)
-                }
-               print("end of reload")
-            }
-            print("end of else of blank fields")
-        }
-        print("end of btn functions")
-    }
-    
     @IBAction func forgotPswd(_ sender: UIButton) {
 //               let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //               let myAlert = storyboard.instantiateViewController(withIdentifier: "ForgotPswd") as! ForgotPswdView
@@ -147,11 +86,70 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBAction func guestBtn(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController")// ViewController
         self.present(vc!, animated: true, completion: nil)
-        
     }
-       
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    func checkIfEmailVerified(){
+        if Auth.auth().currentUser != nil {
+        Auth.auth().currentUser?.reload (completion: {(error) in
+           if error == nil{
+                //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
+                 if Auth.auth().currentUser?.isEmailVerified == true {
+                        self.signInVerification()
+                }else{
+                    let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    self.present(alert, animated: true)
+                    }
+           }else{
+                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true)
+                print(error?.localizedDescription)
+           }
+            })
+        }else{
+            signInVerification()
+        }
+    }
+    func signInVerification(){
+        //create referernce to the data user enter
+        let username = self.emailTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = self.pswdTxt.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
+        Auth.auth().signIn(withEmail: username, password: password) { (result,error) in
+            if error != nil {
+                let alert = UIAlertController(title: "ERROR", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true)
+                print(error!.localizedDescription)
+            }else{
+              UserDefaults.standard.set(true, forKey: "isLogedin")
+              //set DisplayName by splitting from given email address
+              let displayname = result?.user.email!.components(separatedBy: "@")
+              let nm = displayname![0]
+              //print("\(nm)")
+              let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0")
+                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
+                 // send data to server after successfully loged in
+              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0"
+              self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
+              
+              let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+              self.present(subView, animated: true, completion: nil)
+            }
+    }
+  }
+    @IBAction func loginBtn(_ sender: UIButton)
+        {
+            if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+                print("Please enter correct username and password")
+                let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true)
+            } else{
+                checkIfEmailVerified()
+            }
+        }
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             return
         }
@@ -163,13 +161,11 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 // error signin
                 return
             }
-            
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
             let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0")
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
-           
             let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=null&ip_address=1.0.0&status=0"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
         }
@@ -206,7 +202,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
-               
                 // send data to server after successfully loged in
                 self.Loader = self.LoadLoader(loader: self.Loader)
                 let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=null&ip_address=1.0.0&status=0"
