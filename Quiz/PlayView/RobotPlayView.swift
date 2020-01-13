@@ -1,5 +1,3 @@
-
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -42,6 +40,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var btnB: UIButton!
     @IBOutlet weak var btnC: UIButton!
     @IBOutlet weak var btnD: UIButton!
+    @IBOutlet weak var btnE: UIButton!
     
     @IBOutlet weak var timerView: UIView!
     @IBOutlet weak var questionView: UIView!
@@ -68,11 +67,11 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     
     var robotName = Apps.ROBOT
     var robotImage:UIImage!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttons = [btnA,btnB,btnC,btnD]
+        buttons = [btnA,btnB,btnC,btnD,btnE]
         NotificationCenter.default.post(name: Notification.Name("DismissAlert"), object: nil)
         // set refrence for firebase database
         mainQuestionLbl.centerVertically()
@@ -88,7 +87,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         self.questionView.DesignViewWithShadow()
         
         //set four option's view shadow
-        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name

@@ -20,8 +20,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBOutlet weak var emailTxt: FloatingTF!
     @IBOutlet weak var pswdTxt: FloatingTF!
     
-    //var iconClick = true //pswd text
-    
     var email = ""
         
     var isInitial = true
@@ -74,15 +72,12 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 pswdTxt.isSecureTextEntry = true
             }
     }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
     @IBAction func googleSignIn(sender: AnyObject) {
         GIDSignIn.sharedInstance().signIn()
     }
-    
     @IBAction func guestBtn(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController")// ViewController
         self.present(vc!, animated: true, completion: nil)

@@ -8,22 +8,17 @@ import GoogleSignIn
 class SignUpViewController: UIViewController {
     
     @IBOutlet weak var name: FloatingTF!
-    
     @IBOutlet weak var email: FloatingTF!
-    
     @IBOutlet weak var password: FloatingTF!
-    
     @IBOutlet weak var referralCode: FloatingTF!
-     
     @IBOutlet weak var pswdButton: UIButton!
+    
+     var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //create referernce to the data user enter
-//        var nameTxt = ""
-//        var emailTxt =  ""
-//        var passwordTxt = ""
-//        var refCodeTxt = ""
+        
+        ref = Database.database().reference()//.child("users") //as it already have users, so no need to add it
         
         self.hideKeyboardWhenTappedAround()
     }
@@ -43,33 +38,12 @@ class SignUpViewController: UIViewController {
             }
         }
     @IBAction func SignupUser(_ sender: Any) {
-        //"refer_code"
         //create referernce to the data user enter
         let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let emailTxt =  email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-//        //validate fields
-//        if  name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-//            name.placeholder? = ("Please enter Name Here")
-//            name.placeHolderColor = UIColor.red
-//        }else{
-//            name.placeholder? = ("Name")
-//        }
-//        if  email.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-//            email.placeholder? = ("Please enter Email Here")
-//            email.placeHolderColor = UIColor.red
-//        }else{
-//            email.placeholder? = ("Email")
-//        }
-//        if password.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-//           password.placeholder? = ("Please enter Password Here")
-//           password.placeHolderColor = UIColor.red
-//        }else{
-//            password.placeholder? = ("Password")
-//        }
-         var providers = ""
+       
          //chk for name As its not optional
         if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
           {
@@ -77,9 +51,6 @@ class SignUpViewController: UIViewController {
                let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                    self.present(alert, animated: true)
-                  
-//         }else if providers = Auth.auth().fetchSignInMethods(forEmail: emailTxt, completion: <#T##SignInMethodQueryCallback?##SignInMethodQueryCallback?##([String]?, Error?) -> Void#>) {
-//            //chk for user authentication as its email id is not used with fb or google already! if return true then dnt allow to save data / signup
         }else{
          //create a user
          Auth.auth().createUser(withEmail: emailTxt, password: passwordTxt) { (result, err) in
@@ -106,40 +77,43 @@ class SignUpViewController: UIViewController {
                 self.present(alert, animated: true)
             }
             else {
-            //store first name & last name as user created successfully
-              //Firestore.firestore().collection("users").document(email).setData(emailTxt)
-                
-                let db =  Firestore.firestore()
-                db.collection("users").addDocument(data: ["name": nameTxt,"refcode": refCodeTxt,"uid": result!.user.uid ]) { (error) in
-                    if error != nil {
-                       // self.showError("Error Saving User Data")
-                        print("Error Saving User Data")
-                    }else{
-                         //send verification link to given email id -> emailTxt here
+            //store data as user created successfully
+                let key = self.ref.childByAutoId().key
+                let user = [
+                    "uid": key,
+                    "name" : nameTxt ,
+                    "ref_code" : refCodeTxt
+                ]
+                self.ref.child("users").child(key!).setValue(user){(error:Error?, ref:DatabaseReference) in
+                  if let error = error {
+                     let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                     self.present(alert, animated: true)
+                     print("error - \(error.localizedDescription)")
+                  } else {
                         guard let user = Auth.auth().currentUser else {
-                           return signin(auth: Auth.auth())
-                    }
-                   user.reload { (error) in
-                             user.sendEmailVerification { (error) in
-                                 guard let error = error else {
-                                        print("user verification email sent")
-                                        let alert = UIAlertController(title: "", message: "User verification email sent", preferredStyle: UIAlertController.Style.alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-                                            self.dismissCurrView()
-                                            let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-                                            self.present(subView, animated: true, completion: nil)
-                                          }))
-                                        return self.present(alert, animated: true, completion: nil)
-                                         // return myAlert("user email verification sent")
-                                 }
-                                let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                                self.present(alert, animated: true)
-                                print("error - \(error.localizedDescription)")
-                               // myAlert(error.localizedDescription)
-                             }
+                            return signin(auth: Auth.auth())
                         }
-                    } // else of db.collection
-                 } //db.collection
+                        user.reload { (error) in
+                        user.sendEmailVerification { (error) in
+                            guard let error = error else {
+                                   print("user verification email sent")
+                                   let alert = UIAlertController(title: "", message: "User verification email sent", preferredStyle: UIAlertController.Style.alert)
+                                   alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                                       self.dismissCurrView()
+                                       let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+                                       self.present(subView, animated: true, completion: nil)
+                                     }))
+                                   return self.present(alert, animated: true, completion: nil)
+                                    // return myAlert("user email verification sent")
+                            }
+                           let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                           self.present(alert, animated: true)
+                           print("error - \(error.localizedDescription)")
+                          // myAlert(error.localizedDescription)
+                            }
+                        }
+                    }//else of reference error
+                } //end of reference
               } //else inside else
            } //else
         } //signup user

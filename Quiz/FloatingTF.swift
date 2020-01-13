@@ -1,5 +1,3 @@
-
-
 import UIKit
 import QuartzCore
 let floatingTitleLabelHeight = 10

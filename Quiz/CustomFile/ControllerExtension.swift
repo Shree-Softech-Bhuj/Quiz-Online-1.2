@@ -1,5 +1,3 @@
-
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -175,6 +173,7 @@ extension UIViewController{
             
         }
     }
+    
     
     func RegisterNotification(notificationName:String){
         NotificationCenter.default.addObserver(self,selector: #selector(self.Dismiss),name: NSNotification.Name(rawValue: notificationName),object: nil)

@@ -1,5 +1,3 @@
-
-
 import UIKit
 import StoreKit
 import AVFoundation
@@ -48,8 +46,7 @@ class AlertViewController: UIViewController {
         vibToggle.isOn = setting!.vibration
         musicToggle.isOn = setting!.backMusic
     
-    }
-    
+    }   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

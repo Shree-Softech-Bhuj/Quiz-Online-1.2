@@ -1,5 +1,3 @@
-
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -37,13 +35,14 @@ struct Apps{
     
     static let APP_NAME = "QUIZ"
     
-    static let optionE = "KEY_OPTION_E_MODE"
+    static let OPTION_E = "option_e_mode"
+    static let opt_E = false
     
     static let COMPLETE_LEVEL = "Congratulation you have completed this level"
     static let NOT_COMPLETE_LEVEL = "Opps! you have failed to complete this level"
     static let PLAY_AGAIN = "Play Again"
     static let NOT_ENOUGH_QUESTION_TITLE = "Not Eought Question"
-    static let NO_ENOUGH_QUESTION_MSG = "This level dose not have enought question to play quiz"
+    static let NO_ENOUGH_QUESTION_MSG = "This level does not have enought question to play quiz"
     static let COMPLETE_ALL_QUESTION = "You have Completed All Questions !!"
     static let LEVET_NOT_AVAILABEL = "Level not available"
     static let SKIP_COINS = "SKIP. I DON'T NEED COINS"
