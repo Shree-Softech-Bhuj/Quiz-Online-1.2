@@ -166,6 +166,11 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
+//        if status != nil{
+//            print("status is not nil")
+//        }else{
+//            print("status is nil")
+//        }
         print(status)
         if (status == "true") {
               DispatchQueue.main.async {

@@ -72,13 +72,14 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         buttons = [btnA,btnB,btnC,btnD,btnE]
+        
         NotificationCenter.default.post(name: Notification.Name("DismissAlert"), object: nil)
         // set refrence for firebase database
         mainQuestionLbl.centerVertically()
         imageQuestionLbl.centerVertically()
         
         // add ring progress to timer view
-        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
         timerView.layer.addSublayer(progressRing)
         
         self.setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
@@ -86,8 +87,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
         self.questionView.DesignViewWithShadow()
         
-        //set four option's view shadow
+        //set five option's view shadow
         self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+        //self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
@@ -229,7 +231,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
             resetProgressCount()
            
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
@@ -335,7 +337,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        let ans = ["a","b","c","d"]
+        let ans = ["a","b","c","d","e"]
+        //let ans = ["a","b","c","d"]
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]

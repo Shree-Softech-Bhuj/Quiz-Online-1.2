@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 class PrivacyView: UIViewController{
     @IBOutlet var txtView: UITextView!
     

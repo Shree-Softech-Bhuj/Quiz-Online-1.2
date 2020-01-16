@@ -76,7 +76,7 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-        //print(postString)
+        print(postString)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         let data = NSMutableData();

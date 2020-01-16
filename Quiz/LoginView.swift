@@ -24,7 +24,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
-    
+   // var test = OptionEmode_Controller()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,10 +35,16 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         
+        
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
         optView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
         loginSignUpView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
+    }
+    
+    @IBAction func testBtn(_ sender: UIButton) {
+        let subView = self.storyboard!.instantiateViewController(withIdentifier: "OptionEmode")
+        self.present(subView, animated: true, completion: nil)        
     }
     
     @IBAction func signUpBtn(_ sender: UIButton) {

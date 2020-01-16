@@ -35,6 +35,7 @@ struct Apps{
     
     static let APP_NAME = "QUIZ"
     
+    static let SYSTEM_CONFIG = "get_system_configurations"
     static let OPTION_E = "option_e_mode"
     static let opt_E = false
     
