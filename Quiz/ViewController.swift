@@ -25,6 +25,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        print("bool -- \(Apps.opt_E)")
+        
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
         DesignView(views: startView,battleView)

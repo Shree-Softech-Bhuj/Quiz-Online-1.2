@@ -59,7 +59,10 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
-    var quesData: [Question] = []
+    var quesData: [QuestionWithE] = []
+//    var basic: [Question] = []
+//    var integrated: [QuestionWithE] = []
+    
     var currentQuestionPos = 0
     
     var user:User!
@@ -71,7 +74,18 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttons = [btnA,btnB,btnC,btnD,btnE]
+        //to get state of Option E mode
+              let varOpt = OptionEmode_Controller()
+              varOpt.getOptEstate()
+        
+        print("bool -- \(Apps.opt_E)")
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            btnE.isHidden = true
+            buttons = [btnA,btnB,btnC,btnD]
+        }
         
         NotificationCenter.default.post(name: Notification.Name("DismissAlert"), object: nil)
         // set refrence for firebase database
@@ -175,9 +189,17 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                for val in data{
-                    quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                if Apps.opt_E == true {
+                    for val in data{
+                        quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                    }
+                }else{
+                    print("option E Invisible")
+//                    for val in data{
+//                        quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+//                    }
                 }
+                
             }
         }
         //close loader here
@@ -230,8 +252,12 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     func LoadQuestion(){
         if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
             resetProgressCount()
+            if Apps.opt_E == true{
+                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+            }else{
+                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+            }
            
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
@@ -253,15 +279,17 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                 
                 mainQuestionLbl.isHidden = true
             }
-            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
-            
+            if Apps.opt_E == true{
+//                self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+            }else{
+                self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
+            }
             totalCount.text = "\(currentQuestionPos + 1)/10"
             
         } else {
             // If there are no more questions show the results
              ShowResultAlert()
         }
-        
     }
     
     func ShowResultAlert(){
@@ -337,8 +365,13 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        let ans = ["a","b","c","d","e"]
-        //let ans = ["a","b","c","d"]
+        var temp: [String]
+        if Apps.opt_E == true{
+            temp = ["a","b","c","d","e"]
+        }else{
+            temp = ["a","b","c","d"]
+        }
+        let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]

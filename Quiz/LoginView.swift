@@ -28,6 +28,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("bool -- \(Apps.opt_E)")
         
         GIDSignIn.sharedInstance().delegate=self
         //GIDSignIn.sharedInstance().uiDelegate=self

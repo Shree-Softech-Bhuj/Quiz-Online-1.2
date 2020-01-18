@@ -166,21 +166,19 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
-//        if status != nil{
-//            print("status is not nil")
-//        }else{
-//            print("status is nil")
-//        }
         print(status)
         if (status == "true") {
               DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
                     print("Data Not Found !!!")
-                    print(jsonObj.value(forKey: "status")!)
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                    //print(jsonObj.value(forKey: "status")!)
+                    if jsonObj.value(forKey: "message")! == nil{
+                        self.ShowAlert(title: "Error", message:"Data Not Found !!!" )
+                    }else{
+                        self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    }
                 })
-            }
-            
+            }            
         }else{
             //get data for category
             LeaderData.removeAll()

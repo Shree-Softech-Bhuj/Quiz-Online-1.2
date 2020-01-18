@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
+       //to get state of Option E mode
+        let varOpt = OptionEmode_Controller()
+        varOpt.getOptEstate()
+        
         //check app is log in or not if not than navigate to login view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if UserDefaults.standard.bool(forKey: "isLogedin") {
