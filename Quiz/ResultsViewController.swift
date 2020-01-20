@@ -30,12 +30,14 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     var percentage:CGFloat = 0.0
     var earnedCoin = 0
     var earnedPoints = 0
-    var ReviewQues:[ReQuestion] = []
+   // var ReviewQues:[ReQuestion] = []
+    var ReviewQues:[ReQuestionWithE] = []
     
     var level = 0
     var catID = 0
     var questionType = "sub"
-    var quesData: [Question] = []
+//    var quesData: [Question] = []
+    var quesData: [QuestionWithE] = []
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -215,7 +217,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                 //get data for category
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                     for val in data{
-                        self.quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: "\(val["answer"]!)", image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                        self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: "\(val["answer"]!)", image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     }
                     //check this level has enought (10) question to play? or not
                     if self.quesData.count >= 10{
@@ -301,7 +303,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         }
     }
     
-    func GetRightAnsString(correctAns:String, quetions:ReQuestion)->String{
+    func GetRightAnsString(correctAns:String, quetions:ReQuestionWithE)->String{
         if correctAns == "a"{
             return quetions.opetionA
         }else if correctAns == "b"{
@@ -310,7 +312,9 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             return quetions.opetionC
         }else if correctAns == "d"{
             return quetions.opetionD
-        }else{
+        }else if correctAns == "e"{
+            return quetions.opetionE
+        }        else{
             return ""
         }
     }

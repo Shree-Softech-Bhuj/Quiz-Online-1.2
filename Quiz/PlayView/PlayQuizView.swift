@@ -16,6 +16,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet var btnB: UIButton!
     @IBOutlet var btnC: UIButton!
     @IBOutlet var btnD: UIButton!
+    @IBOutlet var btnE: UIButton!
+    
     
     @IBOutlet weak var bookmarkBtn: UIButton!
     
@@ -57,9 +59,14 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet weak var proview: UIView!
     @IBOutlet var verticalView: UIView!
     
-    var quesData: [Question] = []
-    var reviewQues:[ReQuestion] = []
-    var BookQuesList:[Question] = []
+    var jsonObj : NSDictionary = NSDictionary()
+    
+//    var quesData: [Question] = []
+//    var reviewQues:[ReQuestion] = []
+//    var BookQuesList:[Question] = []
+       var quesData: [QuestionWithE] = []
+       var reviewQues:[ReQuestionWithE] = []
+       var BookQuesList:[QuestionWithE] = []
     
     var currentQuestionPos = 0
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
@@ -83,19 +90,27 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if Apps.opt_E == true {
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            buttons = [btnA,btnB,btnC,btnD]
+        }
         
-        buttons = [btnA,btnB,btnC,btnD]
         //Google AdMob
         rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
         rewardBasedVideo!.delegate = self
+         if Apps.opt_E == true {
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+         }else{
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+        }
         
-        DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         //font
         resizeTextview()
-        
+      
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            BookQuesList = try! PropertyListDecoder().decode([Question].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
         }
         
         self.RegisterNotification(notificationName: "PlayView")
@@ -118,9 +133,14 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         setGradientBackground()
         
-        //set four option's view shadow
-        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-        
+        if Apps.opt_E == true {
+            //set four option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+        }else{
+            //set four option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+        }
+                
         self.mainQuestionView.DesignViewWithShadow()
         
         let xPosition = view1.center.x - 10
@@ -214,11 +234,13 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         btnB.titleLabel?.font = btnB.titleLabel?.font?.withSize(CGFloat(getFont))
         btnC.titleLabel?.font = btnC.titleLabel?.font?.withSize(CGFloat(getFont))
         btnD.titleLabel?.font = btnD.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnE.titleLabel?.font = btnE.titleLabel?.font?.withSize(CGFloat(getFont))
         
         btnA.resizeButton()
         btnB.resizeButton()
         btnC.resizeButton()
         btnD.resizeButton()
+        btnE.resizeButton()
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -426,7 +448,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         if(self.bookmarkBtn.tag == 0){
             let reQues = quesData[currentQuestionPos]
-            self.BookQuesList.append(Question.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
+            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
             bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookmarkBtn.tag = 1
         }else{
@@ -513,11 +535,16 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
         resetProgressCount() // reset timer
-        clearColor(views: btnA,btnB,btnC,btnD)
-        
-        // enabled opetions button
-       MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
-        
+        if Apps.opt_E == true {
+            clearColor(views: btnA,btnB,btnC,btnD,btnE)
+            // enabled opetions button
+            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+        }else{
+            clearColor(views: btnA,btnB,btnC,btnD)
+            // enabled opetions button
+            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+        }
+                
         if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
@@ -540,8 +567,12 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 zoomBtn.isHidden = false
                 question.isHidden = true
             }
-            
-            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
+            if Apps.opt_E == true {
+                   self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+            }else{
+                   self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
+            }
+         
             
             mainQuesCount.text = "\(currentQuestionPos + 1)/10"
             mainScoreCount.text = "\((trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS))"
@@ -574,7 +605,13 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        let ans = ["a","b","c","d"]
+        var temp : [String]
+        if Apps.opt_E == true {
+             temp = ["a","b","c","d","e"]
+        }else{
+             temp = ["a","b","c","d"]
+        }
+       let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
@@ -651,7 +688,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     // add question to review array for later review it
     func AddToReview(opt:String){
         let ques = quesData[currentQuestionPos]
-        reviewQues.append(ReQuestion.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, userSelect: opt))
+        reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, userSelect: opt))
     }
     
     // draw circle for audions poll lifeline

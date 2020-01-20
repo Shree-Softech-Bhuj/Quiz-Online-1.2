@@ -53,7 +53,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
-    var quesData: [Question] = []
+//    var quesData: [Question] = []
+    var quesData: [QuestionWithE] = []
     var currentQuestionPos = 0
     
     var battleUser:BattleUser!
@@ -179,7 +180,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                    quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                    quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                 }
             }
         }
@@ -357,8 +358,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     // add question data to firebase
-    func AddQuestionToFIR(question:Question, userAns:String){
-        if question != nil{
+//    func AddQuestionToFIR(question:Question, userAns:String){
+    func AddQuestionToFIR(question:QuestionWithE, userAns:String){
+    if question != nil{
             var data = question.toDictionary
             
             data["userSelect"] = userAns

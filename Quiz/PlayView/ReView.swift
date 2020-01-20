@@ -25,8 +25,10 @@ class ReView: UIViewController {
     
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
     
-    var ReviewQues:[ReQuestion] = []
-    var BookQuesList:[Question] = []
+//    var ReviewQues:[ReQuestion] = []
+//    var BookQuesList:[Question] = []
+    var ReviewQues:[ReQuestionWithE] = []
+    var BookQuesList:[QuestionWithE] = []
     var currentQuesPosition = 0
     
     var isInitial = true
@@ -43,7 +45,7 @@ class ReView: UIViewController {
         
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            BookQuesList = try! PropertyListDecoder().decode([Question].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
         }
         
        self.mainQuestionView.DesignViewWithShadow()
@@ -106,7 +108,7 @@ class ReView: UIViewController {
     @IBAction func bookButton(_ sender: Any) {
         if(self.bookMarkBtn.tag == 0){
             let reQues = ReviewQues[currentQuesPosition]
-            self.BookQuesList.append(Question.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
+            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
             bookMarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookMarkBtn.tag = 1
         }else{

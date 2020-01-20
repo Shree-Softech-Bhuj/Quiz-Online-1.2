@@ -25,27 +25,6 @@ struct  Setting:Codable {
     var backMusic:Bool
     var vibration:Bool
 }
-func chkforE() -> Bool {
-        return Apps.opt_E
-}
-struct Question: Codable {
-    var id:String
-    var question:String
-    var opetionA:String
-    var opetionB:String
-    var opetionC:String
-    var opetionD:String
-    var correctAns:String
-    var image:String
-    var level:String
-    var note:String
-    
-    var toDictionary: [String:String]{
-        return [
-            "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"correctAns":correctAns,"image":image,"level":level,"note":note
-        ]
-    }
-}
 
 struct QuestionWithE: Codable {
     var id:String
@@ -63,7 +42,25 @@ struct QuestionWithE: Codable {
     var toDictionary: [String:String]{
     return [        "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"opetionE":opetionE,"correctAns":correctAns,"image":image,"level":level,"note":note
            ]
+    }
+}
+
+struct Question: Codable {
+    var id:String
+    var question:String
+    var opetionA:String
+    var opetionB:String
+    var opetionC:String
+    var opetionD:String
+    var correctAns:String
+    var image:String
+    var level:String
+    var note:String
     
+    var toDictionary: [String:String]{
+        return [
+            "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"correctAns":correctAns,"image":image,"level":level,"note":note
+        ]
     }
 }
 

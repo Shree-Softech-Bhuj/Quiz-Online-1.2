@@ -3946,11 +3946,11 @@ You have completed yhe level.</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="io2-hi-Rhv">
-                                                <rect key="frame" x="0.0" y="89" width="414" height="248"/>
+                                                <rect key="frame" x="0.0" y="67" width="414" height="248"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Image question text here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="evM-LA-78v">
-                                                        <rect key="frame" x="-1" y="168" width="414" height="83"/>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="question text here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="evM-LA-78v">
+                                                        <rect key="frame" x="-1" y="158" width="414" height="83"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="textColor" red="0.25098039220000001" green="0.27450980390000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -4070,7 +4070,7 @@ You have completed yhe level.</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8B1-B5-ABo">
-                                                <rect key="frame" x="23" y="361" width="368" height="53"/>
+                                                <rect key="frame" x="23" y="320" width="368" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -4084,7 +4084,7 @@ You have completed yhe level.</string>
                                                 </variation>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zQu-kT-T6U">
-                                                <rect key="frame" x="23" y="486" width="368" height="52"/>
+                                                <rect key="frame" x="23" y="434" width="368" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -4098,7 +4098,7 @@ You have completed yhe level.</string>
                                                 </variation>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="16Q-o1-WC8">
-                                                <rect key="frame" x="22" y="549" width="369" height="57"/>
+                                                <rect key="frame" x="22" y="491" width="369" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -4112,13 +4112,27 @@ You have completed yhe level.</string>
                                                 </variation>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rsC-rD-XDR">
-                                                <rect key="frame" x="23" y="423" width="368" height="52"/>
+                                                <rect key="frame" x="23" y="377" width="368" height="52"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                 <inset key="titleEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="B" image="btnB">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.27450980390000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                </variation>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="I5h-9v-abZ" userLabel="BtnE">
+                                                <rect key="frame" x="24" y="548" width="366" height="51"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                <inset key="titleEdgeInsets" minX="14" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="E" image="btnA">
                                                     <color key="titleColor" red="0.25098039220000001" green="0.27450980390000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact">
@@ -4151,6 +4165,7 @@ You have completed yhe level.</string>
                         <outlet property="btnB" destination="rsC-rD-XDR" id="HKR-89-hYe"/>
                         <outlet property="btnC" destination="zQu-kT-T6U" id="Zbo-m3-FES"/>
                         <outlet property="btnD" destination="16Q-o1-WC8" id="QPg-vj-Yfa"/>
+                        <outlet property="btnE" destination="I5h-9v-abZ" id="wWL-sA-BXu"/>
                         <outlet property="falseLbl" destination="unP-HT-UBr" id="AWh-VZ-dHO"/>
                         <outlet property="lblQuestion" destination="evM-LA-78v" id="daH-ET-3kT"/>
                         <outlet property="mainQuestionLbl" destination="dXH-eb-VPk" id="kpO-zZ-DoI"/>

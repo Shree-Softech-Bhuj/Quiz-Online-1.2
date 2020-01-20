@@ -4,16 +4,23 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var playBookmark: UIButton!
-    
-    var BookQuesList:[Question] = []
+
+    var BookQuesList: [QuestionWithE] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //get bookmark list
-        if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            BookQuesList = try! PropertyListDecoder().decode([Question].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+        if Apps.opt_E == true {
+            
         }
+        else{
+           
+        }
+        
+        //get bookmark list
+           if (UserDefaults.standard.value(forKey: "booklist") != nil){
+                BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self,from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+           }
         
         if BookQuesList.count == 0{
             playBookmark.isHidden = true

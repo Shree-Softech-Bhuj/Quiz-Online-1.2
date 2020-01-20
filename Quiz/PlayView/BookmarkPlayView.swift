@@ -14,6 +14,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     @IBOutlet var btnB: UIButton!
     @IBOutlet var btnC: UIButton!
     @IBOutlet var btnD: UIButton!
+    @IBOutlet var btnE: UIButton!
     
     @IBOutlet var speakBtn: UIButton!
     @IBOutlet var zoomBtn: UIButton!
@@ -36,7 +37,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     
     var count:CGFloat = 0
     var currentQuestionPos = 0
-    var BookQuesList:[Question] = []
+    var BookQuesList:[QuestionWithE] = []
     var trueCount = 0
     var falseCount = 0
     var zoomScale:CGFloat = 1
@@ -46,16 +47,27 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttons = [btnA,btnB,btnC,btnD]
+        print("bool -- \(Apps.opt_E)")
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            btnE.isHidden = true
+            buttons = [btnA,btnB,btnC,btnD]
+        }
         
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            BookQuesList = try! PropertyListDecoder().decode([Question].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
         }
-        
-        //set four option's view shadow
-        self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
-        
+        if Apps.opt_E == true {
+            //set four option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
+        }else{
+            //set four option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
+        }
+                
         self.mainQuestionView.DesignViewWithShadow()
         
         let xPosition = progressview.center.x - 10
@@ -145,9 +157,12 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     
     //load question here
     func LoadQuestion(){
-        
-        MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
-        
+        if Apps.opt_E ==  true {
+            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+        }else{
+            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+        }
+                
         if(currentQuestionPos  < BookQuesList.count ) {
             resetProgressCount()
             if(BookQuesList[currentQuestionPos].image == ""){
@@ -172,9 +187,12 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 
                 mainQuestionLbl.isHidden = true
             }
-            self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].correctAns)
-
-            
+            if Apps.opt_E == true {
+                self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].opetionE,BookQuesList[currentQuestionPos].correctAns)
+            }else{
+                self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].correctAns)
+            }
+                        
             qstnNo.text = "\(currentQuestionPos + 1)/\(BookQuesList.count)"
             
         } else {
@@ -273,7 +291,13 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        let ans = ["a","b","c","d"]
+        var temp : [String]
+        if Apps.opt_E == true {
+            temp = ["a","b","c","d","e"]
+        }else{
+            temp = ["a","b","c","d"]
+        }
+        let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]

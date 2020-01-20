@@ -10,7 +10,8 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     var catID = 0
     var questionType = "sub"
     var unLockLevel =  0
-    var quesData: [Question] = []
+//    var quesData: [Question] = []
+    var quesData: [QuestionWithE] = []
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -135,7 +136,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                     self.quesData.removeAll()
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
-                            self.quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                            self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                         }
                         
                         //check this level has enought (10) question to play? or not
@@ -147,7 +148,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                             }
                         }else{
                             DispatchQueue.main.async {
-                                print("This level dose not have enought question",self.quesData.count)
+                                print("This level does not have enough question",self.quesData.count)
                                 self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
                             }
                         }

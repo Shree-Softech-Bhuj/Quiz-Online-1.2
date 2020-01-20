@@ -73,11 +73,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //to get state of Option E mode
-              let varOpt = OptionEmode_Controller()
-              varOpt.getOptEstate()
-        
+                
         print("bool -- \(Apps.opt_E)")
         if Apps.opt_E == true {
             btnE.isHidden = false
