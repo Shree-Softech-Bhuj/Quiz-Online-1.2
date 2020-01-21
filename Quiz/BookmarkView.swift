@@ -88,7 +88,10 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
             cell.ansr.text = BookQuesList[indexPath.row].opetionC
         }else if(BookQuesList[indexPath.row].correctAns == "d"){
             cell.ansr.text = BookQuesList[indexPath.row].opetionD
+        }else if(BookQuesList[indexPath.row].correctAns == "e"){
+            cell.ansr.text = BookQuesList[indexPath.row].opetionE
         }
+
         if(BookQuesList[indexPath.row].image != ""){
             DispatchQueue.main.async {
                 cell.bookImg.loadImageUsingCache(withUrl: self.BookQuesList[indexPath.row].image)

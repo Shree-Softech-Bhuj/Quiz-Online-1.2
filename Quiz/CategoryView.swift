@@ -29,7 +29,8 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         bannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = Apps.AD_TEST_DEVICE
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
 
         //get data from server

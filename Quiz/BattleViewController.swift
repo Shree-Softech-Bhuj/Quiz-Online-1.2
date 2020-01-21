@@ -37,7 +37,8 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         bannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = Apps.AD_TEST_DEVICE
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
         
         user1.layer.cornerRadius = user1.frame.width/2

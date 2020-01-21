@@ -17,8 +17,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet var btnC: UIButton!
     @IBOutlet var btnD: UIButton!
     @IBOutlet var btnE: UIButton!
-    
-    
+        
     @IBOutlet weak var bookmarkBtn: UIButton!
     
     @IBOutlet weak var questionImage: UIImageView!
@@ -101,6 +100,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         rewardBasedVideo!.delegate = self
          if Apps.opt_E == true {
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+           // BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
          }else{
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
@@ -109,9 +109,14 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         resizeTextview()
       
         //get bookmark list
-        if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
-        }
+        //if (UserDefaults.standard.value(forKey: "booklist") != nil){
+            do{
+              BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+                print(BookQuesList)
+            } catch {
+                print(error.localizedDescription)
+            }
+       // }
         
         self.RegisterNotification(notificationName: "PlayView")
         self.CallNotification(notificationName: "ResultView")
@@ -163,7 +168,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     func RequestForRewardAds(){
         let request = GADRequest()
         //request.testDevices = [ kGADSimulatorID ];
-        request.testDevices = Apps.AD_TEST_DEVICE
+       // request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         rewardBasedVideo?.load(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
     }
     
@@ -607,8 +613,10 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         clickedButton.removeAll()
         var temp : [String]
         if Apps.opt_E == true {
+             btnE.isHidden = false
              temp = ["a","b","c","d","e"]
         }else{
+             btnE.isHidden = true
              temp = ["a","b","c","d"]
         }
        let ans = temp

@@ -161,7 +161,8 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         self.interstitialAd.delegate = self
         let request = GADRequest()
        // request.testDevices = [ kGADSimulatorID ];
-        request.testDevices = Apps.AD_TEST_DEVICE
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         self.interstitialAd.load(request)
     }
 
@@ -280,6 +281,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "b", choice: ques.opetionB)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "c", choice: ques.opetionC)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "d", choice: ques.opetionD)
+            htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "e", choice: ques.opetionE)
             
             htmlStr += "<br>"
             if(srno == 7){
@@ -314,7 +316,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             return quetions.opetionD
         }else if correctAns == "e"{
             return quetions.opetionE
-        }        else{
+        }else{
             return ""
         }
     }

@@ -39,7 +39,7 @@ struct QuestionWithE: Codable {
     var level:String
     var note:String
     
-    var toDictionary: [String:String]{
+    var toDictionaryE: [String:String]{
     return [        "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"opetionE":opetionE,"correctAns":correctAns,"image":image,"level":level,"note":note
            ]
     }

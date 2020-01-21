@@ -32,7 +32,8 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         adBannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         adBannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = Apps.AD_TEST_DEVICE
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         adBannerView.load(request)
         
         //get data from server

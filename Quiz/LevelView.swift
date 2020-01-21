@@ -28,7 +28,8 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         adBannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         adBannerView.rootViewController = self
         let request = GADRequest()
-        request.testDevices = Apps.AD_TEST_DEVICE
+       // request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         adBannerView.load(request)
         
         // apps level lock unlock, no need level lock unlock remove this code
@@ -137,7 +138,23 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
                             self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
-                        }
+                                   //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false.
+                                    if let e = val["optione"] as? String {
+                                      if e == ""{
+                                           Apps.opt_E = false
+                                        let temp = val["answer"] as? String
+                                        if temp == e { //check if answer is option e is an answer
+                                            //transfer value of option E to option D / any other options.
+                                            self.quesData.removeLast()  //should remove lastly added in collection
+                                            self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(String(describing: temp))", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                                        }
+                                         // print("option E ---\(String(describing: e))")
+                                      }else{
+                                         // print("option E --\(String(describing: e))")
+                                           Apps.opt_E = true
+                                      }
+                                  }
+                        }                 
                         
                         //check this level has enought (10) question to play? or not
                         if self.quesData.count >= 10{

@@ -138,7 +138,7 @@ class UpdateProfileView: UIViewController{
         request.httpMethod = "POST";
         let user_id = "\(self.dUser!.userID)"
         let param = [
-            "access_key"  : "6808",
+            "access_key"  : "\(Apps.ACCESS_KEY)",//"6808",
             "upload_profile_image"    : "1",
             "user_id"    : user_id
         ]

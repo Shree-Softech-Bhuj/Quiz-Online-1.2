@@ -184,17 +184,18 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             
         }else{
             //get data for category
+            print(jsonObj.value(forKey: "data")!)
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                if Apps.opt_E == true {
+               // if Apps.opt_E == true {
                     for val in data{
                         quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     }
-                }else{
-                    print("option E Invisible")
+               // }else{
+                //    print("option E Invisible")
 //                    for val in data{
 //                        quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
 //                    }
-                }
+             //   }
                 
             }
         }

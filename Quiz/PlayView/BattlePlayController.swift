@@ -33,6 +33,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var btnB: UIButton!
     @IBOutlet weak var btnC: UIButton!
     @IBOutlet weak var btnD: UIButton!
+    @IBOutlet weak var btnE: UIButton!
     
     @IBOutlet weak var timerView: UIView!
     @IBOutlet weak var questionView: UIView!
@@ -64,8 +65,15 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-         buttons = [btnA,btnB,btnC,btnD]
+            
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            btnE.isHidden = true 
+            buttons = [btnA,btnB,btnC,btnD]
+        }
+         
         // set refrence for firebase database
         self.ref = Database.database().reference().child("AvailUserForBattle")
         mainQuestionLbl.centerVertically()
@@ -79,8 +87,14 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
         
         self.questionView.DesignViewWithShadow()
-        //set four option's view shadow
-        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+        if Apps.opt_E == true {
+            //set five option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+        }else{
+            //set four option's view shadow
+            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+        }
+        
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
@@ -260,8 +274,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 
                 mainQuestionLbl.isHidden = true
             }
-           self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
-            
+            if Apps.opt_E == true {
+                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+            }else{
+                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
+            }
+          
             totalCount.text = "\(currentQuestionPos + 1)/10"
            
         } else {
@@ -361,7 +379,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
 //    func AddQuestionToFIR(question:Question, userAns:String){
     func AddQuestionToFIR(question:QuestionWithE, userAns:String){
     if question != nil{
-            var data = question.toDictionary
+        var data = question.toDictionaryE
             
             data["userSelect"] = userAns
         self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
@@ -406,12 +424,17 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        let ans = ["a","b","c","d"]
+        var temp : [String]
+        if Apps.opt_E == true {
+            temp = ["a","b","c","d","e"]
+        }else{
+            temp = ["a","b","c","d"]
+        }
+        let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
         }else{
-            
             self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }

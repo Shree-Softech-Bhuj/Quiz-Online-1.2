@@ -10,6 +10,7 @@ class ReView: UIViewController {
     @IBOutlet weak var btnB: UIButton!
     @IBOutlet weak var btnC: UIButton!
     @IBOutlet weak var btnD: UIButton!
+    @IBOutlet weak var btnE: UIButton!
     
     @IBOutlet var nextBtn: UIButton!
     @IBOutlet var preBtn: UIButton!
@@ -40,9 +41,16 @@ class ReView: UIViewController {
         
         setGradientBackground()
         
-        //set opetion's view shadow
-        self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
-        
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            //set opetion's view shadow
+            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
+        }else{
+            btnE.isHidden = true
+            //set opetion's view shadow
+             self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
+        }
+              
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
             BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
@@ -90,7 +98,6 @@ class ReView: UIViewController {
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
             })
-            
         }else{
             //get data for category
 //            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
@@ -136,7 +143,6 @@ class ReView: UIViewController {
             currentQuesPosition -= 1
             self.LoadQuestion()
         }
-        
     }
     
     @IBAction func eNoteBtn(_ sender: Any) {
@@ -146,7 +152,6 @@ class ReView: UIViewController {
     @IBAction func BookmarkBtn(_ sender: Any) {
         let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
         self.present(goHome, animated: true, completion: nil)
-        
     }
     
     // Set the background as a blue gradient
@@ -164,8 +169,12 @@ class ReView: UIViewController {
     
     //load question
     func LoadQuestion(){
+         if Apps.opt_E == true {
+            ClearColor(btns: btnA,btnB,btnC,btnD,btnE)
+         }else{
+           ClearColor(btns: btnA,btnB,btnC,btnD)
+        }
         
-        ClearColor(btns: btnA,btnB,btnC,btnD)
         lblNote.text = ""
         
         if(ReviewQues.count  > currentQuesPosition && currentQuesPosition >= 0){
@@ -203,6 +212,8 @@ class ReView: UIViewController {
             btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
             btnC.setTitle("\(ReviewQues[currentQuesPosition].opetionC)", for: .normal)
             btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
+            if Apps.opt_E == true {                btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
+            }
             
            CheckUserAnswer(userAnswer: ReviewQues[currentQuesPosition].userSelect)
             
@@ -244,6 +255,14 @@ class ReView: UIViewController {
             }else{
                 WrongAnswer(opt: "d", optRight: ReviewQues[currentQuesPosition].correctAns)
             }
+        }else if Apps.opt_E == true {
+            if ReviewQues[currentQuesPosition].opetionE == userAnswer {
+                if ReviewQues[currentQuesPosition].correctAns == "e"{
+                    RightAnswer(opt: "e")
+                }else{
+                    WrongAnswer(opt: "e", optRight: ReviewQues[currentQuesPosition].correctAns)
+                }
+          }
         }
     }
     //set right answer color to option
@@ -264,6 +283,10 @@ class ReView: UIViewController {
         case "d":
             btnD.backgroundColor = Apps.RIGHT_ANS_COLOR
             btnD.tintColor = UIColor.white
+            break;
+       case "e":
+            btnE.backgroundColor = Apps.RIGHT_ANS_COLOR
+            btnE.tintColor = UIColor.white
             break;
         default:
             print("unknown option selected")
@@ -289,6 +312,10 @@ class ReView: UIViewController {
         case "d":
             btnD.backgroundColor = Apps.WRONG_ANS_COLOR
             btnD.tintColor = UIColor.white
+            break;
+        case "e":
+            btnE.backgroundColor = Apps.WRONG_ANS_COLOR
+            btnE.tintColor = UIColor.white
             break;
         default:
             print("unknown option selected")
