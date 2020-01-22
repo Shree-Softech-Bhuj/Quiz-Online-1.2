@@ -35,11 +35,15 @@ struct Apps{
     
     static let APP_NAME = "QUIZ"
     
+    static let USERS_DATA = "get_user_by_id"
+    static let REFER_CODE = "refer_code"
+    static let FRIENDS_CODE = "friends_code"
+    
     static let SYSTEM_CONFIG = "get_system_configurations"
     //static let OPTION_E = "option_e_mode"
-    static var opt_E = false//"0" //use 0 As false and 1 As true
+    static var opt_E = false
     
-    static let COMPLETE_LEVEL = "Congratulation you have completed this level"
+    static let COMPLETE_LEVEL = "Congratulations you have completed this level"
     static let NOT_COMPLETE_LEVEL = "Opps! you have failed to complete this level"
     static let PLAY_AGAIN = "Play Again"
     static let NOT_ENOUGH_QUESTION_TITLE = "Not Eought Question"

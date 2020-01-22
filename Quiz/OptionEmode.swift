@@ -34,7 +34,7 @@ class OptionEmode_Controller: UIViewController {
                 guard let optE = data as? [String:Any] else{
                     return //Apps.opt_E = false //"0"
                 }
-                print("\(optE) - option E")
+                //print("\(optE) - option E")
                 let state = optE["option_e_mode"]  as! String
                 //print("\(state) - option E")
 //                Apps.opt_E = state
@@ -43,7 +43,7 @@ class OptionEmode_Controller: UIViewController {
                 }else{
                     Apps.opt_E = false
                 }
-                print("\(Apps.opt_E) - option E")
+                //print("\(Apps.opt_E) - option E")
               }
           }
 //        for key in jsonObj {

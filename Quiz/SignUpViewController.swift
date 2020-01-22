@@ -3,6 +3,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseCore
 import GoogleSignIn
+import Foundation
 //import FBSDKLoginKit
 
 class SignUpViewController: UIViewController {
@@ -14,6 +15,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var pswdButton: UIButton!
     
      var ref: DatabaseReference!
+        
+    var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,49 @@ class SignUpViewController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
     }
+    
+    func matchRefCodeWithFrndsCode() {
+           //get data from server
+           if(Reachability.isConnectedToNetwork()){
+            print("id=\(String(describing: Auth.auth().currentUser))")//"id=1942"
+            let apiURL = "id=1942"
+            self.getAPIData(apiName: Apps.USERS_DATA, apiURL: apiURL,completion: LoadData)
+           }else{
+               ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+           }
+       }
+    
+    //load category data here
+          func LoadData(jsonObj:NSDictionary){
+            print("RS",jsonObj.value(forKey: "data")!)
+              let status = jsonObj.value(forKey: "error") as! String
+              if (status == "true") {
+                  self.Loader.dismiss(animated: true, completion: {
+                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                  })
+              }else{
+                  //get data for category
+                if let data = jsonObj.value(forKey: "data") {
+                    print("else part \(data)")
+//                    guard let optE = data as? [String:Any] else{
+//                        return //Apps.opt_E = false //"0"
+//                    }
+                    
+                  }
+              }
+    //        for key in jsonObj {
+    //            let value = jsonObj[key]
+    //            print("Value:\(value ?? "value") - for key:\(key)");
+    //        }
+              //close loader here
+              DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                  DispatchQueue.main.async {
+                      self.DismissLoader(loader: self.Loader)
+                  }
+              });
+          }
+    
+    
       @IBAction func pswdBtn(_ sender: UIButton) {
     //            guard let image = UIImage(named: "unlock") else {
     //                       print("Image Not Found")
@@ -44,6 +90,16 @@ class SignUpViewController: UIViewController {
         let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
        
+        //chk for referral code
+        if  self.referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines) != ""
+          {
+               matchRefCodeWithFrndsCode()
+//               let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
+//                   alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+//                   self.present(alert, animated: true)
+        }
+        
+        
          //chk for name As its not optional
         if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
           {

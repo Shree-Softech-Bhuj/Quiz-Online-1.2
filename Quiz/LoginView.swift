@@ -28,7 +28,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("bool -- \(Apps.opt_E)")
+        //print("bool -- \(Apps.opt_E)")
         
         GIDSignIn.sharedInstance().delegate=self
         //GIDSignIn.sharedInstance().uiDelegate=self
@@ -92,6 +92,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
     }
     func checkIfEmailVerified(){
         if Auth.auth().currentUser != nil {
+        print(Auth.auth().currentUser)
         Auth.auth().currentUser?.reload (completion: {(error) in
            if error == nil{
                 //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
@@ -130,10 +131,29 @@ class LoginView: UIViewController,GIDSignInDelegate{
               let displayname = result?.user.email!.components(separatedBy: "@")
               let nm = displayname![0]
               //print("\(nm)")
-              let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0")
+              var fcode = ""
+              var rcode = ""
+                //get reference code from db & assign it as friend's code
+                Database
+                .database()
+                .reference()
+                .child("Users")
+                .child(Auth.auth().currentUser!.uid)
+                .queryOrderedByKey()
+                .observeSingleEvent(of: .value, with: { snapshot in
+                    guard let dict = snapshot.value as? [String:Any] else {
+                        print("Error")
+                        return
+                    }
+                    fcode = (dict["ref_code"] as? String)!
+                     rcode = ""//dict[""] as? String
+                })
+                             
+              let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",frnd_code: "\(fcode)",ref_code: "\(rcode)")
+                
                  UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                  // send data to server after successfully loged in
-              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0"
+              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&ref_code=''friend_code=''"
               self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
               
               let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
@@ -165,7 +185,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 return
             }
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0")
+            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",frnd_code: "",ref_code: "")
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
@@ -201,7 +221,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
                 
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0")
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",frnd_code: "",ref_code: "")
                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 

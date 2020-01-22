@@ -63,6 +63,7 @@ class UpdateProfileView: UIViewController{
                 self.dUser!.phone = self.nmbrTxt.text!
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(self.dUser), forKey: "user")
+                print(try? PropertyListEncoder().encode(self.dUser))
             }
         });
     }
@@ -125,7 +126,7 @@ class UpdateProfileView: UIViewController{
             Loader = LoadLoader(loader: Loader)
             let apiURL = "email=\(emailTxt.text)&name=\(nameTxt.text)&mobile=\(nmbrTxt.text)"
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
-            print("Data updated")
+            //print("Data updated")
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
