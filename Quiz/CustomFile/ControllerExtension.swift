@@ -175,6 +175,23 @@ extension UIViewController{
     }
     
     
+    func resetOpetionsPositions(_ btnb: UIButton,_ btnc: UIButton,_ btnd: UIButton){
+//        let Xb_Position:CGFloat = 23.0 //use your X position here
+//        let Yb_Position:CGFloat = 500.0 //use your Y position here
+//
+//        btnb.frame = CGRect(x: Xb_Position, y: Yb_Position, width: btnb.frame.width, height: btnb.frame.height)
+//
+//        let Xc_Position:CGFloat = 23.0 //use your X position here
+//        let Yc_Position:CGFloat = 590.0 //use your Y position here
+//
+//        btnc.frame = CGRect(x: Xc_Position, y: Yc_Position, width: btnc.frame.width, height: btnc.frame.height)
+//
+//        let Xd_Position:CGFloat = 23.0 //use your X position here
+//        let Yd_Position:CGFloat = 675.0 //use your Y position here
+//
+//        btnd.frame = CGRect(x: Xd_Position, y: Yd_Position, width: btnd.frame.width, height: btnd.frame.height)
+    }
+     
     func RegisterNotification(notificationName:String){
         NotificationCenter.default.addObserver(self,selector: #selector(self.Dismiss),name: NSNotification.Name(rawValue: notificationName),object: nil)
     }

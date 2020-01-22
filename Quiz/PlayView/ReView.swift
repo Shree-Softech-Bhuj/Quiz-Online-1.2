@@ -212,7 +212,8 @@ class ReView: UIViewController {
             btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
             btnC.setTitle("\(ReviewQues[currentQuesPosition].opetionC)", for: .normal)
             btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
-            if Apps.opt_E == true {                btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
+            if Apps.opt_E == true {
+                btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
             }
             
            CheckUserAnswer(userAnswer: ReviewQues[currentQuesPosition].userSelect)

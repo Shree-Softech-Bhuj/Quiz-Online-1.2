@@ -47,7 +47,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("bool -- \(Apps.opt_E)")
+       // print("bool -- \(Apps.opt_E)")
         if Apps.opt_E == true {
             btnE.isHidden = false
             buttons = [btnA,btnB,btnC,btnD,btnE]

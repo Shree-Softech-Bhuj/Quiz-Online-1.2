@@ -60,8 +60,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     var Loader: UIAlertController = UIAlertController()
     
     var quesData: [QuestionWithE] = []
-//    var basic: [Question] = []
-//    var integrated: [QuestionWithE] = []
+//    var quesData: [Question] = []
     
     var currentQuestionPos = 0
     
@@ -74,7 +73,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        print("bool -- \(Apps.opt_E)")
+       // print("bool -- \(Apps.opt_E)")
         if Apps.opt_E == true {
             btnE.isHidden = false
             buttons = [btnA,btnB,btnC,btnD,btnE]
@@ -277,7 +276,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                 mainQuestionLbl.isHidden = true
             }
             if Apps.opt_E == true{
-//                self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+                self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
             }else{
                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
             }

@@ -89,10 +89,14 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if Apps.opt_E == true {
+            btnE.isHidden = false
             buttons = [btnA,btnB,btnC,btnD,btnE]
         }else{
+            btnE.isHidden = true
             buttons = [btnA,btnB,btnC,btnD]
+            //resetOpetionsPositions(btnB,btnC,btnD)
         }
         
         //Google AdMob
@@ -109,14 +113,14 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         resizeTextview()
       
         //get bookmark list
-        //if (UserDefaults.standard.value(forKey: "booklist") != nil){
-            do{
-              BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
-                print(BookQuesList)
-            } catch {
-                print(error.localizedDescription)
-            }
-       // }
+        if (UserDefaults.standard.value(forKey: "booklist") != nil){
+        //do{
+            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:((UserDefaults.standard.value(forKey: "booklist") as? Data)!))
+                print(BookQuesList)       // }
+//             catch {
+//                print(error.localizedDescription)
+//            }
+        }
         
         self.RegisterNotification(notificationName: "PlayView")
         self.CallNotification(notificationName: "ResultView")
@@ -149,7 +153,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         self.mainQuestionView.DesignViewWithShadow()
         
         let xPosition = view1.center.x - 10
-        let yPosition = view1.center.y - 5
+        let yPosition = view1.center.y + 3 //- 5
         let position = CGPoint(x: xPosition, y: yPosition)
         progressRing = CircularProgressBar(radius: (view1.frame.size.height - 10) / 2, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
         view1.layer.addSublayer(progressRing)
@@ -334,16 +338,16 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
              var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
             
             if(score.coins < Apps.OPT_FT_COIN){
-                // user dose not have enought coins
+                // user does not have enough coins
                 self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_FT_COIN, lifelineName: "fifty")
             }else{
                 // if user have coins
                 var index = 0
                 for button in buttons{
-                    if button.tag == 0 && index < 2{
-                        button.isHidden = true
-                        index += 1
-                    }
+                          if button.tag == 0 && index < 2{ //To remove 3 options from 5, use 3 instead of 2 here
+                          button.isHidden = true
+                          index += 1
+                      }
                 }
                 opt_ft = true
                 //deduct coin for use lifeline and store it
@@ -391,14 +395,15 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_AU_COIN, lifelineName: "audions")
             }else{
                 // if user have coins
-                var r1:Int,r2:Int,r3:Int,r4:Int
+                var r1:Int,r2:Int,r3:Int,r4:Int,r5:Int
                 
                 r1 = Int.random(in: 1 ... 96)
                 r2 = Int.random(in: 1 ... 97 - r1)
                 r3 = Int.random(in: 1 ... 98 - r1 - r2)
-                r4 = 100 - r1 - r2 - r3
+                r5 = Int.random(in: 1 ... 98 - r1 - r2 - r3)
+                r4 = 100 - r1 - r2 - r3 - r5
                 
-                var randoms = [r1,r2,r3,r4]
+                var randoms = [r1,r2,r3,r5,r4]
                 randoms.sort(){$0 > $1}
                 
                 var index = 0
@@ -613,18 +618,15 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         clickedButton.removeAll()
         var temp : [String]
         if Apps.opt_E == true {
-             btnE.isHidden = false
              temp = ["a","b","c","d","e"]
         }else{
-             btnE.isHidden = true
              temp = ["a","b","c","d"]
         }
        let ans = temp
         var rightAns = ""
-        if ans.contains("\(opestions.last!.lowercased())") {
+        if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
         }else{
-            
             self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }
