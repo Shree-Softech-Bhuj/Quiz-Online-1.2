@@ -38,7 +38,7 @@ struct Apps{
     static let USERS_DATA = "get_user_by_id"
     static let REFER_CODE = "refer_code"
     static let FRIENDS_CODE = "friends_code"
-    static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any orher user
+    static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
     
     static let SYSTEM_CONFIG = "get_system_configurations"
     //static let OPTION_E = "option_e_mode"

@@ -14,5 +14,4 @@ class OptionButton: UIButton {
         //self.setImage(UIImage(named: "camera"), for: .normal)
         //self.imageEdgeInsets = UIEdgeInsets(top: 1, left:5, bottom: 1, right: 1)
     }
-    
 }

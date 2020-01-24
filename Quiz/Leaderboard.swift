@@ -30,7 +30,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var user1View: UIView!
     @IBOutlet weak var user3View: UIView!
     
-    
     @IBOutlet weak var buttonAll: UIButton!
     
     var isInitial = true
@@ -38,7 +37,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     var LeaderData:[Leader] = []
     var thisUser:User!
-    
        
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,7 +170,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.Loader.dismiss(animated: true, completion: {
                     print("Data Not Found !!!")
                     //print(jsonObj.value(forKey: "status")!)
-                    if jsonObj.value(forKey: "message")! == nil{
+                    if jsonObj.value(forKey: "message")! == nil {
                         self.ShowAlert(title: "Error", message:"Data Not Found !!!" )
                     }else{
                         self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
@@ -316,7 +314,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
             }
         });
-        
     }
     func showALLinLeaderboard() {
         
@@ -351,7 +348,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
           return LeaderData.count - 3
-        
     }
     
     // create a cell for each table view row
@@ -403,9 +399,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
-        
     }
-    
     //design image view
     func DesignImageView(images:UIImageView...){
         for image in images{

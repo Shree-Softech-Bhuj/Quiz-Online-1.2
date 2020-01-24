@@ -29,7 +29,7 @@ class UpdateProfileView: UIViewController{
         usrImg.layer.cornerRadius = usrImg.frame.height / 2
         
         nameTxt.text = dUser!.name
-        print("get name - \(nameTxt.text)")
+        print("get name - \(nameTxt.text ?? "")")
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
@@ -41,7 +41,6 @@ class UpdateProfileView: UIViewController{
         }
         
         self.hideKeyboardWhenTappedAround()
-       
     }
     
     //load category data here
@@ -54,6 +53,13 @@ class UpdateProfileView: UIViewController{
             })
         }else{
             //get data for success response
+            let msg = jsonObj.value(forKey: "message") as! String
+            print(msg)
+//            let acknowledge = UIAlertController(title: "User Profile Update", message: msg , preferredStyle: UIAlertController.Style.alert)
+//            self.present(acknowledge, animated: true)
+            self.Loader.dismiss(animated: true, completion: {
+                self.ShowAlertOnly(title: "Profile Update", message:"\(jsonObj.value(forKey: "message")!)" )
+            })
         }
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
@@ -79,7 +85,6 @@ class UpdateProfileView: UIViewController{
             self.usrImg.image = image
             self.myImageUploadRequest()
         })
-        
     }
     
     @IBAction func logoutBtn(_ sender: Any) {
@@ -96,6 +101,8 @@ class UpdateProfileView: UIViewController{
                 do {
                     try Auth.auth().signOut()
                     UserDefaults.standard.removeObject(forKey: "isLogedin")
+                    //remove friend code 
+                    UserDefaults.standard.removeObject(forKey: "fr_code")
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
                     self.present(vc, animated: true, completion: nil)
                     
@@ -186,8 +193,7 @@ class UpdateProfileView: UIViewController{
                 }
             }
         }
-        task.resume()
-        
+        task.resume()        
     }
     
     func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: Data, boundary: String) -> Data {

@@ -69,7 +69,6 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
             })
-            
         }else{
             //get data for category
             subCatData.removeAll()
@@ -87,7 +86,6 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 self.refreshController.endRefreshing()
             }
         });
-        
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -180,7 +178,6 @@ extension UIView {
         layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
-        
     }
     
     func border(color : UIColor, radius: CGFloat = 28, bWidth : CGFloat = 2){
@@ -188,7 +185,6 @@ extension UIView {
             layer.borderColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
             layer.borderWidth = 2
             layer.cornerRadius = radius
-    
         }
     
     func applyGradient(colors: [CGColor])

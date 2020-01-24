@@ -7,7 +7,7 @@ import FirebaseAuth
 //class LoginView: UIViewController,GIDSignInDelegate,GIDSignInUIDelegate{
 class LoginView: UIViewController,GIDSignInDelegate{
     
-    //    @IBOutlet var fbBtn: UIButton!
+    // @IBOutlet var fbBtn: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var fbButton: UIButton!
     @IBOutlet weak var guestButton: UIButton!
@@ -19,8 +19,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBOutlet weak var pswdButton: UIButton!
     @IBOutlet weak var emailTxt: FloatingTF!
     @IBOutlet weak var pswdTxt: FloatingTF!
-    
-    var databaseHandle : DatabaseHandle!
     
     var email = ""
         
@@ -37,7 +35,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
-        
         
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
@@ -94,7 +91,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
     }
     func checkIfEmailVerified(){
         if Auth.auth().currentUser != nil {
-        print(Auth.auth().currentUser)
+            print(Auth.auth().currentUser!)
         Auth.auth().currentUser?.reload (completion: {(error) in
            if error == nil{
                 //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
@@ -109,7 +106,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true)
-                print(error?.localizedDescription)
+            print(error?.localizedDescription)
            }
             })
         }else{
@@ -134,7 +131,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
               let nm = displayname![0]
               //print("\(nm)")
               var fcode = ""
-              let rcode = nm //ref code is same as username initially
+              let rcode = nm //ref code is same as initial username
                 print("curr user -- \((result?.user.uid)!)")
                 //get reference code from db & assign it as friend's code
 //                let ref = Database.database().reference(fromURL: "https://quiz-online-34985.firebaseio.com")
@@ -143,24 +140,20 @@ class LoginView: UIViewController,GIDSignInDelegate{
 //                print(snapshot)
 //                })
                 if (UserDefaults.standard.value(forKey: "fr_code") != nil){
-                    
-                fcode = UserDefaults.standard.string(forKey: "fr_code")!
-                print(fcode)
+                    fcode = UserDefaults.standard.string(forKey: "fr_code")!
+                    print(fcode)
                 }else{
                     fcode = " "
                 }
-              let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",frnd_code: "\(fcode)",ref_code: "\(rcode)")
+               let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0") //,frnd_code: "\(fcode)",ref_code: "\(rcode)"
                 
                  UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 print("user data-- \(sUser)")
                 
                  // send data to server after successfully loged in
-              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&ref_code=\(rcode)friends_code=\(fcode)"
+              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
               self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
-              
-                //remove friend code after being passed
-                UserDefaults.standard.removeObject(forKey: "fr_code")
-                
+                              
               let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
               self.present(subView, animated: true, completion: nil)
             }
@@ -190,7 +183,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 return
             }
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",frnd_code: "",ref_code: "")
+            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0") //,frnd_code: "",ref_code: ""
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
@@ -226,7 +219,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
                 
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",frnd_code: "",ref_code: "")
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0") //,frnd_code: "",ref_code: ""
                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
@@ -252,6 +245,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
     func ProcessLogin(jsonObj:NSDictionary){
         //print("LOG",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
+        let msg = jsonObj.value(forKey: "message") as! String
+        print(msg)
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
@@ -266,14 +261,13 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 userD.userID = "\((data["user_id"])!)"
                 userD.phone = "\((data["mobile"])!)"
                 userD.image = "\((data["profile"])!)"
-                userD.frnd_code = "\((data["friends_code"]) ?? "" )"
-                userD.ref_code = "\((data["refer_code"])!)"
+                //userD.frnd_code = "\((data["friends_code"]) ?? " ")"
+                //userD.ref_code = "\((data["refer_code"])!)"
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
                 let uScore:UserScore = UserScore.init(coins: 6, points: 00)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(uScore),forKey: "UserScore")
-            
             }
         }
         //close loader here
@@ -287,8 +281,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
             }
         });
-        
     }
-
 }
 

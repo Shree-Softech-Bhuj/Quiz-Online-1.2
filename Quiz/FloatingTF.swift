@@ -154,14 +154,11 @@ var bottomLineLayer = CALayer()
       showTitle(isActive)
 
     }
-    
-
   }
 
 	/// setBottomLineLayerFrame( - Description: <#description#>
 	private func setBottomLineLayerFrame() {
     bottomLineLayer.frame = CGRect(x: 0, y: self.frame.size.height - 1, width: self.frame.size.width, height: 1)
-
 	}
   
   fileprivate func showTitle(_ animated:Bool) {
@@ -198,9 +195,7 @@ var bottomLineLayer = CALayer()
 	private func setTitleFrame() {
 				self.title.frame = CGRect(x:0, y:-floatingTitleLabelHeight, width:Int(self.frame.size.width), height:floatingTitleLabelHeight)
 //    self.title.center = CGPoint(x: self.center.x, y: self.title.center.y)
-
 	}
-
 }
 var borderWidth : CGFloat = 0 // Should be less or equal to the `radius` property
 var radius : CGFloat = 0
@@ -212,8 +207,7 @@ private func bubblePathForContentSize(contentSize: CGSize) -> UIBezierPath {
     let radius2 = radius - borderWidth / 2 // Radius adjusted for the border width
     
     path.move(to: CGPoint(x:rect.maxX - triangleHeight * 2,y: rect.minY - radius2))
-    path.addLine(to: CGPoint(x:rect.maxX - triangleHeight, y:rect.minY - radius2 - triangleHeight))
-    
+    path.addLine(to: CGPoint(x:rect.maxX - triangleHeight, y:rect.minY - radius2 - triangleHeight))    
     
 //    path.addArc(withCenter: CGPoint(x:rect.maxX, y:rect.minY), radius: radius2, startAngle: CGFloat(-M_PI_2), endAngle: 0, clockwise: true)
 //    path.addArc(withCenter: CGPoint(x:rect.maxX,y: rect.maxY), radius: radius2, startAngle: 0, endAngle: CGFloat(M_PI_2), clockwise: true)
@@ -227,4 +221,3 @@ private func bubblePathForContentSize(contentSize: CGSize) -> UIBezierPath {
     path.close()
     return path
 }
-

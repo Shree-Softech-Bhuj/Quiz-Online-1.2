@@ -30,6 +30,7 @@ class ReView: UIViewController {
 //    var BookQuesList:[Question] = []
     var ReviewQues:[ReQuestionWithE] = []
     var BookQuesList:[QuestionWithE] = []
+    
     var currentQuesPosition = 0
     
     var isInitial = true
@@ -81,7 +82,6 @@ class ReView: UIViewController {
             }
             
         })
-        
         alert.addAction(okAction)
         alert.addAction(UIAlertAction(title: Apps.CANCEL, style: .default, handler: { action in
            
@@ -296,7 +296,7 @@ class ReView: UIViewController {
     
     //set wrong answer and show user what is right answer
     func WrongAnswer(opt:String,optRight:String){
-        //set wrong answer celor to view
+        //set wrong answer color to view
         switch opt {
         case "a":
             btnA.backgroundColor = Apps.WRONG_ANS_COLOR
@@ -321,7 +321,6 @@ class ReView: UIViewController {
         default:
             print("unknown option selected")
         }
-        
         //set right answer color to view
         RightAnswer(opt: optRight)
         

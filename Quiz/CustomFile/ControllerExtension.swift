@@ -27,7 +27,6 @@ extension UIViewController{
         self.dismiss(animated: true, completion: nil)
     }
     
-    
     //play sound
     func PlaySound(player:inout AVAudioPlayer!,file:String){
         let soundURL = Bundle.main.url(forResource: file, withExtension: "mp3")
@@ -128,7 +127,6 @@ extension UIViewController{
                 self.present(pending, animated: true, completion: nil)
             }
         });
-        
         return pending 
     }
     //show alert view here with any title and messages
@@ -141,8 +139,23 @@ extension UIViewController{
                 self.present(alert, animated: true, completion: nil)
             }
         });
-        
     }
+    //show alert view here with any title and messages & without button
+       func ShowAlertOnly(title:String,message:String){
+           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+           self.present(alert, animated: true)
+//        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { (_) in
+//            self.dismiss(animated: true, completion: nil)
+//        }
+            for c  in 0...15 {
+            if c == 0 {
+                self.present(alert, animated: true)
+            }
+            if c == 15 {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+       }
     //dismiss loader
     func DismissLoader(loader:UIAlertController){
         loader.dismiss(animated: true, completion: nil)

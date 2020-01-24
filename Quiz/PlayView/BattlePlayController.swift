@@ -115,8 +115,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         zoomScroll.minimumZoomScale = 1
         zoomScroll.maximumZoomScale = 6
-        NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteBattle"),object: nil)
-        
+        NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteBattle"),object: nil)        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,7 +163,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         alert.view.layer.cornerRadius = 25   // change corner radius
         
         present(alert, animated: true, completion: nil)
-       
     }
     
     @objc func CompleteBattle(){
@@ -288,7 +286,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 ShowResultAlert()
             }
         }
-        
     }
     
     func ShowResultAlert(){

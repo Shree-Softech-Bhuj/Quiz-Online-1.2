@@ -34,10 +34,8 @@ class OptionEmode_Controller: UIViewController {
                 guard let optE = data as? [String:Any] else{
                     return //Apps.opt_E = false //"0"
                 }
-                //print("\(optE) - option E")
                 let state = optE["option_e_mode"]  as! String
-                //print("\(state) - option E")
-//                Apps.opt_E = state
+           //   Apps.opt_E = state
                 if state == "1" {
                     Apps.opt_E = true
                 }else{
@@ -46,10 +44,6 @@ class OptionEmode_Controller: UIViewController {
                 //print("\(Apps.opt_E) - option E")
               }
           }
-//        for key in jsonObj {
-//            let value = jsonObj[key]
-//            print("Value:\(value ?? "value") - for key:\(key)");
-//        }
           //close loader here
           DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
               DispatchQueue.main.async {

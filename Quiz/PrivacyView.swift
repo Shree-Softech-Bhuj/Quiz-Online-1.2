@@ -28,7 +28,6 @@ class PrivacyView: UIViewController{
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
             })
-            
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? String {
@@ -48,11 +47,8 @@ class PrivacyView: UIViewController{
                 self.txtView.attributedText = attributedString
             }
         });
-        
     }
-    
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
 }
-

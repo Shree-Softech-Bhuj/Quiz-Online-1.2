@@ -112,7 +112,6 @@ class AlertViewController: UIViewController {
         
    
         UserDefaults.standard.set(i, forKey: "size")  //Integer
-        
     }
     
     @IBAction func okBtn(_ sender: Any) {

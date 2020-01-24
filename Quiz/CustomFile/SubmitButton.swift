@@ -13,7 +13,6 @@ class SubmitButton: UIButton {
         self.layer.shadowOffset = CGSize(width: 5, height: 5)
         self.layer.shadowOpacity = 1.0
         self.layer.shadowRadius = 0
-        self.layer.masksToBounds = false
-        
+        self.layer.masksToBounds = false        
     }
 }

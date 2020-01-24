@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var picker = UIImagePickerController();
@@ -53,7 +52,6 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
         self.viewController!.present(picker, animated: true, completion: nil)
     }
     
-    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
@@ -72,8 +70,6 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
     //      }
     //      pickImageCallback?(image)
     //  }
-    
-    
     
     @objc func imagePickerController(_ picker: UIImagePickerController, pickedImage: UIImage?) {
     }

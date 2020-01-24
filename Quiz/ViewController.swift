@@ -115,7 +115,6 @@ class ViewController: UIViewController {
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         self.present(myAlert, animated: true, completion: nil)
-        
     }
     
     @IBAction func BookmarkBtn(_ sender: Any) {
@@ -124,7 +123,6 @@ class ViewController: UIViewController {
         
         let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
         self.present(goHome, animated: true, completion: nil)
-        
     }
     
     @IBAction func logoutBtn(_ sender: Any) {
@@ -142,6 +140,8 @@ class ViewController: UIViewController {
                     try Auth.auth().signOut()
                     let defaults = UserDefaults.standard
                     defaults.removeObject(forKey: "isLogedin")
+                    //remove friend code
+                    defaults.removeObject(forKey: "fr_code")
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
                     self.present(vc, animated: true, completion: nil)
 
@@ -161,11 +161,9 @@ class ViewController: UIViewController {
         }
     }
 
-
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
     
     //close on tap outside
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -200,4 +198,3 @@ class ViewController: UIViewController {
         }
     }
 }
-

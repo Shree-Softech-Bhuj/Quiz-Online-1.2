@@ -119,7 +119,6 @@ extension UITextView {
         let positiveTopOffset = max(1, topOffset)
         contentOffset.y = -positiveTopOffset
     }
-    
 }
 
 extension UIButton {
@@ -129,8 +128,7 @@ extension UIButton {
         let btnSize = titleLabel?.sizeThatFits(CGSize(width: frame.width, height: .greatestFiniteMagnitude)) ?? .zero
         let desiredButtonSize = CGSize(width: btnSize.width + titleEdgeInsets.left + titleEdgeInsets.right, height: btnSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)
         self.titleLabel?.sizeThatFits(desiredButtonSize)
-    }
-    
+    }    
 }
 
 extension UIView{

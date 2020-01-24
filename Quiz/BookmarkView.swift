@@ -9,14 +9,7 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if Apps.opt_E == true {
-            
-        }
-        else{
-           
-        }
-        
+                
         //get bookmark list
            if (UserDefaults.standard.value(forKey: "booklist") != nil){
                 BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self,from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
@@ -25,7 +18,6 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         if BookQuesList.count == 0{
             playBookmark.isHidden = true
         }
-        
 //        tableView.estimatedRowHeight = 140.0
 //        tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -128,4 +120,3 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         print("You tapped cell number \(indexPath.row).")
     }
 }
-

@@ -50,7 +50,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         //register nsnotification for latter call
         NotificationCenter.default.addObserver(self,selector: #selector(self.QuitBattle),name: NSNotification.Name(rawValue: "QuitBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CheckForBattle),name: NSNotification.Name(rawValue: "CheckBattle"),object: nil)
-         NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
         
         self.DesignViews(views: user1,user2)
         
@@ -68,7 +68,6 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         name2.addBottomBorderWithColor(color: .black, width: 2)
         //call function check battle
         self.CheckForBattle()
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,7 +154,6 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                 self.isAvail = false
             }
         })
-    
     }
     //call this function when user gone or exist from battle
     @objc func QuitBattle(){
@@ -189,7 +187,6 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
             timer.invalidate()
             self.seconds = 10
             self.ShowRobotAlert()
-            
         }
     }
     

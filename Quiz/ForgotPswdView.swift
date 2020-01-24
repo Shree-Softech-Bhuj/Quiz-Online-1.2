@@ -17,7 +17,6 @@ class ForgotPswdView: UIViewController {
         email.becomeFirstResponder()
        //hide current view if user tap twice ,other than email txt
         self.hideCurrViewWhenTappedAround()
-               
     }
       
     func dismissView(){
@@ -52,7 +51,6 @@ class ForgotPswdView: UIViewController {
                          }
                      }
                  })
-         }
+            }
      }
-}
- 
+} 

@@ -43,8 +43,6 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
         catetableView.refreshControl = refreshController
-        
-      
     }
     
     // refresh function
@@ -84,7 +82,6 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
                 self.refreshController.endRefreshing()
             }
         });
-        
     }
     
     @IBAction func backButton(_ sender: Any) {

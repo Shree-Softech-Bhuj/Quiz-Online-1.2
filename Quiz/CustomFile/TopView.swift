@@ -11,6 +11,4 @@ class TopView: UIView {
         self.layer.shadowRadius = 5
         self.layer.masksToBounds = false
     }
- 
-
 }

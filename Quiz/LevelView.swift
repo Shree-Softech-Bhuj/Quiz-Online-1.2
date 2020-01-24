@@ -10,7 +10,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     var catID = 0
     var questionType = "sub"
     var unLockLevel =  0
-//    var quesData: [Question] = []
+//  var quesData: [Question] = []
     var quesData: [QuestionWithE] = []
     
     var isInitial = true
@@ -36,7 +36,6 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         if UserDefaults.standard.value(forKey:"\(questionType)\(catID)") != nil {
             unLockLevel = Int(truncating: UserDefaults.standard.value(forKey:"\(questionType)\(catID)") as! NSNumber)
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -99,7 +98,6 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                     cell.cellView2.transform = .identity
                         
             },completion: nil)
-        
         return cell
     }
     
@@ -114,8 +112,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             playView.catID = self.catID
             playView.level = indexPath.row + 1
             playView.questionType = self.questionType
-           
-            
+                       
             self.isInitial = false
             self.PlaySound(player: &audioPlayer, file: "click") // play sound
             self.Vibrate() // make device vibrate
@@ -174,4 +171,3 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         }
     }
 }
-

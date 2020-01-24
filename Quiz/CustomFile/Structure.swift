@@ -12,9 +12,8 @@ struct User:Codable{
     var image:String
     var status:String
     
-    var frnd_code:String
-    var ref_code:String
-    
+//    var frnd_code:String
+//    var ref_code:String    
 }
 
 // user score related structure

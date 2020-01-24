@@ -195,7 +195,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
 //                        quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
 //                    }
              //   }
-                
             }
         }
         //close loader here
@@ -253,7 +252,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             }else{
                  MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
             }
-           
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
@@ -308,7 +306,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             alert.winnerName = Apps.MATCH_DRAW
         }
         self.present(alert, animated: true, completion: nil)
-
     }
     // right answer operation function
     func rightAnswer(btn:UIView){
@@ -371,8 +368,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
-        }else{
-            
+        }else{            
             self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }

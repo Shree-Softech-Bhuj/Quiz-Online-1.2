@@ -2,7 +2,6 @@ import Foundation
 import UIKit
 import AVFoundation
 
-
 let bookProgressBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_true)
 let bookProgressFalseBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_false)
 
@@ -61,7 +60,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
         }
         if Apps.opt_E == true {
-            //set four option's view shadow
+            //set five option's view shadow
             self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
         }else{
             //set four option's view shadow
@@ -217,7 +216,6 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             
             self.view.addSubview(view)
         }
-        
     }
     
     // right answer operation function

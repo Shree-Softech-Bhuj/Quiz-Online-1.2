@@ -34,7 +34,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet var view1: UIView!
     @IBOutlet weak var progFalseView: UIView!
     
-    
     var count: CGFloat = 0.0
     var score: Int = 0
     
@@ -42,10 +41,10 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var timer: Timer!
     var player: AVAudioPlayer?
     
-    /// Is an ad being loaded.
+    // Is an ad being loaded.
     var adRequestInProgress = false
     
-    /// The reward-based video ad.
+    // The reward-based video ad.
     var rewardBasedVideo: GADRewardBasedVideoAd?
 
     var falseCount = 0
@@ -104,7 +103,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         rewardBasedVideo!.delegate = self
          if Apps.opt_E == true {
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
-           // BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
          }else{
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
@@ -143,7 +141,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         setGradientBackground()
         
         if Apps.opt_E == true {
-            //set four option's view shadow
+            //set five option's view shadow
             self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
         }else{
             //set four option's view shadow
@@ -165,10 +163,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         self.titleBar.text = "\(Apps.LEVEL): \(level)"
         self.loadQuestion()
-        
     }
     
-    // by M
     func RequestForRewardAds(){
         let request = GADRequest()
         //request.testDevices = [ kGADSimulatorID ];
@@ -415,9 +411,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                         drawCircle(btn: button, proVal: randoms[index])
                     }
                 }
-                
                 opt_au = true
-                
+        
                 //deduct coin for use lifeline and store it
                 score.coins = score.coins - Apps.OPT_AU_COIN
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
@@ -608,7 +603,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             resultView.catID = self.catID
             resultView.questionType = self.questionType
             self.present(resultView, animated: true, completion: nil)
-            
         }
     }
     

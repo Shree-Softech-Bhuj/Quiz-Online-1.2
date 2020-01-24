@@ -21,8 +21,7 @@ class ResultAlert: UIViewController {
                     self.userImage.loadImageUsingCache(withUrl: self.winnerImg)
                 }
             }
-        }
-        
+        }        
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {

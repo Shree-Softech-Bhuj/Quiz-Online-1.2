@@ -281,19 +281,20 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "b", choice: ques.opetionB)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "c", choice: ques.opetionC)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "d", choice: ques.opetionD)
+            
             if Apps.opt_E == true{
                 htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "e", choice: ques.opetionE)
-                if(srno == 6){
-                     htmlStr += "<br><br><br><br><br><br>"
-                }else{
-                    htmlStr += "<br>"
-                }
+                    if(srno == 6){
+                         htmlStr += "<br><br><br><br><br><br>"
+                    }else{
+                        htmlStr += "<br>"
+                    }
             }else{
-                if(srno == 7){
-                    htmlStr += "<br><br><br><br><br><br>"
-                }else{
-                    htmlStr += "<br>"
-                }
+                    if(srno == 7){
+                        htmlStr += "<br><br><br><br><br><br>"
+                    }else{
+                        htmlStr += "<br>"
+                    }
             }
             
           //  htmlStr += "<br>"
@@ -303,7 +304,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             srno += 1
         }
         self.createPDF(htmlStr: htmlStr)
-        
     }
     
     func OptionStr(rightAns:String, userAns:String,opt:String,choice:String) ->String {        

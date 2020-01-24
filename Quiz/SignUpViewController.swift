@@ -40,8 +40,7 @@ class SignUpViewController: UIViewController {
                     print("else part \(data)")
 //                    guard let optE = data as? [String:Any] else{
 //                        return //Apps.opt_E = false //"0"
-//                    }
-                    
+//                    }                    
                   }
               }
     //        for key in jsonObj {
@@ -55,7 +54,6 @@ class SignUpViewController: UIViewController {
                   }
               });
           }
-    
     
       @IBAction func pswdBtn(_ sender: UIButton) {
     //            guard let image = UIImage(named: "unlock") else {
@@ -115,14 +113,13 @@ class SignUpViewController: UIViewController {
                //set frnd code
                 UserDefaults.standard.set(refCodeTxt, forKey: "fr_code")
                 
-                //store data as user created successfully
+                //store data to realtime database of firebase as user created successfully
                 let key = self.ref.childByAutoId().key
                 let user = [
                     "uid": key,
                     "name" : nameTxt ,
                     "ref_code" : refCodeTxt
-                ]
-                
+                ]                
                 self.ref.child("users").child(key!).setValue(user){(error:Error?, ref:DatabaseReference) in
                   if let error = error {
                      let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)

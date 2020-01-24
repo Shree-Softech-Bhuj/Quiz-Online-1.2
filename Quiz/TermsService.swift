@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-
 class TermsService: UIViewController{
     @IBOutlet var txtView: UITextView!
     
@@ -29,7 +28,6 @@ class TermsService: UIViewController{
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
             })
-            
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? String {
@@ -43,17 +41,13 @@ class TermsService: UIViewController{
                 let htmlData = NSString(string: htmlData).data(using: String.Encoding.unicode.rawValue)
                 let options = [NSAttributedString.DocumentReadingOptionKey.documentType:
                     NSAttributedString.DocumentType.html]
-                let attributedString = try? NSMutableAttributedString(data: htmlData ?? Data(),
-                                                                      options: options,
-                                                                      documentAttributes: nil)
+                let attributedString = try? NSMutableAttributedString(data: htmlData ?? Data(), options: options, documentAttributes: nil)
                 self.txtView.attributedText = attributedString
             }
         });
-        
     }
     
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
 }
-

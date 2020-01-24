@@ -70,7 +70,6 @@ public class CircularProgressBar: CALayer {
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
-        
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
@@ -118,7 +117,6 @@ public class CircularProgressBar: CALayer {
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
-        
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
@@ -133,7 +131,6 @@ public class CircularProgressBar: CALayer {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 
