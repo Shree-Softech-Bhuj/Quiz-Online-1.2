@@ -23,10 +23,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
        // print("bool -- \(Apps.opt_E)")
-        
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
         DesignView(views: startView,battleView)
@@ -66,8 +64,7 @@ class ViewController: UIViewController {
             //self.AllignButton(buttons: leaderButton,profileButton,settingButton)
             //logoutButton.isHidden = true
             logoutButton.setBackgroundImage(UIImage(named: "back"), for: .normal) //chng img for logout button
-        }
-        
+        }        
     }
     
     // play background music function

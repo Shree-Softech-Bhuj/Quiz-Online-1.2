@@ -60,10 +60,11 @@ class UpdateProfileView: UIViewController{
             DispatchQueue.main.async {
                 self.DismissLoader(loader: self.Loader)
                 self.dUser!.name = self.nameTxt.text!
+                print( self.dUser!.name)
                 self.dUser!.phone = self.nmbrTxt.text!
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(self.dUser), forKey: "user")
-                print(try? PropertyListEncoder().encode(self.dUser))
+                //print(self.dUser?.name)
             }
         });
     }
@@ -125,6 +126,7 @@ class UpdateProfileView: UIViewController{
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
             let apiURL = "email=\(emailTxt.text)&name=\(nameTxt.text)&mobile=\(nmbrTxt.text)"
+            print(apiURL)
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
             //print("Data updated")
         }else{

@@ -20,6 +20,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBOutlet weak var emailTxt: FloatingTF!
     @IBOutlet weak var pswdTxt: FloatingTF!
     
+    var databaseHandle : DatabaseHandle!
+    
     var email = ""
         
     var isInitial = true
@@ -132,30 +134,33 @@ class LoginView: UIViewController,GIDSignInDelegate{
               let nm = displayname![0]
               //print("\(nm)")
               var fcode = ""
-              var rcode = ""
+              let rcode = nm //ref code is same as username initially
+                print("curr user -- \((result?.user.uid)!)")
                 //get reference code from db & assign it as friend's code
-                Database
-                .database()
-                .reference()
-                .child("Users")
-                .child(Auth.auth().currentUser!.uid)
-                .queryOrderedByKey()
-                .observeSingleEvent(of: .value, with: { snapshot in
-                    guard let dict = snapshot.value as? [String:Any] else {
-                        print("Error")
-                        return
-                    }
-                    fcode = (dict["ref_code"] as? String)!
-                     rcode = ""//dict[""] as? String
-                })
-                             
+//                let ref = Database.database().reference(fromURL: "https://quiz-online-34985.firebaseio.com")
+//               // let userID = Auth.auth().currentUser?.uid
+//                let usersRef = ref.child("users").child("LzFbYGUEwBsReRxIUb3").observeSingleEvent(of: .value, with: { (snapshot) in
+//                print(snapshot)
+//                })
+                if (UserDefaults.standard.value(forKey: "fr_code") != nil){
+                    
+                fcode = UserDefaults.standard.string(forKey: "fr_code")!
+                print(fcode)
+                }else{
+                    fcode = " "
+                }
               let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",frnd_code: "\(fcode)",ref_code: "\(rcode)")
                 
                  UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
+                print("user data-- \(sUser)")
+                
                  // send data to server after successfully loged in
-              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&ref_code=''friend_code=''"
+              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&ref_code=\(rcode)friends_code=\(fcode)"
               self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
               
+                //remove friend code after being passed
+                UserDefaults.standard.removeObject(forKey: "fr_code")
+                
               let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
               self.present(subView, animated: true, completion: nil)
             }
@@ -255,11 +260,15 @@ class LoginView: UIViewController,GIDSignInDelegate{
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                print("Data -- \(data)")
                 var userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
                 userD.name = "\((data["name"])!)"
                 userD.userID = "\((data["user_id"])!)"
                 userD.phone = "\((data["mobile"])!)"
                 userD.image = "\((data["profile"])!)"
+                userD.frnd_code = "\((data["friends_code"]) ?? "" )"
+                userD.ref_code = "\((data["refer_code"])!)"
+                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
                 let uScore:UserScore = UserScore.init(coins: 6, points: 00)

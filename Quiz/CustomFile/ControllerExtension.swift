@@ -76,12 +76,13 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-        print(postString)
+        print("postString -- \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let data = NSMutableData();
+        //let data = NSMutableData();
+        //request.httpBody = postString.data(using: .utf8)
         
-        request.httpBody = postString.data(using: .utf8)
+        request.httpBody = Data(postString.utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {             // check for fundamental networking error
                 print("error=\(String(describing: error))")

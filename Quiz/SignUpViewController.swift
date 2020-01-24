@@ -14,7 +14,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var referralCode: FloatingTF!
     @IBOutlet weak var pswdButton: UIButton!
     
-     var ref: DatabaseReference!
+    var ref: DatabaseReference!
         
     var Loader: UIAlertController = UIAlertController()
     
@@ -25,17 +25,6 @@ class SignUpViewController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
     }
-    
-    func matchRefCodeWithFrndsCode() {
-           //get data from server
-           if(Reachability.isConnectedToNetwork()){
-            print("id=\(String(describing: Auth.auth().currentUser))")//"id=1942"
-            let apiURL = "id=1942"
-            self.getAPIData(apiName: Apps.USERS_DATA, apiURL: apiURL,completion: LoadData)
-           }else{
-               ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-           }
-       }
     
     //load category data here
           func LoadData(jsonObj:NSDictionary){
@@ -90,16 +79,6 @@ class SignUpViewController: UIViewController {
         let passwordTxt = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let refCodeTxt = referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines)
        
-        //chk for referral code
-        if  self.referralCode.text!.trimmingCharacters(in: .whitespacesAndNewlines) != ""
-          {
-               matchRefCodeWithFrndsCode()
-//               let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
-//                   alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-//                   self.present(alert, animated: true)
-        }
-        
-        
          //chk for name As its not optional
         if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
           {
@@ -133,13 +112,17 @@ class SignUpViewController: UIViewController {
                 self.present(alert, animated: true)
             }
             else {
-            //store data as user created successfully
+               //set frnd code
+                UserDefaults.standard.set(refCodeTxt, forKey: "fr_code")
+                
+                //store data as user created successfully
                 let key = self.ref.childByAutoId().key
                 let user = [
                     "uid": key,
                     "name" : nameTxt ,
                     "ref_code" : refCodeTxt
                 ]
+                
                 self.ref.child("users").child(key!).setValue(user){(error:Error?, ref:DatabaseReference) in
                   if let error = error {
                      let alert = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)

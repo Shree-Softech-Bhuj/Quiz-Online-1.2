@@ -71,7 +71,7 @@ public class CircularProgressBar: CALayer {
         insertSublayer(progressLabel.layer, at: 0)
         
         
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         shapeLayer.fillColor = UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
@@ -119,7 +119,7 @@ public class CircularProgressBar: CALayer {
         insertSublayer(progressLabel.layer, at: 0)
         
         
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         shapeLayer.fillColor = UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
