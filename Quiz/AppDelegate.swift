@@ -25,9 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
-       //to get state of Option E mode
-        let varOpt = OptionEmode_Controller()
-        varOpt.getOptEstate()
+       //to get system configurations parameters as per requirement
+        let varSys = SystemConfig() 
+        varSys.getOptEstate() 
+        
+        let token = Messaging.messaging().fcmToken
+        print(token!)
         
         //check app is log in or not if not than navigate to login view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

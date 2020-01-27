@@ -24,7 +24,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
-   // var test = OptionEmode_Controller()
         
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -36,7 +36,6 @@ struct Apps{
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     
-    
     static let APP_NAME = "QUIZ"
     
     static let USERS_DATA = "get_user_by_id"

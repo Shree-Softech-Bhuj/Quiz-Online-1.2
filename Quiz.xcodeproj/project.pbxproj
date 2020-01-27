@@ -29,7 +29,7 @@
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C60137FB23C706C200257BF4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C60137FA23C706C200257BF4 /* GoogleService-Info.plist */; };
 		C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6679A4023B7734200670AC0 /* SignUpViewController.swift */; };
-		C67708AD23D0394900DC90B5 /* OptionEmode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* OptionEmode.swift */; };
+		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
 		D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119721A6B4D80026B327 /* PlayQuizView.swift */; };
 		D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119921A6B8B60026B327 /* ResultsViewController.swift */; };
 		D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75C4C49223289AA006C68EF /* Leaderboard.swift */; };
@@ -102,7 +102,7 @@
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C60137FA23C706C200257BF4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C6679A4023B7734200670AC0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		C67708AC23D0394800DC90B5 /* OptionEmode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionEmode.swift; sourceTree = "<group>"; };
+		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
 		D74A119721A6B4D80026B327 /* PlayQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayQuizView.swift; sourceTree = "<group>"; };
 		D74A119921A6B8B60026B327 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		D75C4C49223289AA006C68EF /* Leaderboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
@@ -258,8 +258,8 @@
 				BC029824229CF40A00A50E80 /* AlertView */,
 				D767B1E22239260D00B0A588 /* Quiz.entitlements */,
 				D7FCFC5921A5282D00718EE2 /* AppDelegate.swift */,
-				C67708AC23D0394800DC90B5 /* OptionEmode.swift */,
 				D7FCFC8A21A52A6600718EE2 /* LoginView.swift */,
+				C67708AC23D0394800DC90B5 /* SystemConfig.swift */,
 				D79A4E00223A730000F98E75 /* UpdateProfileView.swift */,
 				BC02A0B922A919E80089025C /* FloatingTF.swift */,
 				D7FCFC5B21A5282D00718EE2 /* ViewController.swift */,
@@ -585,7 +585,7 @@
 				D7A611962233D7B9002D1E8C /* BattleViewController.swift in Sources */,
 				D7FCFC8B21A52A6600718EE2 /* LoginView.swift in Sources */,
 				BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */,
-				C67708AD23D0394900DC90B5 /* OptionEmode.swift in Sources */,
+				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
 				D7964A49223B8BAF00D847A4 /* BookmarkView.swift in Sources */,
 				BC02A0BA22A919E90089025C /* FloatingTF.swift in Sources */,

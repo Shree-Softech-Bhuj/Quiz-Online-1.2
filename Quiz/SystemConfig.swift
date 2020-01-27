@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
 
-class OptionEmode_Controller: UIViewController {
+class SystemConfig: UIViewController {
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -42,6 +42,7 @@ class OptionEmode_Controller: UIViewController {
                     Apps.opt_E = false
                 }
                 //print("\(Apps.opt_E) - option E")
+                
                 
                 let more_apps = DATA["more_apps"]  as! String
                 Apps.MORE_APP = more_apps
