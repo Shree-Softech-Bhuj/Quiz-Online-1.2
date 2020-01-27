@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol LanguageCellCellDelegate {
+protocol LanguageCellDelegate {
     func didToggleRadioButton(_ indexPath: IndexPath)
 }
 
@@ -16,13 +16,19 @@ class LanguageCell: UITableViewCell {
 
     @IBOutlet weak var itemLabel: UILabel!
     @IBOutlet weak var radioButton: UIButton!
-    var delegate: LanguageCellCellDelegate?
+    var delegate: LanguageCellDelegate?
     
     func initCellItem() {
 
-        let deselectedImage = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
-        let selectedImage = UIImage(systemName: "largecircle.fill.circle")?.withRenderingMode(.alwaysTemplate)
-        radioButton.setImage(deselectedImage, for: .normal)
+        if self.radioButton.isSelected{
+               let selectedImage = UIImage(systemName: "largecircle.fill.circle")?.withRenderingMode(.alwaysTemplate)
+            self.radioButton.setImage(selectedImage, for: .normal)
+        }else{
+            let deselectedImage = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
+               
+                  radioButton.setImage(deselectedImage, for: .normal)
+        }
+      
         
         radioButton.addTarget(self, action: #selector(self.radioButtonTapped), for: .touchUpInside)
     }

@@ -16,6 +16,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     var audioPlayer : AVAudioPlayer!
+    var sysConfig:SystemConfiguration!
     
     @IBOutlet weak var adBannerView: GADBannerView!
     
@@ -36,6 +37,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         if UserDefaults.standard.value(forKey:"\(questionType)\(catID)") != nil {
             unLockLevel = Int(truncating: UserDefaults.standard.value(forKey:"\(questionType)\(catID)") as! NSNumber)
         }
+       sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,7 +125,10 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             }else{
                 apiURL = "level=\(indexPath.row + 1)&subcategory=\(catID)"
             }
-          
+            if sysConfig.LANGUAGE_MODE == 1{
+                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                apiURL += "&language_id=\(langID)"
+            }
             self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
                 //print("JSON",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String

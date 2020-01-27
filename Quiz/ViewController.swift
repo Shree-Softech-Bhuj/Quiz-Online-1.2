@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var leaderButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var settingButton: UIButton!
+    @IBOutlet var languageButton: UIButton!
     
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
@@ -64,7 +65,13 @@ class ViewController: UIViewController {
             //self.AllignButton(buttons: leaderButton,profileButton,settingButton)
             //logoutButton.isHidden = true
             logoutButton.setBackgroundImage(UIImage(named: "back"), for: .normal) //chng img for logout button
-        }        
+        }
+        
+        languageButton.isHidden = true
+               let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+               if config.LANGUAGE_MODE == 1{
+                   languageButton.isHidden = false
+               }
     }
     
     // play background music function

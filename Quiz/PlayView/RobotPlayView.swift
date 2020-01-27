@@ -69,7 +69,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     
     var robotName = Apps.ROBOT
     var robotImage:UIImage!
-        
+    var sysConfig:SystemConfiguration!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -109,11 +110,18 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             self.userImg2.image = self.robotImage
         }
         
+       
+            sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = "user_id_1=\(user.UID)&user_id_2=0987654321&match_id=\(user.UID)"
-            self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: LoadData)
+            var apiURL = "user_id_1=\(user.UID)&user_id_2=0987654321&match_id=\(user.UID)"
+            if sysConfig.LANGUAGE_MODE == 1{
+                           let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                           apiURL += "&language_id=\(langID)"
+                       }
+            self.getAPIData(apiName: "get_random_questions_for_computer", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }

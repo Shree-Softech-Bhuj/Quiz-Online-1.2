@@ -14,6 +14,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
 
     @IBOutlet var catetableView: UITableView!
     @IBOutlet var bannerView: GADBannerView!
+    @IBOutlet var languageButton: UIButton!
     
     var audioPlayer : AVAudioPlayer!
     var isInitial = true
@@ -34,17 +35,10 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
 
-        
+        languageButton.isHidden = true
         let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         if config.LANGUAGE_MODE == 1{
-            if isKeyPresentInUserDefaults(key: DEFAULT_LANGUAGE){
-                langList = try! PropertyListDecoder().decode([Language].self, from: (UserDefaults.standard.value(forKey:DEFAULT_LANGUAGE) as? Data)!)
-            }else{
-                let sys = SystemConfig()
-                sys.LoadLanguages(completion: {
-                    self.langList = try! PropertyListDecoder().decode([Language].self, from: (UserDefaults.standard.value(forKey:DEFAULT_LANGUAGE) as? Data)!)
-                })
-            }
+            languageButton.isHidden = false
         }
       
         //get data from server
@@ -101,6 +95,15 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func LanguageButton(_ sender: Any){
+         
+         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+         let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
+         view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+         view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+         self.present(view, animated: true, completion: nil)
+     }
     
     @IBAction func settingButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -111,5 +111,5 @@ struct Language:Codable{
 
 let DEFAULT_SYS_CONFIG = "SystemConfig"
 let DEFAULT_LANGUAGE = "LanguageList"
-
+let DEFAULT_USER_LANG = "LanguageID"
 let API_LANGUAGE_LIST = "get_languages"

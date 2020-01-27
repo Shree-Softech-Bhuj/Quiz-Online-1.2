@@ -62,6 +62,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var user:User!
     var ref: DatabaseReference!
     var observeQues = 0
+    var sysConfig:SystemConfiguration!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,10 +105,17 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.userImg2.loadImageUsingCache(withUrl: self.battleUser.image)
         }
         
+        sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+              
+        
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)"
+            var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)"
+            if sysConfig.LANGUAGE_MODE == 1{
+                                     let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                                     apiURL += "&language_id=\(langID)"
+                                 }
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
