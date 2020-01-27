@@ -133,7 +133,8 @@ class AlertViewController: UIViewController {
         })
     }
     @IBAction func ShareBtn(_ sender: Any) {
-        let str  = Apps.APP_NAME
+       // let str  = Apps.APP_NAME
+        let str = Apps.SHARE_APP_TXT
         let shareUrl = Apps.SHARE_APP
         let textToShare = str + "\n" + shareUrl
         let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
@@ -146,6 +147,8 @@ class AlertViewController: UIViewController {
     @IBAction func MoreAppsBtn(_ sender: Any) {
         let url=NSURL(string: Apps.MORE_APP)
         [UIApplication.shared.openURL(url! as URL)]
+
+       // [UIApplication.shared.open(url! as URL)] // open is used with only supported iOS 10+
     }
     
     @IBAction func RateUsBtn(_ sender: Any) {

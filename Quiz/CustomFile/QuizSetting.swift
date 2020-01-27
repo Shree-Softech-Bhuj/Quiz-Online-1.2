@@ -30,8 +30,12 @@ struct Apps{
     
     static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7"]
     static let APP_ID = "1467888574"
-    static let SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
-    static let MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
+    //static let SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
+    static var SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
+   //static let MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
+    static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
+    static var SHARE_APP_TXT = "Hello"
+    
     
     static let APP_NAME = "QUIZ"
     

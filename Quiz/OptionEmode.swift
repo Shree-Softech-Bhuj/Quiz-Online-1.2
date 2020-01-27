@@ -31,17 +31,31 @@ class OptionEmode_Controller: UIViewController {
           }else{
               //get data for category
             if let data = jsonObj.value(forKey: "data") {
-                guard let optE = data as? [String:Any] else{
-                    return //Apps.opt_E = false //"0"
+                guard let DATA = data as? [String:Any] else{
+                    return
                 }
-                let state = optE["option_e_mode"]  as! String
-           //   Apps.opt_E = state
+                
+                let state = DATA["option_e_mode"]  as! String
                 if state == "1" {
                     Apps.opt_E = true
                 }else{
                     Apps.opt_E = false
                 }
                 //print("\(Apps.opt_E) - option E")
+                
+                let more_apps = DATA["more_apps"]  as! String
+                Apps.MORE_APP = more_apps
+                print("more apps link from server -- \(more_apps)")
+                
+                let share_apps = DATA["app_link"]  as! String
+                Apps.SHARE_APP = share_apps
+                print("share apps link from server -- \(share_apps)")
+                
+                let share_txt = DATA["shareapp_text"]  as! String
+                Apps.SHARE_APP_TXT = share_txt
+                print("share apps text from server -- \(share_txt)")
+                
+                
               }
           }
           //close loader here
