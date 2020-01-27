@@ -67,20 +67,6 @@ struct Question: Codable {
     }
 }
 
-struct ReQuestion {
-    let id:String
-    let question:String
-    let opetionA:String
-    let opetionB:String
-    let opetionC:String
-    let opetionD:String
-    let correctAns:String
-    let image:String
-    let level:String
-    let note:String
-    let userSelect:String
-}
-
 struct ReQuestionWithE {
     let id:String
     let question:String
@@ -95,3 +81,44 @@ struct ReQuestionWithE {
     let note:String
     let userSelect:String
 }
+
+struct ReQuestion {
+    let id:String
+    let question:String
+    let opetionA:String
+    let opetionB:String
+    let opetionC:String
+    let opetionD:String
+    let correctAns:String
+    let image:String
+    let level:String
+    let note:String
+    let userSelect:String
+}
+
+<<<<<<< HEAD
+//app notification structure
+struct Notifications: Codable {
+    var title:String
+    var msg:String
+    var img:String
+}
+
+struct SystemConfiguration:Codable{
+    var LANGUAGE_MODE = 0
+}
+
+struct Language:Codable{
+    let id:Int
+    let name:String
+    let status:Int
+}
+
+
+//=============== constance variable ===========
+
+let DEFAULT_SYS_CONFIG = "SystemConfig"
+let DEFAULT_LANGUAGE = "LanguageList"
+
+let API_LANGUAGE_LIST = "get_languages"
+>>>>>>> 0f9089dc7af8286a0b55029de1fb2412d6f2f395

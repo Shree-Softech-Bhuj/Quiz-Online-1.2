@@ -36,6 +36,10 @@ struct Apps{
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     
+    static var FCM_ID = " "
+    static let NO_NOTIFICATION = "Notifications not available"
+    static let NOTIFICATIONS = "get_notifications"
+    
     static let APP_NAME = "QUIZ"
     
     static let USERS_DATA = "get_user_by_id"
@@ -46,6 +50,8 @@ struct Apps{
     static let SYSTEM_CONFIG = "get_system_configurations"
     //static let OPTION_E = "option_e_mode"
     static var opt_E = false
+    
+
     
     static let COMPLETE_LEVEL = "Congratulations you have completed this level"
     static let NOT_COMPLETE_LEVEL = "Opps! you have failed to complete this level"

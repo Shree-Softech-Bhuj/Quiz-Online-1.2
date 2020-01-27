@@ -26,11 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
        //to get system configurations parameters as per requirement
-        let varSys = SystemConfig() 
-        varSys.getOptEstate() 
+        let varSys = SystemConfig()
+        varSys.getDATA()
+        varSys.getNotifications()
         
-        let token = Messaging.messaging().fcmToken
-        print(token!)
+        //get fcm id and set it to FCM_ID to use it throughout the project
+        let token = Messaging.messaging().fcmToken!
+        Apps.FCM_ID = token
         
         //check app is log in or not if not than navigate to login view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

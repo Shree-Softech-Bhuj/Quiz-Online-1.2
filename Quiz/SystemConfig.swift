@@ -5,31 +5,40 @@ class SystemConfig: UIViewController {
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
+    var NotificationList: [Notifications] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getOptEstate()
+<<<<<<< HEAD
+        getDATA()
+        getNotifications()
+        
     }
-    func getOptEstate() {
+    func getDATA() {
+=======
+        
+    }
+    func ConfigureSystem() {
+>>>>>>> 0f9089dc7af8286a0b55029de1fb2412d6f2f395
         //get data from server
         if(Reachability.isConnectedToNetwork()){
-         let apiURL = ""//Apps.OPTION_E
-         self.getAPIData(apiName: Apps.SYSTEM_CONFIG, apiURL: apiURL,completion: LoadData)
+            let apiURL = ""//Apps.OPTION_E
+            self.getAPIData(apiName: Apps.SYSTEM_CONFIG, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
     //load category data here
-      func LoadData(jsonObj:NSDictionary){
-          //print("RS",jsonObj.value(forKey: "data"))
-         // var optE = ""
-          let status = jsonObj.value(forKey: "error") as! String
-          if (status == "true") {
-              self.Loader.dismiss(animated: true, completion: {
-                  self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
-              })
-          }else{
-              //get data for category
+    func LoadData(jsonObj:NSDictionary){
+        //print("RS",jsonObj.value(forKey: "data"))
+        // var optE = ""
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            self.Loader.dismiss(animated: true, completion: {
+                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+            })
+        }else{
+            //get data for category
             if let data = jsonObj.value(forKey: "data") {
                 guard let DATA = data as? [String:Any] else{
                     return
@@ -41,6 +50,10 @@ class SystemConfig: UIViewController {
                 }else{
                     Apps.opt_E = false
                 }
+                
+                let langMode:String =  "\(DATA["language_mode"] ?? 0)"
+                let config = SystemConfiguration.init(LANGUAGE_MODE: Int(langMode) ?? 0)
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(config),forKey: DEFAULT_SYS_CONFIG)
                 //print("\(Apps.opt_E) - option E")                
                 
                 let more_apps = DATA["more_apps"]  as! String
@@ -56,6 +69,7 @@ class SystemConfig: UIViewController {
                 print("share apps text from server -- \(share_txt)")
                 
                 
+<<<<<<< HEAD
               }
           }
           //close loader here
@@ -65,4 +79,113 @@ class SystemConfig: UIViewController {
               }
           });
       }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //get notifications from API
+    func getNotifications() {
+            //get data from server
+            if(Reachability.isConnectedToNetwork()){
+             let apiURL = ""
+             self.getAPIData(apiName: Apps.NOTIFICATIONS, apiURL: apiURL,completion: LoadNotifications)
+            }else{
+                ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+            }
+        }
+        //load category data here
+          func LoadNotifications(jsonObj:NSDictionary){
+              //print("RS",jsonObj.value(forKey: "data"))
+             // var optE = ""
+              let status = jsonObj.value(forKey: "error") as! String
+              if (status == "true") {
+                  self.Loader.dismiss(animated: true, completion: {
+                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                  })
+              }else{
+                  //get data for category
+                  self.NotificationList.removeAll()
+                  if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                    for val in data{
+                      NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)"))
+                      print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
+                  }
+                      UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
+                }
+              }
+              //close loader here
+              DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                  DispatchQueue.main.async {
+                      self.DismissLoader(loader: self.Loader)
+                  }
+              });
+      }
+=======
+            }
+        }
+        //close loader here
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.async {
+                self.DismissLoader(loader: self.Loader)
+            }
+        });
+    }
+    
+    
+    func LoadLanguages(completion:@escaping ()->Void){
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = ""//Apps.OPTION_E
+            self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
+                
+                //print("RS",jsonObj.value(forKey: "data"))
+                       // var optE = ""
+                       let status = jsonObj.value(forKey: "error") as! String
+                       if (status == "true") {
+                           self.Loader.dismiss(animated: true, completion: {
+                               self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                           })
+                       }else{
+                           //get data for category
+                        var lang:[Language] = []
+                           if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                               for val in data{
+                                lang.append(Language.init(id: Int("\(val["id"]!)")!, name: "\(val["language"]!)", status: Int("\(val["status"]!)")!))
+                               }
+                           }
+                          UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
+                        completion()
+                       }
+            })
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
+>>>>>>> 0f9089dc7af8286a0b55029de1fb2412d6f2f395
+    
 }

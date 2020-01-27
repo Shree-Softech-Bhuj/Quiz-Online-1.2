@@ -3,6 +3,7 @@ import UIKit
 import AVFoundation
 import Reachability
 import SystemConfiguration
+import FirebaseMessaging
 
 extension UIViewController{
     
@@ -129,6 +130,14 @@ extension UIViewController{
         });
         return pending 
     }
+    
+    //get fcm token id for device used to send notification
+    func getFCMid() {
+        let token = Messaging.messaging().fcmToken!
+        Apps.FCM_ID = token
+        print(token)
+    }
+    
     //show alert view here with any title and messages
     func ShowAlert(title:String,message:String){
         
@@ -253,4 +262,8 @@ extension UIViewController{
             count += 1
         }
     }
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+           return UserDefaults.standard.object(forKey: key) != nil
+       }
 }
