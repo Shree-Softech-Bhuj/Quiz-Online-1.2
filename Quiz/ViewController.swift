@@ -77,6 +77,15 @@ class ViewController: UIViewController {
         backgroundMusicPlayer.stop()
     }
     
+    @IBAction func LanguageButton(_ sender: Any){
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
+        view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        self.present(view, animated: true, completion: nil)
+    }
+    
     @IBAction func playBtn(_ sender: Any) {
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound

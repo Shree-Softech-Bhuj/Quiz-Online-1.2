@@ -34,6 +34,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
 
+        
         let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         if config.LANGUAGE_MODE == 1{
             if isKeyPresentInUserDefaults(key: DEFAULT_LANGUAGE){

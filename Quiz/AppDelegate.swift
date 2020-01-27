@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         
        //to get system configurations parameters as per requirement
         let varSys = SystemConfig() 
-        varSys.getOptEstate() 
+        varSys.ConfigureSystem()
         
         let token = Messaging.messaging().fcmToken
         print(token!)

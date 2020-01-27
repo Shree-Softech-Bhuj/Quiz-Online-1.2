@@ -26,6 +26,8 @@
 		BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51055F2278C48E005377C8 /* BattlePlayController.swift */; };
 		BC7B0BFB224D36240051D894 /* QuizSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFA224D36240051D894 /* QuizSetting.swift */; };
 		BC7B0BFD224D3F860051D894 /* ExtensionFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */; };
+		BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D523DF068C006BD387 /* LanguageCell.swift */; };
+		BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D723DF0767006BD387 /* LanguageView.swift */; };
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C60137FB23C706C200257BF4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C60137FA23C706C200257BF4 /* GoogleService-Info.plist */; };
 		C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6679A4023B7734200670AC0 /* SignUpViewController.swift */; };
@@ -99,6 +101,8 @@
 		BC51055F2278C48E005377C8 /* BattlePlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlePlayController.swift; sourceTree = "<group>"; };
 		BC7B0BFA224D36240051D894 /* QuizSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSetting.swift; sourceTree = "<group>"; };
 		BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFile.swift; sourceTree = "<group>"; };
+		BCE582D523DF068C006BD387 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
+		BCE582D723DF0767006BD387 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C60137FA23C706C200257BF4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C6679A4023B7734200670AC0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 				D7FCFC6821A5283C00718EE2 /* Info.plist */,
 				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
 				BC0310A0229F9D2900923A3F /* TermsService.swift */,
+				BCE582D523DF068C006BD387 /* LanguageCell.swift */,
+				BCE582D723DF0767006BD387 /* LanguageView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -594,11 +600,13 @@
 				BC05417B229BB31400220644 /* RobotPlayView.swift in Sources */,
 				D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */,
 				BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */,
+				BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */,
 				D7FCFC9521A57F4700718EE2 /* TableViewCell.swift in Sources */,
 				D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */,
 				D7FCFC5A21A5282D00718EE2 /* AppDelegate.swift in Sources */,
 				BC03109F229F964B00923A3F /* ImagePickerManager.swift in Sources */,
 				C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */,
+				BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */,
 				D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
 				D7BCD04C222AA86500B7E531 /* CircularProgressBar.swift in Sources */,
@@ -783,7 +791,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -804,7 +812,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
