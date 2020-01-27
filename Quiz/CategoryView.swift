@@ -20,6 +20,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     var Loader: UIAlertController = UIAlertController()
     
     var catData:[Category] = []
+    var langList:[Language] = []
     var refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -33,6 +34,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
 
+    
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)

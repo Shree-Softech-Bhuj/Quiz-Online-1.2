@@ -8,28 +8,28 @@ class SystemConfig: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getOptEstate()
+        
     }
-    func getOptEstate() {
+    func ConfigureSystem() {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
-         let apiURL = ""//Apps.OPTION_E
-         self.getAPIData(apiName: Apps.SYSTEM_CONFIG, apiURL: apiURL,completion: LoadData)
+            let apiURL = ""//Apps.OPTION_E
+            self.getAPIData(apiName: Apps.SYSTEM_CONFIG, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
     //load category data here
-      func LoadData(jsonObj:NSDictionary){
-          //print("RS",jsonObj.value(forKey: "data"))
-         // var optE = ""
-          let status = jsonObj.value(forKey: "error") as! String
-          if (status == "true") {
-              self.Loader.dismiss(animated: true, completion: {
-                  self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
-              })
-          }else{
-              //get data for category
+    func LoadData(jsonObj:NSDictionary){
+        //print("RS",jsonObj.value(forKey: "data"))
+        // var optE = ""
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            self.Loader.dismiss(animated: true, completion: {
+                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+            })
+        }else{
+            //get data for category
             if let data = jsonObj.value(forKey: "data") {
                 guard let DATA = data as? [String:Any] else{
                     return
@@ -41,6 +41,10 @@ class SystemConfig: UIViewController {
                 }else{
                     Apps.opt_E = false
                 }
+                
+                let langMode:String =  "\(DATA["language_mode"] ?? 0)"
+                let config = SystemConfiguration.init(LANGUAGE_MODE: Int(langMode) ?? 0)
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(config),forKey: DEFAULT_SYS_CONFIG)
                 //print("\(Apps.opt_E) - option E")                
                 
                 let more_apps = DATA["more_apps"]  as! String
@@ -56,13 +60,43 @@ class SystemConfig: UIViewController {
                 print("share apps text from server -- \(share_txt)")
                 
                 
-              }
-          }
-          //close loader here
-          DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-              DispatchQueue.main.async {
-                  self.DismissLoader(loader: self.Loader)
-              }
-          });
-      }
+            }
+        }
+        //close loader here
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.async {
+                self.DismissLoader(loader: self.Loader)
+            }
+        });
+    }
+    
+    
+    func LoadLanguages(){
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = ""//Apps.OPTION_E
+            self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
+                
+                //print("RS",jsonObj.value(forKey: "data"))
+                       // var optE = ""
+                       let status = jsonObj.value(forKey: "error") as! String
+                       if (status == "true") {
+                           self.Loader.dismiss(animated: true, completion: {
+                               self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                           })
+                       }else{
+                           //get data for category
+                        var lang:[Language] = []
+                           if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                               for val in data{
+                                lang.append(Language.init(id: Int("\(val["id"]!)")!, name: "\(val["language"]!)", status: Int("\(val["status"]!)")!))
+                               }
+                           }
+                          UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
+                       }
+            })
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
+    
 }

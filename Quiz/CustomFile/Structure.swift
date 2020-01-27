@@ -95,3 +95,21 @@ struct ReQuestionWithE {
     let note:String
     let userSelect:String
 }
+
+struct SystemConfiguration:Codable{
+    var LANGUAGE_MODE = 0
+}
+
+struct Language:Codable{
+    let id:Int
+    let name:String
+    let status:Int
+}
+
+
+//=============== constance variable ===========
+
+let DEFAULT_SYS_CONFIG = "SystemConfig"
+let DEFAULT_LANGUAGE = "LanguageList"
+
+let API_LANGUAGE_LIST = "get_languages"
