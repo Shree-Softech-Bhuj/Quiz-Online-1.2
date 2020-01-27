@@ -71,7 +71,7 @@ class SystemConfig: UIViewController {
     }
     
     
-    func LoadLanguages(){
+    func LoadLanguages(completion:@escaping ()->Void){
         if(Reachability.isConnectedToNetwork()){
             let apiURL = ""//Apps.OPTION_E
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
@@ -92,6 +92,7 @@ class SystemConfig: UIViewController {
                                }
                            }
                           UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
+                        completion()
                        }
             })
         }else{

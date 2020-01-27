@@ -253,4 +253,8 @@ extension UIViewController{
             count += 1
         }
     }
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+           return UserDefaults.standard.object(forKey: key) != nil
+       }
 }
