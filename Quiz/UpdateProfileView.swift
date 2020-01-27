@@ -53,13 +53,13 @@ class UpdateProfileView: UIViewController{
             })
         }else{
             //get data for success response
-            let msg = jsonObj.value(forKey: "message") as! String
-            print(msg)
-//            let acknowledge = UIAlertController(title: "User Profile Update", message: msg , preferredStyle: UIAlertController.Style.alert)
-//            self.present(acknowledge, animated: true)
-            self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlertOnly(title: "Profile Update", message:"\(jsonObj.value(forKey: "message")!)" )
-            })
+//            let msg = jsonObj.value(forKey: "message") as! String
+//            print(msg)
+            DispatchQueue.main.async {
+                    self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlertOnly(title: "Profile Update", message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
         }
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
@@ -132,7 +132,7 @@ class UpdateProfileView: UIViewController{
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = "email=\(emailTxt.text)&name=\(nameTxt.text)&mobile=\(nmbrTxt.text)"
+            let apiURL = "email=\(String(describing: emailTxt.text))&name=\(String(describing: nameTxt.text))&mobile=\(String(describing: nmbrTxt.text))"
             print(apiURL)
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
             //print("Data updated")

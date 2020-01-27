@@ -143,7 +143,7 @@ extension UIViewController{
     //show alert view here with any title and messages & without button
        func ShowAlertOnly(title:String,message:String){
            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-           self.present(alert, animated: true)
+          // self.present(alert, animated: true)
 //        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { (_) in
 //            self.dismiss(animated: true, completion: nil)
 //        }
