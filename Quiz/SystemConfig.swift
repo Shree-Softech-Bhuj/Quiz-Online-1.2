@@ -41,8 +41,7 @@ class SystemConfig: UIViewController {
                 }else{
                     Apps.opt_E = false
                 }
-                //print("\(Apps.opt_E) - option E")
-                
+                //print("\(Apps.opt_E) - option E")                
                 
                 let more_apps = DATA["more_apps"]  as! String
                 Apps.MORE_APP = more_apps
