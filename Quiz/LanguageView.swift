@@ -41,6 +41,7 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction func OKButton(_ sender: Any){
         self.dismiss(animated: true, completion: nil)
+         delegate?.ReLaodCategory()
     }
     // MARK: - Table view data source
     
@@ -76,7 +77,6 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
     func didToggleRadioButton(_ indexPath: IndexPath) {
         selectedElement = langList[indexPath.row]
         UserDefaults.standard.set(selectedElement?.id, forKey: DEFAULT_USER_LANG)
-        delegate?.ReLaodCategory()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

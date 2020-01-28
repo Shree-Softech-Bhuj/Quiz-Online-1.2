@@ -82,12 +82,14 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
-            })
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
             
         }else{
             //get data for category
