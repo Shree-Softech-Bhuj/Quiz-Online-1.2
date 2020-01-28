@@ -22,6 +22,13 @@ struct UserScore:Codable{
     var points:Int
 }
 
+//app notification structure
+struct Notifications: Codable {
+    var title:String
+    var msg:String
+    var img:String
+}
+
 //apps setting structure
 struct  Setting:Codable {
     var sound:Bool
