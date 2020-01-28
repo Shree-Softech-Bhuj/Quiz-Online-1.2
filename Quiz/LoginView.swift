@@ -150,7 +150,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 print("user data-- \(sUser)")
                 
                  // send data to server after successfully loged in
-              let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=null&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
+                let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
               self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
                               
               let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
@@ -186,7 +186,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
-            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=null&ip_address=1.0.0&status=0"
+            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
         }
     }
@@ -224,7 +224,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 
                 // send data to server after successfully loged in
                 self.Loader = self.LoadLoader(loader: self.Loader)
-                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=null&ip_address=1.0.0&status=0"
+                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0"
                 self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             })
         }

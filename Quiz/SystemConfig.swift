@@ -83,8 +83,6 @@ class SystemConfig: UIViewController {
         func LoadNotifications(jsonObj:NSDictionary){
            
             let status = jsonObj.value(forKey: "error") as! String
-//            let msg = jsonObj.value(forKey: "message") as! String
-//            print(msg)
             if (status == "true") {
                 self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
