@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         
         let token = Messaging.messaging().fcmToken!
         Apps.FCM_ID = token
-        //print(token!)
+        print(token)
         
         //check app is log in or not if not than navigate to login view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -52,8 +52,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             self.window?.makeKeyAndVisible()
             
         }
+        if #available(iOS 12, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound, .provisional, .providesAppNotificationSettings, .criticalAlert]){ (granted, error) in }
+            application.registerForRemoteNotifications()
+        }
+        if #available(iOS 10.0, *) {
+            
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .badge, .sound])  { (granted, error) in
+                // Enable or disable features based on authorization.
+                //let pushNotificationSettings = UNUserNotificationCenterDelegate(type(of: center),Category : nil)
+                print(error as Any)
+                print(granted)
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            }            
+        } else {
+            
+            let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+            let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+          
+            application.registerUserNotificationSettings(pushNotificationSettings)
+            application.registerForRemoteNotifications()
+        }
         
         return true
+    }
+    
+    private func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        print("DEVICE TOKEN = \(deviceToken)")
+    }
+    
+    private func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+            // The token is not currently available.
+        print("Remote notification support is unavailable due to error: \(error.localizedDescription)")
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
