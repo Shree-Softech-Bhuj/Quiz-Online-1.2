@@ -45,7 +45,6 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
                     NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)"))
                   //  print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
                 }
-                  //  UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
               }
             }
             //close loader here
@@ -59,19 +58,11 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-       
-    @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
-        myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        self.present(myAlert, animated: true, completion: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height:CGFloat = NotificationList[indexPath.row].img == "" ? 100 : 130
-        return height
-    }
+     
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        let height:CGFloat = NotificationList[indexPath.row].img == "" ? 100 : 130
+//        return height
+//    }
     
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,16 +83,16 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
+       // let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
+        
+        let cellIdentifier = "NotifyCell" 
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
         
         cell.qstn.text = NotificationList[indexPath.row].title
-//        if(NotificationList[indexPath.row].msg == "a"){
-            cell.ansr.text = NotificationList[indexPath.row].msg
-//        }
+        cell.ansr.text = NotificationList[indexPath.row].msg
 
         if(NotificationList[indexPath.row].img != ""){
             DispatchQueue.main.async {
