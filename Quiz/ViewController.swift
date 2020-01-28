@@ -69,10 +69,12 @@ class ViewController: UIViewController {
         }
         
         languageButton.isHidden = true
-               let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
-               if config.LANGUAGE_MODE == 1{
-                   languageButton.isHidden = false
-               }
+        if isKeyPresentInUserDefaults(key: DEFAULT_SYS_CONFIG){
+            let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+            if config.LANGUAGE_MODE == 1{
+                languageButton.isHidden = false
+            }
+        }
     }
     
     // play background music function

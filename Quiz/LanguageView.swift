@@ -56,7 +56,7 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
         tableView.dequeueReusableCell(withIdentifier: "LanguageCell") as! LanguageCell
          cell.itemLabel.text = langList[indexPath.row].name
         cell.itemLabel.tag = langList[indexPath.row].id
-        if langList[indexPath.row].id == selectedElement?.id {
+        if langList[indexPath.row].id == selectedElement?.id || langList[indexPath.row].id == UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) {
              cell.radioButton.isSelected = true
             print("COMES")
          } else {
