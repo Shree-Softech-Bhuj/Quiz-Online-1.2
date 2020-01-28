@@ -45,7 +45,7 @@ class UpdateProfileView: UIViewController{
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
@@ -64,7 +64,7 @@ class UpdateProfileView: UIViewController{
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             DispatchQueue.main.async {
-                self.DismissLoader(loader: self.Loader)
+               // self.DismissLoader(loader: self.Loader)
                 self.dUser!.name = self.nameTxt.text!
                 print( self.dUser!.name)
                 self.dUser!.phone = self.nmbrTxt.text!
@@ -132,8 +132,8 @@ class UpdateProfileView: UIViewController{
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = "email=\(String(describing: emailTxt.text))&name=\(String(describing: nameTxt.text))&mobile=\(String(describing: nmbrTxt.text))"
-            print(apiURL)
+            let apiURL = "email=\(String(describing: emailTxt.text!))&name=\(String(describing: nameTxt.text!))&mobile=\(String(describing: nmbrTxt.text!))"
+           // print(apiURL)
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
             //print("Data updated")
         }else{
