@@ -10,8 +10,8 @@ struct Category {
     let maxlvl:String
     let noOf:String
 }
-class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate {
-
+class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, LanguageViewDelegate {
+    
     @IBOutlet var catetableView: UITableView!
     @IBOutlet var bannerView: GADBannerView!
     @IBOutlet var languageButton: UIButton!
@@ -23,7 +23,9 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     var catData:[Category] = []
     var langList:[Language] = []
     var refreshController = UIRefreshControl()
-    
+    var config:SystemConfiguration?
+    var apiName = "get_categories"
+    var apiExPeraforLang = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,31 +36,45 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         //request.testDevices = Apps.AD_TEST_DEVICE
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
-
+        
         languageButton.isHidden = true
-        let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
-        if config.LANGUAGE_MODE == 1{
+        config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        if config?.LANGUAGE_MODE == 1{
+            apiName = "get_categories_by_language"
+            apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
             languageButton.isHidden = false
         }
-      
+        
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = ""
-            self.getAPIData(apiName: "get_categories", apiURL: apiURL,completion: LoadData)
+            let apiURL = "" + apiExPeraforLang
+            self.getAPIData(apiName: apiName, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
         catetableView.refreshControl = refreshController
+        
     }
     
+    func ReLaodCategory() {
+        apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+        //get data from server
+        if(Reachability.isConnectedToNetwork()){
+            Loader = LoadLoader(loader: Loader)
+            let apiURL = "" + apiExPeraforLang
+            self.getAPIData(apiName: apiName, apiURL: apiURL,completion: LoadData)
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
     // refresh function
     @objc func RefreshDataOnPullDown(){
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = ""
-            self.getAPIData(apiName: "get_categories", apiURL: apiURL,completion: LoadData)
+            let apiURL = "" + apiExPeraforLang
+            self.getAPIData(apiName: apiName, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
@@ -97,13 +113,14 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @IBAction func LanguageButton(_ sender: Any){
-         
-         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-         let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
-         view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-         view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-         self.present(view, animated: true, completion: nil)
-     }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
+        view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        view.delegate = self
+        self.present(view, animated: true, completion: nil)
+    }
     
     @IBAction func settingButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -144,7 +161,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.cateImg.layer.borderWidth = 0.8
         cell.cateImg.layer.cornerRadius = cell.cateImg.frame.size.height/2
         cell.cateImg.layer.masksToBounds = true
-
+        
         cell.cellView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,
