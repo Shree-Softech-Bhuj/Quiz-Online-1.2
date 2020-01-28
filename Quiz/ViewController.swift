@@ -8,6 +8,7 @@ class ViewController: UIViewController {
     @IBOutlet var battleView: UIView!
     @IBOutlet var bookBtn: UIButton!
     @IBOutlet var insBtn: UIButton!
+    @IBOutlet weak var notificationBtn: UIButton!
     
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var battleButton: UIButton!
@@ -29,7 +30,7 @@ class ViewController: UIViewController {
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
         DesignView(views: startView,battleView)
-        DesignButton(btns:insBtn,bookBtn)
+        DesignButton(btns:insBtn,bookBtn,notificationBtn)
         
         playButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
         battleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
@@ -140,6 +141,15 @@ class ViewController: UIViewController {
         let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
         self.present(goHome, animated: true, completion: nil)
     }
+        
+    @IBAction func showNotifications(_ sender: Any) {
+        //click sound
+                self.PlaySound(player: &audioPlayer, file: "click")
+               
+               let goNotification = self.storyboard!.instantiateViewController(withIdentifier: "NotificationsView")
+               self.present(goNotification, animated: true, completion: nil)
+    }
+    
     
     @IBAction func logoutBtn(_ sender: Any) {
         
