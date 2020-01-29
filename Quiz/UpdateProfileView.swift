@@ -141,6 +141,11 @@ class UpdateProfileView: UIViewController{
         }
     }
     
+    @IBAction func InviteFriendsButton(_ sender: Any){
+        let view = self.storyboard!.instantiateViewController(withIdentifier: "ReferAndEarn")
+        self.present(view, animated: true, completion: nil)
+    }
+    
     func myImageUploadRequest(){
         
         let url = URL(string: Apps.URL)

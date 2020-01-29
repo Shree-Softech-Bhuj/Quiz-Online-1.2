@@ -24,6 +24,7 @@
 		BC26C60722A6822500CF6EB1 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC26C60622A6822500CF6EB1 /* SubmitButton.swift */; };
 		BC32921522926066000AD46C /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32921422926066000AD46C /* OptionButton.swift */; };
 		BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51055F2278C48E005377C8 /* BattlePlayController.swift */; };
+		BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */; };
 		BC7B0BFB224D36240051D894 /* QuizSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFA224D36240051D894 /* QuizSetting.swift */; };
 		BC7B0BFD224D3F860051D894 /* ExtensionFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */; };
 		BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D523DF068C006BD387 /* LanguageCell.swift */; };
@@ -100,6 +101,7 @@
 		BC26C60622A6822500CF6EB1 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		BC32921422926066000AD46C /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		BC51055F2278C48E005377C8 /* BattlePlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlePlayController.swift; sourceTree = "<group>"; };
+		BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferAndEarnView.swift; sourceTree = "<group>"; };
 		BC7B0BFA224D36240051D894 /* QuizSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSetting.swift; sourceTree = "<group>"; };
 		BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFile.swift; sourceTree = "<group>"; };
 		BCE582D523DF068C006BD387 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				BC0310A0229F9D2900923A3F /* TermsService.swift */,
 				BCE582D523DF068C006BD387 /* LanguageCell.swift */,
 				BCE582D723DF0767006BD387 /* LanguageView.swift */,
+				BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				D7FCFC5A21A5282D00718EE2 /* AppDelegate.swift in Sources */,
 				BC03109F229F964B00923A3F /* ImagePickerManager.swift in Sources */,
 				C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */,
+				BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */,
 				BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */,
 				D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
