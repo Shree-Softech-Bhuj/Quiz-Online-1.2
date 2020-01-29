@@ -15,8 +15,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
        // getNotifications()
         if (UserDefaults.standard.value(forKey: "notification") != nil){
                 NotificationList = try! PropertyListDecoder().decode([Notifications].self,from:(UserDefaults.standard.value(forKey: "notification") as? Data)!)
-           }
-        
+           }        
     }
     
     func getNotifications() {

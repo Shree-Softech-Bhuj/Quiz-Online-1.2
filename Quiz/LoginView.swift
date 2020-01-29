@@ -131,6 +131,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
               //print("\(nm)")
               var fcode = ""
               let rcode = nm //ref code is same as initial username
+              Apps.REFER_CODE = rcode
                 print("curr user -- \((result?.user.uid)!)")
                 //get reference code from db & assign it as friend's code
 //                let ref = Database.database().reference(fromURL: "https://quiz-online-34985.firebaseio.com")
@@ -144,10 +145,10 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }else{
                     fcode = " "
                 }
-               let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0") //,frnd_code: "\(fcode)",ref_code: "\(rcode)"
+               let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",ref_code: "\(rcode)") //,frnd_code: "\(fcode)"
                 
                  UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
-                print("user data-- \(sUser)")
+                 print("user data-- \(sUser)")
                 
                  // send data to server after successfully loged in
                 let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
@@ -182,7 +183,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 return
             }
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0") //,frnd_code: "",ref_code: ""
+            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
@@ -218,7 +219,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
                 
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0") //,frnd_code: "",ref_code: ""
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
@@ -261,7 +262,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 userD.phone = "\((data["mobile"])!)"
                 userD.image = "\((data["profile"])!)"
                 //userD.frnd_code = "\((data["friends_code"]) ?? " ")"
-                //userD.ref_code = "\((data["refer_code"])!)"
+                userD.ref_code = "\((data["refer_code"])!)"
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
