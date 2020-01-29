@@ -35,7 +35,7 @@ class SystemConfig: UIViewController {
                 guard let DATA = data as? [String:Any] else{
                     return
                 }
-                
+                print(DATA)
                 let state = DATA["option_e_mode"]  as! String
                 if state == "1" {
                     Apps.opt_E = true
@@ -48,11 +48,11 @@ class SystemConfig: UIViewController {
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(config),forKey: DEFAULT_SYS_CONFIG)
                 //print("\(Apps.opt_E) - option E")                
                 
-                let more_apps = DATA["more_apps"]  as! String
+                let more_apps = DATA["ios_more_apps"]  as! String
                 Apps.MORE_APP = more_apps
                 print("more apps link from server -- \(more_apps)")
                 
-                let share_apps = DATA["app_link"]  as! String
+                let share_apps = DATA["ios_app_link"]  as! String
                 Apps.SHARE_APP = share_apps
                 print("share apps link from server -- \(share_apps)")
                 
