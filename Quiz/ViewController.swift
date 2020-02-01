@@ -189,6 +189,20 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func userss(_ sender: Any){
+        
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+              self.Vibrate() // make device vibrate
+              if UserDefaults.standard.bool(forKey: "isLogedin"){
+                  let view = self.storyboard!.instantiateViewController(withIdentifier: "UserStatistics")
+                  self.present(view, animated: true, completion: nil)
+              }else{
+                  let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
+                  present(vc, animated: true, completion: nil)
+              }
+        
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }

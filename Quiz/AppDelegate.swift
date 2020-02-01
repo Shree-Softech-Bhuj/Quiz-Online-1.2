@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         varSys.ConfigureSystem()
         varSys.getNotifications()
         
-        let token = Messaging.messaging().fcmToken!
+        let token = Messaging.messaging().fcmToken ?? "none"
         Apps.FCM_ID = token
         print(token)
         

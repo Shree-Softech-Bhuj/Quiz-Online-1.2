@@ -37,6 +37,20 @@ extension UIProgressView{
         prgressView.translatesAutoresizingMaskIntoConstraints = false
         return prgressView
     }
+    
+    static func Horizontal(color: UIColor)->UIProgressView{
+          let prgressView = UIProgressView()
+          prgressView.progress = 0.0
+          prgressView.progressTintColor = color
+          prgressView.trackTintColor = UIColor.clear
+          prgressView.layer.borderColor = color.cgColor
+          prgressView.layer.borderWidth = 20
+          prgressView.layer.cornerRadius = 10
+          prgressView.clipsToBounds = true
+         // prgressView.transform = CGAffineTransform(rotationAngle: .pi / -2)
+          prgressView.translatesAutoresizingMaskIntoConstraints = false
+          return prgressView
+      }
 }
 
 extension Data {
