@@ -74,15 +74,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-       // print("bool -- \(Apps.opt_E)")
-        if Apps.opt_E == true {
-            btnE.isHidden = false
-            buttons = [btnA,btnB,btnC,btnD,btnE]
-        }else{
-            btnE.isHidden = true
-            buttons = [btnA,btnB,btnC,btnD]
-        }
-        
+        btnE.isHidden = true
+        buttons = [btnA,btnB,btnC,btnD]
+                
         NotificationCenter.default.post(name: Notification.Name("DismissAlert"), object: nil)
         // set refrence for firebase database
         mainQuestionLbl.centerVertically()
@@ -97,9 +91,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
         self.questionView.DesignViewWithShadow()
         
-        //set five option's view shadow
-        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
-        //self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+       //set four option's view shadow
+        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
@@ -196,13 +189,27 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                // if Apps.opt_E == true {
                     for val in data{
                         quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
-                    }
-               // }else{
-                //    print("option E Invisible")
-//                    for val in data{
-//                        quesData.append(Question.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
-//                    }
-             //   }
+                    
+                        //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
+                        if let e = val["optione"] as? String {
+                          if e == ""{
+                               Apps.opt_E = false
+                               btnE.isHidden = true
+                               buttons = [btnA,btnB,btnC,btnD]
+                               //set four option's view shadow
+                               self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                             // print("option E ---\(String(describing: e))")
+                          }else{
+                             // print("option E --\(String(describing: e))")
+                               Apps.opt_E = true
+                                btnE.isHidden = false
+                                buttons = [btnA,btnB,btnC,btnD,btnE]
+                               //set five option's view shadow
+                               self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+                          }
+                        }
+                }
+                //}
             }
         }
         //close loader here
@@ -281,11 +288,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                 
                 mainQuestionLbl.isHidden = true
             }
-            if Apps.opt_E == true{
+            
                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-            }else{
-                self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
-            }
             totalCount.text = "\(currentQuestionPos + 1)/10"
             
         } else {
@@ -415,7 +419,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     @objc func DismissSelf(){
         self.dismiss(animated: true, completion: nil)
     }
-    // set default to four choice button
+    // set default to four/five choice button
     func MakeChoiceBtnDefault(btns:UIButton...){
         for btn in btns {
             btn.isEnabled = true
