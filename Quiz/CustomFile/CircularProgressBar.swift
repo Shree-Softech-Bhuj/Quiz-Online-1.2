@@ -30,6 +30,11 @@ public class CircularProgressBar: CALayer {
             }
         }
     }
+    public var progressValue: CGFloat = 0 {
+           didSet {
+               innerTrackShapeLayer.strokeEnd = progressValue / 100
+           }
+       }
     
     public init(radius: CGFloat, position: CGPoint, innerTrackColor: UIColor, outerTrackColor: UIColor, lineWidth: CGFloat) {
         super.init()
@@ -123,6 +128,52 @@ public class CircularProgressBar: CALayer {
         shapeLayer.fillColor = UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
         insertSublayer(shapeLayer, at: 0)
     }
+    
+    public init(radius: CGFloat, position: CGPoint, innerTrackColor: UIColor, outerTrackColor: UIColor, fillColor: UIColor , lineWidth: CGFloat) {
+           super.init()
+           
+           circularPath = UIBezierPath(arcCenter: .zero, radius: radius, startAngle: 0, endAngle: .pi * 2, clockwise: true)
+           outerTrackShapeLayer = CAShapeLayer()
+           outerTrackShapeLayer.path = circularPath.cgPath
+           outerTrackShapeLayer.position = position
+           outerTrackShapeLayer.strokeColor = outerTrackColor.cgColor
+           outerTrackShapeLayer.fillColor = UIColor.clear.cgColor
+           outerTrackShapeLayer.lineWidth = lineWidth
+           outerTrackShapeLayer.strokeEnd = 1
+           // outerTrackShapeLayer.lineCap = CAShapeLayerLineCap.round //by me
+           outerTrackShapeLayer.transform = rotateTransformation
+           addSublayer(outerTrackShapeLayer)
+           
+           innerTrackShapeLayer = CAShapeLayer()
+           innerTrackShapeLayer.strokeColor = innerTrackColor.cgColor
+           innerTrackShapeLayer.position = position
+           innerTrackShapeLayer.strokeEnd = progressManual
+           innerTrackShapeLayer.lineWidth = lineWidth
+           // innerTrackShapeLayer.lineCap = CAShapeLayerLineCap.round //by me
+           innerTrackShapeLayer.fillColor = UIColor.clear.cgColor
+           innerTrackShapeLayer.path = circularPath.cgPath
+           innerTrackShapeLayer.transform = rotateTransformation
+           addSublayer(innerTrackShapeLayer)
+           
+           progressLabel = UILabel()
+           let size = CGSize(width: radius, height: radius)
+           let origin = CGPoint(x: position.x, y: position.y)
+           progressLabel.frame = CGRect(origin: origin, size: size)
+           progressLabel.center = position
+           progressLabel.center.y = position.y - 1
+           progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
+           //progressLabel.text = "0"
+           progressLabel.font = progressLabel.font.withSize(12)
+           progressLabel.textColor = .white
+           progressLabel.textAlignment = .center
+           insertSublayer(progressLabel.layer, at: 0)
+           
+           let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+           let shapeLayer = CAShapeLayer()
+           shapeLayer.path = circlePath.cgPath
+           shapeLayer.fillColor = fillColor.cgColor
+           insertSublayer(shapeLayer, at: 0)
+       }
     
     public override init(layer: Any) {
         super.init(layer: layer)

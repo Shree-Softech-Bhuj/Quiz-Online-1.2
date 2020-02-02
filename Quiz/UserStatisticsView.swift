@@ -24,6 +24,9 @@ class UserStatisticsView: UIViewController {
     @IBOutlet weak var weakPerLabel: UILabel!
     @IBOutlet weak var strongProgress: UIProgressView!
     @IBOutlet weak var weakProgress: UIProgressView!
+    @IBOutlet weak var circleProgView: UIView!
+    @IBOutlet weak var rightPerLabel: UILabel!
+    @IBOutlet weak var wrongPerLabel: UILabel!
     
     var userDefault:User? = nil
     var Loader: UIAlertController = UIAlertController()
@@ -67,7 +70,7 @@ class UserStatisticsView: UIViewController {
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        print("RS",jsonObj)
+        //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
@@ -84,6 +87,7 @@ class UserStatisticsView: UIViewController {
                     let ques = Int("\(data["questions_answered"]!)")
                     let corr = Int("\(data["correct_answers"]!)")
                     
+                    self.rankLabel.text = "\(data["best_position"]!)"
                     self.attendQuesLabel.text = "\(ques!)"
                     self.correctQuesLabel.text = "\(corr!)"
                     self.inCorrectQuesLabel.text = "\(ques! - corr!)"
@@ -93,11 +97,22 @@ class UserStatisticsView: UIViewController {
                     
                     let strongP = Float("\(data["ratio1"]!)")
                     let weakP = Float("\(data["ratio2"]!)")
-                    self.strongPerLabel.text = "\(strongP!)%"
-                    self.weakPerLabel.text = "\(weakP!)%"
+                    self.strongPerLabel.text = "\(Int(strongP!))%"
+                    self.weakPerLabel.text = "\(Int(weakP!))%"
                     
                     self.strongProgress.progress = strongP! / 100.0
                     self.weakProgress.progress = weakP! / 100.0
+                    
+                    
+                    let xPosition = self.circleProgView.frame.width / 2
+                    let yPosition = self.circleProgView.frame.height / 2
+                    let position = CGPoint(x: xPosition, y: yPosition - 15)
+                    let progressRing = CircularProgressBar(radius: 25, position: position, innerTrackColor: .green, outerTrackColor: .systemPink, fillColor: .white, lineWidth: 14)
+                    self.circleProgView.layer.addSublayer(progressRing)
+                    progressRing.progressValue = CGFloat(Float(corr! * 100) / Float(ques!))
+                    
+                    self.rightPerLabel.text = "\(Int(CGFloat(Float(corr! * 100) / Float(ques!))))%"
+                    self.wrongPerLabel.text = "\(Int(100 - (CGFloat(Float(corr! * 100) / Float(ques!)))))%"
                 }
             }
         }

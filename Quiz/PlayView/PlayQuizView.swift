@@ -597,6 +597,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let resultView:ResultsViewController = storyBoard.instantiateViewController(withIdentifier: "ResultsViewController") as! ResultsViewController
             resultView.trueCount = trueCount
+            resultView.falseCount = falseCount
             resultView.earnedPoints = (trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS)
             resultView.ReviewQues = reviewQues
             resultView.level = self.level

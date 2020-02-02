@@ -27,6 +27,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     var timer: Timer!
     
     var trueCount = 0
+    var falseCount = 0
     var percentage:CGFloat = 0.0
     var earnedCoin = 0
     var earnedPoints = 0
@@ -121,8 +122,11 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             //get data from server
             if(Reachability.isConnectedToNetwork()){
-                let apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
+                var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
                 self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
+                
+                apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(earnedCoin)"
+                self.getAPIData(apiName: "set_users_statistics", apiURL: apiURL,completion: LoadData)
             }else{
                 ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
             }
