@@ -12,7 +12,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         // Google AdMob Banner
         bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         bannerView.rootViewController = self
@@ -67,12 +67,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func backButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let height:CGFloat = NotificationList[indexPath.row].img == "" ? 100 : 130
-//        return height
-//    }
-    
+        
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -92,9 +87,9 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
+        //let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
         
-        //let cellIdentifier = "NotifyCell"
+        let cellIdentifier = "NotifyCell"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
@@ -102,7 +97,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
         
         cell.qstn.text = NotificationList[indexPath.row].title
         cell.ansr.text = NotificationList[indexPath.row].msg
-
+        
         if(NotificationList[indexPath.row].img != ""){
             DispatchQueue.main.async {
                 cell.bookImg.loadImageUsingCache(withUrl: self.NotificationList[indexPath.row].img)
@@ -111,7 +106,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
         cell.bookView.SetShadow()
         cell.bookView.layer.cornerRadius = 15
         cell.bookView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        
+  
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 6.0,options: .allowUserInteraction,
                        animations: { [weak self] in 
@@ -120,8 +115,37 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
             },completion: nil)
         return cell
     }
+    //set height for specific cell
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var height:CGFloat = CGFloat()
+        
+        if NotificationList[indexPath.row].msg.count <= 35 {
+            height = 100
+        } else if NotificationList[indexPath.row].msg.count <= 80 {
+            height = 200
+        } else if NotificationList[indexPath.row].msg.count <= 155 {
+            height = 250
+        } else if NotificationList[indexPath.row].msg.count > 155 {
+            height = 500
+        }
+
+       // print("height at \(NotificationList[indexPath.row].msg) - \(height)")
+        return height
+    }
+    
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
     }
+    
+    func heightForView(text:String, width:CGFloat) -> CGFloat{
+        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.text = text
+
+        label.sizeToFit()
+        return label.frame.height
+    }
+
 }
