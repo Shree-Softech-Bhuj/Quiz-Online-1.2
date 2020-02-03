@@ -1,16 +1,26 @@
 import UIKit
+import GoogleMobileAds
 
-class NotificationsView : UIViewController, UITableViewDelegate, UITableViewDataSource {
+class NotificationsView : UIViewController, UITableViewDelegate, UITableViewDataSource,GADBannerViewDelegate  {
     
     @IBOutlet var tableView: UITableView!
 
     var NotificationList: [Notifications] = []
     
      var Loader: UIAlertController = UIAlertController()
+     @IBOutlet weak var bannerView: GADBannerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
                 
+        // Google AdMob Banner
+        bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
+        bannerView.rootViewController = self
+        let request = GADRequest()
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+        bannerView.load(request)
+        
         //get notifications list
        // getNotifications()
         if (UserDefaults.standard.value(forKey: "notification") != nil){
