@@ -99,7 +99,7 @@ class UpdateProfileView: UIViewController{
             (alertAction: UIAlertAction!) in
             if Auth.auth().currentUser != nil {
                 do {
-                    try Auth.auth().signOut()
+                    try Auth.auth().signOut() 
                     UserDefaults.standard.removeObject(forKey: "isLogedin")
                     //remove friend code 
                     UserDefaults.standard.removeObject(forKey: "fr_code")

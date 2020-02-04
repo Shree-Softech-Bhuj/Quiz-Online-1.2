@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var battleButton: UIButton!
     
+    @IBOutlet weak var moreButton: UIButton!
+    
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var leaderButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
@@ -56,8 +58,8 @@ class ViewController: UIViewController {
         
          NotificationCenter.default.addObserver(self,selector: #selector(self.StopBackMusic),name: NSNotification.Name(rawValue: "StopMusic"),object: nil) // for stop music
         
-        //show all 4 buttons even if user is not logged in, instead chng action of logout button
-            self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton)
+        //show all 5 buttons even if user is not logged in, instead chng action of logout button
+            self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             //self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton)
@@ -76,6 +78,12 @@ class ViewController: UIViewController {
             }
         }
     }
+    @IBAction func moreBtn(_ sender: UIButton) {
+           let goHome = self.storyboard!.instantiateViewController(withIdentifier: "MoreOptions")
+           goHome.modalPresentationStyle = .fullScreen
+           goHome.modalTransitionStyle = .flipHorizontal
+           self.present(goHome, animated: true, completion: nil)
+       }
     
     // play background music function
     @objc func PlayBackMusic(){
@@ -187,20 +195,6 @@ class ViewController: UIViewController {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
             present(vc, animated: true, completion: nil)
         }
-    }
-
-    @IBAction func userss(_ sender: Any){
-        
-        self.PlaySound(player: &audioPlayer, file: "click") // play sound
-              self.Vibrate() // make device vibrate
-              if UserDefaults.standard.bool(forKey: "isLogedin"){
-                  let view = self.storyboard!.instantiateViewController(withIdentifier: "UserStatistics")
-                  self.present(view, animated: true, completion: nil)
-              }else{
-                  let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-                  present(vc, animated: true, completion: nil)
-              }
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
