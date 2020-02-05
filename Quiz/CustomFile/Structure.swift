@@ -113,6 +113,15 @@ struct Language:Codable{
     let status:Int
 }
 
+struct BattleStatistics:Codable{
+    
+    let oppID:String
+    let oppName:String
+    let oppImage:String
+    let battleStatus:String
+    let battleDate:String
+    
+}
 
 //=============== constance variable ===========
 

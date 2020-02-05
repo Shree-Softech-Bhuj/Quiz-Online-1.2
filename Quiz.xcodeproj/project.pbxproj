@@ -25,6 +25,7 @@
 		BC32921522926066000AD46C /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32921422926066000AD46C /* OptionButton.swift */; };
 		BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51055F2278C48E005377C8 /* BattlePlayController.swift */; };
 		BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */; };
+		BC69FF6023EA922A009B5DF8 /* BattleStatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */; };
 		BC7B0BFB224D36240051D894 /* QuizSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFA224D36240051D894 /* QuizSetting.swift */; };
 		BC7B0BFD224D3F860051D894 /* ExtensionFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */; };
 		BCBE508E23E55DA3001FD5A9 /* UserStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */; };
@@ -105,6 +106,7 @@
 		BC32921422926066000AD46C /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		BC51055F2278C48E005377C8 /* BattlePlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlePlayController.swift; sourceTree = "<group>"; };
 		BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferAndEarnView.swift; sourceTree = "<group>"; };
+		BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleStatisticsCell.swift; sourceTree = "<group>"; };
 		BC7B0BFA224D36240051D894 /* QuizSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizSetting.swift; sourceTree = "<group>"; };
 		BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFile.swift; sourceTree = "<group>"; };
 		BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatisticsView.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				BCE582D723DF0767006BD387 /* LanguageView.swift */,
 				BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */,
 				BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */,
+				BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				D7A611962233D7B9002D1E8C /* BattleViewController.swift in Sources */,
 				D7FCFC8B21A52A6600718EE2 /* LoginView.swift in Sources */,
 				BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */,
+				BC69FF6023EA922A009B5DF8 /* BattleStatisticsCell.swift in Sources */,
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
 				C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
