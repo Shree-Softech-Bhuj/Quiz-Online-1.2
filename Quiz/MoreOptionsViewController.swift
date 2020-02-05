@@ -6,8 +6,11 @@ import GoogleMobileAds
 class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDocumentInteractionControllerDelegate {
     
     @IBOutlet var imgProfile: UIImageView!
-    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var userName: UIButton!
     @IBOutlet weak var emailAdrs: UILabel!
+    @IBOutlet weak var userView: UIView!
+    
+    @IBOutlet weak var testImg: UIImageView!
     
     @IBOutlet var scrollView: UIScrollView!
     
@@ -35,12 +38,17 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
 
         imgProfile.layer.masksToBounds = false
         imgProfile.clipsToBounds = true
-        
+              
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user details \(dUser!) ")
         emailAdrs.text = dUser?.email
-        userName.text = userName.text! + dUser!.name
-        			
+        let btnText = ("Hello, " + dUser!.name)
+      //  userName.setTitle(btnText, for: .normal)
+        
+        imgProfile.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        imgProfile.addGestureRecognizer(tapRecognizer)
+        
         DispatchQueue.main.async {
             if(self.dUser!.image != ""){
                 self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
@@ -51,13 +59,17 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     
         // calll button design button and pass button varaible those buttons nedd to be design
         self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs)
-        }
-       
+    }
+      
+    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+         presentViewController("UpdateProfileView")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         RequestInterstitialAd()
     }
-
+        
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
@@ -80,6 +92,11 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
              presentViewController("UserStatistics")
         }
     }
+       
+    @IBAction func showUserProfile(_ sender: Any) {
+        print("btn")
+        presentViewController("UpdateProfileView")
+    }
     
     @IBAction func instructions(_ sender: Any) {
         presentViewController("instructions")
@@ -98,7 +115,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         }
     
     @IBAction func aboutUs(_ sender: Any) {
-      //  presentViewController("AboutUs")
+        presentViewController("AboutUsView")
         }
     
      //Google AdMob
