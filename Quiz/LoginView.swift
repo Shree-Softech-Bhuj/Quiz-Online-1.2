@@ -41,11 +41,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
         loginSignUpView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
     }
     
-    @IBAction func testBtn(_ sender: UIButton) {
-        let subView = self.storyboard!.instantiateViewController(withIdentifier: "OptionEmode")
-        self.present(subView, animated: true, completion: nil)        
-    }
-    
     @IBAction func signUpBtn(_ sender: UIButton) {
         //show signup View
         let subView = self.storyboard!.instantiateViewController(withIdentifier: "SignUpView")
@@ -171,7 +166,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
             }
         }
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error {
+        if let error = error { 
             return
         }
         guard let authentication = user.authentication else { return }

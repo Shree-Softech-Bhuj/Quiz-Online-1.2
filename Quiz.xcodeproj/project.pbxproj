@@ -33,6 +33,7 @@
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C60137FB23C706C200257BF4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C60137FA23C706C200257BF4 /* GoogleService-Info.plist */; };
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
+		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
 		C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6679A4023B7734200670AC0 /* SignUpViewController.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
 		D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119721A6B4D80026B327 /* PlayQuizView.swift */; };
@@ -111,6 +112,7 @@
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C60137FA23C706C200257BF4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
 		C6679A4023B7734200670AC0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
 		D74A119721A6B4D80026B327 /* PlayQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayQuizView.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				D74A119921A6B8B60026B327 /* ResultsViewController.swift */,
 				C6679A4023B7734200670AC0 /* SignUpViewController.swift */,
 				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
+				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
@@ -601,6 +604,7 @@
 				D7FCFC8B21A52A6600718EE2 /* LoginView.swift in Sources */,
 				BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */,
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
+				C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
 				BCBE508E23E55DA3001FD5A9 /* UserStatisticsView.swift in Sources */,
 				D7964A49223B8BAF00D847A4 /* BookmarkView.swift in Sources */,
