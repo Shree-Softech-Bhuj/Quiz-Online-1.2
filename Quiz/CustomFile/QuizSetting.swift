@@ -59,6 +59,7 @@ struct Apps{
     static let NO_ENOUGH_QUESTION_MSG = "This level does not have enought question to play quiz"
     static let COMPLETE_ALL_QUESTION = "You have Completed All Questions !!"
     static let LEVET_NOT_AVAILABEL = "Level not available"
+    static let STATISTICS_NOT_AVAIL = "Data not available"
     static let SKIP_COINS = "SKIP. I DON'T NEED COINS"
     static let MSG_ENOUGH_COIN = "Not Enough Coins !"
     static let NEED_COIN_MSG1 = "You don't have enough coins. You need atleast"

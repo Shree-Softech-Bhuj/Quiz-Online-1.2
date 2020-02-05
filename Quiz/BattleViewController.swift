@@ -20,6 +20,8 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     
     @IBOutlet var bannerView: GADBannerView!
     
+    @IBOutlet weak var battleTableView: UITableView!
+    
     var ref: DatabaseReference!
     var timer:Timer!
     var seconds = 10
@@ -27,6 +29,9 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     var battleUser:BattleUser!
     var isAvail = false
     var user:User!
+    
+    var DataList:[BattleStatistics] = []
+    var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,9 +72,46 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         name2.addTopBorderWithColor(color: .black, width: 2)
         name2.addBottomBorderWithColor(color: .black, width: 2)
         //call function check battle
-        self.CheckForBattle()
+        
+        //get data from server
+        if(Reachability.isConnectedToNetwork()){
+            Loader = LoadLoader(loader: Loader)
+            let apiURL = "user_id=\(user.userID)"
+            self.getAPIData(apiName: "get_battle_statistics", apiURL: apiURL,completion: LoadData)
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+       
     }
     
+    //load category data here
+      func LoadData(jsonObj:NSDictionary){
+          print("RS",jsonObj)
+        let status = Bool(jsonObj.value(forKey: "error") as! String)
+        if (status!) {
+              DispatchQueue.main.async {
+                  self.Loader.dismiss(animated: true, completion: {
+                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                  })
+              }
+              
+          }else{
+              //get data for category
+              DataList.removeAll()
+              if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                  for val in data{
+                    DataList.append(BattleStatistics.init(oppID: "\(val["opponent_id"]!)", oppName: "\(val["opponent_name"]!)", oppImage: "\(val["opponent_profile"]!)", battleStatus: "\(val["mystatus"]!)", battleDate: "\(val["date_created"]!)"))
+                  }
+              }
+          }
+          //close loader here
+          DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+              DispatchQueue.main.async {
+                  self.DismissLoader(loader: self.Loader)
+                self.battleTableView.reloadData()
+              }
+          });
+      }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.ref.removeAllObservers()
@@ -205,6 +247,9 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func CheckBattleButton(_ sender:Any){
+         self.CheckForBattle()
+    }
     //start battle and pass data to battleplaycontroller
     func StartBattle(){
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -224,4 +269,52 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         alert.parentController = self
         self.present(alert, animated: true, completion: nil)
     }
+}
+
+extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if DataList.count == 0{
+            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text          = ""//Apps.STATISTICS_NOT_AVAIL
+            noDataLabel.textColor     = UIColor.black
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView  = noDataLabel
+            tableView.separatorStyle  = .none
+        }
+        return self.DataList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        // create a new cell if needed or reuse an old one
+        let cellIdentifier = "BattleStatisticsCell"
+        
+        guard let cell = self.battleTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BattleStatisticsCell  else {
+            fatalError("The dequeued cell is not an instance.")
+        }
+        let data = DataList[indexPath.row]
+        if !(user.image.isEmpty){
+            DispatchQueue.main.async {
+                cell.userImage.loadImageUsingCache(withUrl: self.user.image)
+            }
+        }
+        cell.userName.text = user.name
+        
+        if !data.oppImage.isEmpty{
+            DispatchQueue.main.async {
+                cell.opponentImage.loadImageUsingCache(withUrl: data.oppImage)
+            }
+        }
+        cell.opponentName.text = data.oppName
+        
+        cell.matchStatusLabel.text = data.battleStatus
+        
+        return cell
+    }
+    
+    
+    
 }
