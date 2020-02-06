@@ -39,6 +39,7 @@ class UserStatisticsView: UIViewController {
         userName.text = "Hello, \(userDefault!.name)"
         
         let score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+        print("score data \(score)")
         coinsLabel.text = "\(score.coins)"
         scoreLabel.text = "\(score.points)"
         

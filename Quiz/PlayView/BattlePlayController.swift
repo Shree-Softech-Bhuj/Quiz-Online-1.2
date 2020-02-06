@@ -39,7 +39,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var questionView: UIView!
     
     var progressRing: CircularProgressBar!
-    var timer: Timer!
+    var timer: Timer?
     
     var count: CGFloat = 0.0
     var rightCount = 0
@@ -67,13 +67,14 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        if Apps.opt_E == true {
-            btnE.isHidden = false
-            buttons = [btnA,btnB,btnC,btnD,btnE]
-        }else{
+//        if Apps.opt_E == true {
+//            btnE.isHidden = false
+//            buttons = [btnA,btnB,btnC,btnD,btnE]
+//        }else{
+        //show 4 options by default & set 5  later by checking for opt E mode
             btnE.isHidden = true 
             buttons = [btnA,btnB,btnC,btnD]
-        }
+        //}
          
         // set refrence for firebase database
         self.ref = Database.database().reference().child("AvailUserForBattle")
@@ -96,7 +97,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         }
         
-        
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
         userName2.text = battleUser.name
@@ -112,6 +112,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
             var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)"
+            //var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=0"
             if sysConfig.LANGUAGE_MODE == 1{
                                      let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                                      apiURL += "&language_id=\(langID)"
@@ -152,9 +153,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
-            if self.timer.isValid{
-                self.timer.invalidate()
+            if let validTimer = self.timer?.isValid{
+                self.timer!.invalidate()
             }
+//            if self.timer.isValid{
+//                self.timer.invalidate()
+//            }
             self.ref.removeAllObservers()
             self.ref.removeValue()
             self.ref = nil
@@ -174,12 +178,15 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func CompleteBattle(){
-        if timer != nil && timer.isValid{
-           timer.invalidate()
+        if timer != nil && timer!.isValid{
+            timer!.invalidate()
         }
-        self.ref.removeAllObservers()
-        self.ref.removeValue()
-        self.ref = nil
+        if ref != nil{
+            self.ref.removeAllObservers()
+            self.ref.removeValue()
+            self.ref = nil
+        }
+        
         if(Reachability.isConnectedToNetwork()){
             let apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=1"
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
@@ -191,6 +198,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     func LoadData(jsonObj:NSDictionary){
          //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
+        let msg = jsonObj.value(forKey: "message") as! String
+        print("msg - \(msg)")
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
@@ -198,9 +207,22 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
         }else{
             //get data for category
+            print(jsonObj.value(forKey: "data") as Any)
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
                     quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                    
+                    if let e = val["optione"] as? String {
+                     if e == ""{
+                          Apps.opt_E = false
+                          btnE.isHidden = true
+                          buttons = [btnA,btnB,btnC,btnD]
+                     }else{
+                          Apps.opt_E = true
+                          btnE.isHidden = false
+                          buttons = [btnA,btnB,btnC,btnD,btnE]
+                     }
+                   }
                 }
             }
         }
@@ -217,8 +239,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     // Note only works when time has not been invalidated yet
     @objc func resetProgressCount() {
         buttons.forEach{$0.isUserInteractionEnabled = true}
-        if self.timer != nil && self.timer.isValid{
-            timer.invalidate()
+        if self.timer != nil && self.timer!.isValid{
+            timer!.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
         zoomScale = 1
@@ -228,7 +250,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         self.oppAnswer = false
         count = 0
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
-        timer.fire()
+        timer!.fire()
     }
     @objc func incrementCount() {
         
@@ -238,7 +260,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
         }
         if count >= Apps.QUIZ_PLAY_TIME {
-            timer.invalidate()
+            timer!.invalidate()
             self.AddQuestionToFIR(question: quesData[self.currentQuestionPos], userAns: "")
             //score count
             wrongCount += 1
@@ -257,8 +279,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             resetProgressCount()
             ObserveQuestion()
-           
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+            if Apps.opt_E == true{
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+            }else{
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+            }
+            
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
@@ -280,13 +306,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 
                 mainQuestionLbl.isHidden = true
             }
-            if Apps.opt_E == true {
                  self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-            }else{
-                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
-            }
-          
-            totalCount.text = "\(currentQuestionPos + 1)/10"
+            //  totalCount.text = "\(currentQuestionPos + 1)/10"
+            totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
            
         } else {
              // If there are no more questions show the results
@@ -297,8 +319,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     func ShowResultAlert(){
-        if timer != nil && timer.isValid{
-            timer.invalidate()
+        if timer != nil && timer!.isValid{
+            timer!.invalidate()
         }
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let alert = storyboard.instantiateViewController(withIdentifier: "ResultAlert") as! ResultAlert
@@ -320,7 +342,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     func rightAnswer(btn:UIView){
         
         //make timer invalidate
-        timer.invalidate()
+        timer!.invalidate()
         
         //score count
         rightCount += 1
@@ -357,7 +379,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     func wrongAnswer(btn:UIView?){
         
         //make timer invalidate
-        timer.invalidate()
+        timer!.invalidate()
         
         //score count
         wrongCount += 1
@@ -475,7 +497,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     @objc func ButtonDown(button:UIButton){
         clickedButton.append(button)
     }
-    // set default to four choice button
+    // set default to four/five choice button
     func MakeChoiceBtnDefault(btns:UIButton...){
         for btn in btns {
             btn.isEnabled = true
@@ -505,7 +527,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         lbl.font = .systemFont(ofSize: 12)
         btn.addSubview(lbl)
         
-        self.timer.invalidate()
+        self.timer!.invalidate()
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
             // load next question after 1 second
             self.currentQuestionPos += 1 //increament for next question
