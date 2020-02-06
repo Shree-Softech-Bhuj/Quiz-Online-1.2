@@ -71,7 +71,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
 //            btnE.isHidden = false
 //            buttons = [btnA,btnB,btnC,btnD,btnE]
 //        }else{
-        //show 4 options by default & set 5  later by checking for opt E mode
+        //show 4 options by default & set 5th later by checking for opt E mode
             btnE.isHidden = true 
             buttons = [btnA,btnB,btnC,btnD]
         //}
@@ -82,20 +82,20 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         imageQuestionLbl.centerVertically()
         
         // add ring progress to timer view
-        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
         timerView.layer.addSublayer(progressRing)
         
         setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
         setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
         
         self.questionView.DesignViewWithShadow()
-        if Apps.opt_E == true {
-            //set five option's view shadow
-            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
-        }else{
-            //set four option's view shadow
+//        if Apps.opt_E == true {
+//            //set five option's view shadow
+//            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+//        }else{
+            //set four option's view shadow by default & set 5th later by checking for opt E mode
             self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-        }
+        //}
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
@@ -194,7 +194,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         if(Reachability.isConnectedToNetwork()){
             var winnerID = ""
-            if rightCount < opponentRightCount{
+            if rightCount > opponentRightCount{
                 winnerID = user.userID
             }else{
                 winnerID = battleUser.userID
@@ -226,12 +226,18 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                     if let e = val["optione"] as? String {
                      if e == ""{
                           Apps.opt_E = false
-                          btnE.isHidden = true
+                          DispatchQueue.main.async {
+                            self.btnE.isHidden = true
+                           }
                           buttons = [btnA,btnB,btnC,btnD]
+                        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
                      }else{
                           Apps.opt_E = true
-                          btnE.isHidden = false
+                          DispatchQueue.main.async {
+                            self.btnE.isHidden = false
+                          }
                           buttons = [btnA,btnB,btnC,btnD,btnE]
+                        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
                      }
                    }
                 }
