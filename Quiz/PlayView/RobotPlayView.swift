@@ -290,7 +290,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             }
             
                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-            totalCount.text = "\(currentQuestionPos + 1)/10"
+          //  totalCount.text = "\(currentQuestionPos + 1)/10"
+            totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
+
             
         } else {
             // If there are no more questions show the results

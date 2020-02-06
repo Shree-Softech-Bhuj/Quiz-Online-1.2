@@ -5,9 +5,9 @@ import GoogleMobileAds
 
 class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDocumentInteractionControllerDelegate {
     
-    @IBOutlet var imgProfile: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var emailAdrs: UILabel!
+    @IBOutlet weak var imgProfile: UIImageView!
     
     @IBOutlet var scrollView: UIScrollView!
     
@@ -29,35 +29,49 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imgProfile.layer.borderWidth = 2
-        imgProfile.layer.borderColor = UIColor.black.cgColor
-        imgProfile.layer.cornerRadius = 40
-
-        imgProfile.layer.masksToBounds = false
-        imgProfile.clipsToBounds = true
-        
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user details \(dUser!) ")
         emailAdrs.text = dUser?.email
-        userName.text = userName.text! + dUser!.name
-        			
+        userName.text = "Hello, " + dUser!.name
+        
+        imgProfile.isUserInteractionEnabled = true
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        imgProfile.addGestureRecognizer(tapRecognizer)
+        
         DispatchQueue.main.async {
             if(self.dUser!.image != ""){
-                self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
+               self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
             }
         }
+        
+         setImage()
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
     
         // calll button design button and pass button varaible those buttons nedd to be design
         self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs)
-        }
-       
+    }
+      
+    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+         presentViewController("UpdateProfileView")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         RequestInterstitialAd()
     }
-
+    
+    func setImage(){
+       
+        imgProfile.translatesAutoresizingMaskIntoConstraints = false
+        imgProfile.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        imgProfile.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imgProfile.layer.borderWidth = 2
+        imgProfile.layer.borderColor = UIColor.black.cgColor
+        imgProfile.layer.cornerRadius = 50
+        imgProfile.layer.masksToBounds = false
+        imgProfile.clipsToBounds = true
+    }
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
@@ -80,17 +94,34 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
              presentViewController("UserStatistics")
         }
     }
+       
+    @IBAction func showUserProfile(_ sender: Any) {
+        print("btn")
+        presentViewController("UpdateProfileView")
+    }
     
     @IBAction func instructions(_ sender: Any) {
         presentViewController("instructions")
     }
     
     @IBAction func bookmarks(_ sender: Any) {
-        presentViewController( "BookmarkView")
+        self.controllerName = "bookmarks"
+                        
+         if interstitialAd.isReady{
+              self.interstitialAd.present(fromRootViewController: self)
+        }else{
+            presentViewController( "BookmarkView")
+        }
     }
     
     @IBAction func notifications(_ sender: Any) {
-        presentViewController("NotificationsView")
+        self.controllerName = "notifications"
+                        
+         if interstitialAd.isReady{
+              self.interstitialAd.present(fromRootViewController: self)
+        }else{
+            presentViewController("NotificationsView")
+        }
     }
     
     @IBAction func inviteFriends(_ sender: Any) {
@@ -98,7 +129,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         }
     
     @IBAction func aboutUs(_ sender: Any) {
-      //  presentViewController("AboutUs")
+        presentViewController("AboutUsView")
         }
     
      //Google AdMob
@@ -117,11 +148,19 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         func interstitialDidDismissScreen(_ ad: GADInterstitial) {
             if self.controllerName == "userStatistics"{
                 let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let review:ReView = storyBoard.instantiateViewController(withIdentifier: "ReView") as! ReView
+                let review:UserStatisticsView = storyBoard.instantiateViewController(withIdentifier: "UserStatistics") as! UserStatisticsView
                 self.present(review, animated: true, completion: nil)
                 RequestInterstitialAd()
-            }else if self.controllerName == "xyz"{
-                             
+            }else if self.controllerName == "bookmarks"{
+                 let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                 let review:BookmarkView = storyBoard.instantiateViewController(withIdentifier: "BookmarkView") as! BookmarkView
+                 self.present(review, animated: true, completion: nil)
+                 RequestInterstitialAd()
+            }else if self.controllerName == "notifications"{
+                 let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                 let review:NotificationsView = storyBoard.instantiateViewController(withIdentifier: "NotificationsView") as! NotificationsView
+                 self.present(review, animated: true, completion: nil)
+                 RequestInterstitialAd()
             }else{
                  self.dismiss(animated: true, completion: nil)
             }

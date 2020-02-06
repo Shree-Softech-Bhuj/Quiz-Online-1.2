@@ -217,15 +217,16 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: "Opps!", message: "Error while fetchning data")
+                self.ShowAlert(title: "Opps!", message: "Error while fetching data")
             }else{
                 //get data for category
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                     for val in data{
                         self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: "\(val["answer"]!)", image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     }
-                    //check this level has enought (10) question to play? or not
-                    if self.quesData.count >= 10{
+                    //check this level has enough (10) question to play? or not
+                   // if self.quesData.count >= 10 {
+                    if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let playView:PlayQuizView = storyBoard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
                         playView.catID = self.catID

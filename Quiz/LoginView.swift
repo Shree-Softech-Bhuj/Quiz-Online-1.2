@@ -127,13 +127,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
               var fcode = ""
               let rcode = nm //ref code is same as initial username
               Apps.REFER_CODE = rcode
-                print("curr user -- \((result?.user.uid)!)")
-                //get reference code from db & assign it as friend's code
-//                let ref = Database.database().reference(fromURL: "https://quiz-online-34985.firebaseio.com")
-//               // let userID = Auth.auth().currentUser?.uid
-//                let usersRef = ref.child("users").child("LzFbYGUEwBsReRxIUb3").observeSingleEvent(of: .value, with: { (snapshot) in
-//                print(snapshot)
-//                })
+                //print("curr user -- \((result?.user.uid)!)")
                 if (UserDefaults.standard.value(forKey: "fr_code") != nil){
                     fcode = UserDefaults.standard.string(forKey: "fr_code")!
                     print(fcode)

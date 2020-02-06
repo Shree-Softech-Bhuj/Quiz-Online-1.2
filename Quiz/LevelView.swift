@@ -154,8 +154,8 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                         }                 
                         
                         //check this level has enought (10) question to play? or not
-                        if self.quesData.count >= 10{
-                            
+                       // if self.quesData.count >= 10{
+                        if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                             playView.quesData = self.quesData
                             DispatchQueue.main.async {
                                 self.present(playView, animated: true, completion: nil)
