@@ -6,6 +6,7 @@ import GoogleMobileAds
 // create battle user structer to get user's information
 struct BattleUser {
     let UID:String
+    let userID:String
     let name:String
     let image:String
     let matchingID:String
@@ -126,6 +127,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     @objc func CheckForBattle(){
         
         var userDetails:[String:String] = [:]
+        userDetails["userID"] = self.user.userID
         userDetails["name"] = self.user.name
         userDetails["image"] = self.user.image
         userDetails["isAvail"] = "1"
@@ -142,7 +144,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                 if (data?["isAvail"]) != nil{
                     if((data?["isAvail"])! == "1" && fuser.key != self.user.UID){
                         // this user is avalable for battle
-                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)")
+                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)")
                         self.isAvail = true
                     }
                 }
@@ -180,7 +182,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                     if (opponentID != ""){
                         self.ref.child(opponentID).observeSingleEvent(of: .value, with: {(battleSnap) in
                             // this user is avalable for battle
-                            self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
+                            self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
                             self.isAvail = true
                             self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
                             DispatchQueue.main.async {

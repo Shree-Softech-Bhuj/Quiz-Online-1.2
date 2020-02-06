@@ -184,6 +184,17 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             let apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=1"
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
         }
+        
+        if(Reachability.isConnectedToNetwork()){
+            var winnerID = ""
+            if rightCount < opponentRightCount{
+                winnerID = user.userID
+            }else{
+                winnerID = battleUser.userID
+            }
+            let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+            self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+        }
         NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
