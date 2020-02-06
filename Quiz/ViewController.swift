@@ -83,7 +83,7 @@ class ViewController: UIViewController {
            goHome.modalPresentationStyle = .fullScreen
            goHome.modalTransitionStyle = .flipHorizontal
            self.present(goHome, animated: true, completion: nil)
-       }
+    }
     
     // play background music function
     @objc func PlayBackMusic(){

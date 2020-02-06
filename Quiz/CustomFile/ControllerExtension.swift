@@ -229,7 +229,9 @@ extension UIViewController{
     //design four choice view function
     func SetViewWithShadow(views:UIView...){
         for view in views{
-            view.layer.cornerRadius = 25
+            DispatchQueue.main.async {
+                view.layer.cornerRadius = 25
+            }
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }
