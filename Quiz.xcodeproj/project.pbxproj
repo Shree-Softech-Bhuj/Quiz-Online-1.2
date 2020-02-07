@@ -33,6 +33,7 @@
 		BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D723DF0767006BD387 /* LanguageView.swift */; };
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C60137FB23C706C200257BF4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C60137FA23C706C200257BF4 /* GoogleService-Info.plist */; };
+		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
 		C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6500A1623EAA7C400AC93BF /* AboutUsView.swift */; };
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
@@ -114,6 +115,7 @@
 		BCE582D723DF0767006BD387 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C60137FA23C706C200257BF4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
 		C6500A1623EAA7C400AC93BF /* AboutUsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
 				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
 				C6500A1623EAA7C400AC93BF /* AboutUsView.swift */,
+				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
@@ -631,6 +634,7 @@
 				BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */,
 				BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */,
 				D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */,
+				C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
 				D7BCD04C222AA86500B7E531 /* CircularProgressBar.swift in Sources */,
 				C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */,

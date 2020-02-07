@@ -84,6 +84,13 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         }
        
     }
+    @IBAction func settingButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
+        myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        self.present(myAlert, animated: true, completion: nil)
+    }
     
     //load category data here
       func LoadData(jsonObj:NSDictionary){
@@ -245,8 +252,20 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.QuitBattle()
-        self.dismiss(animated: true, completion: nil)
+        if timer != nil{
+            let alert = UIAlertController(title: "", message: "Are you sure , You want to leave ?", preferredStyle: UIAlertController.Style.alert)
+            // add the actions (buttons)
+            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
+                self.QuitBattle()
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            alert.view.tintColor = UIColor.red //alert Action font color changes to red
+        }else{
+            self.QuitBattle()
+            self.dismiss(animated: true, completion: nil)
+        }        
     }
     
     @IBAction func CheckBattleButton(_ sender:Any){

@@ -62,7 +62,7 @@ class UpdateProfileView: UIViewController{
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
-        btnUpdate.layer.cornerRadius = 18
+        btnUpdate.layer.cornerRadius = 15
         
 //        logOutBtn.layer.borderWidth = 3
 //        logOutBtn.layer.borderColor = UIColor.gray.cgColor
