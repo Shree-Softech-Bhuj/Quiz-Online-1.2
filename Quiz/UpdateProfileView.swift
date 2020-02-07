@@ -4,12 +4,18 @@ import Firebase
 
 class UpdateProfileView: UIViewController{
     
-    @IBOutlet var btnUpdate: UIButton!
     @IBOutlet var usrImg: UIImageView!
+    @IBOutlet var btnUpdate: UIButton!
+    @IBOutlet var logOutBtn: UIButton!
+    
     @IBOutlet var imgView: UIView!
+    @IBOutlet weak var mainview: UIView!
+    @IBOutlet weak var optionsView: UIView!
+    
     @IBOutlet var nameTxt: FloatingTF!
     @IBOutlet var nmbrTxt: FloatingTF!
     @IBOutlet var emailTxt: FloatingTF!
+    
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -29,7 +35,7 @@ class UpdateProfileView: UIViewController{
         usrImg.layer.cornerRadius = usrImg.frame.height / 2
         
         nameTxt.text = dUser!.name
-        print("get name - \(nameTxt.text ?? "")")
+        //print("name - \(nameTxt.text ?? "")")
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
@@ -40,8 +46,40 @@ class UpdateProfileView: UIViewController{
             }
         }
         
+        emailTxt.leftViewMode = UITextFieldViewMode.always
+        emailTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        
+        nmbrTxt.leftViewMode = UITextFieldViewMode.always
+        nmbrTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        nmbrTxt.rightViewMode = UITextFieldViewMode.always
+        nmbrTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
+        
+        nameTxt.leftViewMode = UITextFieldViewMode.always
+        nameTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        nameTxt.rightViewMode = UITextFieldViewMode.always
+        nameTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
+        
+        //hide updt btn by default, show it on editing of any of textfields
+        mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
+        btnUpdate.isHidden = true
+        btnUpdate.layer.cornerRadius = 18
+        
+//        logOutBtn.layer.borderWidth = 3
+//        logOutBtn.layer.borderColor = UIColor.gray.cgColor
+        
+        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        logOutBtn.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        
         self.hideKeyboardWhenTappedAround()
     }
+    
+    
+    @IBAction func showUpdateButton(_ sender: Any) {
+        if btnUpdate.isHidden == true{
+            btnUpdate.isHidden = false
+        }
+    }      
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
@@ -66,7 +104,7 @@ class UpdateProfileView: UIViewController{
             DispatchQueue.main.async {
                // self.DismissLoader(loader: self.Loader)
                 self.dUser!.name = self.nameTxt.text!
-                print( self.dUser!.name)
+                //print( self.dUser!.name)
                 self.dUser!.phone = self.nmbrTxt.text!
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(self.dUser), forKey: "user")
@@ -118,17 +156,7 @@ class UpdateProfileView: UIViewController{
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func policyButton(_ sender: Any) {
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "PrivacyView")
-        self.present(goHome, animated: true, completion: nil)
-    }
-    
-    @IBAction func termsButton(_ sender: Any) {
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "TermsView")
-        self.present(goHome, animated: true, completion: nil)
-    }
-    
-    @IBAction func updateButton(_ sender: Any) {
+      @IBAction func updateButton(_ sender: Any) {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
@@ -141,10 +169,27 @@ class UpdateProfileView: UIViewController{
         }
     }
     
-    @IBAction func InviteFriendsButton(_ sender: Any){
+    @IBAction func userStatisticsButton(_ sender: Any){
+        let view = self.storyboard!.instantiateViewController(withIdentifier: "UserStatistics")
+        self.present(view, animated: true, completion: nil)
+    }
+    
+    @IBAction func leaderboardButton(_ sender: Any){
+        let view = self.storyboard!.instantiateViewController(withIdentifier: "Leaderboard")
+        self.present(view, animated: true, completion: nil)
+    }
+    
+    @IBAction func bookmarksButton(_ sender: Any){
+        let view = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
+        self.present(view, animated: true, completion: nil)
+    }
+        
+    @IBAction func inviteFriendsButton(_ sender: Any){
         let view = self.storyboard!.instantiateViewController(withIdentifier: "ReferAndEarn")
         self.present(view, animated: true, completion: nil)
     }
+    
+    
     
     func myImageUploadRequest(){
         

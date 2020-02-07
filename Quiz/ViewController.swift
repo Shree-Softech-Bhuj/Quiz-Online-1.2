@@ -6,10 +6,7 @@ class ViewController: UIViewController {
     
     @IBOutlet var startView: UIView!
     @IBOutlet var battleView: UIView!
-    @IBOutlet var bookBtn: UIButton!
-    @IBOutlet var insBtn: UIButton!
-    @IBOutlet weak var notificationBtn: UIButton!
-    
+        
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var battleButton: UIButton!
     
@@ -32,7 +29,6 @@ class ViewController: UIViewController {
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
         DesignView(views: startView,battleView)
-        DesignButton(btns:insBtn,bookBtn,notificationBtn)
         
         playButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
         battleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
@@ -143,24 +139,7 @@ class ViewController: UIViewController {
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         self.present(myAlert, animated: true, completion: nil)
     }
-    
-    @IBAction func BookmarkBtn(_ sender: Any) {
-        //click sound
-         self.PlaySound(player: &audioPlayer, file: "click")
-        
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
-        self.present(goHome, animated: true, completion: nil)
-    }
-        
-    @IBAction func showNotifications(_ sender: Any) {
-        //click sound
-                self.PlaySound(player: &audioPlayer, file: "click")
-               
-               let goNotification = self.storyboard!.instantiateViewController(withIdentifier: "NotificationsView")
-               self.present(goNotification, animated: true, completion: nil)
-    }
-    
-    
+   
     @IBAction func logoutBtn(_ sender: Any) {
         
         let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
@@ -200,17 +179,16 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    //close on tap outside
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "closeMenuViaNotification"), object: nil)
-        view.endEditing(true)
-    }
-    @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {}
-    // open menu
-    @IBAction func toggleMenu(_ sender: Any) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "toggleMenu"), object: nil)
-    }
+//    //close on tap outside
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "closeMenuViaNotification"), object: nil)
+//        view.endEditing(true)
+//    }
+//    @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {}
+//    // open menu
+//    @IBAction func toggleMenu(_ sender: Any) {
+//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "toggleMenu"), object: nil)
+//    }
     
     @IBAction func leaderboardBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
@@ -222,12 +200,6 @@ class ViewController: UIViewController {
         }
     }
     
-    //design uibutton view
-    func DesignButton(btns:UIButton...){
-        for btn in btns{
-            btn.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: btn.frame.size.height / 2, bWidth: 2)
-        }
-    }
     func DesignView(views:UIView...){
         for view in views{
             view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
