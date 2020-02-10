@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         //firebase configuration
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         FirebaseApp.configure()
-        Messaging.messaging().delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -65,6 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
 
         application.registerForRemoteNotifications()
 
+        Messaging.messaging().delegate = self
+        Messaging.messaging().shouldEstablishDirectChannel = true
         let token = Messaging.messaging().fcmToken ?? "none"
         Apps.FCM_ID = token
         print(token)
