@@ -28,11 +28,13 @@ class UpdateProfileView: UIViewController{
         super.viewDidLoad()
       
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        imgView.layer.cornerRadius = imgView.frame.height/2
+       // imgView.layer.cornerRadius = 50//imgView.frame.height/2
         
-        self.usrImg.contentMode = .scaleAspectFill
+        //self.usrImg.contentMode = .scaleAspectFill
+        usrImg.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        usrImg.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        usrImg.layer.cornerRadius = 30 //usrImg.frame.height / 2
         usrImg.clipsToBounds = true
-        usrImg.layer.cornerRadius = usrImg.frame.height / 2
         
         nameTxt.text = dUser!.name
         //print("name - \(nameTxt.text ?? "")")
@@ -119,7 +121,7 @@ class UpdateProfileView: UIViewController{
     
     @IBAction func cameraButton(_ sender: Any) {
         ImagePickerManager().pickImage(self, {image in
-            self.usrImg.contentMode = .scaleAspectFill
+           // self.usrImg.contentMode = .scaleAspectFill
             self.usrImg.image = image
             self.myImageUploadRequest()
         })

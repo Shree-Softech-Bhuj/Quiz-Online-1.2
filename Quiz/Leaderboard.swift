@@ -95,23 +95,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 pos.origin.x = 275
                 pos.origin.y = 80
                 self.selectionOptView.frame = pos
-    //            UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn, animations: {
-    //                self.selectionOptView.frame = pos
-    //            }) { finished in
-    //            }
-               // selectionOptView.transform = selectionOptView.transform.translatedBy(x: -200, y: -200)
-                //selectionOptView.center = self.view.center
-                // selectionOptView.transform = CGAffineTransform(translationX: 50, y: 50)
-                //selectionOptView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-                //selectionOptView.transform = CGAffineTransform.identity
-               // selectionOptView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    //selectionOptView.alpha=0
-        
-    //            UIView.animate(withDuration: 0.4){
-    //                self.selectionOptView.alpha = 1
-    //               self.selectionOptView.transform = CGAffineTransform.identity
-    //            }
-        /***/
             //border to selectionOption View
             let externalBorder = CALayer()
             externalBorder.frame = CGRect(x: -1, y: -1, width: selectionOptView.frame.size.width+2, height: selectionOptView.frame.size.height+2)
@@ -119,16 +102,10 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             externalBorder.borderWidth = 1.0
             selectionOptView.layer.addSublayer(externalBorder)
             selectionOptView.layer.masksToBounds = false
-            /***/
     }
         
             func animateOut(){ //for selectionOptView view
-//                UIView.animate(withDuration: 0.3, animations: {
-//                   // self.selectionOptView.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-//                    self.selectionOptView.alpha = 0
-//                }) {(success:Bool) in
                     self.selectionOptView.removeFromSuperview()
-                //}
             }
     
     @IBAction func showAll(_ sender: UIButton) {
@@ -303,7 +280,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
               //  self.score3Lbl.text = "\(self.LeaderData[2].score)"
       */
                 
-                self.DesignImageView(images: self.usr1,self.usr2,self.usr3)
+                self.DesignImageView(self.usr1,self.usr2,self.usr3)
                 //reload data after getting it from server
                 self.tableView.reloadData()
                 
@@ -373,7 +350,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
         }
 
-        self.DesignImageView(images: cell.userImg)
+        self.DesignImageView(cell.userImg)
         cell.leadrView.frame = CGRect(origin: cell.leadrView.frame.origin, size: CGSize(width: self.view.frame.width - 20, height: cell.leadrView.frame.height))
         cell.imgView.layer.cornerRadius = cell.imgView.frame.width / 2
         cell.imgView.layer.masksToBounds = false
@@ -399,15 +376,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
-    }
-    //design image view
-    func DesignImageView(images:UIImageView...){
-        for image in images{
-            image.layer.backgroundColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
-            image.layer.masksToBounds = false
-            image.clipsToBounds = true
-            image.layer.cornerRadius = image.frame.width / 2
-        }
     }
     //check user rank is it visible to view without scroll
     func AddUsertoBottom(){

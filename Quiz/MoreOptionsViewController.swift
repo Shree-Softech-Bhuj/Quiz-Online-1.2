@@ -29,22 +29,27 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        print("user details \(dUser!) ")
-        emailAdrs.text = dUser?.email
-        userName.text = "Hello, " + dUser!.name
-        
-        imgProfile.isUserInteractionEnabled = true
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        imgProfile.addGestureRecognizer(tapRecognizer)
-        
-        DispatchQueue.main.async {
-            if(self.dUser!.image != ""){
-               self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
-            }
+         if UserDefaults.standard.bool(forKey: "isLogedin"){
+            dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+                   print("user details \(dUser!) ")
+                   emailAdrs.text = dUser?.email
+                   userName.text = "Hello, " + dUser!.name
+                   
+                   imgProfile.isUserInteractionEnabled = true
+                   let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+                   imgProfile.addGestureRecognizer(tapRecognizer)
+                   
+                   DispatchQueue.main.async {
+                       if(self.dUser!.image != ""){
+                          self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
+                       }
+                   }
+         }else{
+            emailAdrs.text = ""
+            userName.text = "Hello, User"
+            imgProfile.image = UIImage(named: "btn")
         }
-        
-         setImage()
+        designImageView()
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
     
@@ -61,7 +66,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         RequestInterstitialAd()
     }
     
-    func setImage(){
+    func designImageView(){
        
         imgProfile.translatesAutoresizingMaskIntoConstraints = false
         imgProfile.heightAnchor.constraint(equalToConstant: 100).isActive = true
@@ -96,12 +101,19 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     }
        
     @IBAction func showUserProfile(_ sender: Any) {
-        print("btn")
         presentViewController("UpdateProfileView")
     }
     
     @IBAction func instructions(_ sender: Any) {
-        presentViewController("instructions")
+        //presentViewController("instructions")
+        weak var pvc = self.presentingViewController
+        self.modalTransitionStyle = .flipHorizontal
+        self.dismiss(animated: true, completion: {
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "instructions")
+                //vc.modalPresentationStyle = .fullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                pvc?.present(vc, animated: true, completion: nil)
+          })
     }
     
     @IBAction func bookmarks(_ sender: Any) {
@@ -110,7 +122,15 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
          if interstitialAd.isReady{
               self.interstitialAd.present(fromRootViewController: self)
         }else{
-            presentViewController( "BookmarkView")
+            //presentViewController( "BookmarkView")
+            weak var pvc = self.presentingViewController
+            self.modalTransitionStyle = .flipHorizontal
+            self.dismiss(animated: true, completion: {
+                    let vc = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
+                    //vc.modalPresentationStyle = .fullScreen
+                    vc.modalTransitionStyle = .crossDissolve
+                    pvc?.present(vc, animated: true, completion: nil)
+              })
         }
     }
     
@@ -120,7 +140,15 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
          if interstitialAd.isReady{
               self.interstitialAd.present(fromRootViewController: self)
         }else{
-            presentViewController("NotificationsView")
+          //  presentViewController("NotificationsView")
+            weak var pvc = self.presentingViewController
+            self.modalTransitionStyle = .flipHorizontal
+            self.dismiss(animated: true, completion: {
+                    let vc = self.storyboard!.instantiateViewController(withIdentifier: "NotificationsView")
+                    //vc.modalPresentationStyle = .fullScreen
+                    vc.modalTransitionStyle = .crossDissolve
+                    pvc?.present(vc, animated: true, completion: nil)
+              })
         }
     }
     
@@ -129,7 +157,15 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         }
     
     @IBAction func aboutUs(_ sender: Any) {
-        presentViewController("AboutUsView")
+        //presentViewController("AboutUsView")
+          weak var pvc = self.presentingViewController
+          self.modalTransitionStyle = .flipHorizontal
+          self.dismiss(animated: true, completion: {
+                  let vc = self.storyboard!.instantiateViewController(withIdentifier: "AboutUsView")
+                  //vc.modalPresentationStyle = .fullScreen
+                  vc.modalTransitionStyle = .crossDissolve
+                  pvc?.present(vc, animated: true, completion: nil)
+            })
         }
     
      //Google AdMob
@@ -147,20 +183,23 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         // Tells the delegate the interstitial had been animated off the screen.
         func interstitialDidDismissScreen(_ ad: GADInterstitial) {
             if self.controllerName == "userStatistics"{
-                let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let review:UserStatisticsView = storyBoard.instantiateViewController(withIdentifier: "UserStatistics") as! UserStatisticsView
-                self.present(review, animated: true, completion: nil)
+//                let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                let review:UserStatisticsView = storyBoard.instantiateViewController(withIdentifier: "UserStatistics") as! UserStatisticsView
+//                self.present(review, animated: true, completion: nil)
+                presentViewController("UserStatistics")
                 RequestInterstitialAd()
             }else if self.controllerName == "bookmarks"{
                  let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                  let review:BookmarkView = storyBoard.instantiateViewController(withIdentifier: "BookmarkView") as! BookmarkView
                  self.present(review, animated: true, completion: nil)
-                 RequestInterstitialAd()
+                //presentViewController("BookmarkView")
+                RequestInterstitialAd()
             }else if self.controllerName == "notifications"{
                  let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                  let review:NotificationsView = storyBoard.instantiateViewController(withIdentifier: "NotificationsView") as! NotificationsView
                  self.present(review, animated: true, completion: nil)
-                 RequestInterstitialAd()
+                //presentViewController("NotificationsView")
+                RequestInterstitialAd()
             }else{
                  self.dismiss(animated: true, completion: nil)
             }

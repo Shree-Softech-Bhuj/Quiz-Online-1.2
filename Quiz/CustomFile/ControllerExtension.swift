@@ -188,6 +188,15 @@ extension UIViewController{
         }
     }
     
+    //design image view
+       func DesignImageView(_ images:UIImageView...){
+           for image in images{
+               image.layer.backgroundColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+               image.layer.masksToBounds = false
+               image.clipsToBounds = true
+               image.layer.cornerRadius = image.frame.width / 2
+           }
+       }
     
     func resetOpetionsPositions(_ btnb: UIButton,_ btnc: UIButton,_ btnd: UIButton){
 //        let Xb_Position:CGFloat = 23.0 //use your X position here

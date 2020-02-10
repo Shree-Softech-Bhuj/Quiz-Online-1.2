@@ -53,18 +53,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             
         }
         if #available(iOS 12, *) {
+            UNUserNotificationCenter.current().delegate = self
             UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound, .provisional, .providesAppNotificationSettings, .criticalAlert]){ (granted, error) in }
+            Messaging.messaging().delegate = self
             application.registerForRemoteNotifications()
         }
         if #available(iOS 10.0, *) {
             
             let center = UNUserNotificationCenter.current()
+            center.delegate = self
             center.requestAuthorization(options: [.alert, .badge, .sound])  { (granted, error) in
                 // Enable or disable features based on authorization.
                 //let pushNotificationSettings = UNUserNotificationCenterDelegate(type(of: center),Category : nil)
                 print(error as Any)
                 print(granted)
                 DispatchQueue.main.async {
+                    Messaging.messaging().delegate = self
                     application.registerForRemoteNotifications()
                 }
             }            
@@ -73,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
             let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
           
+            Messaging.messaging().delegate = self
             application.registerUserNotificationSettings(pushNotificationSettings)
             application.registerForRemoteNotifications()
         }
@@ -95,16 +100,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         return handled
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
-        
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//          print("Message ID: \(messageID)")
+//        }
         // Print full message.
         print("USER INFO ",userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
-    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+      print("Firebase registration token: \(fcmToken)")
+
+      let dataDict:[String: String] = ["token": fcmToken]
+      NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+      // TODO: If necessary send token to application server.
+      // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
     // Google Sign In
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         
