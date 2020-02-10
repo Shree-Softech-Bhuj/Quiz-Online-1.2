@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         //firebase configuration
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -29,11 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         let varSys = SystemConfig() 
         varSys.ConfigureSystem()
         varSys.getNotifications()
-        
-        let token = Messaging.messaging().fcmToken ?? "none"
-        Apps.FCM_ID = token
-        print(token)
-        
+                
         //check app is log in or not if not than navigate to login view controller
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if UserDefaults.standard.bool(forKey: "isLogedin") {
@@ -52,39 +49,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             self.window?.makeKeyAndVisible()
             
         }
-        if #available(iOS 12, *) {
-            UNUserNotificationCenter.current().delegate = self
-            UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound, .provisional, .providesAppNotificationSettings, .criticalAlert]){ (granted, error) in }
-            Messaging.messaging().delegate = self
-            application.registerForRemoteNotifications()
-        }
         if #available(iOS 10.0, *) {
-            
-            let center = UNUserNotificationCenter.current()
-            center.delegate = self
-            center.requestAuthorization(options: [.alert, .badge, .sound])  { (granted, error) in
-                // Enable or disable features based on authorization.
-                //let pushNotificationSettings = UNUserNotificationCenterDelegate(type(of: center),Category : nil)
-                print(error as Any)
-                print(granted)
-                DispatchQueue.main.async {
-                    Messaging.messaging().delegate = self
-                    application.registerForRemoteNotifications()
-                }
-            }            
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
         } else {
-            
-            let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
-            let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
-          
-            Messaging.messaging().delegate = self
-            application.registerUserNotificationSettings(pushNotificationSettings)
-            application.registerForRemoteNotifications()
+          let settings: UIUserNotificationSettings =
+          UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
         }
+
+        application.registerForRemoteNotifications()
+
+        let token = Messaging.messaging().fcmToken ?? "none"
+        Apps.FCM_ID = token
+        print(token)
         
+        //FirebaseApp.configure()
         return true
     }
     
+    //to receive notification in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
     private func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("DEVICE TOKEN = \(deviceToken)")
     }
@@ -116,6 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
       NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
       // TODO: If necessary send token to application server.
       // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("Received data message: \(remoteMessage.appData)")
     }
     // Google Sign In
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {

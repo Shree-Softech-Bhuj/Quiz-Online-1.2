@@ -282,6 +282,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             
             let correctAns = GetRightAnsString(correctAns: ques.correctAns, quetions: ques)
             htmlStr += "\(srno)). \(ques.question) <br>"
+//            print("length - \(ques.question.count)")
+//            if ques.question.count > 100 {
+//                print(ques.question.count)
+//            }
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "a", choice: ques.opetionA)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "b", choice: ques.opetionB)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "c", choice: ques.opetionC)
