@@ -11,6 +11,32 @@ class SystemConfig: UIViewController {
         super.viewDidLoad()
         
     }
+    func updtFCMToServer(){
+        //update fcm id
+       if UserDefaults.standard.bool(forKey: "isLogedin") {
+          let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+          //get data from server
+          if(Reachability.isConnectedToNetwork()){
+           let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
+              self.getAPIData(apiName: "update_fcm_id", apiURL: apiURL,completion: LoadResponse)
+          }
+      }
+    }
+    //load response of updtFCMid data here
+          func LoadResponse(jsonObj:NSDictionary){
+              //print("RS",jsonObj)
+              let status = jsonObj.value(forKey: "error") as! String
+              if (status == "true") {
+                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                
+              }else{
+                  // on success response do code here
+               let msg = jsonObj.value(forKey: "message") as! String
+               print(msg)
+              }
+          }
+    
+    
     func ConfigureSystem() {
         //get data from server
         if(Reachability.isConnectedToNetwork()){

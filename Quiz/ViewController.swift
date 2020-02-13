@@ -73,7 +73,11 @@ class ViewController: UIViewController {
                 languageButton.isHidden = false
             }
         }
+        //update FCM
+      //  checkForFCMtokenChange()
+        
     }
+    
     @IBAction func moreBtn(_ sender: UIButton) {
            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "MoreOptions")
            goHome.modalPresentationStyle = .fullScreen

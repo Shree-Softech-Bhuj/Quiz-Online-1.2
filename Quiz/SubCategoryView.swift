@@ -171,8 +171,8 @@ extension UIView {
     func shadow(color : UIColor, offSet:CGSize, opacity: Float = 0.7, radius: CGFloat = 30, scale: Bool = true){
         DispatchQueue.main.async {
             self.layer.masksToBounds = false
+            self.layer.shadowColor = color.cgColor
         }
-        layer.shadowColor = color.cgColor
         layer.shadowOpacity = opacity
         layer.shadowOffset = offSet
         layer.shadowRadius = radius

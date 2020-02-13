@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import FirebaseInstanceID
 import AVFoundation
 import Reachability
 import SystemConfiguration
@@ -75,7 +76,7 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-      
+        print("POST String = \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         //let data = NSMutableData();
@@ -268,4 +269,20 @@ extension UIViewController{
     func isKeyPresentInUserDefaults(key: String) -> Bool {
            return UserDefaults.standard.object(forKey: key) != nil
        }
+    
+    func checkForFCMtokenChange(){
+        let insID = InstanceID.instanceID()
+               //delete existing token & generate new token
+               insID.deleteID { (error) in
+                 print(error.debugDescription)
+               }
+               insID.instanceID { (result, error) in
+                 if let error = error {
+                   print("Error fetching remote instange ID: \(error)")
+                 } else {
+                    print("Remote instance ID token: \(result!.token)")
+                    Apps.FCM_ID = String(describing: result!.token)
+                 }
+               }
+    }
 }

@@ -70,7 +70,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         timer = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
 
-        // calll button design button and pass button varaible those buttons nedd to be design
+        // calll button design button and pass button variable those buttons need to be design
         self.DesignButton(btns: nxtLvl,reviewAns, yourScore,generatePdf,rateUs,homeBtn)
         
          var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
@@ -122,6 +122,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             //get data from server
             if(Reachability.isConnectedToNetwork()){
+                                
                 var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
                 self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
                 
