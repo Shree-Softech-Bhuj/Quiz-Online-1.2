@@ -74,7 +74,7 @@ class ViewController: UIViewController {
             }
         }
         //update FCM
-      //  checkForFCMtokenChange()
+       // checkForFCMtokenChange()
         
     }
     

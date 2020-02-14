@@ -73,9 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
        varSys.ConfigureSystem()
        varSys.getNotifications()
        //varSys.updtFCMToServer()
-        
-        saveImgFromURL("https://quizdemo.wrteam.in/images/notifications/images/notifications/1581411372.827.jpg")
-        
+       
         //FirebaseApp.configure()
         return true
     }
@@ -100,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationsView")
         self.window?.rootViewController = initialViewController
-        self.window?.makeKeyAndVisible()
+        //self.window?.makeKeyAndVisible()
         
         // Print full message.
         //analyse(notification: userInfo)
@@ -203,11 +201,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
               content.subtitle = "Subtitle"
               content.body = body
               content.sound = UNNotificationSound.default()
-
-        let url = UIImage(named: "testImg")
-        let attachment = UNNotificationAttachment.create(identifier: "image", image: url!, options: nil)
-        content.attachments = [attachment!]
-          
+        
+            guard let fileUrl = URL(string: img) else { return }
+        do{
+            let attachment = try UNNotificationAttachment(identifier : "image", url: fileUrl, options: nil)
+            content.attachments = [attachment]
+        }catch let error {
+            print("Error - \(error)")
+        }
+                  
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
        
@@ -241,23 +243,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-    func saveImgFromURL(_ imgURL: String){
-       let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-       if let url = URL(string: imgURL) {
-           URLSession.shared.downloadTask(with: url) { location, response, error in
-               guard let location = location else {
-                   print("download error:", error ?? "")
-                   return
-               }
-               // move the downloaded file from the temporary location url to your app documents directory
-               do {
-                   try FileManager.default.moveItem(at: location, to: documents.appendingPathComponent(response?.suggestedFilename ?? url.lastPathComponent))
-               } catch {
-                   print(error)
-               }
-           }.resume()
-       }
-    }
+   
     
         // MARK: - Core Data stack
     
