@@ -45,6 +45,13 @@
 	<string>567937396950509</string>
 	<key>FacebookDisplayName</key>
 	<string>Quiz Online</string>
+	<key>FirebaseMessagingAutoInitEnabled
+1
+FirebaseMessagingAutoInitEnabled
+
+1
+FirebaseMessagingAutoInitEnabled</key>
+	<string>NO</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9494734299483429~4279470911</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -66,6 +73,7 @@
 	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -87,12 +95,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>FirebaseMessagingAutoInitEnabled
-1
-FirebaseMessagingAutoInitEnabled
-
-1
-FirebaseMessagingAutoInitEnabled</key>
-	<string>NO</string>
 </dict>
 </plist>

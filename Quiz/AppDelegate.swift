@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     let gcmMessageIDKey = "gcm.message_id"
    // var count = 1
     var imgURL = URL(string: "")
+    var isImgAttached = false
     
     func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
         print(remoteMessage.appData)
@@ -125,6 +126,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
 //        if let messageID = userInfo[gcmMessageIDKey] {
 //          print("Message ID: \(messageID)")
 //        }
+        switch application.applicationState {
+
+         case .inactive:
+             print("Inactive")
+             //Show the view with the content of the push
+             completionHandler(.newData)
+
+         case .background:
+             print("Background")
+             //Refresh the local model
+             completionHandler(.newData)
+
+         case .active:
+             print("Active")
+             //Show an in-app banner
+             completionHandler(.newData)
+         }
+        
+        
         // Print full message.
         print("USER INFO ",userInfo)
         completionHandler(UIBackgroundFetchResult.newData)
@@ -166,9 +186,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             let img1 = img0.dropFirst()
             let img2 = img1.components(separatedBy: "\"")
             print(img2[3])
-            let img: String = img2[3]
-            imgURL = setAttachment(img)
-            
+            if img2[3] != ""{
+                print(displayname)
+                let img: String = img2[3]
+                imgURL = setAttachment(img)
+                isImgAttached = true
+            }else{
+                print("image is blank !!!")
+            }
 //            let unwrappedDecodedString: String = img2[3]
 //            if unwrappedDecodedString != ""{
 //                if let img = unwrappedDecodedString.removingPercentEncoding {
@@ -197,7 +222,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                 title = f[1]
                 body = h[1]
                 //img = img1[1]
-            showNotificationWithAttachment(title,body,imgURL!) //showNotification(title,body,img)
+            if  isImgAttached == true {
+                showNotificationWithAttachment(title,body,imgURL!) //showNotification(title,body,img)
+            }else{
+                showNotification(title,body) //showNotification(title,body,img)
+            }
+            
         }else{
             print("There is No Pending message !!")
         }
@@ -248,18 +278,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         }
     
     func applicationWillResignActive(_ application: UIApplication) {
+        
+        print("called resignActive")
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        
+         print("goto background")
         // call function when app is gone to background to quit battle
          NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        
+         print("back again")
         //call function when app is live again to check opponent again
         NotificationCenter.default.post(name: Notification.Name("CheckBattle"), object: nil)
     }
@@ -279,17 +311,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         // Create destination URL
         let  documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             //remove images first
-                let items = try? FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil)
-                items?.forEach { item in
-                    try? FileManager.default.removeItem(at: item)
-                }
+//                let items = try? FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil)
+//                items?.forEach { item in
+//                    try? FileManager.default.removeItem(at: item)
+//                }
             //add downloaded image as specified name below
             let destinationFileUrl = documentsUrl.appendingPathComponent("tempImg.jpg") // downloadedFile.jpg //img\(count).jpg
              
            //Create URL to the source file you want to download
            
             let iimage =  tempImg.replacingOccurrences(of: "\\", with: "")
-            print(iimage)
+            print("passing url - \(iimage)")
             let fileURL = URL(string: iimage) //https://api.androidhive.info//images//minion.jpg  https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg
            
            let sessionConfig = URLSessionConfiguration.default
@@ -301,6 +333,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                    // Success
                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                        print("Successfully downloaded. Status code: \(statusCode)")
+                        print("temp url -- \(tempLocalUrl)")
                    }
                    
                    do {
