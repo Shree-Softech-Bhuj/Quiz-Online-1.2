@@ -84,6 +84,7 @@ class UserStatisticsView: UIViewController {
             //get data for category
             
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                print(data)
                 DispatchQueue.main.async {
                     let ques = Int("\(data["questions_answered"]!)")
                     let corr = Int("\(data["correct_answers"]!)")

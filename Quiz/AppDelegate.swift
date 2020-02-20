@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
    // var count = 1
     var imgURL = URL(string: "")
     var isImgAttached = false
+    var title : String = ""
+    var body : String = ""
     
     func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
         print(remoteMessage.appData)
@@ -159,9 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     }
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         print("Received data message: \(remoteMessage.appData)")
-        var title : String = ""
-        var body : String = ""
-        
+               
         if (remoteMessage.appData["notification"] as? [String:Any]) != nil { //cloud message of firebase
             //print(remoteMessage.appData["notification"]!)
             let notif = remoteMessage.appData["notification"]
@@ -266,15 +266,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
 //                content.attachments = [attachment]
                     //let url = img
                     print("data \(img)")
-                    let attachment = try! UNNotificationAttachment(identifier : "image", url: img, options: nil)
-                    content.attachments = [attachment]
-        
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
-           
-            if content.title != "" && content.body != "" {
-                UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
-            }
+                    if img == URL(fileURLWithPath: "https://api.androidhive.info//images//minion.jpg") {
+                        let attachment = try! UNNotificationAttachment(identifier : "image", url: img, options: nil)
+                        //content.attachments = [attachment]
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                         let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
+                        
+                         if content.title != "" && content.body != "" {
+                             UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
+                         }
+                    }
         }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -334,22 +335,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                        print("Successfully downloaded. Status code: \(statusCode)")
                         print("temp url -- \(tempLocalUrl)")
+                    self.showNotificationWithAttachment(self.title,self.body,destinationFileUrl)
                    }
-                   
+
                    do {
                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                    } catch (let writeError) {
                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
                    }
-                   
+
                } else {
                 print("Error took place while downloading a file. Error description: %@", error?.localizedDescription as Any);
                }
            }
-       
            task.resume()
-        print("passing url for img path - \(destinationFileUrl)")
-          return destinationFileUrl
+            print("passing url for img path - \(destinationFileUrl)")
+        return destinationFileUrl
     }
     
         // MARK: - Core Data stack
