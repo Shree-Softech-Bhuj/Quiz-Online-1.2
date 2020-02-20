@@ -56,11 +56,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This will use to capture a picture </string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -71,7 +66,6 @@
 	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -93,5 +87,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>FirebaseMessagingAutoInitEnabled
+1
+FirebaseMessagingAutoInitEnabled
+
+1
+FirebaseMessagingAutoInitEnabled</key>
+	<string>NO</string>
 </dict>
 </plist>

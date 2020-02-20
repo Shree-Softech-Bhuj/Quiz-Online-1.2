@@ -48,6 +48,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         usr3.layer.cornerRadius = usr3.frame.height/2
                 
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+        print(thisUser)
            
         getLeaders(sel: "All")//get data from server
     }
@@ -283,12 +284,12 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.DesignImageView(self.usr1,self.usr2,self.usr3)
                 //reload data after getting it from server
                 self.tableView.reloadData()
-                
+                               
+                //let this = self.LeaderData.filter{$0.userID == self.thisUser.userID}
                 //set bottom view if user rank is more than 10
-                let this = self.LeaderData.filter{$0.userID == self.thisUser.userID}
-                if this.count > 0 && Int(this[0].rank)! > 10 {
+                // if this.count > 0 && Int(this[0].rank)! > 10 {
                     self.AddUsertoBottom()
-                }
+               // }
             }
         });
     }

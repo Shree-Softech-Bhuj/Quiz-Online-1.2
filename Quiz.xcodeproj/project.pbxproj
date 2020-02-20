@@ -39,6 +39,10 @@
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
 		C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6679A4023B7734200670AC0 /* SignUpViewController.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
+		C6F65FFC23F67B0600015F15 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F65FFB23F67B0600015F15 /* NotificationService.swift */; };
+		C6F6600023F67B0600015F15 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C6F65FF923F67B0600015F15 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C6F6600B23F67E2600015F15 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F6600A23F67E2600015F15 /* UserNotifications.framework */; };
+		C6F6600D23F67E2600015F15 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F6600C23F67E2600015F15 /* UserNotificationsUI.framework */; };
 		D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119721A6B4D80026B327 /* PlayQuizView.swift */; };
 		D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119921A6B8B60026B327 /* ResultsViewController.swift */; };
 		D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75C4C49223289AA006C68EF /* Leaderboard.swift */; };
@@ -68,6 +72,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C6F65FFE23F67B0600015F15 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7FCFC4E21A5282D00718EE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6F65FF823F67B0600015F15;
+			remoteInfo = NotificationService;
+		};
 		D7FCFC6E21A5283C00718EE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7FCFC4E21A5282D00718EE2 /* Project object */;
@@ -83,6 +94,20 @@
 			remoteInfo = Quiz;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C6F6600123F67B0600015F15 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C6F6600023F67B0600015F15 /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1B236F7D868217F360643DDE /* Pods-QuizUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuizUITests/Pods-QuizUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -121,6 +146,12 @@
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
 		C6679A4023B7734200670AC0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
+		C6F65FF923F67B0600015F15 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6F65FFB23F67B0600015F15 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		C6F65FFD23F67B0600015F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6F6600923F67E2600015F15 /* NotificationContent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6F6600A23F67E2600015F15 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		C6F6600C23F67E2600015F15 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		D74A119721A6B4D80026B327 /* PlayQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayQuizView.swift; sourceTree = "<group>"; };
 		D74A119921A6B8B60026B327 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		D75C4C49223289AA006C68EF /* Leaderboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
@@ -159,6 +190,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C6F65FF623F67B0600015F15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6F6600623F67E2600015F15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6F6600D23F67E2600015F15 /* UserNotificationsUI.framework in Frameworks */,
+				C6F6600B23F67E2600015F15 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7FCFC5321A5282D00718EE2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -192,6 +239,8 @@
 				8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */,
 				251F6F3CC8059908050DF02D /* Pods_QuizTests.framework */,
 				E84B8B5DE5D049A997B5E982 /* Pods_QuizUITests.framework */,
+				C6F6600A23F67E2600015F15 /* UserNotifications.framework */,
+				C6F6600C23F67E2600015F15 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -245,12 +294,22 @@
 			path = PlayView;
 			sourceTree = "<group>";
 		};
+		C6F65FFA23F67B0600015F15 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				C6F65FFB23F67B0600015F15 /* NotificationService.swift */,
+				C6F65FFD23F67B0600015F15 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 		D7FCFC4D21A5282D00718EE2 = {
 			isa = PBXGroup;
 			children = (
 				D7FCFC5821A5282D00718EE2 /* Quiz */,
 				D7FCFC7021A5283C00718EE2 /* QuizTests */,
 				D7FCFC7B21A5283C00718EE2 /* QuizUITests */,
+				C6F65FFA23F67B0600015F15 /* NotificationService */,
 				D7FCFC5721A5282D00718EE2 /* Products */,
 				FF23862ADE80DBAADB3A50AD /* Pods */,
 				12C86B3ABD2F284E6287BBFB /* Frameworks */,
@@ -263,6 +322,8 @@
 				D7FCFC5621A5282D00718EE2 /* Quiz.app */,
 				D7FCFC6D21A5283C00718EE2 /* QuizTests.xctest */,
 				D7FCFC7821A5283C00718EE2 /* QuizUITests.xctest */,
+				C6F65FF923F67B0600015F15 /* NotificationService.appex */,
+				C6F6600923F67E2600015F15 /* NotificationContent.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,6 +407,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C6F65FF823F67B0600015F15 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6F6600423F67B0600015F15 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				C6F65FF523F67B0600015F15 /* Sources */,
+				C6F65FF623F67B0600015F15 /* Frameworks */,
+				C6F65FF723F67B0600015F15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = C6F65FF923F67B0600015F15 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C6F6600823F67E2600015F15 /* NotificationContent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6F6601823F67E2600015F15 /* Build configuration list for PBXNativeTarget "NotificationContent" */;
+			buildPhases = (
+				C6F6600523F67E2600015F15 /* Sources */,
+				C6F6600623F67E2600015F15 /* Frameworks */,
+				C6F6600723F67E2600015F15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationContent;
+			productName = NotificationContent;
+			productReference = C6F6600923F67E2600015F15 /* NotificationContent.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		D7FCFC5521A5282D00718EE2 /* Quiz */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7FCFC8121A5283C00718EE2 /* Build configuration list for PBXNativeTarget "Quiz" */;
@@ -356,10 +451,12 @@
 				D7FCFC5421A5282D00718EE2 /* Resources */,
 				AC89592CAAE17E1E5AF7C8EC /* [CP] Embed Pods Frameworks */,
 				2D0CE3A89D968F8E0DF14463 /* [CP] Copy Pods Resources */,
+				C6F6600123F67B0600015F15 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C6F65FFF23F67B0600015F15 /* PBXTargetDependency */,
 			);
 			name = Quiz;
 			productName = Quiz;
@@ -410,10 +507,16 @@
 		D7FCFC4E21A5282D00718EE2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "LPK Techno";
 				TargetAttributes = {
+					C6F65FF823F67B0600015F15 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					C6F6600823F67E2600015F15 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
 					D7FCFC5521A5282D00718EE2 = {
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
@@ -451,11 +554,27 @@
 				D7FCFC5521A5282D00718EE2 /* Quiz */,
 				D7FCFC6C21A5283C00718EE2 /* QuizTests */,
 				D7FCFC7721A5283C00718EE2 /* QuizUITests */,
+				C6F65FF823F67B0600015F15 /* NotificationService */,
+				C6F6600823F67E2600015F15 /* NotificationContent */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C6F65FF723F67B0600015F15 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6F6600723F67E2600015F15 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7FCFC5421A5282D00718EE2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -591,6 +710,21 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C6F65FF523F67B0600015F15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6F65FFC23F67B0600015F15 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6F6600523F67E2600015F15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7FCFC5221A5282D00718EE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -662,6 +796,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C6F65FFF23F67B0600015F15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6F65FF823F67B0600015F15 /* NotificationService */;
+			targetProxy = C6F65FFE23F67B0600015F15 /* PBXContainerItemProxy */;
+		};
 		D7FCFC6F21A5283C00718EE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D7FCFC5521A5282D00718EE2 /* Quiz */;
@@ -694,6 +833,90 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C6F6600223F67B0600015F15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 89C47N4UTZ;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.quiz.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6F6600323F67B0600015F15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 89C47N4UTZ;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.quiz.NotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C6F6601923F67E2600015F15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 89C47N4UTZ;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.quiz.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6F6601A23F67E2600015F15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 89C47N4UTZ;
+				INFOPLIST_FILE = NotificationContent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.quiz.NotificationContent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D7FCFC7F21A5283C00718EE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -746,7 +969,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -803,7 +1026,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -817,6 +1040,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C9D51952B8B36A42BB59AAC /* Pods-Quiz.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Quiz/Quiz.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -840,6 +1064,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 738C4A7298208A8EFA3564A9 /* Pods-Quiz.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Quiz/Quiz.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -946,6 +1171,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C6F6600423F67B0600015F15 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6F6600223F67B0600015F15 /* Debug */,
+				C6F6600323F67B0600015F15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6F6601823F67E2600015F15 /* Build configuration list for PBXNativeTarget "NotificationContent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6F6601923F67E2600015F15 /* Debug */,
+				C6F6601A23F67E2600015F15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D7FCFC5121A5282D00718EE2 /* Build configuration list for PBXProject "Quiz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

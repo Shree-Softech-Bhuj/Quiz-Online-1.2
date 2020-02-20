@@ -17,6 +17,8 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     @IBOutlet weak var showAboutUs: UIButton!
     @IBOutlet weak var showInstructions: UIButton!
     @IBOutlet weak var showInviteFrnd: UIButton!
+    @IBOutlet weak var showTermsOfService: UIButton!
+    @IBOutlet weak var showPrivacyPolicy: UIButton!
        
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
@@ -54,7 +56,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
     
         // calll button design button and pass button varaible those buttons nedd to be design
-        self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs)
+        self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs,showPrivacyPolicy,showTermsOfService)
     }
       
     @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
@@ -99,11 +101,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
              presentViewController("UserStatistics")
         }
     }
-       
-    @IBAction func showUserProfile(_ sender: Any) {
-        presentViewController("UpdateProfileView")
-    }
-    
+        
     @IBAction func instructions(_ sender: Any) {
         //presentViewController("instructions")
         weak var pvc = self.presentingViewController
@@ -155,6 +153,12 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     @IBAction func inviteFriends(_ sender: Any) {
        presentViewController("ReferAndEarn")
         }
+    @IBAction func termsOfService(_ sender: Any) {
+    presentViewController("TermsView")
+     }
+    @IBAction func privacyPolicy(_ sender: Any) {
+    presentViewController("PrivacyView")
+     }
     
     @IBAction func aboutUs(_ sender: Any) {
         //presentViewController("AboutUsView")

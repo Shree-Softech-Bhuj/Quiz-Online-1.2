@@ -38,12 +38,14 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         bannerView.load(request)
         
         languageButton.isHidden = true
-        config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
-        if config?.LANGUAGE_MODE == 1{
-            apiName = "get_categories_by_language"
-            apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
-            languageButton.isHidden = false
-        }
+       
+            config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+            if config?.LANGUAGE_MODE == 1{
+                apiName = "get_categories_by_language"
+                apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+                languageButton.isHidden = false
+            }
+            
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){

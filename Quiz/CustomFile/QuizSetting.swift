@@ -5,7 +5,7 @@ import AVFoundation
 //apps seting and default value will be store here and used everywhere
 struct Apps{
     //static var URL = "http://quiz.wrteam.in/api-v2.php" //version 5.3
-    static var URL = "http://quizdemo.wrteam.in/api-v2.php"
+    static var URL = "https://quizdemo.wrteam.in/api-v2.php"
     
     //static var URL = "http://vetquiz.club/api-v2.php"
     static var ACCESS_KEY = "6808"

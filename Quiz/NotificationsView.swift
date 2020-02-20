@@ -65,12 +65,19 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        //check if user entered in this view directly from notification ? if Yes then goTo Home page otherwise just go back from notification view
+          if self == UIApplication.shared.keyWindow?.rootViewController {
+              let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+              goHome.modalPresentationStyle = .fullScreen
+              self.present(goHome, animated: true, completion: nil)
+        }else{
+             self.dismiss(animated: true, completion: nil)
+        }       
     }
         
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+         
         if NotificationList.count == 0{
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = Apps.NO_NOTIFICATION
@@ -87,9 +94,9 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        //let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
+        let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCellNoImage" : "NotifyCell"
         
-        let cellIdentifier = "NotifyCell"
+        //let cellIdentifier = "NotifyCell"
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
@@ -97,10 +104,11 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
         
         cell.qstn.text = NotificationList[indexPath.row].title
         cell.ansr.text = NotificationList[indexPath.row].msg
-        
+        print("before - \(NotificationList[indexPath.row].img)")
         if(NotificationList[indexPath.row].img != ""){
             DispatchQueue.main.async {
-                cell.bookImg.loadImageUsingCache(withUrl: self.NotificationList[indexPath.row].img)
+                print("aftr - \(self.NotificationList[indexPath.row].img)")
+                cell.bookImg.loadImageUsingCache(withUrl: "https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg") // self.NotificationList[indexPath.row].img
             }
         }
         cell.bookView.SetShadow()

@@ -15,11 +15,15 @@ class SystemConfig: UIViewController {
         //update fcm id
        if UserDefaults.standard.bool(forKey: "isLogedin") {
           let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-          //get data from server
-          if(Reachability.isConnectedToNetwork()){
-           let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
-              self.getAPIData(apiName: "update_fcm_id", apiURL: apiURL,completion: LoadResponse)
-          }
+        print(duser)
+        if duser.userID != ""{
+            if(Reachability.isConnectedToNetwork()){
+             let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
+                self.getAPIData(apiName: "update_fcm_id", apiURL: apiURL,completion: LoadResponse)
+            }
+        }else{
+            print("user ID not available. Try again Later !")
+        }          
       }
     }
     //load response of updtFCMid data here

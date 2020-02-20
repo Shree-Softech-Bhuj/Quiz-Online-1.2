@@ -29,7 +29,7 @@ class UpdateProfileView: UIViewController{
       
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
        // imgView.layer.cornerRadius = 50//imgView.frame.height/2
-        
+        print(dUser!)
         //self.usrImg.contentMode = .scaleAspectFill
         usrImg.heightAnchor.constraint(equalToConstant: 60).isActive = true
         usrImg.widthAnchor.constraint(equalToConstant: 60).isActive = true

@@ -35,7 +35,7 @@ class UserStatisticsView: UIViewController {
         super.viewDidLoad()
         
         userDefault = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        
+        print("user data-\(String(describing: userDefault))")
         userName.text = "Hello, \(userDefault!.name)"
         
         let score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)

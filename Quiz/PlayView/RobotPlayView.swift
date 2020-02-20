@@ -194,7 +194,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                         if let e = val["optione"] as? String {
                           if e == ""{
                                Apps.opt_E = false
-                               btnE.isHidden = true
+                             DispatchQueue.main.async {
+                                self.btnE.isHidden = true 
+                            }
                                buttons = [btnA,btnB,btnC,btnD]
                                //set four option's view shadow
                                self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
@@ -202,7 +204,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                           }else{
                              // print("option E --\(String(describing: e))")
                                Apps.opt_E = true
-                                btnE.isHidden = false
+                             DispatchQueue.main.async {
+                                self.btnE.isHidden = false
+                            }
                                 buttons = [btnA,btnB,btnC,btnD,btnE]
                                //set five option's view shadow
                                self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
