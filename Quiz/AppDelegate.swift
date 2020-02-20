@@ -99,14 +99,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
            // openPostDetail(userInfo: userInfo) // my function to display post detail viewController
         }
         
-        //go To Notification Page
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationsView")
-        self.window?.rootViewController = initialViewController
-        self.window?.makeKeyAndVisible()
+//        //go To Notification Page
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationsView")
+//        self.window?.rootViewController = initialViewController
+//        self.window?.makeKeyAndVisible()
         
         // Print full message.
         //analyse(notification: userInfo)
+        print(" user info - \(userInfo)")
         completionHandler()
     }
     private func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -187,7 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             let img2 = img1.components(separatedBy: "\"")
             print(img2[3])
             if img2[3] != ""{
-                print(displayname)
+               // print(displayname)
                 let img: String = img2[3]
                 imgURL = setAttachment(img)
                 isImgAttached = true
@@ -256,25 +257,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             //show notification pop up with received title & body
                 let content = UNMutableNotificationContent()
                   content.title = title
-                  content.subtitle = "Subtitle"
+                 // content.subtitle = "Subtitle"
                   content.body = body
                   content.sound = UNNotificationSound.default()
-                    
-//                let url = UIImage(named: img)
-//               // let url = UIImage(named: "TestImg")
-//                let attachment = try! UNNotificationAttachment(identifier : "image", url: url, options: nil)
-//                content.attachments = [attachment]
-                    //let url = img
                     print("data \(img)")
-                    if img == URL(fileURLWithPath: "https://api.androidhive.info//images//minion.jpg") {
+                    if FileManager.default.fileExists(atPath: img.path) {
+                        print("file is present @ \(img.path)")
                         let attachment = try! UNNotificationAttachment(identifier : "image", url: img, options: nil)
-                        //content.attachments = [attachment]
+                        content.attachments = [attachment]
                         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                          let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
                         
                          if content.title != "" && content.body != "" {
                              UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
                          }
+                    }else{
+                         print("file is not present at given path")
                     }
         }
     
@@ -335,10 +333,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                        print("Successfully downloaded. Status code: \(statusCode)")
                         print("temp url -- \(tempLocalUrl)")
-                    self.showNotificationWithAttachment(self.title,self.body,destinationFileUrl)
+                   // self.showNotificationWithAttachment(self.title,self.body,destinationFileUrl)
                    }
 
                    do {
+                       try? FileManager.default.removeItem(at: destinationFileUrl)
                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                    } catch (let writeError) {
                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
