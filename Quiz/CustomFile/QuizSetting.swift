@@ -41,6 +41,15 @@ struct Apps{
     static let NO_NOTIFICATION = "Notifications not available"
     static let NOTIFICATIONS = "get_notifications"
     
+    //variables to store push notification response parameters
+    static var nTitle = ""
+    static var nMsg = ""
+    static var nImg = ""
+    static var nMaxLvl = ""
+    static var nMainCat = ""
+    static var nSubCat = ""
+    static var nType = ""
+    
     static let APP_NAME = "QUIZ"
     
     static let USERS_DATA = "get_user_by_id"

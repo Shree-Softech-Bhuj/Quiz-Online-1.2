@@ -52,7 +52,6 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                   for val in data{
                     NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)"))
-                  //  print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
                 }
               }
             }
@@ -103,21 +102,31 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
         }
         
         cell.qstn.text = NotificationList[indexPath.row].title
+        //show 1st character of Title at left side of title and message here
+        if cellIdentifier == "NotifyCell" {
+           let x = cell.qstn.text!.prefix(1)
+           cell.label1Char.text = String(x)
+           cell.label1Char.layer.masksToBounds = true
+           cell.label1Char.layer.cornerRadius = 5
+           print(x)
+        }
         cell.ansr.text = NotificationList[indexPath.row].msg
         print("before - \(NotificationList[indexPath.row].img)")
-        if(NotificationList[indexPath.row].img != ""){
-            DispatchQueue.main.async {
-                print("aftr - \(self.NotificationList[indexPath.row].img)")
-                cell.bookImg.loadImageUsingCache(withUrl: "https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg") // self.NotificationList[indexPath.row].img
+        if(NotificationList[indexPath.row].img != "") { //&& cellIdentifier == "NotifyCellNoImage"
+            let url: String =  self.NotificationList[indexPath.row].img
+                      DispatchQueue.main.async {
+                          cell.bookImg.loadImageUsingCache(withUrl: url)
+                      }
+              // cell.bookImg.loadImageUsingCache(withUrl: self.NotificationList[indexPath.row].img) // "https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg"
+                //"https://quizdemo.wrteam.in/images/notifications/images/notifications/1582344394.4906.png"
             }
-        }
         cell.bookView.SetShadow()
         cell.bookView.layer.cornerRadius = 15
         cell.bookView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
   
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,
                        initialSpringVelocity: 6.0,options: .allowUserInteraction,
-                       animations: { [weak self] in 
+                       animations: { [weak self] in
                         cell.bookView.transform = .identity
                         
             },completion: nil)

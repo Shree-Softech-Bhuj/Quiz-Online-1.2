@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     var window: UIWindow?
     let varSys = SystemConfig()
     let gcmMessageIDKey = "gcm.message_id"
-   // var count = 1
     var imgURL = URL(string: "")
     var isImgAttached = false
     var title : String = ""
@@ -74,19 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         print("TOKEN - \(token)")
         
         //to get system configurations parameters as per requirement
-      // let varSys = SystemConfig()
        varSys.ConfigureSystem()
        varSys.getNotifications()
-       //varSys.updtFCMToServer()
-    
-        //FirebaseApp.configure()
+
         return true
     }
     //to receive notification in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert,.badge,.sound])
-    
-        //print("notification done")
     }
     
     //func called when user clicks on notification
@@ -98,15 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             print("message :  \(userInfo)")
            // openPostDetail(userInfo: userInfo) // my function to display post detail viewController
         }
-        
-//        //go To Notification Page
-//        self.window = UIWindow(frame: UIScreen.main.bounds)
-//        let initialViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NotificationsView")
-//        self.window?.rootViewController = initialViewController
-//        self.window?.makeKeyAndVisible()
-        
-        // Print full message.
-        //analyse(notification: userInfo)
+        // removeTempImg()
         print(" user info - \(userInfo)")
         completionHandler()
     }
@@ -126,9 +112,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//          print("Message ID: \(messageID)")
-//        }
         switch application.applicationState {
 
          case .inactive:
@@ -146,9 +129,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
              //Show an in-app banner
              completionHandler(.newData)
          }
-        
-        
-        // Print full message.
         print("USER INFO ",userInfo)
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -165,43 +145,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                
         if (remoteMessage.appData["notification"] as? [String:Any]) != nil { //cloud message of firebase
             //print(remoteMessage.appData["notification"]!)
-            let notif = remoteMessage.appData["notification"]
+            let notif = remoteMessage.appData["notification"] //receive from Firebase
             guard let DATA = notif as? [String:Any] else{
                                return
                            }
-          // print("Data -\(DATA)")
              title = DATA["title"]  as! String
-             body = DATA["body"]  as! String // body = DATA["message"] as! String incase of data instead of notification here
-            //print("title -\(title)")
-            //print("body -\(body)")
+             body = DATA["body"]  as! String
             showNotification(title,body) //showNotification(title,body)
-        }else if (remoteMessage.appData["data"]) != nil { //app message check
-            let notif = remoteMessage.appData["data"]
-            print(notif!)
             
+        }else if (remoteMessage.appData["data"] as? [String:Any]) != nil {
+                print("data of type ANY - \(remoteMessage.appData["data"])")
+        }else if (remoteMessage.appData["data"]) != nil { //app message check
+            let notif = remoteMessage.appData["data"] //receive from API - Server
+            print(notif!)
             let str : String = remoteMessage.appData["data"] as! String
             let displayname = str.components(separatedBy: ",")
-            print(displayname)
-            
+            //print(displayname)
             let img0 = displayname[0] //img url
             let img1 = img0.dropFirst()
             let img2 = img1.components(separatedBy: "\"")
-            print(img2[3])
-            if img2[3] != ""{
-               // print(displayname)
-                let img: String = img2[3]
-                imgURL = setAttachment(img)
-                isImgAttached = true
-            }else{
-                print("image is blank !!!")
+            if img2.count > 3 { // img2[0] & img2[2] = "" and img2[1] = image according to separation applied above, so if img is attached it will depend on img2[3] if img url is attched
+                if img2[3] != ""{
+                    let img: String = img2[3]
+                    imgURL = setAttachment(img)
+                    isImgAttached = true
+                }else{
+                    print("image url is blank !!!")
+                }
             }
-//            let unwrappedDecodedString: String = img2[3]
-//            if unwrappedDecodedString != ""{
-//                if let img = unwrappedDecodedString.removingPercentEncoding {
-//                    print(img)
-//                    imgURL = setAttachment(img)
-//                }
-//            }
             let a = displayname[4] //title
             
             let b = displayname[5] //body or message
@@ -218,19 +189,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             let g: String = body1
             let h = g.components(separatedBy: "\"")
          
+             let max_level = displayname[1] //max level
+                print(max_level)
+             let category = displayname[2] //type id
+                print(category)
+            let numOf = displayname[3] //numberOf
+                print(numOf)
+             let type = displayname[6] //type
+            print(type)
+            
               print("title -\(f[1])")
               print("message -\(h[1])")
                 title = f[1]
                 body = h[1]
-                //img = img1[1]
-            if  isImgAttached == true {
-                showNotificationWithAttachment(title,body,imgURL!) //showNotification(title,body,img)
-            }else{
-                showNotification(title,body) //showNotification(title,body,img)
-            }
+            Apps.nTitle = title
+            Apps.nMsg = body
+            Apps.nMainCat = category
+            Apps.nSubCat = numOf
+            Apps.nType = type
             
+            if  isImgAttached == true {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 7.0, execute: {
+                    self.showNotificationWithAttachment(self.title,self.body,self.imgURL!) //showNotification(title,body,img)
+                })
+            }else{
+                showNotification(title,body)
+            }
         }else{
-            print("There is No Pending message !!")
+            print("There is No Pending messages / Notifications !!")
         }
     }
     // Google Sign In
@@ -253,7 +239,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
 
             UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
     }
-      func showNotificationWithAttachment(_ title:String,_ body:String,_ img:URL){ //,_ img: URL
+    func showNotificationWithAttachment(_ title:String,_ body:String,_ img:URL){ //,_ img: URL
             //show notification pop up with received title & body
                 let content = UNMutableNotificationContent()
                   content.title = title
@@ -261,20 +247,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                   content.body = body
                   content.sound = UNNotificationSound.default()
                     print("data \(img)")
-                    if FileManager.default.fileExists(atPath: img.path) {
-                        print("file is present @ \(img.path)")
-                        let attachment = try! UNNotificationAttachment(identifier : "image", url: img, options: nil)
-                        content.attachments = [attachment]
-                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                         let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
-                        
-                         if content.title != "" && content.body != "" {
-                             UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
+        if img.path.contains("jpg"){
+            print("file is present @ \(img.path)")
+            let attachment = try! UNNotificationAttachment(identifier : "image", url: img, options: nil)
+            content.attachments = [attachment]
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+             let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
+             if content.title != "" && content.body != "" {
+                 UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
                          }
-                    }else{
-                         print("file is not present at given path")
-                    }
+        }else{
+             print("file is not present at given path")
         }
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         
@@ -305,22 +290,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         self.saveContext()
     }
     func setAttachment(_ tempImg : String) -> URL {
-       // count += 1
-                
         // Create destination URL
         let  documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            //remove images first
-//                let items = try? FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil)
-//                items?.forEach { item in
-//                    try? FileManager.default.removeItem(at: item)
-//                }
+        print(documentsUrl)
             //add downloaded image as specified name below
-            let destinationFileUrl = documentsUrl.appendingPathComponent("tempImg.jpg") // downloadedFile.jpg //img\(count).jpg
-             
+            let destinationFileUrl = documentsUrl.appendingPathComponent("tempImg.jpg")
            //Create URL to the source file you want to download
-           
             let iimage =  tempImg.replacingOccurrences(of: "\\", with: "")
-            print("passing url - \(iimage)")
+            //print("passing url - \(iimage)")
             let fileURL = URL(string: iimage) //https://api.androidhive.info//images//minion.jpg  https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg
            
            let sessionConfig = URLSessionConfiguration.default
@@ -332,12 +309,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
                    // Success
                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                        print("Successfully downloaded. Status code: \(statusCode)")
-                        print("temp url -- \(tempLocalUrl)")
-                   // self.showNotificationWithAttachment(self.title,self.body,destinationFileUrl)
                    }
 
                    do {
-                       try? FileManager.default.removeItem(at: destinationFileUrl)
+                        removeTempImg() //to avoid overrriding, just delete existing file & then copy file here
                        try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                    } catch (let writeError) {
                        print("Error creating a file \(destinationFileUrl) : \(writeError)")
@@ -398,3 +373,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     }
 }
 
+func removeTempImg(){
+   let  documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let destinationFileUrl = documentsUrl.appendingPathComponent("tempImg.jpg")
+    if FileManager.default.fileExists(atPath: destinationFileUrl.path){
+        try? FileManager.default.removeItem(at: destinationFileUrl)
+   }
+}
+func actionAccordingToContent(){
+    if Apps.nType == "default" {
+    }else if Apps.nType == "category" {
+        if Apps.nSubCat != "0" {
+            //open level 1 of subcategory id given
+           let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+           let levelScreen:LevelView = storyBoard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+          // if subCatData[indexPath.row].maxlevel.isInt{
+            levelScreen.maxLevel = Int(Apps.nMaxLvl)!
+           //}
+            levelScreen.catID = Int(Apps.nSubCat) ?? 0
+           levelScreen.questionType = "sub"
+         // present(levelScreen, animated: true, completion: nil)
+              
+        }else if Apps.nMainCat != "0"{
+            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let subCatView:SubCategoryView = storyBoard.instantiateViewController(withIdentifier: "SubCategoryView") as! SubCategoryView
+            subCatView.catID = Apps.nMainCat //pass main category id to show subcategories regarding to main category there
+            // present(subCatView, animated: true, completion: nil)
+     }
+   }
+}

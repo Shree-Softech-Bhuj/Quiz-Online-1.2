@@ -27,6 +27,9 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var bookView: UIView!
     @IBOutlet weak var qstn: UILabel!
     @IBOutlet weak var ansr: UILabel!
+    
+    @IBOutlet weak var label1Char: UILabel!
+    
     @IBOutlet weak var tfbtn: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()

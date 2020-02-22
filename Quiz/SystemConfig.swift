@@ -122,7 +122,7 @@ class SystemConfig: UIViewController {
                 self.NotificationList.removeAll()
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                   for val in data{
-                    NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)"))
+                    NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)")) 
                     print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
                 }
                     UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
