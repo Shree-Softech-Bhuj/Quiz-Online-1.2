@@ -161,9 +161,9 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
             }
         }
         
-        cell.cateImg.layer.borderColor = UIColor.lightGray.cgColor
-        cell.cateImg.layer.borderWidth = 0.8
-        cell.cateImg.layer.cornerRadius = cell.cateImg.frame.size.height/2
+       // cell.cateImg.layer.borderColor = UIColor.lightGray.cgColor
+        //cell.cateImg.layer.borderWidth = 0.8
+        //cell.cateImg.layer.cornerRadius = cell.cateImg.frame.size.height/2
         cell.cateImg.layer.masksToBounds = true
         
         cell.cellView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
@@ -196,6 +196,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
             let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let subCatView:SubCategoryView = storyBoard.instantiateViewController(withIdentifier: "SubCategoryView") as! SubCategoryView
             subCatView.catID = catData[indexPath.row].id
+            subCatView.catName = catData[indexPath.row].name
             self.present(subCatView, animated: true, completion: nil)
         }
     }

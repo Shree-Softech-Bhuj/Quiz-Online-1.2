@@ -37,7 +37,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     var LeaderData:[Leader] = []
     var thisUser:User!
-       
+    var ttlCount = 0
+    var offset = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -49,7 +51,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print(thisUser)
-           
+        
         getLeaders(sel: "All")//get data from server
     }
     
@@ -59,18 +61,25 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
           let dateFormatterGet = DateFormatter()
           dateFormatterGet.dateFormat = "yyyy-MM-dd"
           Loader = LoadLoader(loader: Loader)
-        //chk for selection from dropdownload
+        //chk for selection from dropdown
                  if (sel == "Daily") { //daily
                     let apiURL = "from=\(dateFormatterGet.string(from: Date()))&to=\(dateFormatterGet.string(from: Date()))"
                       print(apiURL)
                       self.getAPIData(apiName: "get_datewise_leaderboard", apiURL: apiURL,completion: LoadData)
                 }
                 if (sel == "Monthly"){ //monthly
-                        let apiURL = "date=\(dateFormatterGet.string(from: Date().startOfMonth()))"
+                    
+                        var apiURL = "date=\(dateFormatterGet.string(from: Date().startOfMonth()))"
+                        if offset < ttlCount {
+                            apiURL += "&offset=\(offset)" //+1
+                        }
                         self.getAPIData(apiName: "get_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
                 }
                 if(sel == "All"){ //all
-                    let apiURL = "" //no need of date
+                     var apiURL = ""
+                     if offset < ttlCount {
+                         apiURL = "offset=\(offset)" //+1
+                    }
                     self.getAPIData(apiName: "get_global_leaderboard", apiURL: apiURL,completion: LoadData)
                 }
            }
@@ -80,10 +89,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     @IBAction func showLeaderboardOptions(_ sender: UIButton) {
-//        if let buttonTitle = sender.title(for: .normal) {
-//            //getLeaders(sel: buttonTitle) //should be called at click of dropdown after chnging nm of button
-//            print(buttonTitle)
-//        }
         if selectionOptView.superview != nil {
             animateOut()
         }else {
@@ -111,36 +116,38 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @IBAction func showAll(_ sender: UIButton) {
         animateOut()
-        //self.selectionOptView.removeFromSuperview()
         if let buttonTitle = sender.title(for: .normal) {
         //used "trimmed" variable instead of "buttonTitle" as buttonTitle have whitespace after All for positioning in design view so we have to remove it here
         let name: String = buttonTitle
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
             //print("\(trimmed)trimmedALL")
+        LeaderData.removeAll()//clear previous data
+        offset = 0 //reset offset value
         getLeaders(sel: trimmed)
         buttonAll.setTitle(buttonTitle, for: .normal)
         }
-       //self.selectionOptView.removeFromSuperview()
     }
     @IBAction func showMonthly(_ sender: UIButton) {
         animateOut()
-        //self.selectionOptView.removeFromSuperview()
         if let buttonTitle = sender.title(for: .normal) {
-        getLeaders(sel: buttonTitle)
-        buttonAll.setTitle(buttonTitle, for: .normal)
+            LeaderData.removeAll()//clear previous data
+            offset = 0 //reset offset value
+            getLeaders(sel: buttonTitle)
+            buttonAll.setTitle(buttonTitle, for: .normal)
         }
     }
     @IBAction func showDaily(_ sender: UIButton) {
         animateOut()
-        //self.selectionOptView.removeFromSuperview()
         if let buttonTitle = sender.title(for: .normal) {
-        getLeaders(sel: buttonTitle)
-        buttonAll.setTitle(buttonTitle, for: .normal)
+            LeaderData.removeAll()//clear previous data
+            offset = 0 //reset offset value
+            getLeaders(sel: buttonTitle)
+            buttonAll.setTitle(buttonTitle, for: .normal)
         }
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         print(status)
         if (status == "true") {
@@ -156,12 +163,16 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 })
             }            
         }else{
+            let strCount: String = jsonObj.value(forKey: "total") as! String //returns total count of records from response
+            ttlCount = Int(strCount)! //total number of records according to filter
+           
             //get data for category
-            LeaderData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                    LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
-                }
+                      LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
+                   }
+                offset += data.count //updated every time
+                print(offset)
             }
         }
         //close loader here
@@ -184,7 +195,6 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[0].name.isEmpty) && (!self.LeaderData[0].score.isEmpty) {
                                 self.usr2Lbl.text = "\(self.LeaderData[0].name)"
                                 self.score2Lbl.text = "\(self.LeaderData[0].score)"
-                                //self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
                            }
                            else{
                                 self.user1View.isHidden = true
@@ -200,7 +210,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[1].name.isEmpty) && (!self.LeaderData[1].score.isEmpty) {
                                 self.usr1Lbl.text = "\(self.LeaderData[1].name)"
                                 self.score1Lbl.text = "\(self.LeaderData[1].score)"
-                                //self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
+                            if self.user2View.isHidden == true{
+                                self.user2View.isHidden = false
+                            }
                            }
                            else{
                               self.user2View.isHidden = true
@@ -212,7 +224,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[0].name.isEmpty) && (!self.LeaderData[0].score.isEmpty) {
                              self.usr2Lbl.text = "\(self.LeaderData[0].name)"
                              self.score2Lbl.text = "\(self.LeaderData[0].score)"
-                           //  self.usr2.loadImageUsingCache(withUrl: self.LeaderData[0].image)
+                            if self.user1View.isHidden == true{
+                                self.user1View.isHidden = false
+                            }
                         }
                         else{
                             self.user1View.isHidden = true
@@ -227,10 +241,11 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[1].name.isEmpty) && (!self.LeaderData[1].score.isEmpty) {
                                 self.usr1Lbl.text = "\(self.LeaderData[1].name)"
                                 self.score1Lbl.text = "\(self.LeaderData[1].score)"
-                                //self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
+                            if self.user2View.isHidden == true{
+                                self.user2View.isHidden = false
+                            }
                            }else{
                               self.user2View.isHidden = true
-                            //print("no data for user 1")
                            }
                         //user 2
                         if(!self.LeaderData[0].image.isEmpty){
@@ -239,7 +254,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[0].name.isEmpty) && (!self.LeaderData[0].score.isEmpty) {
                              self.usr2Lbl.text = "\(self.LeaderData[0].name)"
                              self.score2Lbl.text = "\(self.LeaderData[0].score)"
-                           //  self.usr2.loadImageUsingCache(withUrl: self.LeaderData[0].image)
+                            if self.user1View.isHidden == true{
+                                self.user1View.isHidden = false
+                            }
                         } else{
                             self.user1View.isHidden = true
                         }
@@ -250,7 +267,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                         if (!self.LeaderData[2].name.isEmpty) && (!self.LeaderData[2].score.isEmpty) {
                              self.usr3Lbl.text = "\(self.LeaderData[2].name)"
                              self.score3Lbl.text = "\(self.LeaderData[2].score)"
-                            // self.usr3.loadImageUsingCache(withUrl: self.LeaderData[2].image)
+                            if self.user3View.isHidden == true{
+                                self.user3View.isHidden = false
+                            }
                         }
                         else{
                             self.user3View.isHidden = true
@@ -260,36 +279,12 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                    self.showALLinLeaderboard()
                 }
                 
-        /* without hiding any of 3 views  - option of switch case above
-                 
-                 if(!self.LeaderData[1].image.isEmpty){
-                        self.usr1.loadImageUsingCache(withUrl: self.LeaderData[1].image)
-                        }
-                    if(!self.LeaderData[0].image.isEmpty){
-                        self.usr2.loadImageUsingCache(withUrl: self.LeaderData[0].image)
-                       }
-                    if(!self.LeaderData[2].image.isEmpty){
-                        self.usr3.loadImageUsingCache(withUrl: self.LeaderData[2].image)
-                    }
-                // if (!self.LeaderData[0].name.isEmpty) && (!self.LeaderData[0].score.isEmpty) && (!self.LeaderData[0].image.isEmpty){
-               // self.usr1Lbl.text = "\(self.LeaderData[1].name)"
-              //  self.usr2Lbl.text = "\(self.LeaderData[0].name)"
-             //   self.usr3Lbl.text = "\(self.LeaderData[2].name)"
-                
-               // self.score1Lbl.text = "\(self.LeaderData[1].score)"
-               // self.score2Lbl.text = "\(self.LeaderData[0].score)"
-              //  self.score3Lbl.text = "\(self.LeaderData[2].score)"
-      */
-                
                 self.DesignImageView(self.usr1,self.usr2,self.usr3)
                 //reload data after getting it from server
                 self.tableView.reloadData()
                                
-                //let this = self.LeaderData.filter{$0.userID == self.thisUser.userID}
-                //set bottom view if user rank is more than 10
-                // if this.count > 0 && Int(this[0].rank)! > 10 {
+                //set bottom view in every case
                     self.AddUsertoBottom()
-               // }
             }
         });
     }
@@ -325,7 +320,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
 
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          return LeaderData.count - 3
+          return ttlCount - 3
     }
     
     // create a cell for each table view row
@@ -339,9 +334,28 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
         let rowIndex = indexPath.row + 3
+       
+        if rowIndex > (LeaderData.count - 3) && offset < ttlCount {
+           var nm = buttonAll.title(for: .normal)
+            print("\(nm!)- btn name")
+            if nm?.contains(" ") == true {
+                nm = nm!.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            print(nm!)
+            if nm != nil {
+             getLeaders(sel: nm!)
+            }
+            do { //delay to load appending data
+                sleep(2)
+            }
+        }
         cell.srLbl.text = "\(LeaderData[rowIndex].rank)"
         cell.scorLbl.text = "\(LeaderData[rowIndex].score)"
         cell.nameLbl.text = "\(LeaderData[rowIndex].name)"
+        
+        cell.scorLbl.roundCorners(corners: [ .bottomLeft, .topLeft], radius: 10)
+        cell.scorLbl.textAlignment = NSTextAlignment.center
+        cell.srLbl.roundCorners(corners: [ .bottomRight, .topRight], radius: 10)
         
         if(self.LeaderData[rowIndex].image.isEmpty) {
             cell.userImg.image = UIImage(named: "user") // set default image
@@ -357,10 +371,10 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.imgView.layer.masksToBounds = false
         cell.imgView.clipsToBounds = true
         cell.imgView.layer.borderWidth = 2
-        cell.imgView.layer.borderColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+        cell.imgView.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
 
         cell.leadrView.layer.masksToBounds = true
-        cell.leadrView.layer.cornerRadius = 35
+        cell.leadrView.layer.cornerRadius = 0 //35
         cell.leadrView.shadow(color: .lightGray, offSet: CGSize(width: 2, height: 2), opacity: 0.7, radius: 35, scale: true)
         cell.leadrView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
@@ -368,7 +382,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                        initialSpringVelocity: 6.0,options: .allowUserInteraction,
                        animations: { [weak self] in
                         cell.leadrView.transform = .identity
-
+                        
             },completion: nil)
         
         return cell
@@ -379,43 +393,62 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         print("You tapped cell number \(indexPath.row).")
     }
     //check user rank is it visible to view without scroll
-    func AddUsertoBottom(){
-        let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 50, width: self.tableView.frame.width, height: 50))
-        bottomView.backgroundColor = UIColor.white
+    func AddUsertoBottom(){        
+        //if you change height belowchng the same in temp.frame.height == 50
+        let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
+        bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
+         let this = LeaderData.filter{$0.userID == thisUser.userID}
         
-        let this = LeaderData.filter{$0.userID == thisUser.userID}
-        let rankLabel = UILabel(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
-        rankLabel.text = this[0].rank
-        rankLabel.textColor = UIColor.blue
-        bottomView.addSubview(rankLabel)
-        
-        let imageView = UIImageView(frame: CGRect(x: 45, y: 5, width: 40, height: 40))
-        if this[0].image != ""{
-            imageView.loadImageUsingCache(withUrl: this[0].image)
+        if !this.isEmpty {
+               let rankLabel = UILabel(frame: CGRect(x: 0, y: 10, width: 45, height: 30))
+               rankLabel.text = this[0].rank
+               rankLabel.textColor = UIColor.black
+               rankLabel.textAlignment = NSTextAlignment.center
+               rankLabel.backgroundColor = UIColor.white
+               rankLabel.roundCorners(corners: [ .bottomRight, .topRight], radius: 10)
+               bottomView.addSubview(rankLabel)
+               
+               let imageView = UIImageView(frame: CGRect(x: 50, y: 5, width: 40, height: 40))
+               if this[0].image != ""{
+                   imageView.loadImageUsingCache(withUrl: this[0].image)
+               }else{
+                   imageView.image = UIImage(named: "user")
+               }
+               imageView.layer.cornerRadius = 40 / 2
+               imageView.layer.masksToBounds = true
+               bottomView.addSubview(imageView)
+               
+               let nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: 200, height: 30))
+               nameLabel.text = this[0].name
+               nameLabel.textColor = UIColor.white
+               bottomView.addSubview(nameLabel)
+               
+               let scoreLabel = UILabel(frame: CGRect(x: self.view.frame.width - 60, y: 10, width: 60, height: 30))
+               scoreLabel.text = this[0].score
+               scoreLabel.textColor = UIColor.black
+               scoreLabel.textAlignment = .center
+               scoreLabel.backgroundColor = UIColor.white
+             //  scoreLabel.layer.cornerRadius = 15
+               scoreLabel.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10)
+               scoreLabel.layer.masksToBounds = true
+            
+               bottomView.addSubview(scoreLabel)
+               
+               self.view.addSubview(bottomView)
         }else{
-            imageView.image = UIImage(named: "user")
+            //remove subview
+            for temp in self.view.subviews {
+                print(temp)
+                print(temp.frame)
+                if temp.frame.height == 50  { //temp.frame.origin == CGPoint(x: 0, y: 577)-position of bottomView which we want to remove
+                     print("origin => \(temp)")
+                    temp.removeFromSuperview ()
+                }
+            }
+            print(self.view.subviews)
         }
-        imageView.layer.cornerRadius = 40 / 2
-        imageView.layer.masksToBounds = true
-        bottomView.addSubview(imageView)
-        
-        let nameLabel = UILabel(frame: CGRect(x: 95, y: 10, width: 200, height: 30))
-        nameLabel.text = this[0].name
-        bottomView.addSubview(nameLabel)
-        
-        let scoreLabel = UILabel(frame: CGRect(x: self.view.frame.width - 60, y: 10, width: 50, height: 30))
-        scoreLabel.text = this[0].score
-        scoreLabel.textColor = UIColor.red
-        scoreLabel.textAlignment = .center
-        scoreLabel.backgroundColor = UIColor.lightGray
-        scoreLabel.layer.cornerRadius = 15
-        scoreLabel.layer.masksToBounds = true
-        bottomView.addSubview(scoreLabel)
-        
-        self.view.addSubview(bottomView)
     }
 }
-
 //selectionDropDown(A,M,D)
 protocol dropDownProtocol {
     func dropDownPressed(string : String)

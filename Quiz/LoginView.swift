@@ -4,14 +4,15 @@ import GoogleSignIn
 import FBSDKLoginKit
 import FirebaseAuth
 
-//class LoginView: UIViewController,GIDSignInDelegate,GIDSignInUIDelegate{
 class LoginView: UIViewController,GIDSignInDelegate{
     
     // @IBOutlet var fbBtn: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var fbButton: UIButton!
     @IBOutlet weak var guestButton: UIButton!
-    @IBOutlet weak var guestView: UIView!
+    
+    @IBOutlet weak var btnSignUp: UIButton!
+    @IBOutlet weak var btnLogin: UIButton!
     
     @IBOutlet weak var labelView: UIView!
     @IBOutlet weak var optView: UIView!
@@ -27,18 +28,20 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("bool -- \(Apps.opt_E)")
         
         GIDSignIn.sharedInstance().delegate=self
-        //GIDSignIn.sharedInstance().uiDelegate=self
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
+        //rounded borders of buttons
+        btnSignUp.layer.cornerRadius = 20
+        btnLogin.layer.cornerRadius = 20
         
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
         optView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
         loginSignUpView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
+        
     }
     
     @IBAction func signUpBtn(_ sender: UIButton) {
@@ -48,28 +51,20 @@ class LoginView: UIViewController,GIDSignInDelegate{
     }
 
     @IBAction func forgotPswd(_ sender: UIButton) {
-//               let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//               let myAlert = storyboard.instantiateViewController(withIdentifier: "ForgotPswd") as! ForgotPswdView
-//               myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-//               myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-//               self.present(myAlert, animated: true, completion: nil)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPswd")
+       // vc?.modalPresentationStyle = .fullScreen
         self.present(vc!, animated: false, completion: nil)
         }
     
 
     @IBAction func pswdBtn(_ sender: UIButton) {
-//            guard let image = UIImage(named: "unlock") else {
-//                       print("Image Not Found")
-//                       return
-//                   }
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if pswdTxt.isSecureTextEntry == true {
-                pswdButton.setImage(UIImage(named: "unlock"), for: UIControlState.normal)
+                pswdButton.setImage(UIImage(systemName: "eye.slash.fill"), for: UIControlState.normal)
                 pswdTxt.isSecureTextEntry = false
             }else{
-               // pswdButton.setImage(image, for: UIControlState.normal)
-                pswdButton.setImage(UIImage(named: "lock"), for: UIControlState.normal)
+                //pswdButton.setImage(UIImage(named: "lock"), for: UIControlState.normal)
+                pswdButton.setImage(UIImage(systemName: "eye.fill"), for: UIControlState.normal)
                 pswdTxt.isSecureTextEntry = true
             }
     }
@@ -100,7 +95,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true)
-            print(error?.localizedDescription)
+            print(error?.localizedDescription ?? "error")
            }
             })
         }else{
@@ -127,7 +122,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
               var fcode = ""
               let rcode = nm //ref code is same as initial username
               Apps.REFER_CODE = rcode
-                //print("curr user -- \((result?.user.uid)!)")
+                print("curr user -- \((result?.user.uid)!)")
                 if (UserDefaults.standard.value(forKey: "fr_code") != nil){
                     fcode = UserDefaults.standard.string(forKey: "fr_code")!
                     print(fcode)
@@ -172,7 +167,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 return
             }
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
+            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "")
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
@@ -208,7 +203,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
                 
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(user?.user.phoneNumber)", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
@@ -238,7 +233,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
         print(msg)
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
             })
             
         }else{

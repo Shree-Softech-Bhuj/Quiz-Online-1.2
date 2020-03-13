@@ -1,11 +1,12 @@
 import UIKit
 import Firebase
-//import GoogleSignIn
 import FirebaseAuth
 
 class ForgotPswdView: UIViewController {
     
     @IBOutlet weak var email: FloatingTF!
+    
+    @IBOutlet weak var btnSubmit: UIButton!
     
     @IBOutlet weak var detailsView: UIView!
     
@@ -17,6 +18,8 @@ class ForgotPswdView: UIViewController {
         email.becomeFirstResponder()
        //hide current view if user tap twice ,other than email txt
         self.hideCurrViewWhenTappedAround()
+        
+        btnSubmit.layer.cornerRadius = 15
     }
       
     func dismissView(){
@@ -43,7 +46,6 @@ class ForgotPswdView: UIViewController {
                             self.present(resetFailedAlert, animated: true, completion: nil)
                          } else {
                              let resetEmailSentAlert = UIAlertController(title: "To Reset Password, Email sent successfully", message: "Check your email", preferredStyle: .alert)
-                            // resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                              resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                                 self.dismissView()
                             }))

@@ -10,9 +10,9 @@ extension UIColor{
         return UIColor.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
     }
     
-    static let defaultOuterColor = UIColor.rgb(216, 216, 216,1)
-    static let defaultInnerColor: UIColor = .rgb(96, 104, 153,1)
-    static let defaultPulseFillColor = UIColor.rgb(86, 30, 63,1)
+    static let defaultOuterColor = UIColor.rgb(224, 224, 224,1)//UIColor.rgb(216, 216, 216,1)
+    static let defaultInnerColor: UIColor = .rgb(57, 129, 156,1)//.rgb(96, 104, 153,1)
+    static let defaultPulseFillColor = UIColor.rgb(248, 248, 248,1)//UIColor.rgb(86, 30, 63,1)
     
     static let Vertical_progress_true = Apps.RIGHT_ANS_COLOR //verticle proress bar color for true answer
     static let Vertical_progress_false = Apps.WRONG_ANS_COLOR // verticle progress bar color for false answer
@@ -65,7 +65,6 @@ let imageCache = NSCache<NSString, AnyObject>()
 extension UIImageView {
     func loadImageUsingCache(withUrl urlString : String) {
         let url = URL(string: urlString)
-        // self.image = nil
         
         // check cached image
         if let cachedImage = imageCache.object(forKey: urlString as NSString) as? UIImage {
@@ -148,20 +147,29 @@ extension UIButton {
 extension UIView{
     
     func DesignViewWithShadow(){
-       self.layer.cornerRadius = 10
+       //self.layer.cornerRadius = 10
         self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds,cornerRadius: self.layer.cornerRadius).cgPath
         self.layer.shadowColor = UIColor.lightGray.cgColor
         self.layer.shadowOpacity = 0.5
         self.layer.shadowOffset = CGSize(width: 5, height: 5)
         self.layer.shadowRadius = 1
         self.layer.masksToBounds = false
-        self.layer.borderColor = UIColor(red: 189/255, green: 189/255, blue: 189/255, alpha: 0.5).cgColor
+        self.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 189/255, green: 189/255, blue: 189/255, alpha: 0.5).cgColor
         self.layer.borderWidth = 1
     }
     
     func SetShadow(){
-        self.layer.cornerRadius = self.frame.height / 2
+       // self.layer.cornerRadius = self.frame.height / 2
         self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 3, height: 4)
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 4
+        self.layer.masksToBounds = false
+    }
+    
+    func SetDarkShadow(){
+        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: 3, height: 4)
         self.layer.shadowOpacity = 1
         self.layer.shadowRadius = 4

@@ -29,6 +29,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var totalCount: UILabel!
     
+    @IBOutlet weak var battleScoreView: UIView!
+    
     @IBOutlet weak var btnA: UIButton!
     @IBOutlet weak var btnB: UIButton!
     @IBOutlet weak var btnC: UIButton!
@@ -54,7 +56,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
-//    var quesData: [Question] = []
     var quesData: [QuestionWithE] = []
     var currentQuestionPos = 0
     
@@ -66,16 +67,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
-//        if Apps.opt_E == true {
-//            btnE.isHidden = false
-//            buttons = [btnA,btnB,btnC,btnD,btnE]
-//        }else{
+
         //show 4 options by default & set 5th later by checking for opt E mode
-            btnE.isHidden = true 
-            buttons = [btnA,btnB,btnC,btnD]
-        //}
-         
+        btnE.isHidden = true
+        buttons = [btnA,btnB,btnC,btnD]
+
         // set refrence for firebase database
         self.ref = Database.database().reference().child("AvailUserForBattle")
         mainQuestionLbl.centerVertically()
@@ -88,14 +84,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
         setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
         
+        battleScoreView.DesignViewWithShadow()
         self.questionView.DesignViewWithShadow()
-//        if Apps.opt_E == true {
-//            //set five option's view shadow
-//            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
-//        }else{
-            //set four option's view shadow by default & set 5th later by checking for opt E mode
-            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-        //}
+
+        //set four option's view shadow by default & set 5th later by checking for opt E mode
+        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
@@ -135,6 +128,13 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         zoomScale += 1
         zoomScroll.zoomScale = zoomScale
     }
+    @IBAction func settingButton(_ sender: Any) {
+          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+          let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
+          myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+          myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+          self.present(myAlert, animated: true, completion: nil)
+      }
     
     @IBAction func SpeechBtn(_ sender: Any) {
         let speechSynthesizer = AVSpeechSynthesizer()
@@ -153,12 +153,10 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
-            if let validTimer = self.timer?.isValid{
+          //  if let validTimer = self.timer?.isValid {
+            if (self.timer?.isValid) != nil {
                 self.timer!.invalidate()
             }
-//            if self.timer.isValid{
-//                self.timer.invalidate()
-//            }
             self.ref.removeAllObservers()
             self.ref.removeValue()
             self.ref = nil
@@ -260,6 +258,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             timer!.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
+        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
         zoomScale = 1
         zoomScroll.zoomScale = 1
         
@@ -275,6 +274,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         progressRing.progress = CGFloat(Apps.QUIZ_PLAY_TIME - count)
         if count >= 20{
             progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
+            progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR
         }
         if count >= Apps.QUIZ_PLAY_TIME {
             timer!.invalidate()
@@ -324,8 +324,10 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 mainQuestionLbl.isHidden = true
             }
                  self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+             totalCount.roundCorners(corners: [ .bottomRight], radius: 5)
             //  totalCount.text = "\(currentQuestionPos + 1)/10"
-            totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
+            totalCount.text = "\(currentQuestionPos + 1)"
+           // totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
            
         } else {
              // If there are no more questions show the results
@@ -420,7 +422,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     // add question data to firebase
-//    func AddQuestionToFIR(question:Question, userAns:String){
     func AddQuestionToFIR(question:QuestionWithE, userAns:String){
     if question != nil{
         var data = question.toDictionaryE

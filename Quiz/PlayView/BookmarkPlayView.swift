@@ -46,7 +46,6 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // print("bool -- \(Apps.opt_E)")
         if Apps.opt_E == true {
             btnE.isHidden = false
             buttons = [btnA,btnB,btnC,btnD,btnE]
@@ -134,6 +133,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             timer.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
+        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
         self.zoomScroll.zoomScale = 1
         self.zoomScale = 1
         showAns.setTitle(Apps.SHOW_ANSWER, for: .normal)
@@ -145,7 +145,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         count += 0.1
         progressRing.progress = CGFloat(Apps.QUIZ_PLAY_TIME - count)
         if count >= 20{
-            progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
+            progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor 
+            progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR
         }
         if count >= Apps.QUIZ_PLAY_TIME { // set timer here
             timer.invalidate()
@@ -191,12 +192,11 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             }else{
                 self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].correctAns)
             }
-                        
-            qstnNo.text = "\(currentQuestionPos + 1)/\(BookQuesList.count)"
+            qstnNo.roundCorners(corners: [ .bottomRight], radius: 5)
+            qstnNo.text = "\(currentQuestionPos + 1)"//"\(currentQuestionPos + 1)/\(BookQuesList.count)"
             
         } else {
             // If there are no more questions show the results
-            //self.dismiss(animated: true, completion: nil)
             scroll.isHidden = true
             showAns.isHidden = true
             
@@ -208,7 +208,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             label.textColor = .gray
             view.addSubview(label)
             
-            let button = SubmitButton(frame: CGRect(x: (self.view.frame.width / 2) - 50, y: 50, width: 100, height: 40))
+            let button = UIButton(frame: CGRect(x: (self.view.frame.width / 2) - 50, y: 50, width: 100, height: 40))
+            button.backgroundColor = UIColor.rgb(57, 129, 156,1)
             button.setTitle(Apps.BACK, for: .normal)
             button.titleLabel?.textAlignment = .center
             button.addTarget(self, action: #selector(self.backButton(_:)), for: .touchUpInside)

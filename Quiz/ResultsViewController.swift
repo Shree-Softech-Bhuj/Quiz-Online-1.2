@@ -31,13 +31,11 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     var percentage:CGFloat = 0.0
     var earnedCoin = 0
     var earnedPoints = 0
-   // var ReviewQues:[ReQuestion] = []
     var ReviewQues:[ReQuestionWithE] = []
     
     var level = 0
     var catID = 0
     var questionType = "sub"
-//    var quesData: [Question] = []
     var quesData: [QuestionWithE] = []
     
     var isInitial = true
@@ -226,7 +224,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                         self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: "\(val["answer"]!)", image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     }
                     //check this level has enough (10) question to play? or not
-                   // if self.quesData.count >= 10 {
                     if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                         let playView:PlayQuizView = storyBoard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
@@ -283,10 +280,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             
             let correctAns = GetRightAnsString(correctAns: ques.correctAns, quetions: ques)
             htmlStr += "\(srno)). \(ques.question) <br>"
-//            print("length - \(ques.question.count)")
-//            if ques.question.count > 100 {
-//                print(ques.question.count)
-//            }
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "a", choice: ques.opetionA)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "b", choice: ques.opetionB)
             htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "c", choice: ques.opetionC)
@@ -307,10 +300,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                     }
             }
             
-          //  htmlStr += "<br>"
-//            if(srno == 7){
-//                 htmlStr += "<br><br><br><br><br><br>"
-//            }
             srno += 1
         }
         self.createPDF(htmlStr: htmlStr)

@@ -1,11 +1,3 @@
-//
-//  LanguageCell.swift
-//  Quiz
-//
-//  Created by Bhavesh Kerai on 27/01/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 
 protocol LanguageCellDelegate {

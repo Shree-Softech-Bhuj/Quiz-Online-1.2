@@ -57,7 +57,7 @@ class SystemConfig: UIViewController {
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
             })
         }else{
             //get data for category
@@ -76,7 +76,6 @@ class SystemConfig: UIViewController {
                 let langMode:String =  "\(DATA["language_mode"] ?? 0)"
                 let config = SystemConfiguration.init(LANGUAGE_MODE: Int(langMode) ?? 0)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(config),forKey: DEFAULT_SYS_CONFIG)
-                //print("\(Apps.opt_E) - option E")                
                 
                 let more_apps = DATA["ios_more_apps"]  as! String
                 Apps.MORE_APP = more_apps
@@ -115,7 +114,7 @@ class SystemConfig: UIViewController {
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }else{
                 //get data for category
@@ -146,7 +145,7 @@ class SystemConfig: UIViewController {
                        let status = jsonObj.value(forKey: "error") as! String
                        if (status == "true") {
                            self.Loader.dismiss(animated: true, completion: {
-                               self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                               self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                            })
                        }else{
                            //get data for category

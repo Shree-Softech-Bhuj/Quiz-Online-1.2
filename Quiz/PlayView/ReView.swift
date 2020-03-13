@@ -26,8 +26,6 @@ class ReView: UIViewController {
     
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
     
-//    var ReviewQues:[ReQuestion] = []
-//    var BookQuesList:[Question] = []
     var ReviewQues:[ReQuestionWithE] = []
     var BookQuesList:[QuestionWithE] = []
     
@@ -38,7 +36,6 @@ class ReView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         setGradientBackground()
         
@@ -100,9 +97,6 @@ class ReView: UIViewController {
             })
         }else{
             //get data for category
-//            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-//
-//            }
         }
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.45, execute: {

@@ -19,6 +19,8 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     @IBOutlet var name2: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
     
+    @IBOutlet weak var playerView: UIView!
+    
     @IBOutlet var bannerView: GADBannerView!
     
     @IBOutlet weak var battleTableView: UITableView!
@@ -47,19 +49,20 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
         
-        user1.layer.cornerRadius = user1.frame.width/2
+        playerView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
+        
+        self.DesignViews(views: user1,user2)
+        user1.layer.cornerRadius = user1.frame.height/2
         user1.clipsToBounds = true
         
-        user2.layer.cornerRadius = user2.frame.width/2
+        user2.layer.cornerRadius = user2.frame.height/2
         user2.clipsToBounds = true
         
         //register nsnotification for latter call
         NotificationCenter.default.addObserver(self,selector: #selector(self.QuitBattle),name: NSNotification.Name(rawValue: "QuitBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CheckForBattle),name: NSNotification.Name(rawValue: "CheckBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
-        
-        self.DesignViews(views: user1,user2)
-        
+                
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
          self.ref.child("AvailUserForBattle").child(user.UID).removeValue()
         //set value for this user
@@ -67,12 +70,6 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         DispatchQueue.main.async {
             self.user1.loadImageUsingCache(withUrl: self.user.image)
         }
-        name1.addTopBorderWithColor(color: .black, width: 2)
-        name1.addBottomBorderWithColor(color: .black, width: 2)
-        
-        name2.addTopBorderWithColor(color: .black, width: 2)
-        name2.addBottomBorderWithColor(color: .black, width: 2)
-        //call function check battle
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){
@@ -214,17 +211,14 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         // remove user data from firebase database
         self.ref.child(self.user.UID).removeValue()
         self.ref.removeAllObservers()
-//        if isAvail{
-//            self.ref.child(self.battleUser.UID).child("isAvail").setValue("1")
-//            self.ref.child(self.battleUser.UID).child("opponentID").setValue("")
-//        }
     }
     
     @objc func incrementCount() {
+        //<span style="color: #ff6600;font-size: 40px;">\(String(format: "%02d", seconds))</span><span style="color: #ff9900;font-size: 20px;">sec</span>
         let html = """
 <html>
 <body>
-<span style="color: #ff6600;font-size: 40px;">\(String(format: "%02d", seconds))</span><span style="color: #ff9900;font-size: 20px;">sec</span>
+<span style="font-size: 40px;">\(String(format: "%02d", seconds))</span><span style="font-size: 20px;">sec</span>
 </body>
 </html>
 """
@@ -245,9 +239,9 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     func DesignViews(views:UIView...){
         for view in views{
             view.layer.borderWidth = 2
-            view.layer.borderColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+            view.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
             view.SetShadow()
-            view.layer.cornerRadius = 10
+           // view.layer.cornerRadius = 10
         }
     }
     
@@ -316,6 +310,7 @@ extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
         guard let cell = self.battleTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BattleStatisticsCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
+           cell.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
         let data = DataList[indexPath.row]
         if !(user.image.isEmpty){
             DispatchQueue.main.async {
@@ -332,6 +327,7 @@ extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
         cell.opponentName.text = data.oppName
         
         cell.matchStatusLabel.text = data.battleStatus
+     
         
         return cell
     }

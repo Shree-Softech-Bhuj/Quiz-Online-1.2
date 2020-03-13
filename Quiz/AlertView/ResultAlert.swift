@@ -4,6 +4,11 @@ class ResultAlert: UIViewController {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
+        
+    @IBOutlet weak var mainView: UIView!
+    
+    @IBOutlet weak var reBattle: UIButton!
+    @IBOutlet weak var exit: UIButton!
     
     var winnerName = ""
     var winnerImg = ""
@@ -12,7 +17,12 @@ class ResultAlert: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        userName.text = winnerName
+        if winnerName == "\(Apps.MATCH_DRAW)" {
+            userName.text = "\(winnerName) \n The Game Is over! Play Again "
+        }else{
+            userName.text = "\(winnerName) , you win the Battle"
+        }
+        
         if winnerName == "Robot"{
             userImage.image = UIImage(named: "robot")
         }else{
@@ -21,7 +31,11 @@ class ResultAlert: UIViewController {
                     self.userImage.loadImageUsingCache(withUrl: self.winnerImg)
                 }
             }
-        }        
+        }
+        
+       // mainView.SetShadow()
+        reBattle.layer.cornerRadius = 20
+        exit.layer.cornerRadius = 20
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {
@@ -29,7 +43,7 @@ class ResultAlert: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("CloseRobotPlay"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("CompleteBattle"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("CheckBattle"), object: nil)
-         parentController?.dismiss(animated: true, completion: nil)
+        parentController?.dismiss(animated: true, completion: nil)
         self.dismiss(animated: true, completion: nil)
 }
     

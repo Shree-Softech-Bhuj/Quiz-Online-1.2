@@ -25,13 +25,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       // print("bool -- \(Apps.opt_E)")
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
-        DesignView(views: startView,battleView)
-        
-        playButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
-        battleButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: playButton.frame.width / 4, bottom: 0, right: 0)
+        playButton.layer.cornerRadius = 32
+        startView.SetDarkShadow()
+        battleButton.layer.cornerRadius = 32
+        battleView.SetDarkShadow()
         
         //check setting object in user default
         if UserDefaults.standard.value(forKey:"setting") != nil {
@@ -58,12 +57,8 @@ class ViewController: UIViewController {
             self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            //self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton)
-            //logoutButton.isHidden = false
         }else{
-            //self.AllignButton(buttons: leaderButton,profileButton,settingButton)
-            //logoutButton.isHidden = true
-            logoutButton.setBackgroundImage(UIImage(named: "back"), for: .normal) //chng img for logout button
+            logoutButton.setBackgroundImage(UIImage(named: "login"), for: .normal) //chng image for logout button
         }
         
         languageButton.isHidden = true
@@ -73,9 +68,6 @@ class ViewController: UIViewController {
                 languageButton.isHidden = false
             }
         }
-        //update FCM
-       // checkForFCMtokenChange()
-        
     }
     
     @IBAction func moreBtn(_ sender: UIButton) {
@@ -183,16 +175,6 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-//    //close on tap outside
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "closeMenuViaNotification"), object: nil)
-//        view.endEditing(true)
-//    }
-//    @IBAction func unwind(for unwindSegue: UIStoryboardSegue) {}
-//    // open menu
-//    @IBAction func toggleMenu(_ sender: Any) {
-//        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "toggleMenu"), object: nil)
-//    }
     
     @IBAction func leaderboardBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
@@ -206,7 +188,8 @@ class ViewController: UIViewController {
     
     func DesignView(views:UIView...){
         for view in views{
-            view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
+           // view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
+            view.border(color: UIColor(red: 57/255, green: 129/255, blue: 156/255, alpha: 0.5), radius: view.frame.size.height / 2, bWidth: 2)
         }
     }
 }

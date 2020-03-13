@@ -4,7 +4,6 @@ import Firebase
 import FirebaseCore
 import GoogleSignIn
 import Foundation
-//import FBSDKLoginKit
 
 class SignUpViewController: UIViewController {
     
@@ -13,6 +12,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var password: FloatingTF!
     @IBOutlet weak var referralCode: FloatingTF!
     @IBOutlet weak var pswdButton: UIButton!
+    @IBOutlet weak var btnSignUp: UIButton!
     
     var ref: DatabaseReference!
         
@@ -21,9 +21,11 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ref = Database.database().reference()//.child("users") //as it already have users, so no need to add it
+        ref = Database.database().reference() //as it already have users, so no need to add it
         
         self.hideKeyboardWhenTappedAround()
+        
+         btnSignUp.layer.cornerRadius = 20
     }
     
     //load category data here
@@ -32,21 +34,14 @@ class SignUpViewController: UIViewController {
               let status = jsonObj.value(forKey: "error") as! String
               if (status == "true") {
                   self.Loader.dismiss(animated: true, completion: {
-                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
+                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                   })
               }else{
                   //get data for category
                 if let data = jsonObj.value(forKey: "data") {
                     print("else part \(data)")
-//                    guard let optE = data as? [String:Any] else{
-//                        return //Apps.opt_E = false //"0"
-//                    }                    
                   }
               }
-    //        for key in jsonObj {
-    //            let value = jsonObj[key]
-    //            print("Value:\(value ?? "value") - for key:\(key)");
-    //        }
               //close loader here
               DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
                   DispatchQueue.main.async {
@@ -56,17 +51,13 @@ class SignUpViewController: UIViewController {
           }
     
       @IBAction func pswdBtn(_ sender: UIButton) {
-    //            guard let image = UIImage(named: "unlock") else {
-    //                       print("Image Not Found")
-    //                       return
-    //                   }
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if password.isSecureTextEntry == true {
-                pswdButton.setImage(UIImage(named: "unlock"), for: UIControlState.normal)
+                pswdButton.setImage(UIImage(systemName: "eye.slash.fill"), for: UIControlState.normal)
                 password.isSecureTextEntry = false
             }else{
                // pswdButton.setImage(image, for: UIControlState.normal)
-                pswdButton.setImage(UIImage(named: "lock"), for: UIControlState.normal)
+                pswdButton.setImage(UIImage(systemName: "eye.fill"), for: UIControlState.normal)
                 password.isSecureTextEntry = true
             }
         }
@@ -94,16 +85,13 @@ class SignUpViewController: UIViewController {
                     let alert = UIAlertController(title: "", message: error_descr!, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true)
-                    //self.showError(error_descr!)
                 }
                 else{
                     print("Error Creating User")
                     let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true)
-                    //self.showError("Error Creating User")
                 }
-                    //self.showError("Error Creating User") // for general use
                 print("Error Creating User")
                 let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -154,9 +142,6 @@ class SignUpViewController: UIViewController {
            } //else
         } //signup user
         
-//        let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-//        self.present(subView, animated: true, completion: nil)
-    
        func signin (auth: Auth){
                Auth.auth().signIn(withEmail: emailTxt, password: passwordTxt) { (result, error) in
                 guard error == nil else {
@@ -168,14 +153,5 @@ class SignUpViewController: UIViewController {
                 print("Signed in user: \(user.email ?? emailTxt)")
         }
     }
-//        func myAlert(_ msg: String) {
-//            let alert = UIAlertController(title: "", message: msg, preferredStyle: UIAlertController.Style.alert)
-//            // add the actions (buttons)
-//            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-//
-//            // show the alert
-//            self.present(alert, animated: true, completion: nil)
-//            //alert.view.tintColor = UIColor.red //alert Action font color changes to red
-//        }
-    }
+  }
 }

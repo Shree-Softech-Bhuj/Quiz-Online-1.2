@@ -119,7 +119,7 @@ extension UIViewController{
         pending.view.tintColor = UIColor.black
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(origin: CGPoint(x:10,y:5), size: CGSize(width: 50, height: 50))) as UIActivityIndicatorView
         loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.medium //UIActivityIndicatorView.Style.gray
         loadingIndicator.startAnimating();
         
         pending.view.addSubview(loadingIndicator)
@@ -144,10 +144,6 @@ extension UIViewController{
     //show alert view here with any title and messages & without button
        func ShowAlertOnly(title:String,message:String){
            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-          // self.present(alert, animated: true)
-//        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { (_) in
-//            self.dismiss(animated: true, completion: nil)
-//        }
             for c  in 0...15 {
             if c == 0 {
                 self.present(alert, animated: true)
@@ -198,23 +194,6 @@ extension UIViewController{
                image.layer.cornerRadius = image.frame.width / 2
            }
        }
-    
-    func resetOpetionsPositions(_ btnb: UIButton,_ btnc: UIButton,_ btnd: UIButton){
-//        let Xb_Position:CGFloat = 23.0 //use your X position here
-//        let Yb_Position:CGFloat = 500.0 //use your Y position here
-//
-//        btnb.frame = CGRect(x: Xb_Position, y: Yb_Position, width: btnb.frame.width, height: btnb.frame.height)
-//
-//        let Xc_Position:CGFloat = 23.0 //use your X position here
-//        let Yc_Position:CGFloat = 590.0 //use your Y position here
-//
-//        btnc.frame = CGRect(x: Xc_Position, y: Yc_Position, width: btnc.frame.width, height: btnc.frame.height)
-//
-//        let Xd_Position:CGFloat = 23.0 //use your X position here
-//        let Yd_Position:CGFloat = 675.0 //use your Y position here
-//
-//        btnd.frame = CGRect(x: Xd_Position, y: Yd_Position, width: btnd.frame.width, height: btnd.frame.height)
-    }
      
     func RegisterNotification(notificationName:String){
         NotificationCenter.default.addObserver(self,selector: #selector(self.Dismiss),name: NSNotification.Name(rawValue: notificationName),object: nil)
@@ -240,7 +219,7 @@ extension UIViewController{
     func SetViewWithShadow(views:UIView...){
         for view in views{
             DispatchQueue.main.async {
-                view.layer.cornerRadius = 25
+                view.layer.cornerRadius =  0 //25
             }
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }

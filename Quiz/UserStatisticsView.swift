@@ -1,14 +1,7 @@
-//
-//  UserStatisticsView.swift
-//  Quiz
-//
-//  Created by Bhavesh Kerai on 01/02/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
+import GoogleMobileAds
 
-class UserStatisticsView: UIViewController {
+class UserStatisticsView: UIViewController,GADBannerViewDelegate {
     
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
@@ -28,26 +21,40 @@ class UserStatisticsView: UIViewController {
     @IBOutlet weak var rightPerLabel: UILabel!
     @IBOutlet weak var wrongPerLabel: UILabel!
     
+    @IBOutlet weak var viewProfile: UIView!
+    @IBOutlet weak var viewCategory: UIView!
+    @IBOutlet weak var viewChart: UIView!
+    
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     var userDefault:User? = nil
     var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Google AdMob Banner
+               bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
+               bannerView.rootViewController = self
+               let request = GADRequest()
+               //request.testDevices = Apps.AD_TEST_DEVICE
+               GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+               bannerView.load(request)
+        
         userDefault = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user data-\(String(describing: userDefault))")
         userName.text = "Hello, \(userDefault!.name)"
         
-        let score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        print("score data \(score)")
-        coinsLabel.text = "\(score.coins)"
-        scoreLabel.text = "\(score.points)"
+//        let score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+//        print("score data \(score)")
+//        coinsLabel.text = "\(score.coins)"
+//        scoreLabel.text = "\(score.points)"
         
         self.userImage.contentMode = .scaleAspectFill
         userImage.clipsToBounds = true
         userImage.layer.cornerRadius = userImage.frame.height / 2
         userImage.layer.masksToBounds = true
-        userImage.layer.borderWidth = 1.5
+        userImage.layer.borderWidth = 1
         userImage.layer.borderColor = UIColor.black.cgColor
         
         DispatchQueue.main.async {
@@ -58,17 +65,59 @@ class UserStatisticsView: UIViewController {
         
         strongProgress.progress = 0.0
         weakProgress.progress = 0.0
+      
+        //get score & coins from server
+              if(Reachability.isConnectedToNetwork()){
+                //  Loader = LoadLoader(loader: Loader)
+                let apiURL = "id=\(userDefault!.userID)"
+                  self.getAPIData(apiName: "get_user_by_id", apiURL: apiURL,completion: getUserData)
+              }else{
+                  ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+              }
         
         //get data from server
-        if(Reachability.isConnectedToNetwork()){
-            Loader = LoadLoader(loader: Loader)
-            let apiURL = "user_id=\(userDefault!.userID)"
-            self.getAPIData(apiName: "get_users_statistics", apiURL: apiURL,completion: LoadData)
-        }else{
-            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-        }
+              if(Reachability.isConnectedToNetwork()){
+                  Loader = LoadLoader(loader: Loader)
+                  let apiURL = "user_id=\(userDefault!.userID)"
+                  self.getAPIData(apiName: "get_users_statistics", apiURL: apiURL,completion: LoadData)
+                  
+              }else{
+                  ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+              }
+        
+        viewProfile.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        viewCategory.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        viewChart.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
     }
-    
+    //load user data here
+    func getUserData(jsonObj:NSDictionary){
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
+        }else{
+            if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                print(data)
+                DispatchQueue.main.async {
+                    let score = Int("\(data["all_time_score"]!)")
+                    self.scoreLabel.text = "\(score!)"
+                    let coins = Int("\(data["coins"]!)")
+                    self.coinsLabel.text = "\(coins!)"
+                    let rank = Int("\(data["all_time_rank"]!)")
+                   self.rankLabel.text = "\(rank!)"
+                }
+            }
+        }
+//        //close loader here
+//        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
+//            DispatchQueue.main.async {
+//                self.DismissLoader(loader: self.Loader)
+//            }
+//        });
+    }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
@@ -79,17 +128,15 @@ class UserStatisticsView: UIViewController {
                     self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
-            
         }else{
             //get data for category
-            
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
                 print(data)
                 DispatchQueue.main.async {
                     let ques = Int("\(data["questions_answered"]!)")
                     let corr = Int("\(data["correct_answers"]!)")
                     
-                    self.rankLabel.text = "\(data["best_position"]!)"
+                  //  self.rankLabel.text = "\(data["best_position"]!)"
                     self.attendQuesLabel.text = "\(ques!)"
                     self.correctQuesLabel.text = "\(corr!)"
                     self.inCorrectQuesLabel.text = "\(ques! - corr!)"

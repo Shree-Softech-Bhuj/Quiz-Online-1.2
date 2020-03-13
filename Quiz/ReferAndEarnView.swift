@@ -2,7 +2,9 @@ import UIKit
 
 class ReferAndEarnView: UIViewController {
 
+    @IBOutlet weak var referBtn: UIButton!
     @IBOutlet weak var referCode: UILabel!
+    
     var dUser:User? = nil
     
     override func viewDidLoad() {
@@ -11,10 +13,13 @@ class ReferAndEarnView: UIViewController {
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user details \(dUser!) ")
         referCode.text = dUser?.ref_code
-        referCode.layer.borderWidth = 2.0
-        referCode.layer.borderColor = UIColor.systemBlue.cgColor
-        //referCode.backgroundColor = UIColor(patternImage: UIImage(named: "dashed-frame")!)
-        }
+        referCode.layer.borderWidth = 1.0
+        referCode.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor.systemBlue.cgColor
+       // referCode.backgroundColor = UIColor(patternImage: UIImage(named: "dashed-frame")!)
+        referBtn.layer.cornerRadius = 20
+    
+        
+    }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
         //copy refercode to clipboard

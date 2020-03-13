@@ -28,16 +28,16 @@ class UpdateProfileView: UIViewController{
         super.viewDidLoad()
       
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-       // imgView.layer.cornerRadius = 50//imgView.frame.height/2
         print(dUser!)
-        //self.usrImg.contentMode = .scaleAspectFill
-        usrImg.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        usrImg.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        usrImg.layer.cornerRadius = 30 //usrImg.frame.height / 2
-        usrImg.clipsToBounds = true
+       usrImg.contentMode = .scaleAspectFill
+       usrImg.clipsToBounds = true
+       usrImg.layer.cornerRadius = usrImg.frame.height / 2
+       usrImg.layer.masksToBounds = true
+       usrImg.layer.borderWidth = 1.5
+       usrImg.layer.borderColor = UIColor.black.cgColor
+               
         
         nameTxt.text = dUser!.name
-        //print("name - \(nameTxt.text ?? "")")
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
@@ -49,15 +49,15 @@ class UpdateProfileView: UIViewController{
         }
         
         emailTxt.leftViewMode = UITextFieldViewMode.always
-        emailTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
         
         nmbrTxt.leftViewMode = UITextFieldViewMode.always
-        nmbrTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
         nmbrTxt.rightViewMode = UITextFieldViewMode.always
         nmbrTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
         
         nameTxt.leftViewMode = UITextFieldViewMode.always
-        nameTxt.leftView = UIImageView(image: UIImage(named: "book-off"))
+        nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
         nameTxt.rightViewMode = UITextFieldViewMode.always
         nameTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
         
@@ -65,9 +65,6 @@ class UpdateProfileView: UIViewController{
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
         btnUpdate.layer.cornerRadius = 15
-        
-//        logOutBtn.layer.borderWidth = 3
-//        logOutBtn.layer.borderColor = UIColor.gray.cgColor
         
         mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
@@ -237,7 +234,6 @@ class UpdateProfileView: UIViewController{
                         
                     }else{
                         //get data for success response
-                       // imageCache.removeObject(forKey: self.dUser!.image as NSString)
                         self.dUser?.image = jsonObj!.value(forKey: "file_path") as! String
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.dUser), forKey: "user")
                     }

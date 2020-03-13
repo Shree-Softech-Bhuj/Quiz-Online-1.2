@@ -18,8 +18,6 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         if BookQuesList.count == 0{
             playBookmark.isHidden = true
         }
-//        tableView.estimatedRowHeight = 140.0
-//        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     
@@ -93,9 +91,7 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.tfbtn.tag = indexPath.row
         cell.tfbtn.addTarget(self, action: #selector(RemoveBookmark(_:)), for: .touchUpInside)
         cell.bookView.SetShadow()
-//        cell.bookView.layer.masksToBounds = true
-        cell.bookView.layer.cornerRadius = 15
-//        cell.bookView.shadow(color: .lightGray, offSet: CGSize(width: 2, height: 2), opacity: 0.7, radius: 20, scale: true)
+        cell.bookView.layer.cornerRadius = 0
         cell.bookView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,

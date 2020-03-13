@@ -13,6 +13,12 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //clear notification badges
+               if Apps.badgeCount > 0 {
+                   Apps.badgeCount = 0
+                   UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
+               }
+        
         // Google AdMob Banner
         bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         bannerView.rootViewController = self
@@ -20,58 +26,13 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
         //request.testDevices = Apps.AD_TEST_DEVICE
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
-        
-        //get notifications list
-       // getNotifications()
         if (UserDefaults.standard.value(forKey: "notification") != nil){
                 NotificationList = try! PropertyListDecoder().decode([Notifications].self,from:(UserDefaults.standard.value(forKey: "notification") as? Data)!)
            }        
     }
     
-    func getNotifications() {
-          //get data from server
-          if(Reachability.isConnectedToNetwork()){
-           let apiURL = ""
-           self.getAPIData(apiName: Apps.NOTIFICATIONS, apiURL: apiURL,completion: LoadNotifications)
-          }else{
-              ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-          }
-      }
-      //load category data here
-        func LoadNotifications(jsonObj:NSDictionary){
-            //print("RS",jsonObj.value(forKey: "data"))
-           // var optE = ""
-            let status = jsonObj.value(forKey: "error") as! String
-            if (status == "true") {
-                self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "status")!)" )
-                })
-            }else{
-                //get data for category
-                self.NotificationList.removeAll()
-                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                  for val in data{
-                    NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)"))
-                }
-              }
-            }
-            //close loader here
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-                DispatchQueue.main.async {
-                    self.DismissLoader(loader: self.Loader)
-                }
-            });
-    }
-    
     @IBAction func backButton(_ sender: Any) {
-        //check if user entered in this view directly from notification ? if Yes then goTo Home page otherwise just go back from notification view
-          if self == UIApplication.shared.keyWindow?.rootViewController {
-              let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-              goHome.modalPresentationStyle = .fullScreen
-              self.present(goHome, animated: true, completion: nil)
-        }else{
              self.dismiss(animated: true, completion: nil)
-        }       
     }
         
     // number of rows in table view
@@ -85,7 +46,7 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }
-      //  print(NotificationList.count)
+        print(NotificationList.count)
         return NotificationList.count
     }
     
@@ -93,17 +54,15 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCellNoImage" : "NotifyCell"
-        
-        //let cellIdentifier = "NotifyCell"
-        
+        let cellIdentifier = NotificationList[indexPath.row].img != "" ? "NotifyCell" : "NotifyCellNoImage"
+                
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
         
         cell.qstn.text = NotificationList[indexPath.row].title
         //show 1st character of Title at left side of title and message here
-        if cellIdentifier == "NotifyCell" {
+        if cellIdentifier == "NotifyCellNoImage" {
            let x = cell.qstn.text!.prefix(1)
            cell.label1Char.text = String(x)
            cell.label1Char.layer.masksToBounds = true
@@ -111,17 +70,14 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
            print(x)
         }
         cell.ansr.text = NotificationList[indexPath.row].msg
-        print("before - \(NotificationList[indexPath.row].img)")
-        if(NotificationList[indexPath.row].img != "") { //&& cellIdentifier == "NotifyCellNoImage"
+        if(NotificationList[indexPath.row].img != "") {
             let url: String =  self.NotificationList[indexPath.row].img
                       DispatchQueue.main.async {
                           cell.bookImg.loadImageUsingCache(withUrl: url)
                       }
-              // cell.bookImg.loadImageUsingCache(withUrl: self.NotificationList[indexPath.row].img) // "https://www.arenaflowers.co.in/blog/wp-content/uploads/2017/09/Summer_Flowers_Lotus.jpg"
-                //"https://quizdemo.wrteam.in/images/notifications/images/notifications/1582344394.4906.png"
             }
         cell.bookView.SetShadow()
-        cell.bookView.layer.cornerRadius = 15
+        cell.bookView.layer.cornerRadius = 0 //15
         cell.bookView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
   
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,
@@ -135,18 +91,22 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     //set height for specific cell
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var height:CGFloat = CGFloat()
-        
-        if NotificationList[indexPath.row].msg.count <= 35 {
-            height = 100
-        } else if NotificationList[indexPath.row].msg.count <= 80 {
-            height = 200
-        } else if NotificationList[indexPath.row].msg.count <= 155 {
-            height = 250
-        } else if NotificationList[indexPath.row].msg.count > 155 {
-            height = 500
-        }
 
-       // print("height at \(NotificationList[indexPath.row].msg) - \(height)")
+        if NotificationList[indexPath.row].img != ""{
+            height = 150
+        }else{
+            height = 100
+        }
+        if NotificationList[indexPath.row].msg.count <= 35 {
+           height = height + 0
+       } else if NotificationList[indexPath.row].msg.count <= 80 {
+           height = height + 100
+       } else if NotificationList[indexPath.row].msg.count <= 155 {
+           height = height + 150
+       } else if NotificationList[indexPath.row].msg.count > 155 {
+           height = height + 400
+       }
+        
         return height
     }
     
@@ -154,15 +114,4 @@ class NotificationsView : UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped cell number \(indexPath.row).")
     }
-    
-    func heightForView(text:String, width:CGFloat) -> CGFloat{
-        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.text = text
-
-        label.sizeToFit()
-        return label.frame.height
-    }
-
 }

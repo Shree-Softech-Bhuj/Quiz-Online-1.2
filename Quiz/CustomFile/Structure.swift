@@ -29,16 +29,6 @@ struct Notifications: Codable {
     var img:String
 }
 
-//struct PushNotification: Codable {
-//    var title:String
-//    var msg:String
-//    var img:String
-//    var maxLvl:String
-//    var MainCat:String
-//    var subCat:String
-//    var type:String
-//}
-
 //apps setting structure
 struct  Setting:Codable {
     var sound:Bool

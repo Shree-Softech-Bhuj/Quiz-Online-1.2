@@ -36,6 +36,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var totalCount: UILabel!
     
+    @IBOutlet weak var battleScoreView: UIView!
+    
     @IBOutlet weak var btnA: UIButton!
     @IBOutlet weak var btnB: UIButton!
     @IBOutlet weak var btnC: UIButton!
@@ -60,7 +62,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     var Loader: UIAlertController = UIAlertController()
     
     var quesData: [QuestionWithE] = []
-//    var quesData: [Question] = []
     
     var currentQuestionPos = 0
     
@@ -88,7 +89,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
         self.setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
         self.setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
-        
+       
+        battleScoreView.DesignViewWithShadow()
         self.questionView.DesignViewWithShadow()
         
        //set four option's view shadow
@@ -165,7 +167,13 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
         present(alert, animated: true, completion: nil)
     }
-    
+    @IBAction func settingButton(_ sender: Any) {
+          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+          let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
+          myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+          myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+          self.present(myAlert, animated: true, completion: nil)
+      }
     @objc func CompleteBattle(){
         if timer.isValid{
             timer.invalidate()
@@ -186,7 +194,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             //get data for category
             print(jsonObj.value(forKey: "data")!)
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-               // if Apps.opt_E == true {
                     for val in data{
                         quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     
@@ -200,9 +207,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                                buttons = [btnA,btnB,btnC,btnD]
                                //set four option's view shadow
                                self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-                             // print("option E ---\(String(describing: e))")
                           }else{
-                             // print("option E --\(String(describing: e))")
                                Apps.opt_E = true
                              DispatchQueue.main.async {
                                 self.btnE.isHidden = false
@@ -213,7 +218,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                           }
                         }
                 }
-                //}
             }
         }
         //close loader here
@@ -235,6 +239,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         }
         
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
+        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1) //chng font color to initial color
+        
         zoomScale = 1
         zoomScroll.zoomScale = 1
         
@@ -248,6 +254,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         progressRing.progress = CGFloat(Apps.QUIZ_PLAY_TIME - count)
         if count >= 20{
             progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
+            progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR //chng font color to red
         }
         if count >= Apps.QUIZ_PLAY_TIME {
             timer.invalidate()
@@ -294,11 +301,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             }
             
                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-          //  totalCount.text = "\(currentQuestionPos + 1)/10"
-            totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
-
-            
-        } else {
+            totalCount.roundCorners(corners: [ .bottomRight], radius: 5)
+            totalCount.text = "\(currentQuestionPos + 1)"//"\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
+        } else { 
             // If there are no more questions show the results
              ShowResultAlert()
         }

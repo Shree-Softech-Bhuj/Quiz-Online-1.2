@@ -10,7 +10,6 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     var catID = 0
     var questionType = "sub"
     var unLockLevel =  0
-//  var quesData: [Question] = []
     var quesData: [QuestionWithE] = []
     
     var isInitial = true
@@ -37,7 +36,9 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         if UserDefaults.standard.value(forKey:"\(questionType)\(catID)") != nil {
             unLockLevel = Int(truncating: UserDefaults.standard.value(forKey:"\(questionType)\(catID)") as! NSNumber)
         }
-       sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
+             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +48,14 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         }
     }
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        //check if user entered in this view directly from appdelegate ? if Yes then goTo Home page otherwise just go back from notification view
+          if self == UIApplication.shared.keyWindow?.rootViewController {
+              let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+              goHome.modalPresentationStyle = .fullScreen
+              self.present(goHome, animated: true, completion: nil)
+        }else{
+             self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func settingButton(_ sender: Any) {
@@ -85,9 +93,10 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         
         // apps lock unlock code
         if (self.unLockLevel >= indexPath.row){
-            cell.lockImg.image = UIImage(named: "unlock")
+            cell.lockImg.image = UIImage(named: "unlock")            
         }else{
             cell.lockImg.image = UIImage(named: "lock")
+            cell.cellView2.backgroundColor = UIColor(red: 168, green: 168, blue: 168, alpha: 1.0)
         }
         
         cell.cellView2.SetShadow()
@@ -140,21 +149,17 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
                             self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
-                           // print("DATA--\(self.quesData) --DATA")
                                 //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
                               if let e = val["optione"] as? String {
                                 if e == ""{
-                                     Apps.opt_E = false                                    
-                                   // print("option E ---\(String(describing: e))")
+                                     Apps.opt_E = false
                                 }else{
-                                   // print("option E --\(String(describing: e))")
                                      Apps.opt_E = true
                                 }
                               }
                         }                 
                         
-                        //check this level has enought (10) question to play? or not
-                       // if self.quesData.count >= 10{
+                        //check this level has enough (10) question to play? or not
                         if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                             playView.quesData = self.quesData
                             DispatchQueue.main.async {

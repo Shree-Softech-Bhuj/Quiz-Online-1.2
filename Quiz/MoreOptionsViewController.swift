@@ -49,7 +49,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
          }else{
             emailAdrs.text = ""
             userName.text = "Hello, User"
-            imgProfile.image = UIImage(named: "btn")
+            imgProfile.image = UIImage(named: "backtop")
         }
         designImageView()
         
@@ -68,14 +68,13 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         RequestInterstitialAd()
     }
     
-    func designImageView(){
-       
+    func designImageView(){       
         imgProfile.translatesAutoresizingMaskIntoConstraints = false
-        imgProfile.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        imgProfile.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        imgProfile.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        imgProfile.widthAnchor.constraint(equalToConstant: 140).isActive = true
         imgProfile.layer.borderWidth = 2
-        imgProfile.layer.borderColor = UIColor.black.cgColor
-        imgProfile.layer.cornerRadius = 50
+        imgProfile.layer.borderColor = UIColor.white.cgColor
+        imgProfile.layer.cornerRadius = 70
         imgProfile.layer.masksToBounds = false
         imgProfile.clipsToBounds = true
     }
@@ -138,7 +137,6 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
          if interstitialAd.isReady{
               self.interstitialAd.present(fromRootViewController: self)
         }else{
-          //  presentViewController("NotificationsView")
             weak var pvc = self.presentingViewController
             self.modalTransitionStyle = .flipHorizontal
             self.dismiss(animated: true, completion: {
@@ -187,22 +185,17 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         // Tells the delegate the interstitial had been animated off the screen.
         func interstitialDidDismissScreen(_ ad: GADInterstitial) {
             if self.controllerName == "userStatistics"{
-//                let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                let review:UserStatisticsView = storyBoard.instantiateViewController(withIdentifier: "UserStatistics") as! UserStatisticsView
-//                self.present(review, animated: true, completion: nil)
                 presentViewController("UserStatistics")
                 RequestInterstitialAd()
             }else if self.controllerName == "bookmarks"{
                  let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                  let review:BookmarkView = storyBoard.instantiateViewController(withIdentifier: "BookmarkView") as! BookmarkView
                  self.present(review, animated: true, completion: nil)
-                //presentViewController("BookmarkView")
                 RequestInterstitialAd()
             }else if self.controllerName == "notifications"{
                  let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                  let review:NotificationsView = storyBoard.instantiateViewController(withIdentifier: "NotificationsView") as! NotificationsView
                  self.present(review, animated: true, completion: nil)
-                //presentViewController("NotificationsView")
                 RequestInterstitialAd()
             }else{
                  self.dismiss(animated: true, completion: nil)

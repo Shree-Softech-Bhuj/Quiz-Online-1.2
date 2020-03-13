@@ -58,13 +58,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet var verticalView: UIView!
     
     var jsonObj : NSDictionary = NSDictionary()
-    
-//    var quesData: [Question] = []
-//    var reviewQues:[ReQuestion] = []
-//    var BookQuesList:[Question] = []
-       var quesData: [QuestionWithE] = []
-       var reviewQues:[ReQuestionWithE] = []
-       var BookQuesList:[QuestionWithE] = []
+    var quesData: [QuestionWithE] = []
+    var reviewQues:[ReQuestionWithE] = []
+    var BookQuesList:[QuestionWithE] = []
     
     var currentQuestionPos = 0
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
@@ -95,9 +91,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         }else{
             btnE.isHidden = true
             buttons = [btnA,btnB,btnC,btnD]
-            //resetOpetionsPositions(btnB,btnC,btnD)
         }
-        
+        view1.SetShadow()
         //Google AdMob
         rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
         rewardBasedVideo!.delegate = self
@@ -112,12 +107,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
       
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
-        //do{
             BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:((UserDefaults.standard.value(forKey: "booklist") as? Data)!))
-                print(BookQuesList)       // }
-//             catch {
-//                print(error.localizedDescription)
-//            }
+                print(BookQuesList)
         }
         
         self.RegisterNotification(notificationName: "PlayView")
@@ -132,8 +123,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         let mScore = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
         mainScoreCount.text = "\(mScore.points)"
         mainCoinCount.text = "\(mScore.coins)"
-        
-       // self.scroll.contentSize = CGSize(width: 320, height: 800)
 
         zoomScroll.minimumZoomScale = 1.0
         zoomScroll.maximumZoomScale = 6.0
@@ -159,9 +148,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         quesData.shuffle()
         rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
         
-        RequestForRewardAds() // by M
+        RequestForRewardAds()
         
-        self.titleBar.text = "\(Apps.LEVEL): \(level)"
+        self.titleBar.text = "\(Apps.LEVEL) \(level)"
         self.loadQuestion()
     }
     
@@ -266,6 +255,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             self.timer.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
+        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
         zoomScale = 1
         zoomScroll.zoomScale = 1
         count = 0
@@ -278,6 +268,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         progressRing.progress = CGFloat(Apps.QUIZ_PLAY_TIME - count)
         if count >= 20{
               progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
+              progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR
         }
         if count >= Apps.QUIZ_PLAY_TIME { // set timer here
             timer.invalidate()
@@ -340,7 +331,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 // if user have coins
                 var index = 0
                 for button in buttons{
-                          if button.tag == 0 && index < 2{ //To remove 3 options from 5, use 3 instead of 2 here
+                          if button.tag == 0 && index < 2 { //To remove 3 options from 5, use 3 instead of 2 here
                           button.isHidden = true
                           index += 1
                       }
@@ -574,8 +565,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 question.isHidden = true
             }
            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-         
-            mainQuesCount.text = "\(currentQuestionPos + 1)/10"
+            
+            mainQuesCount.roundCorners(corners: [ .bottomRight], radius: 5)
+            mainQuesCount.text = "\(currentQuestionPos + 1)" //"\(currentQuestionPos + 1)/10"
             mainScoreCount.text = "\((trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS))"
             
             //check current question is in bookmark list or not

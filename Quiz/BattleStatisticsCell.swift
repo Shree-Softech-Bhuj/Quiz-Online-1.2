@@ -1,11 +1,3 @@
-//
-//  BattleStatisticsCell.swift
-//  Quiz
-//
-//  Created by Bhavesh Kerai on 05/02/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 
 class BattleStatisticsCell: UITableViewCell {

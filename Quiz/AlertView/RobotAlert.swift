@@ -6,27 +6,30 @@ class RobotAlert: UIViewController {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var bottomView: UIView!
     
+    @IBOutlet weak var playWithRobot: UIButton!
+    @IBOutlet weak var tryAgain: UIButton!
+    
     var imageUrl = ""
     var parentController:UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        mainView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 20)
-        bottomView.addTopBorderWithColor(color: .black, width: 1)
         
         if !imageUrl.isEmpty{
             userImage.loadImageUsingCache(withUrl: imageUrl)
         }
         
          NotificationCenter.default.addObserver(self,selector: #selector(self.DismissAlert),name: NSNotification.Name(rawValue: "DismissAlert"),object: nil)
+        
+        mainView.SetShadow()
+        playWithRobot.layer.cornerRadius = 20
+        tryAgain.layer.cornerRadius = 20
+        
     }
     
     @IBAction func PlayWithRobot(_ sender: Any) {
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let bpc: RobotPlayView = storyBoard.instantiateViewController(withIdentifier: "RobotPlayController") as! RobotPlayView
-        
         self.present(bpc, animated: true, completion: nil)
     }
     

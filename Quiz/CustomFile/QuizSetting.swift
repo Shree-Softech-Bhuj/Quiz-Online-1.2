@@ -2,12 +2,9 @@ import Foundation
 import UIKit
 import AVFoundation
 
-//apps seting and default value will be store here and used everywhere
+//apps setting and default value will be store here and used everywhere
 struct Apps{
-    //static var URL = "http://quiz.wrteam.in/api-v2.php" //version 5.3
     static var URL = "https://quizdemo.wrteam.in/api-v2.php"
-    
-    //static var URL = "http://vetquiz.club/api-v2.php"
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
@@ -24,15 +21,13 @@ struct Apps{
     static let BANNER_AD_UNIT_ID = "ca-app-pub-9494734299483429/5838705416"
     static let REWARD_AD_UNIT_ID = "ca-app-pub-9494734299483429/7263467729"
     static let INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9494734299483429/1272774440"
+    static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7"]
     
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
-    static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color
+    static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color    
     
-    static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7"]
     static let APP_ID = "1467888574"
-    //static let SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
     static var SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
-   //static let MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
@@ -45,10 +40,11 @@ struct Apps{
     static var nTitle = ""
     static var nMsg = ""
     static var nImg = ""
-    static var nMaxLvl = ""
+    static var nMaxLvl = 0
     static var nMainCat = ""
     static var nSubCat = ""
     static var nType = ""
+    static var badgeCount = UserDefaults.standard.integer(forKey: "badgeCount")
     
     static let APP_NAME = "QUIZ"
     
@@ -88,7 +84,7 @@ struct Apps{
     static let ROBOT = "Robot"
     static let BACK = "Back"
     static let SHOW_ANSWER = "Show Answer"
-    static let LEVEL = "Level"
+    static let LEVEL = "Level :"
     static let TRUE_ANS = "True Ans:"
     static let MATCH_DRAW = "Match Draw!"
     static let REPORT_QUESTION = "Report Question"
@@ -100,5 +96,3 @@ struct Apps{
     static let NO_BOOKMARK = "Questions not available"
     
 }
-
-

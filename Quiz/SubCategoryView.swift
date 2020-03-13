@@ -20,8 +20,11 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     var Loader: UIAlertController = UIAlertController()
     
     var catID:String = "0"
+    var catName:String = ""
     var subCatData:[SubCategory] = []
     var refreshController = UIRefreshControl()
+    
+    @IBOutlet weak var titleBarTxt: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +50,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
         tableView.refreshControl = refreshController
-        
+        titleBarTxt.text = catName
     }
     
     // refresh function
@@ -89,7 +92,14 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+      //check if user entered in this view directly from notification ? if Yes then goTo Home page otherwise just go back from notification view
+        if self == UIApplication.shared.keyWindow?.rootViewController {
+            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
+            goHome.modalPresentationStyle = .fullScreen
+            self.present(goHome, animated: true, completion: nil)
+        }else{
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func settingButton(_ sender: Any) {
@@ -126,9 +136,9 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
         }
         
-        cell.sCateImg.layer.borderColor = UIColor.lightGray.cgColor
-        cell.sCateImg.layer.borderWidth = 0.8
-        cell.sCateImg.layer.cornerRadius = cell.sCateImg.frame.size.height/2
+        //cell.sCateImg.layer.borderColor = UIColor.lightGray.cgColor
+        //cell.sCateImg.layer.borderWidth = 0.8
+       // cell.sCateImg.layer.cornerRadius = cell.sCateImg.frame.size.height/2
         cell.sCateImg.layer.masksToBounds = true
         
         cell.cellView1.SetShadow()
@@ -172,15 +182,15 @@ extension UIView {
         DispatchQueue.main.async {
             self.layer.masksToBounds = false
             self.layer.shadowColor = color.cgColor
+            self.layer.shadowOpacity = opacity
+            self.layer.shadowOffset = offSet
+            self.layer.shadowRadius = radius
         }
-        layer.shadowOpacity = opacity
-        layer.shadowOffset = offSet
-        layer.shadowRadius = radius
         DispatchQueue.main.async {
-            self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath 
+            self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+            self.layer.shouldRasterize = true
+            self.layer.rasterizationScale = scale ? UIScreen.main.scale : 1
         }
-        layer.shouldRasterize = true
-        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
     
     func border(color : UIColor, radius: CGFloat = 28, bWidth : CGFloat = 2){

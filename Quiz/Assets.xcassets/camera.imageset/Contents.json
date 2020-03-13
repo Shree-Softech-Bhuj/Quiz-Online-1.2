@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "camera1.png",
+      "filename" : "cemera.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "camera2.png",
+      "filename" : "cemera@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "cemera3.png",
+      "filename" : "cemera@3x.png",
       "scale" : "3x"
     }
   ],
