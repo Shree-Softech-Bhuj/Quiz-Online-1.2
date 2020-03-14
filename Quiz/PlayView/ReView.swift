@@ -172,7 +172,8 @@ class ReView: UIViewController {
         lblNote.text = ""
         
         if(ReviewQues.count  > currentQuesPosition && currentQuesPosition >= 0){
-            lblQstn.text = "\(currentQuesPosition + 1)/\(Apps.TOTAL_PLAY_QS)"
+            lblQstn.roundCorners(corners: [ .bottomRight], radius: 5)
+            lblQstn.text = "\(currentQuesPosition + 1)"//"\(currentQuesPosition + 1)/\(Apps.TOTAL_PLAY_QS)"
             if(ReviewQues[currentQuesPosition].image == ""){
                 // if question dose not have image set value here
                 mainQuestionTextview.isHidden = false

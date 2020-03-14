@@ -248,20 +248,4 @@ extension UIViewController{
     func isKeyPresentInUserDefaults(key: String) -> Bool {
            return UserDefaults.standard.object(forKey: key) != nil
        }
-    
-    func checkForFCMtokenChange(){
-        let insID = InstanceID.instanceID()
-               //delete existing token & generate new token
-               insID.deleteID { (error) in
-                 print(error.debugDescription)
-               }
-               insID.instanceID { (result, error) in
-                 if let error = error {
-                   print("Error fetching remote instange ID: \(error)")
-                 } else {
-                    print("Remote instance ID token: \(result!.token)")
-                    Apps.FCM_ID = String(describing: result!.token)
-                 }
-               }
-    }
 }

@@ -14,10 +14,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     @IBOutlet var nxtLvl: UIButton!
     @IBOutlet var reviewAns: UIButton!
     @IBOutlet var yourScore: UIButton!
-    @IBOutlet var generatePdf: UIButton!
     @IBOutlet var rateUs: UIButton!
     @IBOutlet var homeBtn: UIButton!
     @IBOutlet var viewProgress: UIView!
+    @IBOutlet var view1: UIView!
     @IBOutlet var scrollView: UIScrollView!
     
     var interstitialAd : GADInterstitial!
@@ -46,14 +46,15 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         super.viewDidLoad()
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
         
-        let xPosition = viewProgress.center.x
-        let yPosition = viewProgress.center.y-viewProgress.frame.origin.y
+        let xPosition = viewProgress.center.x - 20
+        let yPosition = viewProgress.center.y-viewProgress.frame.origin.y + 20
         let position = CGPoint(x: xPosition, y: yPosition)
         
         // set circular progress bar here and pass required parameters
-        progressRing = CircularProgressBar(radius: 28, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6, progValue: 100)
+        progressRing = CircularProgressBar(radius: 38, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6, progValue: 100)
         viewProgress.layer.addSublayer(progressRing)
         progressRing.progressLabel.numberOfLines = 1;
+        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(20)
         progressRing.progressLabel.minimumScaleFactor = 0.7;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
@@ -68,11 +69,12 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         timer = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
 
-        // calll button design button and pass button variable those buttons need to be design
-        self.DesignButton(btns: nxtLvl,reviewAns, yourScore,generatePdf,rateUs,homeBtn)
+        // call button design button and pass button variable those buttons need to be design
+        self.DesignButton(btns: nxtLvl,reviewAns, yourScore,rateUs,homeBtn)
         
          var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        
+        view1.SetShadow()
+        viewProgress.SetShadow()
         // Based on the percentage of questions you got right present the user with different message
         if(percentage >= 30 && percentage < 50) {
             earnedCoin = 1
@@ -139,9 +141,9 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
-            btn.layer.cornerRadius = btn.frame.height / 2
+            btn.layer.cornerRadius = 0//btn.frame.height / 2
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-            btn.applyGradient(colors: [UIColor.rgb(243, 243, 247, 1.0).cgColor, UIColor.white.cgColor])
+           // btn.applyGradient(colors: [UIColor.rgb(243, 243, 247, 1.0).cgColor, UIColor.white.cgColor])
         }
     }
     
@@ -273,38 +275,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         present(vc, animated: true)
     }
     
-    @IBAction func pdfButton(_ sender: UIButton) {
-        var htmlStr = "<br><center><b><font size='16'>Quiz Review Question</font> </b></center><br>"
-        var srno = 1
-        for ques in ReviewQues {
-            
-            let correctAns = GetRightAnsString(correctAns: ques.correctAns, quetions: ques)
-            htmlStr += "\(srno)). \(ques.question) <br>"
-            htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "a", choice: ques.opetionA)
-            htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "b", choice: ques.opetionB)
-            htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "c", choice: ques.opetionC)
-            htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "d", choice: ques.opetionD)
-            
-            if Apps.opt_E == true{
-                htmlStr += self.OptionStr(rightAns: correctAns, userAns: ques.userSelect, opt: "e", choice: ques.opetionE)
-                    if(srno == 6){
-                         htmlStr += "<br><br><br><br><br><br>"
-                    }else{
-                        htmlStr += "<br>"
-                    }
-            }else{
-                    if(srno == 7){
-                        htmlStr += "<br><br><br><br><br><br>"
-                    }else{
-                        htmlStr += "<br>"
-                    }
-            }
-            
-            srno += 1
-        }
-        self.createPDF(htmlStr: htmlStr)
-    }
-    
     func OptionStr(rightAns:String, userAns:String,opt:String,choice:String) ->String {        
         if(rightAns == userAns && userAns == choice){
             return "<font color='green'>\(opt). \(choice) </font><br>"
@@ -340,39 +310,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         }
     }
     
-    func createPDF(htmlStr:String) {
-        let html = htmlStr
-        let fmt = UIMarkupTextPrintFormatter(markupText: html)
-        
-        let render = UIPrintPageRenderer()
-        render.addPrintFormatter(fmt, startingAtPageAt: 0)
-        
-        let page = CGRect(x: 0, y: 0, width: 595.2, height: 841.8) // A4, 72 dpi
-        let printable = page.insetBy(dx: 0, dy: 0)
-        
-        render.setValue(NSValue(cgRect: page), forKey: "paperRect")
-        render.setValue(NSValue(cgRect: printable), forKey: "printableRect")
-        
-        let pdfData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
-        
-        for i in 1...render.numberOfPages {
-            UIGraphicsBeginPDFPage();
-            let bounds = UIGraphicsGetPDFContextBounds()
-            render.drawPage(at: i - 1, in: bounds)
-        }
-        
-        UIGraphicsEndPDFContext();
-        
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        pdfData.write(toFile: "\(documentsPath)/file.pdf", atomically: true)
-        
-        let url = URL(fileURLWithPath: documentsPath, isDirectory: true).appendingPathComponent("file").appendingPathExtension("pdf")
-        
-        let dc = UIDocumentInteractionController(url: url)
-        dc.delegate = self
-        dc.presentPreview(animated: true)
-    }
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self//or use return self.navigationController for fetching app navigation bar colour
     }

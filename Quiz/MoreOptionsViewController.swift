@@ -7,6 +7,8 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var emailAdrs: UILabel!
+        
+    @IBOutlet weak var imgView: UIView!
     @IBOutlet weak var imgProfile: UIImageView!
     
     @IBOutlet var scrollView: UIScrollView!
@@ -22,14 +24,20 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
        
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
-    
+        
     var interstitialAd : GADInterstitial!
     var controllerName:String = ""
     
     var dUser:User? = nil
     
+    let screenBounds = UIScreen.main.bounds
+    var screen_height = CGFloat(0) //screen height of current device
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       // let screen_width = screenBounds.width
+         screen_height = screenBounds.height
         
          if UserDefaults.standard.bool(forKey: "isLogedin"){
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
@@ -70,20 +78,27 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     
     func designImageView(){       
         imgProfile.translatesAutoresizingMaskIntoConstraints = false
-        imgProfile.heightAnchor.constraint(equalToConstant: 140).isActive = true
-        imgProfile.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        if screen_height > 700 {
+            imgProfile.heightAnchor.constraint(equalToConstant: 140).isActive = true
+            imgProfile.widthAnchor.constraint(equalToConstant: 140).isActive = true
+            imgProfile.layer.cornerRadius = 70
+        }else {
+            imgProfile.heightAnchor.constraint(equalToConstant: 90).isActive = true
+            imgProfile.widthAnchor.constraint(equalToConstant: 90).isActive = true
+            imgProfile.layer.cornerRadius = 45
+        }
         imgProfile.layer.borderWidth = 2
         imgProfile.layer.borderColor = UIColor.white.cgColor
-        imgProfile.layer.cornerRadius = 70
+       // imgProfile.layer.cornerRadius = imgProfile.frame.height / 2  //70
         imgProfile.layer.masksToBounds = false
         imgProfile.clipsToBounds = true
     }
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
-            btn.layer.cornerRadius = btn.frame.height / 2
+            btn.layer.cornerRadius = 0 //btn.frame.height / 2
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-            btn.applyGradient(colors: [UIColor.rgb(243, 243, 247, 1.0).cgColor, UIColor.white.cgColor])
+           // btn.applyGradient(colors: [UIColor.rgb(243, 243, 247, 1.0).cgColor, UIColor.white.cgColor])
         }
     }
     

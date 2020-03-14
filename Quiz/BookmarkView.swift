@@ -15,7 +15,7 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
                 BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self,from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
            }
         
-        if BookQuesList.count == 0{
+        if BookQuesList.count == 0 {
             playBookmark.isHidden = true
         }
     }

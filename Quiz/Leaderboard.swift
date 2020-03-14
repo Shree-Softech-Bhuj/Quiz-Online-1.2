@@ -98,7 +98,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func animateIn(){ //for Selection Opt view
                 self.view.addSubview(selectionOptView)
                 var pos: CGRect = selectionOptView.frame
-                pos.origin.x = 275
+                pos.origin.x = 255
                 pos.origin.y = 80
                 self.selectionOptView.frame = pos
             //border to selectionOption View
@@ -394,9 +394,10 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     //check user rank is it visible to view without scroll
     func AddUsertoBottom(){        
-        //if you change height belowchng the same in temp.frame.height == 50
+        //if you change height belowchng the same in temp.frame.height == 60
         let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
         bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
+        print(bottomView.frame)
          let this = LeaderData.filter{$0.userID == thisUser.userID}
         
         if !this.isEmpty {
@@ -440,7 +441,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             for temp in self.view.subviews {
                 print(temp)
                 print(temp.frame)
-                if temp.frame.height == 50  { //temp.frame.origin == CGPoint(x: 0, y: 577)-position of bottomView which we want to remove
+                if temp.frame.height == 60  { //temp.frame.origin == CGPoint(x: 0, y: 577)-position of bottomView which we want to remove
                      print("origin => \(temp)")
                     temp.removeFromSuperview ()
                 }
