@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>814090722059-qf0tqvcre0ogfnjvq840slm6ome41qen.apps.googleusercontent.com</string>
+	<string>814090722059-rh0fkjak5f9kqjqdeecls8qke7ee49om.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.814090722059-qf0tqvcre0ogfnjvq840slm6ome41qen</string>
+	<string>com.googleusercontent.apps.814090722059-rh0fkjak5f9kqjqdeecls8qke7ee49om</string>
 	<key>API_KEY</key>
 	<string>AIzaSyByh6IyA0hk-gnYKK48O466pEHAEoR_ado</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>Quiz</string>
+	<string>online.quiz</string>
 	<key>PROJECT_ID</key>
 	<string>quiz-online-34985</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:814090722059:ios:1ca2e7e4aec28909</string>
+	<string>1:814090722059:ios:fcbcf42d3dcb57c51de00e</string>
 	<key>DATABASE_URL</key>
 	<string>https://quiz-online-34985.firebaseio.com</string>
 </dict>
