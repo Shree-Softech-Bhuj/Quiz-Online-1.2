@@ -4,7 +4,7 @@ protocol LanguageViewDelegate {
     func ReLaodCategory()
 }
 class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,LanguageCellDelegate {
-    
+     
     @IBOutlet var tableView: UITableView!
     
     var langList:[Language] = []
@@ -24,8 +24,10 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
                 self.Loader = self.LoadLoader(loader: Loader)
                 sys.LoadLanguages(completion: {
                     self.langList = try! PropertyListDecoder().decode([Language].self, from: (UserDefaults.standard.value(forKey:DEFAULT_LANGUAGE) as? Data)!)
-                    self.tableView.reloadData()
-                    self.DismissLoader(loader: self.Loader)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.DismissLoader(loader: self.Loader)
+                    }
                 })
             }
         }
@@ -53,6 +55,9 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
             tableView.dequeueReusableCell(withIdentifier: "LanguageCell") as! LanguageCell
         cell.itemLabel.text = langList[indexPath.row].name
         cell.itemLabel.tag = langList[indexPath.row].id
+       
+        cell.path = indexPath //pass to language cell file
+        
         if langList[indexPath.row].id == selectedElement?.id || langList[indexPath.row].id == UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) {
             cell.radioButton.isSelected = true
         } else {
@@ -70,7 +75,18 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
         selectedElement = langList[indexPath.row]
         UserDefaults.standard.set(selectedElement?.id, forKey: DEFAULT_USER_LANG)
     }
-    
+    func deselectOtherButton(_ currCell: UITableViewCell){
+            let tappedCellIndexPath = tableView.indexPath(for: currCell)!
+               let indexPaths = tableView.indexPathsForVisibleRows
+               for indexPath in indexPaths! {
+                   if indexPath.row != tappedCellIndexPath.row && indexPath.section == tappedCellIndexPath.section {
+                       let cell = tableView.cellForRow(at: IndexPath(row: indexPath.row, section: indexPath.section)) as! LanguageCell
+                            let deselectedImage = UIImage(named: "unselected")
+                            cell.radioButton.isSelected = false
+                            cell.radioButton.setImage(deselectedImage, for: .normal)
+                   }
+              }
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell:LanguageCell = self.tableView.cellForRow(at: indexPath) as! LanguageCell

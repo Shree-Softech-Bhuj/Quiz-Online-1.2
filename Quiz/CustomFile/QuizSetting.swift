@@ -4,11 +4,11 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "https://quizdemo.wrteam.in/api-v2.php"
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
-    static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
+    static var TOTAL_PLAY_QS = 5 // how many there will be total question in quiz play
     
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use this lifeline?
     static let OPT_SK_COIN = 2 // how many coins will be deduct when we use this lifeline?
@@ -21,7 +21,7 @@ struct Apps{
     static let BANNER_AD_UNIT_ID = "ca-app-pub-9494734299483429/5838705416"
     static let REWARD_AD_UNIT_ID = "ca-app-pub-9494734299483429/7263467729"
     static let INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9494734299483429/1272774440"
-    static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7"]
+    static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7","8099b28d92fa3eae7101498204255467"]
     
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
     static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color    
@@ -31,6 +31,9 @@ struct Apps{
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
+    
+    static var screenHeight = CGFloat(0)
+    static var screenWidth = CGFloat(0)
     
     static var FCM_ID = " "
     static let NO_NOTIFICATION = "Notifications not available"
@@ -58,7 +61,7 @@ struct Apps{
     static var opt_E = false
         
     static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
-    static let NOT_COMPLETE_LEVEL = "Opps! you have failed to complete this level"
+    static let NOT_COMPLETE_LEVEL = "Oops!  Level not Completed.  Play again !"
     static let PLAY_AGAIN = "Play Again"
     static let NOT_ENOUGH_QUESTION_TITLE = "Not Eought Question"
     static let NO_ENOUGH_QUESTION_MSG = "This level does not have enought question to play quiz"

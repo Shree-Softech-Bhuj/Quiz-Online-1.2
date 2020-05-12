@@ -8,7 +8,8 @@ class InstructionsViewController: UIViewController {
     @IBOutlet weak var audi: UIImageView!
     @IBOutlet weak var timer: UIImageView!
     @IBOutlet weak var score: UIImageView!
-    
+    @IBOutlet var scrollView: UIScrollView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,11 +18,11 @@ class InstructionsViewController: UIViewController {
         audi.layer.cornerRadius = 25
         timer.layer.cornerRadius = 25
         score.layer.cornerRadius = 25
-
+       
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 660)
     }
     
     @IBAction func backButton(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
-    
 }

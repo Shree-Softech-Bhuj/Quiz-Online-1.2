@@ -86,12 +86,16 @@ extension UIViewController{
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {             // check for fundamental networking error
                 print("error=\(String(describing: error))")
+                let res = ["status":false,"message":"JSON Parser Error"] as NSDictionary
+                completion(res)
                 return
             }
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {   // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(String(describing: response))")
+                let res = ["status":false,"message":"JSON Parser Error"] as NSDictionary
+                                   completion(res)
                 return
             }
             
@@ -119,7 +123,7 @@ extension UIViewController{
         pending.view.tintColor = UIColor.black
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(origin: CGPoint(x:10,y:5), size: CGSize(width: 50, height: 50))) as UIActivityIndicatorView
         loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.medium //UIActivityIndicatorView.Style.gray
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray // if ios -13 UIActivityIndicatorViewStyle.medium
         loadingIndicator.startAnimating();
         
         pending.view.addSubview(loadingIndicator)
@@ -228,6 +232,7 @@ extension UIViewController{
     // design opetion button
     func DesignOpetionButton(buttons: UIButton...){
         for button in buttons{
+            button.SetShadow()
             button.titleLabel?.numberOfLines = 2
             button.titleLabel?.lineBreakMode = .byCharWrapping
         }

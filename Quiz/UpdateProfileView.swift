@@ -26,22 +26,22 @@ class UpdateProfileView: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        print(dUser!)
-       usrImg.contentMode = .scaleAspectFill
-       usrImg.clipsToBounds = true
-       usrImg.layer.cornerRadius = usrImg.frame.height / 2
-       usrImg.layer.masksToBounds = true
-       usrImg.layer.borderWidth = 1.5
-       usrImg.layer.borderColor = UIColor.black.cgColor
-               
+       
+        usrImg.contentMode = .scaleAspectFill
+        usrImg.clipsToBounds = true
+        usrImg.layer.cornerRadius = usrImg.frame.height / 2
+        usrImg.layer.masksToBounds = true
+        usrImg.layer.borderWidth = 1.5
+        usrImg.layer.borderColor = UIColor.black.cgColor
+        
         
         nameTxt.text = dUser!.name
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
-       
+        
         DispatchQueue.main.async {
             if(self.dUser!.image != ""){
                 self.usrImg.loadImageUsingCache(withUrl: self.dUser!.image)
@@ -54,25 +54,27 @@ class UpdateProfileView: UIViewController{
         nmbrTxt.leftViewMode = UITextFieldViewMode.always
         nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
         nmbrTxt.rightViewMode = UITextFieldViewMode.always
-        nmbrTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
+        nmbrTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
         
         nameTxt.leftViewMode = UITextFieldViewMode.always
         nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
         nameTxt.rightViewMode = UITextFieldViewMode.always
-        nameTxt.rightView = UIImageView(image: UIImage(systemName: "pencil"))
+        nameTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
         
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
         btnUpdate.layer.cornerRadius = 15
         
-        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-        logOutBtn.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        logOutBtn.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        mainview.SetShadow()
+        optionsView.SetShadow()
+        logOutBtn.SetShadow()
         
         self.hideKeyboardWhenTappedAround()
     }
-    
     
     @IBAction func showUpdateButton(_ sender: Any) {
         if btnUpdate.isHidden == true{
@@ -90,10 +92,10 @@ class UpdateProfileView: UIViewController{
             })
         }else{
             //get data for success response
-//            let msg = jsonObj.value(forKey: "message") as! String
-//            print(msg)
+            //            let msg = jsonObj.value(forKey: "message") as! String
+            //            print(msg)
             DispatchQueue.main.async {
-                    self.Loader.dismiss(animated: true, completion: {
+                self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlertOnly(title: "Profile Update", message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
@@ -101,7 +103,7 @@ class UpdateProfileView: UIViewController{
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             DispatchQueue.main.async {
-               // self.DismissLoader(loader: self.Loader)
+                // self.DismissLoader(loader: self.Loader)
                 self.dUser!.name = self.nameTxt.text!
                 //print( self.dUser!.name)
                 self.dUser!.phone = self.nmbrTxt.text!
@@ -113,12 +115,12 @@ class UpdateProfileView: UIViewController{
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func cameraButton(_ sender: Any) {
         ImagePickerManager().pickImage(self, {image in
-           // self.usrImg.contentMode = .scaleAspectFill
+            // self.usrImg.contentMode = .scaleAspectFill
             self.usrImg.image = image
             self.myImageUploadRequest()
         })
@@ -140,8 +142,17 @@ class UpdateProfileView: UIViewController{
                     UserDefaults.standard.removeObject(forKey: "isLogedin")
                     //remove friend code 
                     UserDefaults.standard.removeObject(forKey: "fr_code")
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-                    self.present(vc, animated: true, completion: nil)
+                    
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                    
+                    let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                    navigationcontroller.setNavigationBarHidden(true, animated: false)
+                    navigationcontroller.isNavigationBarHidden = true
+                    
+                    UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+                    
+                    
                     
                 } catch let error as NSError {
                     print(error.localizedDescription)
@@ -155,12 +166,12 @@ class UpdateProfileView: UIViewController{
         present(alert, animated: true, completion: nil)
     }
     
-      @IBAction func updateButton(_ sender: Any) {
+    @IBAction func updateButton(_ sender: Any) {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
             let apiURL = "email=\(String(describing: emailTxt.text!))&name=\(String(describing: nameTxt.text!))&mobile=\(String(describing: nmbrTxt.text!))"
-           // print(apiURL)
+            // print(apiURL)
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
             //print("Data updated")
         }else{
@@ -169,23 +180,27 @@ class UpdateProfileView: UIViewController{
     }
     
     @IBAction func userStatisticsButton(_ sender: Any){
-        let view = self.storyboard!.instantiateViewController(withIdentifier: "UserStatistics")
-        self.present(view, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "UserStatistics")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     @IBAction func leaderboardButton(_ sender: Any){
-        let view = self.storyboard!.instantiateViewController(withIdentifier: "Leaderboard")
-        self.present(view, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "Leaderboard")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     @IBAction func bookmarksButton(_ sender: Any){
-        let view = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
-        self.present(view, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "BookmarkView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
-        
+    
     @IBAction func inviteFriendsButton(_ sender: Any){
-        let view = self.storyboard!.instantiateViewController(withIdentifier: "ReferAndEarn")
-        self.present(view, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "ReferAndEarn")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     
@@ -206,7 +221,7 @@ class UpdateProfileView: UIViewController{
         
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         let imageData = UIImageJPEGRepresentation(self.usrImg.image!, 0.5)
-      
+        
         if(imageData==nil)  {return; }
         
         request.httpBody = createBodyWithParameters(parameters: param, filePathKey: "image", imageDataKey: imageData!, boundary: boundary) as Data

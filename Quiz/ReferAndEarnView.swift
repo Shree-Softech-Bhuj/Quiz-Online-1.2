@@ -14,11 +14,8 @@ class ReferAndEarnView: UIViewController {
         print("user details \(dUser!) ")
         referCode.text = dUser?.ref_code
         referCode.layer.borderWidth = 1.0
-        referCode.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor.systemBlue.cgColor
-       // referCode.backgroundColor = UIColor(patternImage: UIImage(named: "dashed-frame")!)
+        referCode.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
         referBtn.layer.cornerRadius = 20
-    
-        
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
@@ -38,6 +35,6 @@ class ReferAndEarnView: UIViewController {
     }
     
     @IBAction func backButton(_ sender: Any) {
-           self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
        }
 }

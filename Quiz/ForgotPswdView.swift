@@ -23,7 +23,7 @@ class ForgotPswdView: UIViewController {
     }
       
     func dismissView(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func submitBtn(_ sender: UIButton)

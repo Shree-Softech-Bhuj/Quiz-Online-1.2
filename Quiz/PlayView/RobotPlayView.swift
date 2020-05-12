@@ -90,7 +90,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         self.setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
         self.setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
        
-        battleScoreView.DesignViewWithShadow()
+        battleScoreView.SetShadow()
         self.questionView.DesignViewWithShadow()
         
        //set four option's view shadow
@@ -121,12 +121,16 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         
-        zoomScroll.minimumZoomScale = 1
-        zoomScroll.maximumZoomScale = 6
+        zoomScroll.minimumZoomScale = 1.0
+        zoomScroll.maximumZoomScale = 6.0
         
         NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteRobotBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.DismissSelf),name: NSNotification.Name(rawValue: "CloseRobotPlay"),object: nil) // close this view controller
         
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return questionImageView
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -134,6 +138,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func ZoomBtn(_ sender: Any) {
+        if zoomScroll.zoomScale == zoomScroll.maximumZoomScale {
+            zoomScale = 0
+        }
         zoomScale += 1
         zoomScroll.zoomScale = zoomScale
     }
@@ -160,7 +167,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             }
             NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
             NotificationCenter.default.post(name: Notification.Name("CloseBattleViewController"), object: nil)
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }))
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
@@ -178,7 +185,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         if timer.isValid{
             timer.invalidate()
         }
-        NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     //load sub category data here
@@ -428,7 +434,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func DismissSelf(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     // set default to four/five choice button
     func MakeChoiceBtnDefault(btns:UIButton...){

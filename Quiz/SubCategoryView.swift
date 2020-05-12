@@ -47,7 +47,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
-
+        
         refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
         tableView.refreshControl = refreshController
         titleBarTxt.text = catName
@@ -77,7 +77,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
             subCatData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                   subCatData.append(SubCategory.init(id: "\(val["id"]!)", name: "\(val["subcategory_name"]!)", image: "\(val["image"]!)", maxlevel: "\(val["maxlevel"]!)", status: "\(val["status"]!)"))
+                    subCatData.append(SubCategory.init(id: "\(val["id"]!)", name: "\(val["subcategory_name"]!)", image: "\(val["image"]!)", maxlevel: "\(val["maxlevel"]!)", status: "\(val["status"]!)"))
                 }
             }
         }
@@ -92,13 +92,11 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func backButton(_ sender: Any) {
-      //check if user entered in this view directly from notification ? if Yes then goTo Home page otherwise just go back from notification view
+        //check if user entered in this view directly from notification ? if Yes then goTo Home page otherwise just go back from notification view
         if self == UIApplication.shared.keyWindow?.rootViewController {
-            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-            goHome.modalPresentationStyle = .fullScreen
-            self.present(goHome, animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
         }else{
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -138,10 +136,10 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         //cell.sCateImg.layer.borderColor = UIColor.lightGray.cgColor
         //cell.sCateImg.layer.borderWidth = 0.8
-       // cell.sCateImg.layer.cornerRadius = cell.sCateImg.frame.size.height/2
+        // cell.sCateImg.layer.cornerRadius = cell.sCateImg.frame.size.height/2
         cell.sCateImg.layer.masksToBounds = true
         
-        cell.cellView1.SetShadow()
+    
         
         cell.cellView1.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
@@ -159,14 +157,15 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
         
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let levelScreen:LevelView = storyBoard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+        
         if self.subCatData[indexPath.row].maxlevel.isInt{
-             levelScreen.maxLevel = Int(self.subCatData[indexPath.row].maxlevel)!
+            viewCont.maxLevel = Int(self.subCatData[indexPath.row].maxlevel)!
         }
-        levelScreen.catID = Int(self.subCatData[indexPath.row].id)!
-        levelScreen.questionType = "sub"
-        self.present(levelScreen, animated: true, completion: nil)
+        viewCont.catID = Int(self.subCatData[indexPath.row].id)!
+        viewCont.questionType = "sub"
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
 }
 extension UIView {
@@ -194,11 +193,11 @@ extension UIView {
     }
     
     func border(color : UIColor, radius: CGFloat = 28, bWidth : CGFloat = 2){
-            layer.masksToBounds = false
-            layer.borderColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
-            layer.borderWidth = 2
-            layer.cornerRadius = radius
-        }
+        layer.masksToBounds = false
+        layer.borderColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+        layer.borderWidth = 2
+        layer.cornerRadius = radius
+    }
     
     func applyGradient(colors: [CGColor])
     {

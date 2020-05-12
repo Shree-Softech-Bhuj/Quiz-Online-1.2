@@ -98,7 +98,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func animateIn(){ //for Selection Opt view
                 self.view.addSubview(selectionOptView)
                 var pos: CGRect = selectionOptView.frame
-                pos.origin.x = 255
+                pos.origin.x = buttonAll.frame.minX + 5
+             //   pos.origin.x = 250
                 pos.origin.y = 80
                 self.selectionOptView.frame = pos
             //border to selectionOption View
@@ -315,7 +316,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
           }
     
     @IBAction func backButton(_ sender: Any) {
-         self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 
     // number of rows in table view

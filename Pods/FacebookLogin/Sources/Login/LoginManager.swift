@@ -71,7 +71,7 @@ public extension LoginManager {
    */
   convenience init(loginBehavior: LoginBehavior = .browser, defaultAudience: DefaultAudience = .friends) {
     self.init()
-    self.loginBehavior = loginBehavior 
+    self.loginBehavior = loginBehavior
     self.defaultAudience = defaultAudience
   }
 

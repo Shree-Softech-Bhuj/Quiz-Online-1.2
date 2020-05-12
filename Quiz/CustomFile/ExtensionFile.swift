@@ -25,7 +25,7 @@ extension UIProgressView{
     
     // set  verticle progress bar here
     static func Vertical(color: UIColor)->UIProgressView{
-        let prgressView = UIProgressView()
+        let prgressView = UIProgressView() 
         prgressView.progress = 0.0
         prgressView.progressTintColor = color
         prgressView.trackTintColor = UIColor.clear
@@ -159,11 +159,12 @@ extension UIView{
     }
     
     func SetShadow(){
-       // self.layer.cornerRadius = self.frame.height / 2
-        self.layer.shadowColor = UIColor.lightGray.cgColor
-        self.layer.shadowOffset = CGSize(width: 3, height: 4)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 4
+        
+        self.layer.cornerRadius = 6
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 1.0
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = CGSize(width: 0.7, height: 0.7)
         self.layer.masksToBounds = false
     }
     

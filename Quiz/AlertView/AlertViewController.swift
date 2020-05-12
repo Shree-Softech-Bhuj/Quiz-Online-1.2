@@ -35,9 +35,9 @@ class AlertViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        bodyView.layer.cornerRadius = 20
-        hedr.roundCorners(corners: [.topLeft, .topRight], radius: 20)
-        fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+//        bodyView.layer.cornerRadius = 20
+//        hedr.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+//        fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
         
         //get setting value from user default
         setting = try! PropertyListDecoder().decode(Setting.self, from: (UserDefaults.standard.value(forKey:"setting") as? Data)!)
@@ -146,16 +146,22 @@ class AlertViewController: UIViewController {
     
     @IBAction func MoreAppsBtn(_ sender: Any) {
         let url=NSURL(string: Apps.MORE_APP)
-        [UIApplication.shared.openURL(url! as URL)]
-
-       // [UIApplication.shared.open(url! as URL)] // open is used with only supported iOS 10+
+         if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url! as URL) // open is used with only supported iOS 10+
+         }else {
+            UIApplication.shared.openURL(url! as URL)
+        }
     }
     
     @IBAction func RateUsBtn(_ sender: Any) {
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
-        }else if let url = URL(string: "\(Apps.APP_ID)") {
-           UIApplication.shared.openURL(url)
+        }else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)") {
+           if #available(iOS 10.0, *) {
+               UIApplication.shared.open(url)
+            }else {
+               UIApplication.shared.openURL(url)
+           }
         }
     }
 }

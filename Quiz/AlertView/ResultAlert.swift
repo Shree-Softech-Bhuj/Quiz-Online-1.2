@@ -34,8 +34,8 @@ class ResultAlert: UIViewController {
         }
         
        // mainView.SetShadow()
-        reBattle.layer.cornerRadius = 20
-        exit.layer.cornerRadius = 20
+        reBattle.layer.cornerRadius = 15
+        exit.layer.cornerRadius = 15
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {

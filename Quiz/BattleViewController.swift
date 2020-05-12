@@ -40,7 +40,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         super.viewDidLoad()
         
         self.ref = Database.database().reference().child("AvailUserForBattle")
-       
+        
         // Google AdMob Banner
         bannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         bannerView.rootViewController = self
@@ -49,22 +49,20 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         bannerView.load(request)
         
-        playerView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
+        //playerView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
+        playerView.SetShadow()
         
         self.DesignViews(views: user1,user2)
-        user1.layer.cornerRadius = user1.frame.height/2
-        user1.clipsToBounds = true
-        
-        user2.layer.cornerRadius = user2.frame.height/2
-        user2.clipsToBounds = true
         
         //register nsnotification for latter call
         NotificationCenter.default.addObserver(self,selector: #selector(self.QuitBattle),name: NSNotification.Name(rawValue: "QuitBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CheckForBattle),name: NSNotification.Name(rawValue: "CheckBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
-                
+        
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-         self.ref.child("AvailUserForBattle").child(user.UID).removeValue()
+        print("B USER",user.UID)
+        self.ref.child("AvailUserForBattle").child(user.UID).removeValue()
+        
         //set value for this user
         name1.text = user.name
         DispatchQueue.main.async {
@@ -79,7 +77,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
-       
+        
     }
     @IBAction func settingButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -90,42 +88,47 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     }
     
     //load category data here
-      func LoadData(jsonObj:NSDictionary){
-          print("RS",jsonObj)
+    func LoadData(jsonObj:NSDictionary){
+        print("RS",jsonObj)
         let status = Bool(jsonObj.value(forKey: "error") as! String)
         if (status!) {
-              DispatchQueue.main.async {
-                  self.Loader.dismiss(animated: true, completion: {
-                      self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-                  })
-              }
-              
-          }else{
-              //get data for category
-              DataList.removeAll()
-              if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                  for val in data{
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
+            
+        }else{
+            //get data for category
+            DataList.removeAll()
+            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                for val in data{
                     DataList.append(BattleStatistics.init(oppID: "\(val["opponent_id"]!)", oppName: "\(val["opponent_name"]!)", oppImage: "\(val["opponent_profile"]!)", battleStatus: "\(val["mystatus"]!)", battleDate: "\(val["date_created"]!)"))
-                  }
-              }
-          }
-          //close loader here
-          DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-              DispatchQueue.main.async {
-                  self.DismissLoader(loader: self.Loader)
+                }
+            }
+        }
+        //close loader here
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.async {
+                self.DismissLoader(loader: self.Loader)
                 self.battleTableView.reloadData()
-              }
-          });
-      }
+            }
+        });
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.ref.removeAllObservers()
     }
-
+    
     // function to close this controller by nsnotification
     @objc func CloseThisController(){
-        self.QuitBattle()
-        self.dismiss(animated: true, completion: nil)
+        if timer != nil && timer.isValid{
+            timer.invalidate()
+        }
+        // remove user data from firebase database
+        self.ref.child(self.user.UID).removeValue()
+        self.ref.removeAllObservers()
+        self.navigationController?.popViewController(animated: true)
     }
     // check for battle
     @objc func CheckForBattle(){
@@ -141,7 +144,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
         
-         // check if user is avalable for battle
+        // check if user is avalable for battle
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             for fuser in (snapshot.children.allObjects as? [DataSnapshot])!{
                 let data = fuser.value as? [String:String]
@@ -211,20 +214,23 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         // remove user data from firebase database
         self.ref.child(self.user.UID).removeValue()
         self.ref.removeAllObservers()
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = "user_id_1=\(self.user.UID)&user_id_2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+            self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
+        }
     }
     
     @objc func incrementCount() {
-        //<span style="color: #ff6600;font-size: 40px;">\(String(format: "%02d", seconds))</span><span style="color: #ff9900;font-size: 20px;">sec</span>
         let html = """
-<html>
-<body>
-<span style="font-size: 40px;">\(String(format: "%02d", seconds))</span><span style="font-size: 20px;">sec</span>
-</body>
-</html>
-"""
+        <html>
+        <body>
+        <span style="font-size: 35px;">\(String(format: "%02d", seconds))</span><span style="font-size: 20px;">sec</span>
+        </body>
+        </html>
+        """
         let data = Data(html.utf8)
         if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-           timerLabel.attributedText = attributedString
+            timerLabel.attributedText = attributedString
         }
         seconds -= 1
         if seconds < 0 {
@@ -239,9 +245,10 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     func DesignViews(views:UIView...){
         for view in views{
             view.layer.borderWidth = 2
-            view.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+            view.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
             view.SetShadow()
-           // view.layer.cornerRadius = 10
+            view.layer.cornerRadius = view.frame.height / 2 
+            view.clipsToBounds = true
         }
     }
     
@@ -251,26 +258,24 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
-                self.QuitBattle()
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
             alert.view.tintColor = UIColor.red //alert Action font color changes to red
         }else{
-            self.QuitBattle()
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }        
     }
     
     @IBAction func CheckBattleButton(_ sender:Any){
-         self.CheckForBattle()
+        self.CheckForBattle()
     }
     //start battle and pass data to battleplaycontroller
     func StartBattle(){
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let bpc: BattlePlayController = storyBoard.instantiateViewController(withIdentifier: "BattlePlayController") as! BattlePlayController
-        bpc.battleUser = self.battleUser
-        self.present(bpc, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "BattlePlayController") as! BattlePlayController
+        viewCont.battleUser = self.battleUser
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     //Show robot alert view to ask user play with robot or try again
@@ -310,11 +315,13 @@ extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
         guard let cell = self.battleTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BattleStatisticsCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
-           cell.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
+       // cell.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
+        cell.contentView.SetShadow()
         let data = DataList[indexPath.row]
         if !(user.image.isEmpty){
             DispatchQueue.main.async {
                 cell.userImage.loadImageUsingCache(withUrl: self.user.image)
+                self.DesignViews(views: cell.userImage)
             }
         }
         cell.userName.text = user.name
@@ -322,16 +329,14 @@ extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
         if !data.oppImage.isEmpty{
             DispatchQueue.main.async {
                 cell.opponentImage.loadImageUsingCache(withUrl: data.oppImage)
+                self.DesignViews(views: cell.opponentImage)
             }
         }
         cell.opponentName.text = data.oppName
         
         cell.matchStatusLabel.text = data.battleStatus
-     
+        
         
         return cell
     }
-    
-    
-    
 }

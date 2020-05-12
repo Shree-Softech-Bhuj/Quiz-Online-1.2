@@ -3,6 +3,7 @@ import Firebase
 import GoogleSignIn
 import FBSDKLoginKit
 import FirebaseAuth
+import AuthenticationServices
 
 class LoginView: UIViewController,GIDSignInDelegate{
     
@@ -22,10 +23,10 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBOutlet weak var pswdTxt: FloatingTF!
     
     var email = ""
-        
+    
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,8 +35,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         //rounded borders of buttons
-        btnSignUp.layer.cornerRadius = 20
-        btnLogin.layer.cornerRadius = 20
+        btnSignUp.layer.cornerRadius = 10
+        btnLogin.layer.cornerRadius = 10
         
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
@@ -46,27 +47,50 @@ class LoginView: UIViewController,GIDSignInDelegate{
     
     @IBAction func signUpBtn(_ sender: UIButton) {
         //show signup View
-        let subView = self.storyboard!.instantiateViewController(withIdentifier: "SignUpView")
-        self.present(subView, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "SignUpView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
-
-    @IBAction func forgotPswd(_ sender: UIButton) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPswd")
-       // vc?.modalPresentationStyle = .fullScreen
-        self.present(vc!, animated: false, completion: nil)
-        }
     
-
+    @IBAction func appleSignin(_ sender: Any) {
+        
+        if #available(iOS 13.0, *) {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            
+            request.requestedScopes = [.fullName, .email]
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            
+            authorizationController.delegate = self
+            
+            authorizationController.presentationContextProvider = self
+            authorizationController.performRequests()
+        } else {
+            // Fallback on earlier versions
+            self.ShowAlert(title: "Not Support", message: "Aple sign in not support in your device try another sign method")
+        }
+        
+        
+    }
+    
+    @IBAction func forgotPswd(_ sender: UIButton) {
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "ForgotPswd")
+        self.navigationController?.pushViewController(viewCont, animated: true)
+        
+    }
+    
+    
     @IBAction func pswdBtn(_ sender: UIButton) {
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if pswdTxt.isSecureTextEntry == true {
-                pswdButton.setImage(UIImage(systemName: "eye.slash.fill"), for: UIControlState.normal)
-                pswdTxt.isSecureTextEntry = false
-            }else{
-                //pswdButton.setImage(UIImage(named: "lock"), for: UIControlState.normal)
-                pswdButton.setImage(UIImage(systemName: "eye.fill"), for: UIControlState.normal)
-                pswdTxt.isSecureTextEntry = true
-            }
+            pswdButton.setImage(UIImage(named: "eye"), for: UIControlState.normal)
+            pswdTxt.isSecureTextEntry = false
+        }else{
+            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControlState.normal)
+            pswdTxt.isSecureTextEntry = true
+        }
     }
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -75,28 +99,29 @@ class LoginView: UIViewController,GIDSignInDelegate{
         GIDSignIn.sharedInstance().signIn()
     }
     @IBAction func guestBtn(_ sender: Any) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ViewController")// ViewController
-        self.present(vc!, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     func checkIfEmailVerified(){
         if Auth.auth().currentUser != nil {
             print(Auth.auth().currentUser!)
-        Auth.auth().currentUser?.reload (completion: {(error) in
-           if error == nil{
-                //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
-                 if Auth.auth().currentUser?.isEmailVerified == true {
+            Auth.auth().currentUser?.reload (completion: {(error) in
+                if error == nil{
+                    //signIn user & check whether it is verified or not ? if not verified then dnt allow to login by showing an alert
+                    if Auth.auth().currentUser?.isEmailVerified == true {
                         self.signInVerification()
+                    }else{
+                        let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        self.present(alert, animated: true)
+                    }
                 }else{
-                    let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
+                    let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true)
-                    }
-           }else{
-                let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true)
-            print(error?.localizedDescription ?? "error")
-           }
+                    print(error?.localizedDescription ?? "error")
+                }
             })
         }else{
             signInVerification()
@@ -114,14 +139,14 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 self.present(alert, animated: true)
                 print(error!.localizedDescription)
             }else{
-              UserDefaults.standard.set(true, forKey: "isLogedin")
-              //set DisplayName by splitting from given email address
-              let displayname = result?.user.email!.components(separatedBy: "@")
-              let nm = displayname![0]
-              //print("\(nm)")
-              var fcode = ""
-              let rcode = nm //ref code is same as initial username
-              Apps.REFER_CODE = rcode
+                UserDefaults.standard.set(true, forKey: "isLogedin")
+                //set DisplayName by splitting from given email address
+                let displayname = result?.user.email!.components(separatedBy: "@")
+                let nm = displayname![0]
+                //print("\(nm)")
+                var fcode = ""
+                let rcode = nm //ref code is same as initial username
+                Apps.REFER_CODE = rcode
                 print("curr user -- \((result?.user.uid)!)")
                 if (UserDefaults.standard.value(forKey: "fr_code") != nil){
                     fcode = UserDefaults.standard.string(forKey: "fr_code")!
@@ -129,43 +154,45 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }else{
                     fcode = " "
                 }
-               let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",ref_code: "\(rcode)") //,frnd_code: "\(fcode)"
+                let sUser = User.init(UID: "\((result?.user.uid)!)",userID: "", name: "\(result?.user.displayName ?? "\(nm)")", email: "\((result?.user.email)!)",phone: "\(result?.user.phoneNumber ?? "")", address: " ", userType: "email", image: "", status: "0",ref_code: "\(rcode)") //,frnd_code: "\(fcode)"
                 
-                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
-                 print("user data-- \(sUser)")
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
+                print("user data-- \(sUser)")
                 
-                 // send data to server after successfully loged in
+                // send data to server after successfully loged in
                 let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
-              self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
-                              
-              let subView = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-              self.present(subView, animated: true, completion: nil)
-            }
-    }
-  }
-    @IBAction func loginBtn(_ sender: UIButton)
-        {
-            if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-                print("Please enter correct username and password")
-                let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true)
-            } else{
-                checkIfEmailVerified()
+                self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
+                
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController")
+                self.navigationController?.pushViewController(viewCont, animated: true)
+                
             }
         }
+    }
+    @IBAction func loginBtn(_ sender: UIButton)
+    {
+        if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
+            print("Please enter correct username and password")
+            let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true)
+        } else{
+            checkIfEmailVerified()
+        }
+    }
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error { 
             return
         }
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,accessToken: authentication.accessToken)
-         self.Loader = self.LoadLoader(loader: self.Loader)
+        self.Loader = self.LoadLoader(loader: self.Loader)
         Auth.auth().signIn(with: credential) { (user, error) in
             if let error = error {
                 // error signin
                 return
-            }
+            }            
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
             let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "")
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
@@ -203,8 +230,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 }
                 
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
-               
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user!.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
+                
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
                 // send data to server after successfully loged in
@@ -216,13 +243,17 @@ class LoginView: UIViewController,GIDSignInDelegate{
     }
     
     @IBAction func PrivacyBtn(_ sender: Any) {
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "PrivacyView")
-        self.present(goHome, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "PrivacyView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
+        
     }
     
     @IBAction func TermsBtn(_ sender: Any) {
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "TermsView")
-        self.present(goHome, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "TermsView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
+        
     }
     
     //load category data here
@@ -230,16 +261,17 @@ class LoginView: UIViewController,GIDSignInDelegate{
         //print("LOG",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         let msg = jsonObj.value(forKey: "message") as! String
-        print(msg)
         if (status == "true") {
-            self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-            })
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: "Error", message:"\(msg)" )
+                })
+            }
             
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
-                print("Data -- \(data)")
+                //print("Data -- \(data)")
                 var userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
                 userD.name = "\((data["name"])!)"
                 userD.userID = "\((data["user_id"])!)"
@@ -259,12 +291,106 @@ class LoginView: UIViewController,GIDSignInDelegate{
             DispatchQueue.main.async {
                 self.DismissLoader(loader: self.Loader)
                 // Present the main view
-                if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "ViewController") {
-                    UIApplication.shared.keyWindow?.rootViewController = viewController
-                    self.dismiss(animated: true, completion: nil)
-                }
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "ViewController")
+                
+                let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                navigationcontroller.setNavigationBarHidden(true, animated: false)
+                navigationcontroller.isNavigationBarHidden = true
+                
+                UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
             }
         });
     }
 }
 
+@available(iOS 13, *)
+extension LoginView:ASAuthorizationControllerDelegate{
+    func setupSOAppleSignIn() {
+        
+        let btnAuthorization = ASAuthorizationAppleIDButton()
+        
+        btnAuthorization.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
+        
+        btnAuthorization.center = self.view.center
+        
+        btnAuthorization.addTarget(self, action: #selector(actionHandleAppleSignin), for: .touchUpInside)
+        
+        self.view.addSubview(btnAuthorization)
+        
+    }
+    @objc func actionHandleAppleSignin() {
+        
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        
+        let request = appleIDProvider.createRequest()
+        
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        
+        authorizationController.delegate = self
+        
+        authorizationController.presentationContextProvider = self
+        
+        authorizationController.performRequests()
+        
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        
+        print(error.localizedDescription)
+        
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            // Create an account as per your requirement
+            
+            let appleId = appleIDCredential.user
+            
+            let appleUserFirstName = appleIDCredential.fullName?.givenName
+            
+            let appleUserLastName = appleIDCredential.fullName?.familyName
+            
+            let appleUserEmail = appleIDCredential.email
+            
+            UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
+            
+            let uid = appleId.replacingOccurrences(of: ".", with: "", options: NSString.CompareOptions.literal, range: nil)
+            let sUser = User.init(UID: "\(uid)",userID: "", name: "\(appleUserFirstName) \(appleUserLastName)", email: "\(appleUserEmail ?? "none")", phone: "0", address: " ",userType: "apple", image: "", status: "0", ref_code: "")
+            
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
+            
+            
+            // send data to server after successfully loged in
+            self.Loader = self.LoadLoader(loader: self.Loader)
+            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=no&type=apple&fcm_id=null&ip_address=1.0.0&status=0"
+            self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
+            //Write your code
+            
+        } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
+            
+            let appleUsername = passwordCredential.user
+            
+            let applePassword = passwordCredential.password
+            
+            //Write your code
+            
+        }
+        
+    }
+}
+
+@available(iOS 13, *)
+extension LoginView: ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        
+        return self.view.window!
+        
+    }
+    
+}

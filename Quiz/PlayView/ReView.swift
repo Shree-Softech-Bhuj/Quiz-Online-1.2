@@ -42,11 +42,10 @@ class ReView: UIViewController {
         if Apps.opt_E == true {
             btnE.isHidden = false
             //set opetion's view shadow
-            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
+             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
         }else{
             btnE.isHidden = true
-            //set opetion's view shadow
-             self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
+           DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
               
         //get bookmark list
@@ -122,7 +121,7 @@ class ReView: UIViewController {
     }
 
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func nxtButton(_ sender: Any) {
@@ -144,8 +143,11 @@ class ReView: UIViewController {
     }
     
     @IBAction func BookmarkBtn(_ sender: Any) {
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BookmarkView")
-        self.present(goHome, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "BookmarkView")
+        
+        self.navigationController?.pushViewController(viewCont, animated: true)
+     
     }
     
     // Set the background as a blue gradient

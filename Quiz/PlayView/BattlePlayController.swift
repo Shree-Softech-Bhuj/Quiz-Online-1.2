@@ -67,11 +67,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //show 4 options by default & set 5th later by checking for opt E mode
         btnE.isHidden = true
         buttons = [btnA,btnB,btnC,btnD]
-
+        
         // set refrence for firebase database
         self.ref = Database.database().reference().child("AvailUserForBattle")
         mainQuestionLbl.centerVertically()
@@ -84,9 +84,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
         setVerticleProgress(view: falseVerticleProgress, progress: falseVerticleBar) // false verticle progress bar
         
-        battleScoreView.DesignViewWithShadow()
+        battleScoreView.SetShadow()
         self.questionView.DesignViewWithShadow()
-
+        
         //set four option's view shadow by default & set 5th later by checking for opt E mode
         self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         
@@ -99,7 +99,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         }
         
         sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
-              
+        
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){
@@ -107,9 +107,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)"
             //var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=0"
             if sysConfig.LANGUAGE_MODE == 1{
-                                     let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
-                                     apiURL += "&language_id=\(langID)"
-                                 }
+                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                apiURL += "&language_id=\(langID)"
+            }
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
@@ -119,22 +119,30 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         zoomScroll.maximumZoomScale = 6
         NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteBattle"),object: nil)        
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
     }
     
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return questionImageView
+    }
+    
+    
     @IBAction func ZoomBtn(_ sender: Any) {
+        if zoomScroll.zoomScale == zoomScroll.maximumZoomScale {
+            zoomScale = 0
+        }
         zoomScale += 1
         zoomScroll.zoomScale = zoomScale
     }
     @IBAction func settingButton(_ sender: Any) {
-          let storyboard = UIStoryboard(name: "Main", bundle: nil)
-          let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
-          myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-          myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-          self.present(myAlert, animated: true, completion: nil)
-      }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
+        myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        self.present(myAlert, animated: true, completion: nil)
+    }
     
     @IBAction func SpeechBtn(_ sender: Any) {
         let speechSynthesizer = AVSpeechSynthesizer()
@@ -153,7 +161,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
-          //  if let validTimer = self.timer?.isValid {
+            //  if let validTimer = self.timer?.isValid {
             if (self.timer?.isValid) != nil {
                 self.timer!.invalidate()
             }
@@ -167,7 +175,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
             NotificationCenter.default.post(name: Notification.Name("CloseBattleViewController"), object: nil)
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }))
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
@@ -201,11 +209,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
         }
         NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     //load sub category data here
     func LoadData(jsonObj:NSDictionary){
-         //print("RS",jsonObj)
+        //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         let msg = jsonObj.value(forKey: "message") as! String
         print("msg - \(msg)")
@@ -222,22 +230,22 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                     quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
                     
                     if let e = val["optione"] as? String {
-                     if e == ""{
-                          Apps.opt_E = false
-                          DispatchQueue.main.async {
-                            self.btnE.isHidden = true
-                           }
-                          buttons = [btnA,btnB,btnC,btnD]
-                        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-                     }else{
-                          Apps.opt_E = true
-                          DispatchQueue.main.async {
-                            self.btnE.isHidden = false
-                          }
-                          buttons = [btnA,btnB,btnC,btnD,btnE]
-                        self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
-                     }
-                   }
+                        if e == ""{
+                            Apps.opt_E = false
+                            DispatchQueue.main.async {
+                                self.btnE.isHidden = true
+                            }
+                            buttons = [btnA,btnB,btnC,btnD]
+                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                        }else{
+                            Apps.opt_E = true
+                            DispatchQueue.main.async {
+                                self.btnE.isHidden = false
+                            }
+                            buttons = [btnA,btnB,btnC,btnD,btnE]
+                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+                        }
+                    }
                 }
             }
         }
@@ -316,21 +324,21 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 // if question has image
                 imageQuestionLbl.text = quesData[currentQuestionPos].question
                 questionImageView.loadImageUsingCache(withUrl: quesData[currentQuestionPos].image)
-               
+                
                 questionImageView.isHidden = false
                 zoomBtn.isHidden = false
                 imageQuestionLbl.isHidden = false
                 
                 mainQuestionLbl.isHidden = true
             }
-                 self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
-             totalCount.roundCorners(corners: [ .bottomRight], radius: 5)
+            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
+            totalCount.roundCorners(corners: [ .bottomRight], radius: 5)
             //  totalCount.text = "\(currentQuestionPos + 1)/10"
             totalCount.text = "\(currentQuestionPos + 1)"
-           // totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
-           
+            // totalCount.text = "\(currentQuestionPos + 1)/\(Apps.TOTAL_PLAY_QS)"
+            
         } else {
-             // If there are no more questions show the results
+            // If there are no more questions show the results
             if oppAnswer{
                 ShowResultAlert()
             }
@@ -423,46 +431,52 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     // add question data to firebase
     func AddQuestionToFIR(question:QuestionWithE, userAns:String){
-    if question != nil{
-        var data = question.toDictionaryE
+        if question != nil{
+            var data = question.toDictionaryE
             
             data["userSelect"] = userAns
-        self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
+            if self.ref != nil{
+                   self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
+            }
         }
     }
     
     //observe data in firebase and show updated data to user
     func ObserveData(){
-        self.ref.child(battleUser.UID).observe(.value, with: {(snapshot) in
-            if snapshot.hasChild("rightAns"){
-                self.userCount2.text = "\(String(format: "%02d",Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!))"
-                self.opponentRightCount = Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!
-            }
-        })
+        if self.ref != nil{
+            self.ref.child(battleUser.UID).observe(.value, with: {(snapshot) in
+                if snapshot.hasChild("rightAns"){
+                    self.userCount2.text = "\(String(format: "%02d",Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!))"
+                    self.opponentRightCount = Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!
+                }
+            })
+        }
     }
     
     func ObserveQuestion(){
-        self.ref.child(battleUser.UID).child("Questions").child("\(self.currentQuestionPos)").observe(.value, with: {(snapshot) in
-            let data = snapshot.value as? [String:Any]
-            if data != nil{
-                self.oppSelectedAns = data!["userSelect"]! as! String
-                if self.myAnswer{
-                    for button in self.buttons{
-                        if button.title(for: .normal) == self.oppSelectedAns{
-                             self.ShowOpponentAns(btn: button, str: "\(self.battleUser.name)")
+        if(self.ref != nil){
+            self.ref.child(battleUser.UID).child("Questions").child("\(self.currentQuestionPos)").observe(.value, with: {(snapshot) in
+                let data = snapshot.value as? [String:Any]
+                if data != nil{
+                    self.oppSelectedAns = data!["userSelect"]! as! String
+                    if self.myAnswer{
+                        for button in self.buttons{
+                            if button.title(for: .normal) == self.oppSelectedAns{
+                                self.ShowOpponentAns(btn: button, str: "\(self.battleUser.name)")
+                            }
+                        }
+                    }else{
+                        self.oppAnswer = true
+                    }
+                    if self.currentQuestionPos + 1 >= Apps.TOTAL_PLAY_QS{
+                        if self.myAnswer{
+                            self.ShowResultAlert()
                         }
                     }
-                }else{
-                    self.oppAnswer = true
                 }
-                if self.currentQuestionPos + 1 >= Apps.TOTAL_PLAY_QS{
-                    if self.myAnswer{
-                        self.ShowResultAlert()
-                    }
-                }
-            }
-            
-        })
+                
+            })
+        }
     }
     
     // set button opetion's
@@ -480,7 +494,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
         }else{
-            self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
+            print("QUES",self.quesData[self.currentQuestionPos])
+           // self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }
         buttons.shuffle()

@@ -38,14 +38,14 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         bannerView.load(request)
         
         languageButton.isHidden = true
-       
-            config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
-            if config?.LANGUAGE_MODE == 1{
-                apiName = "get_categories_by_language"
-                apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
-                languageButton.isHidden = false
-            }
-            
+        
+        config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        if config?.LANGUAGE_MODE == 1{
+            apiName = "get_categories_by_language"
+            apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+            languageButton.isHidden = false
+        }
+        
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){
@@ -84,7 +84,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-       // print("RS",jsonObj)
+        // print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
@@ -113,7 +113,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func LanguageButton(_ sender: Any){
@@ -150,8 +150,11 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         
         // Name
-        cell.cellView.SetShadow()
-        
+        //cell.cellView.SetShadow()
+//        cell.cateLbl.SetShadow()
+//       // cell.cateLbl.layer.masksToBounds = true
+//        cell.cateImg.SetShadow()
+       
         cell.cateLbl.text = self.catData[indexPath.row].name
         if(catData[indexPath.row]).image == "" {
             cell.cateImg.image = UIImage(named: "score") // set default image
@@ -160,11 +163,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
                 cell.cateImg.loadImageUsingCache(withUrl: self.catData[indexPath.row].image)// load image from url using cache
             }
         }
-        
-       // cell.cateImg.layer.borderColor = UIColor.lightGray.cgColor
-        //cell.cateImg.layer.borderWidth = 0.8
-        //cell.cateImg.layer.cornerRadius = cell.cateImg.frame.size.height/2
-        cell.cateImg.layer.masksToBounds = true
+    
         
         cell.cellView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
@@ -183,21 +182,23 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         if(catData[indexPath.row].noOf == "0"){
             // this category dose not have any sub category so move to direct level screen
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let levelScreen:LevelView = storyBoard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
             if self.catData[indexPath.row].maxlvl.isInt{
-                levelScreen.maxLevel = Int(self.catData[indexPath.row].maxlvl)!
+                viewCont.maxLevel = Int(self.catData[indexPath.row].maxlvl)!
             }
-            levelScreen.catID = Int(self.catData[indexPath.row].id)!
-            levelScreen.questionType = "main"
-            self.present(levelScreen, animated: true, completion: nil)
+            viewCont.catID = Int(self.catData[indexPath.row].id)!
+            viewCont.questionType = "main"
+            self.navigationController?.pushViewController(viewCont, animated: true)
         }else{
-            // this category have sub category so move to sub category screen
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let subCatView:SubCategoryView = storyBoard.instantiateViewController(withIdentifier: "SubCategoryView") as! SubCategoryView
-            subCatView.catID = catData[indexPath.row].id
-            subCatView.catName = catData[indexPath.row].name
-            self.present(subCatView, animated: true, completion: nil)
+            
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "SubCategoryView") as! SubCategoryView
+            
+            viewCont.catID = catData[indexPath.row].id
+            viewCont.catName = catData[indexPath.row].name
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
         }
     }
 }

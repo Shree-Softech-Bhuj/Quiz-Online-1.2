@@ -28,33 +28,31 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         adBannerView.adUnitID = Apps.BANNER_AD_UNIT_ID
         adBannerView.rootViewController = self
         let request = GADRequest()
-       // request.testDevices = Apps.AD_TEST_DEVICE
+        // request.testDevices = Apps.AD_TEST_DEVICE
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         adBannerView.load(request)
         
         // apps level lock unlock, no need level lock unlock remove this code
         if UserDefaults.standard.value(forKey:"\(questionType)\(catID)") != nil {
             unLockLevel = Int(truncating: UserDefaults.standard.value(forKey:"\(questionType)\(catID)") as! NSNumber)
+            //print(unLockLevel)
         }
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
-             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+            sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if !isInitial{
-             self.tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     @IBAction func backButton(_ sender: Any) {
         //check if user entered in this view directly from appdelegate ? if Yes then goTo Home page otherwise just go back from notification view
-          if self == UIApplication.shared.keyWindow?.rootViewController {
-              let goHome = self.storyboard!.instantiateViewController(withIdentifier: "ViewController")
-              goHome.modalPresentationStyle = .fullScreen
-              self.present(goHome, animated: true, completion: nil)
+        if self == UIApplication.shared.keyWindow?.rootViewController {
+            self.navigationController?.popToRootViewController(animated: true)
         }else{
-             self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -93,10 +91,15 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         
         // apps lock unlock code
         if (self.unLockLevel >= indexPath.row){
-            cell.lockImg.image = UIImage(named: "unlock")            
+            cell.lockImg.image = UIImage(named: "unlockColored")
         }else{
             cell.lockImg.image = UIImage(named: "lock")
-            cell.cellView2.backgroundColor = UIColor(red: 168, green: 168, blue: 168, alpha: 1.0)
+        }
+        //if level is completed successfully - set it's text and image to grey To mark that levels as done
+        if (unLockLevel >= 0 && indexPath.row < unLockLevel) {
+            print("values - \(unLockLevel) - \(indexPath.row)")
+            cell.lvlLbl.textColor = UIColor.rgb(168.0, 168.0, 168.0, 1.0)
+            cell.lockImg.image = UIImage(named: "unlock")
         }
         
         cell.cellView2.SetShadow()
@@ -104,9 +107,9 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         cell.cellView2.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,
-                    initialSpringVelocity: 6.0,options: .allowUserInteraction,
-                    animations: { [weak self] in
-                    cell.cellView2.transform = .identity
+                       initialSpringVelocity: 6.0,options: .allowUserInteraction,
+                       animations: { [weak self] in
+                        cell.cellView2.transform = .identity
                         
             },completion: nil)
         return cell
@@ -117,13 +120,14 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         
         if (self.unLockLevel >= indexPath.row){
             
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let playView:PlayQuizView = storyBoard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
             
-            playView.catID = self.catID
-            playView.level = indexPath.row + 1
-            playView.questionType = self.questionType
-                       
+            
+            viewCont.catID = self.catID
+            viewCont.level = indexPath.row + 1
+            viewCont.questionType = self.questionType
+            
             self.isInitial = false
             self.PlaySound(player: &audioPlayer, file: "click") // play sound
             self.Vibrate() // make device vibrate
@@ -142,28 +146,28 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                 //print("JSON",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
-                   self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                 }else{
                     //get data for category
                     self.quesData.removeAll()
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
                             self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
-                                //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
-                              if let e = val["optione"] as? String {
+                            //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
+                            if let e = val["optione"] as? String {
                                 if e == ""{
-                                     Apps.opt_E = false
+                                    Apps.opt_E = false
                                 }else{
-                                     Apps.opt_E = true
+                                    Apps.opt_E = true
                                 }
-                              }
+                            }
                         }                 
                         
                         //check this level has enough (10) question to play? or not
                         if self.quesData.count >= Apps.TOTAL_PLAY_QS {
-                            playView.quesData = self.quesData
+                            viewCont.quesData = self.quesData
                             DispatchQueue.main.async {
-                                self.present(playView, animated: true, completion: nil)
+                                self.navigationController?.pushViewController(viewCont, animated: true)
                             }
                         }else{
                             DispatchQueue.main.async {

@@ -9,36 +9,37 @@ class SystemConfig: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.LoadLanguages(completion: {})
         
     }
     func updtFCMToServer(){
         //update fcm id
-       if UserDefaults.standard.bool(forKey: "isLogedin") {
-          let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        print(duser)
-        if duser.userID != ""{
-            if(Reachability.isConnectedToNetwork()){
-             let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
-                self.getAPIData(apiName: "update_fcm_id", apiURL: apiURL,completion: LoadResponse)
+        if UserDefaults.standard.bool(forKey: "isLogedin") {
+            let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            print(duser)
+            if duser.userID != ""{
+                if(Reachability.isConnectedToNetwork()){
+                    let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
+                    self.getAPIData(apiName: "update_fcm_id", apiURL: apiURL,completion: LoadResponse)
+                }
+            }else{
+                print("user ID not available. Try again Later !")
             }
-        }else{
-            print("user ID not available. Try again Later !")
-        }          
-      }
+        }
     }
     //load response of updtFCMid data here
-          func LoadResponse(jsonObj:NSDictionary){
-              //print("RS",jsonObj)
-              let status = jsonObj.value(forKey: "error") as! String
-              if (status == "true") {
-                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-                
-              }else{
-                  // on success response do code here
-               let msg = jsonObj.value(forKey: "message") as! String
-               print(msg)
-              }
-          }
+    func LoadResponse(jsonObj:NSDictionary){
+        //print("RS",jsonObj)
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+            
+        }else{
+            // on success response do code here
+            let msg = jsonObj.value(forKey: "message") as! String
+            print(msg)
+        }
+    }
     
     
     func ConfigureSystem() {
@@ -52,7 +53,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj.value(forKey: "data"))
+       // print("RS",jsonObj.value(forKey: "data"))
         // var optE = ""
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
@@ -99,40 +100,42 @@ class SystemConfig: UIViewController {
         });
     }
     //get notifications from API
-       func getNotifications() {
-               //get data from server
-               if(Reachability.isConnectedToNetwork()){
-                let apiURL = ""
-                self.getAPIData(apiName: Apps.NOTIFICATIONS, apiURL: apiURL,completion: LoadNotifications)  
-               }else{
-                   ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-               }
-           }
+    func getNotifications() {
+        //get data from server
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = ""
+            self.getAPIData(apiName: Apps.NOTIFICATIONS, apiURL: apiURL,completion: LoadNotifications)
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
     //load category data here
-        func LoadNotifications(jsonObj:NSDictionary){
-           
-            let status = jsonObj.value(forKey: "error") as! String
-            if (status == "true") {
+    func LoadNotifications(jsonObj:NSDictionary){
+        
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                 })
-            }else{
-                //get data for category
-                self.NotificationList.removeAll()
-                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                  for val in data{
+            }
+        }else{
+            //get data for category
+            self.NotificationList.removeAll()
+            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                for val in data{
                     NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)")) 
                     print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
                 }
-                    UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
-              }
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
             }
-            //close loader here
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-                DispatchQueue.main.async {
-                    self.DismissLoader(loader: self.Loader)
-                }
-            });
+        }
+        //close loader here
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.async {
+                self.DismissLoader(loader: self.Loader)
+            }
+        });
     }
     
     func LoadLanguages(completion:@escaping ()->Void){
@@ -141,23 +144,23 @@ class SystemConfig: UIViewController {
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
                 
                 //print("RS",jsonObj.value(forKey: "data"))
-                       // var optE = ""
-                       let status = jsonObj.value(forKey: "error") as! String
-                       if (status == "true") {
-                           self.Loader.dismiss(animated: true, completion: {
-                               self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-                           })
-                       }else{
-                           //get data for category
-                        var lang:[Language] = []
-                           if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                               for val in data{
-                                lang.append(Language.init(id: Int("\(val["id"]!)")!, name: "\(val["language"]!)", status: Int("\(val["status"]!)")!))
-                               }
-                           }
-                          UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
-                        completion()
-                       }
+                // var optE = ""
+                let status = jsonObj.value(forKey: "error") as! String
+                if (status == "true") {
+                    self.Loader.dismiss(animated: true, completion: {
+                        self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    })
+                }else{
+                    //get data for category
+                    var lang:[Language] = []
+                    if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                        for val in data{
+                            lang.append(Language.init(id: Int("\(val["id"]!)")!, name: "\(val["language"]!)", status: Int("\(val["status"]!)")!))
+                        }
+                    }
+                    UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
+                    completion()
+                }
             })
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)

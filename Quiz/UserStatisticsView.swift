@@ -44,12 +44,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         userDefault = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user data-\(String(describing: userDefault))")
         userName.text = "Hello, \(userDefault!.name)"
-        
-//        let score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-//        print("score data \(score)")
-//        coinsLabel.text = "\(score.coins)"
-//        scoreLabel.text = "\(score.points)"
-        
+       
         self.userImage.contentMode = .scaleAspectFill
         userImage.clipsToBounds = true
         userImage.layer.cornerRadius = userImage.frame.height / 2
@@ -85,9 +80,12 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                   ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
               }
         
-        viewProfile.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-        viewCategory.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-        viewChart.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        viewProfile.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        viewCategory.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+//        viewChart.shadow(color: .gray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        viewProfile.SetShadow()
+        viewCategory.SetShadow()
+        viewChart.SetShadow()
     }
     //load user data here
     func getUserData(jsonObj:NSDictionary){
@@ -111,12 +109,6 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                 }
             }
         }
-//        //close loader here
-//        DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
-//            DispatchQueue.main.async {
-//                self.DismissLoader(loader: self.Loader)
-//            }
-//        });
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
@@ -136,7 +128,6 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                     let ques = Int("\(data["questions_answered"]!)")
                     let corr = Int("\(data["correct_answers"]!)")
                     
-                  //  self.rankLabel.text = "\(data["best_position"]!)"
                     self.attendQuesLabel.text = "\(ques!)"
                     self.correctQuesLabel.text = "\(corr!)"
                     self.inCorrectQuesLabel.text = "\(ques! - corr!)"
@@ -174,7 +165,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
 }

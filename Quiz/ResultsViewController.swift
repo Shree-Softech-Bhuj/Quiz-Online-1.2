@@ -20,8 +20,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     @IBOutlet var view1: UIView!
     @IBOutlet var scrollView: UIScrollView!
     
+    @IBOutlet weak var titleText: UILabel!
+    
     var interstitialAd : GADInterstitial!
-
+    
     var count:CGFloat = 0.0
     var progressRing: CircularProgressBar!
     var timer: Timer!
@@ -68,12 +70,12 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         // set timer for progress ring and make it active
         timer = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
-
+        
         // call button design button and pass button variable those buttons need to be design
         self.DesignButton(btns: nxtLvl,reviewAns, yourScore,rateUs,homeBtn)
         
-         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        view1.SetShadow()
+        var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+       // view1.SetShadow()
         viewProgress.SetShadow()
         // Based on the percentage of questions you got right present the user with different message
         if(percentage >= 30 && percentage < 50) {
@@ -82,18 +84,24 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
             lblResults.text = Apps.COMPLETE_LEVEL
+            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 70 && percentage < 90) {
             earnedCoin = 3
             lblResults.text = Apps.COMPLETE_LEVEL
+            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 90) {
             earnedCoin = 4
             lblResults.text = Apps.COMPLETE_LEVEL
+            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else{
             earnedCoin = 0
             lblResults.text = Apps.NOT_COMPLETE_LEVEL
+            viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
+            //chng backcolor of containing view to red-pink & titlebar txt to play again
+            titleText.text = Apps.PLAY_AGAIN
             nxtLvl.setTitle(Apps.PLAY_AGAIN, for: .normal)
         }
-       
+        
         //apps has level lock unlock, remove this code if add no need level lock unlock
         if (percentage >= 30){
             var lvl = 0
@@ -112,7 +120,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         lblFalse.text = "\(Apps.TOTAL_PLAY_QS - trueCount)"
         
         score.coins = score.coins + earnedCoin
-    
+        
         totalCoin.text = "\(earnedCoin)"
         totalScore.text = "\(earnedPoints)"
         
@@ -122,7 +130,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             //get data from server
             if(Reachability.isConnectedToNetwork()){
-                                
+                
                 var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
                 self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
                 
@@ -141,9 +149,9 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
+            btn.SetShadow()
             btn.layer.cornerRadius = 0//btn.frame.height / 2
-            btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
-           // btn.applyGradient(colors: [UIColor.rgb(243, 243, 247, 1.0).cgColor, UIColor.white.cgColor])
+          //  btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }
     
@@ -152,7 +160,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-           self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
             
         }else{
             // on success response do code here
@@ -165,28 +173,26 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         self.interstitialAd = GADInterstitial(adUnitID: Apps.INTERSTITIAL_AD_UNIT_ID)
         self.interstitialAd.delegate = self
         let request = GADRequest()
-       // request.testDevices = [ kGADSimulatorID ];
+        // request.testDevices = [ kGADSimulatorID ];
         //request.testDevices = Apps.AD_TEST_DEVICE
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         self.interstitialAd.load(request)
     }
-
+    
     // Tells the delegate the interstitial had been animated off the screen.
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         if self.controllerName == "review"{
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let review:ReView = storyBoard.instantiateViewController(withIdentifier: "ReView") as! ReView
-            review.ReviewQues = ReviewQues
-            self.present(review, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "ReView") as! ReView
+            viewCont.ReviewQues = ReviewQues
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
             RequestInterstitialAd()
         }else if self.controllerName == "home"{
-           
-            self.dismiss(animated: true, completion: {
-                UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
-            })
-        
+            self.navigationController?.popToRootViewController(animated: true)
+            
         }else{
-             self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -200,12 +206,16 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         count += 2
         progressRing.progressManual = CGFloat(count)
         if count >= CGFloat(percentage) {
-           timer.invalidate()
+            timer.invalidate()
         }
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+//        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+//        let viewCont = storyboard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+//
+//        self.navigationController?.popToViewController(viewCont, animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func nxtButton(_ sender: UIButton) {
@@ -214,11 +224,11 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         self.quesData.removeAll()
         
         let apiURL = questionType == "main" ? "level=\(playLavel)&category=\(catID)" : "level=\(playLavel)&subcategory=\(catID)"
-    
+        
         self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: "Opps!", message: "Error while fetching data")
+                self.ShowAlert(title: "Oops!", message: "Error while fetching data")
             }else{
                 //get data for category
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
@@ -227,14 +237,15 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                     }
                     //check this level has enough (10) question to play? or not
                     if self.quesData.count >= Apps.TOTAL_PLAY_QS {
-                        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let playView:PlayQuizView = storyBoard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
-                        playView.catID = self.catID
-                        playView.level = playLavel
-                        playView.questionType = self.questionType
-                        playView.quesData = self.quesData
+                        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                        let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+                        
+                        viewCont.catID = self.catID
+                        viewCont.level = playLavel
+                        viewCont.questionType = self.questionType
+                        viewCont.quesData = self.quesData
                         DispatchQueue.main.async {
-                            self.present(playView, animated: true, completion:nil)
+                            self.navigationController?.pushViewController(viewCont, animated: true)
                         }
                     }else{
                         self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
@@ -249,10 +260,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         if interstitialAd.isReady{
             self.interstitialAd.present(fromRootViewController: self)
         }else{
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let review:ReView = storyBoard.instantiateViewController(withIdentifier: "ReView") as! ReView
-            review.ReviewQues = ReviewQues
-            self.present(review, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "ReView") as! ReView
+            viewCont.ReviewQues = ReviewQues
+            self.navigationController?.pushViewController(viewCont, animated: true)
         }
     }
     
@@ -261,9 +272,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         if interstitialAd.isReady{
             interstitialAd.present(fromRootViewController: self)
         }else{
-            self.dismiss(animated: true, completion: {
-                UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
-            })
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
@@ -281,7 +290,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         }else if(userAns == choice){
             return "<font color='red'>\(opt). \(choice) </font><br>"
         }else if(rightAns == choice){
-             return "<font color='green'>\(opt). \(choice) </font><br>"
+            return "<font color='green'>\(opt). \(choice) </font><br>"
         }else{
             return "\(opt). \(choice)<br>"
         }
@@ -302,12 +311,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
             return ""
         }
     }
+    
     @IBAction func rateButton(_ sender: UIButton) {
-        if #available(iOS 10.3, *) {
-            SKStoreReviewController.requestReview()
-        }else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)") {
-            UIApplication.shared.openURL(url)
-        }
+        let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)")
+        UIApplication.shared.open(url!)
     }
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {

@@ -6,9 +6,10 @@ class ViewController: UIViewController {
     
     @IBOutlet var startView: UIView!
     @IBOutlet var battleView: UIView!
-        
+    
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var battleButton: UIButton!
+    @IBOutlet weak var selfChallange: UIButton!
     
     @IBOutlet weak var moreButton: UIButton!
     
@@ -31,6 +32,8 @@ class ViewController: UIViewController {
         startView.SetDarkShadow()
         battleButton.layer.cornerRadius = 32
         battleView.SetDarkShadow()
+        selfChallange.layer.cornerRadius = 32
+        selfChallange.SetDarkShadow()
         
         //check setting object in user default
         if UserDefaults.standard.value(forKey:"setting") != nil {
@@ -51,10 +54,27 @@ class ViewController: UIViewController {
         //register nsnotification for latter call for play music and stop music
         NotificationCenter.default.addObserver(self,selector: #selector(self.PlayBackMusic),name: NSNotification.Name(rawValue: "PlayMusic"),object: nil) // for play music
         
-         NotificationCenter.default.addObserver(self,selector: #selector(self.StopBackMusic),name: NSNotification.Name(rawValue: "StopMusic"),object: nil) // for stop music
+        NotificationCenter.default.addObserver(self,selector: #selector(self.StopBackMusic),name: NSNotification.Name(rawValue: "StopMusic"),object: nil) // for stop music
         
         //show all 5 buttons even if user is not logged in, instead chng action of logout button
-            self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
+        self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
+        
+//        if Apps.screenHeight < 700 {
+//            leaderButton.frame = CGRect(x: 20, y: 5, width: 35, height: 35)
+//            //  leaderButton.translatesAutoresizingMaskIntoConstraints = false
+//            
+//            profileButton.frame = CGRect(x: 94, y: 5, width: 35, height: 35)
+//            // profileButton.translatesAutoresizingMaskIntoConstraints = false
+//            
+//            settingButton.frame = CGRect(x: 171, y: 5, width: 35, height: 35)
+//            // settingButton.translatesAutoresizingMaskIntoConstraints = false
+//            
+//            logoutButton.frame = CGRect(x: 254, y: 5, width: 35, height: 35)
+//            //logoutButton.translatesAutoresizingMaskIntoConstraints = false
+//            
+//            moreButton.frame = CGRect(x: 328, y: 5, width: 35, height: 35)
+//            // moreButton.translatesAutoresizingMaskIntoConstraints = false
+//        }
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
         }else{
@@ -71,10 +91,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func moreBtn(_ sender: UIButton) {
-           let goHome = self.storyboard!.instantiateViewController(withIdentifier: "MoreOptions")
-           goHome.modalPresentationStyle = .fullScreen
-           goHome.modalTransitionStyle = .flipHorizontal
-           self.present(goHome, animated: true, completion: nil)
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "MoreOptions")
+        self.navigationController?.pushViewController(viewCont, animated: true)
+        
     }
     
     // play background music function
@@ -101,8 +122,9 @@ class ViewController: UIViewController {
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
         
-        let goHome = self.storyboard!.instantiateViewController(withIdentifier: "CategoryView")
-        self.present(goHome, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "CategoryView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
         
     }
     
@@ -111,21 +133,26 @@ class ViewController: UIViewController {
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "BattleViewController")
-            self.present(goHome, animated: true, completion: nil)
+            
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
         }else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-            present(vc, animated: true, completion: nil)
+            
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
     @IBAction func profileBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "UpdateProfileView")
-            self.present(goHome, animated: true, completion: nil)
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "UpdateProfileView")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
         }else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-            present(vc, animated: true, completion: nil)
+            
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     @IBAction func privacyBtn(_ sender: Any) {
@@ -135,8 +162,10 @@ class ViewController: UIViewController {
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         self.present(myAlert, animated: true, completion: nil)
     }
-   
+    
     @IBAction func logoutBtn(_ sender: Any) {
+        
+        let userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         
         let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
@@ -146,16 +175,37 @@ class ViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
+            if userD.userType == "apple"{
+                // if app is not loged in than navigate to loginview controller
+                UserDefaults.standard.set(false, forKey: "isLogedin")
+                UserDefaults.standard.removeObject(forKey: "user")
+                
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                
+                let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                navigationcontroller.setNavigationBarHidden(true, animated: false)
+                navigationcontroller.isNavigationBarHidden = true
+                
+                UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+                return
+            }
             if Auth.auth().currentUser != nil {
                 do {
                     try Auth.auth().signOut()
                     let defaults = UserDefaults.standard
                     defaults.removeObject(forKey: "isLogedin")
-                    //remove friend code
-                    defaults.removeObject(forKey: "fr_code")
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-                    self.present(vc, animated: true, completion: nil)
-
+                    
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                    
+                    let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                    navigationcontroller.setNavigationBarHidden(true, animated: false)
+                    navigationcontroller.isNavigationBarHidden = true
+                    
+                    UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+                    return
+                    
                 } catch let error as NSError {
                     print(error.localizedDescription)
                 }
@@ -167,8 +217,10 @@ class ViewController: UIViewController {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             present(alert, animated: true, completion: nil)
         }else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-            present(vc, animated: true, completion: nil)
+            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginView")
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = initialViewController
+            return
         }
     }
     
@@ -178,17 +230,19 @@ class ViewController: UIViewController {
     
     @IBAction func leaderboardBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            let goHome = self.storyboard!.instantiateViewController(withIdentifier: "Leaderboard")
-            self.present(goHome, animated: true, completion: nil)
+            
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "Leaderboard")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
         }else{
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginView")
-            present(vc, animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     
     func DesignView(views:UIView...){
         for view in views{
-           // view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
+            // view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
             view.border(color: UIColor(red: 57/255, green: 129/255, blue: 156/255, alpha: 0.5), radius: view.frame.size.height / 2, bWidth: 2)
         }
     }

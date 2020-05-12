@@ -92,7 +92,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             btnE.isHidden = true
             buttons = [btnA,btnB,btnC,btnD]
         }
-        view1.SetShadow()
+       // view1.SetShadow()
         //Google AdMob
         rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
         rewardBasedVideo!.delegate = self
@@ -131,16 +131,16 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         if Apps.opt_E == true {
             //set five option's view shadow
-            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+           // self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
         }else{
             //set four option's view shadow
-            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+           // self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
         }
                 
         self.mainQuestionView.DesignViewWithShadow()
         
         let xPosition = view1.center.x - 10
-        let yPosition = view1.center.y + 3 //- 5
+        let yPosition = view1.center.y + 1 //- 5
         let position = CGPoint(x: xPosition, y: yPosition)
         progressRing = CircularProgressBar(radius: (view1.frame.size.height - 10) / 2, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
         view1.layer.addSublayer(progressRing)
@@ -299,7 +299,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             (alertAction: UIAlertAction!) in
             self.timer.invalidate()
             self.speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }))
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
@@ -315,6 +315,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     }
     
     @IBAction func zoomBtn(_ sender: Any) {
+        if zoomScroll.zoomScale == zoomScroll.maximumZoomScale {
+                   zoomScale = 0
+               }
         zoomScale += 1
         zoomScroll.zoomScale = zoomScale
     }
@@ -581,7 +584,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         } else {
             timer.invalidate()
             // If there are no more questions show the results
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let resultView:ResultsViewController = storyBoard.instantiateViewController(withIdentifier: "ResultsViewController") as! ResultsViewController
             resultView.trueCount = trueCount
             resultView.falseCount = falseCount
@@ -590,7 +593,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             resultView.level = self.level
             resultView.catID = self.catID
             resultView.questionType = self.questionType
-            self.present(resultView, animated: true, completion: nil)
+            self.navigationController?.pushViewController(resultView, animated: true)
         }
     }
     

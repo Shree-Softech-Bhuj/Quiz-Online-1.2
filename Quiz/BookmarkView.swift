@@ -4,16 +4,16 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var playBookmark: UIButton!
-
+    
     var BookQuesList: [QuestionWithE] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         //get bookmark list
-           if (UserDefaults.standard.value(forKey: "booklist") != nil){
-                BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self,from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
-           }
+        if (UserDefaults.standard.value(forKey: "booklist") != nil){
+            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self,from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
+        }
         
         if BookQuesList.count == 0 {
             playBookmark.isHidden = true
@@ -22,16 +22,15 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func playBookButton(_ sender: Any) {
         
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let bookPlay:BookmarkPlayView = storyBoard.instantiateViewController(withIdentifier: "BookmarkPlayView") as! BookmarkPlayView
-        bookPlay.BookQuesList = self.BookQuesList
-        
-        self.present(bookPlay, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "BookmarkPlayView") as! BookmarkPlayView
+        viewCont.BookQuesList = self.BookQuesList
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     @IBAction func settingButton(_ sender: Any) {
@@ -82,7 +81,7 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         }else if(BookQuesList[indexPath.row].correctAns == "e"){
             cell.ansr.text = BookQuesList[indexPath.row].opetionE
         }
-
+        
         if(BookQuesList[indexPath.row].image != ""){
             DispatchQueue.main.async {
                 cell.bookImg.loadImageUsingCache(withUrl: self.BookQuesList[indexPath.row].image)

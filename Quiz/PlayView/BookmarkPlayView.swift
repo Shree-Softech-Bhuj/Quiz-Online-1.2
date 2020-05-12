@@ -60,10 +60,10 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         }
         if Apps.opt_E == true {
             //set five option's view shadow
-            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
         }else{
             //set four option's view shadow
-            self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
+           DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
                 
         self.mainQuestionView.DesignViewWithShadow()
@@ -87,7 +87,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     }
     
     @IBAction func backButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func showAnswer(_ sender: Any) {
@@ -100,6 +100,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     }
     
     @IBAction func ZoomBtn(_ sender: Any) {
+        if zoomScroll.zoomScale == zoomScroll.maximumZoomScale {
+                   zoomScale = 0
+               }
         zoomScale += 1
         self.zoomScroll.zoomScale = zoomScale
     }
