@@ -448,7 +448,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         if(self.bookmarkBtn.tag == 0){
             let reQues = quesData[currentQuestionPos]
-            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
+            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
             bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookmarkBtn.tag = 1
         }else{
@@ -544,8 +544,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             // enabled opetions button
             MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
         }
-                
+            
         if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
+           
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 question.text = quesData[currentQuestionPos].question
@@ -602,20 +603,51 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
         var temp : [String]
+        
         if Apps.opt_E == true {
              temp = ["a","b","c","d","e"]
+             self.buttons = [btnA,btnB,btnC,btnD,btnE]
         }else{
              temp = ["a","b","c","d"]
+             self.buttons = [btnA,btnB,btnC,btnD]
         }
+        let singleQues = quesData[currentQuestionPos]
+        if singleQues.quesType == "2"{
+            
+            clearColor(views: btnA,btnB)
+            MakeChoiceBtnDefault(btns: btnA,btnB)
+            
+            btnC.isHidden = true
+            btnD.isHidden = true
+
+            self.buttons = [btnA,btnB]
+            //btnE.isHidden = true
+             temp = ["a","b"]
+            self.buttons.forEach{
+                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+            }
+        }else{
+            btnC.isHidden = false
+            btnD.isHidden = false
+            
+            btnA.setImage(UIImage(named: "btnA"), for: .normal)
+            btnB.setImage(UIImage(named: "btnB"), for: .normal)
+            btnC.setImage(UIImage(named: "btnc"), for: .normal)
+            btnD.setImage(UIImage(named: "btnD"), for: .normal)
+            btnE.setImage(UIImage(named: "btnE"), for: .normal)
+            
+            buttons.shuffle()
+        }
+        
        let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
         }else{
-            self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
+            //self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }
-        buttons.shuffle()
+       
         var index = 0
         for button in buttons{
             button.setTitle(opestions[index], for: .normal)
@@ -629,7 +661,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             index += 1
         }
     }
-    
     // opetion buttons click action
     @objc func ClickButton(button:UIButton){
         buttons.forEach{$0.isUserInteractionEnabled = false}
@@ -683,7 +714,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     // add question to review array for later review it
     func AddToReview(opt:String){
         let ques = quesData[currentQuestionPos]
-        reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, userSelect: opt))
+        reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, quesType: ques.quesType, userSelect: opt))
     }
     
     // draw circle for audions poll lifeline

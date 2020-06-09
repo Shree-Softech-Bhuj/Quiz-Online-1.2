@@ -227,7 +227,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             print(jsonObj.value(forKey: "data") as Any)
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                    quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                    quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                     
                     if let e = val["optione"] as? String {
                         if e == ""{
@@ -494,11 +494,35 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
         }else{
-            print("QUES",self.quesData[self.currentQuestionPos])
-           // self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)
         }
-        buttons.shuffle()
+       let singleQues = quesData[currentQuestionPos]
+        print("QUES",singleQues)
+        if singleQues.quesType == "2"{
+            
+            MakeChoiceBtnDefault(btns: btnA,btnB)
+            
+            btnC.isHidden = true
+            btnD.isHidden = true
+
+            self.buttons = [btnA,btnB]
+            //btnE.isHidden = true
+             temp = ["a","b"]
+            self.buttons.forEach{
+                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+            }
+        }else{
+            btnC.isHidden = false
+            btnD.isHidden = false
+            
+            btnA.setImage(UIImage(named: "btnA"), for: .normal)
+            btnB.setImage(UIImage(named: "btnB"), for: .normal)
+            btnC.setImage(UIImage(named: "btnc"), for: .normal)
+            btnD.setImage(UIImage(named: "btnD"), for: .normal)
+            btnE.setImage(UIImage(named: "btnE"), for: .normal)
+            
+            buttons.shuffle()
+        }
         var index = 0
         for button in buttons{
             button.setTitle(opestions[index], for: .normal)

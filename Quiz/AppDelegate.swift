@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         //check app is log in or not if not than navigate to login view controller
         
         if UIDevice.current.userInterfaceIdiom == .pad{
-            //deviceStoryBoard = "Main_ipad"
+            deviceStoryBoard = "Ipad"
         }else{
             deviceStoryBoard = "Main"
         }

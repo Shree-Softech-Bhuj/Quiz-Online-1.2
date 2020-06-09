@@ -8,6 +8,7 @@ struct SubCategory {
     let image:String
     let maxlevel:String
     let status:String
+    let noOf:String
 }
 
 class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource,GADBannerViewDelegate {
@@ -77,7 +78,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
             subCatData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                    subCatData.append(SubCategory.init(id: "\(val["id"]!)", name: "\(val["subcategory_name"]!)", image: "\(val["image"]!)", maxlevel: "\(val["maxlevel"]!)", status: "\(val["status"]!)"))
+                    subCatData.append(SubCategory.init(id: "\(val["id"]!)", name: "\(val["subcategory_name"]!)", image: "\(val["image"]!)", maxlevel: "\(val["maxlevel"]!)", status: "\(val["status"]!)", noOf: "\(val["no_of"]!)"))
                 }
             }
         }

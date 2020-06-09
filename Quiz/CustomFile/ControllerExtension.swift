@@ -76,7 +76,8 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-        print("POST String = \(postString)")
+       // print("POST URL",url)
+      //  print("POST String = \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         //let data = NSMutableData();
@@ -95,7 +96,7 @@ extension UIViewController{
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(String(describing: response))")
                 let res = ["status":false,"message":"JSON Parser Error"] as NSDictionary
-                                   completion(res)
+                completion(res)
                 return
             }
             
@@ -108,9 +109,10 @@ extension UIViewController{
                     print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8))
                 }
             }else{
-                let res = ["status":false,"message":"Error while fetching data"] as NSDictionary
+                let res = ["error":"false","message":"Error while fetching data"] as NSDictionary
+             print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8)!)
                 completion(res)
-                print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8))
+              
             }
         }
         task.resume()
@@ -232,6 +234,7 @@ extension UIViewController{
     // design opetion button
     func DesignOpetionButton(buttons: UIButton...){
         for button in buttons{
+            button.contentMode = .center
             button.SetShadow()
             button.titleLabel?.numberOfLines = 2
             button.titleLabel?.lineBreakMode = .byCharWrapping
@@ -253,4 +256,22 @@ extension UIViewController{
     func isKeyPresentInUserDefaults(key: String) -> Bool {
            return UserDefaults.standard.object(forKey: key) != nil
        }
+}
+
+extension UIView {
+    
+    func createImage() -> UIImage {
+
+        let rect: CGRect = self.frame 
+        
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+        self.layer.render(in: context)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return img!
+
+    }
+    
 }

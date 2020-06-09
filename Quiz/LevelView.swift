@@ -123,7 +123,6 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
             
-            
             viewCont.catID = self.catID
             viewCont.level = indexPath.row + 1
             viewCont.questionType = self.questionType
@@ -152,7 +151,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                     self.quesData.removeAll()
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
-                            self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)"))
+                            self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                             //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
                             if let e = val["optione"] as? String {
                                 if e == ""{

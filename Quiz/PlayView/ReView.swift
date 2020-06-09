@@ -108,7 +108,7 @@ class ReView: UIViewController {
     @IBAction func bookButton(_ sender: Any) {
         if(self.bookMarkBtn.tag == 0){
             let reQues = ReviewQues[currentQuesPosition]
-            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note))
+            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
             bookMarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookMarkBtn.tag = 1
         }else{
@@ -203,12 +203,30 @@ class ReView: UIViewController {
             }else{
                 btnNote.isHidden = false
             }
-            
-            //set options and question lable here
-            btnA.setTitle("\(ReviewQues[currentQuesPosition].opetionA)", for: .normal)
-            btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
-            btnC.setTitle("\(ReviewQues[currentQuesPosition].opetionC)", for: .normal)
-            btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
+            let singleReQues = ReviewQues[currentQuesPosition]
+            if singleReQues.quesType == "2"{
+                //set options and question lable here
+                btnA.setTitle("\(ReviewQues[currentQuesPosition].opetionA)", for: .normal)
+                btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
+                
+                btnA.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+                btnB.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+                
+                btnC.isHidden = true
+                btnD.isHidden = true
+            }else{
+                btnC.isHidden = false
+                btnD.isHidden = false
+                
+                btnA.setImage(UIImage(named: "btnA"), for: .normal)
+                btnB.setImage(UIImage(named: "btnB"), for: .normal)
+                //set options and question lable here
+                btnA.setTitle("\(ReviewQues[currentQuesPosition].opetionA)", for: .normal)
+                btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
+                btnC.setTitle("\(ReviewQues[currentQuesPosition].opetionC)", for: .normal)
+                btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
+            }
+           
             if Apps.opt_E == true {
                 btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
             }

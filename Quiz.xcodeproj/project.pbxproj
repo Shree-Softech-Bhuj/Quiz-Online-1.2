@@ -10,6 +10,11 @@
 		104DCA6EBBD7F96600F896A5 /* Pods_QuizUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84B8B5DE5D049A997B5E982 /* Pods_QuizUITests.framework */; };
 		279817AF397096B2B7BA8DCA /* Pods_QuizTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 251F6F3CC8059908050DF02D /* Pods_QuizTests.framework */; };
 		753D42C378971AB969A4D7DE /* Pods_Quiz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */; };
+		9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3782CC247B757800EF6996 /* SelfChallengeController.swift */; };
+		9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */; };
+		9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */; };
+		9A7F9C6C247D45090074266F /* SelfChallengePlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7F9C6B247D45090074266F /* SelfChallengePlay.swift */; };
+		9AA9DE93246BB2BE00876AF0 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */; };
 		9AEF45562462FEB700B96893 /* DesignController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEF45552462FEB700B96893 /* DesignController.swift */; };
 		BC0139FF2281483A009DA93B /* ResultAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0139FE2281483A009DA93B /* ResultAlert.swift */; };
 		BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC027F6022A7A48B0024A1BF /* TopView.swift */; };
@@ -105,6 +110,11 @@
 		6C9D51952B8B36A42BB59AAC /* Pods-Quiz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.debug.xcconfig"; sourceTree = "<group>"; };
 		738C4A7298208A8EFA3564A9 /* Pods-Quiz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.release.xcconfig"; sourceTree = "<group>"; };
 		8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quiz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A3782CC247B757800EF6996 /* SelfChallengeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChallengeController.swift; sourceTree = "<group>"; };
+		9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttempAlertView.swift; sourceTree = "<group>"; };
+		9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfPlayResultView.swift; sourceTree = "<group>"; };
+		9A7F9C6B247D45090074266F /* SelfChallengePlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChallengePlay.swift; sourceTree = "<group>"; };
+		9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Ipad.storyboard; sourceTree = "<group>"; };
 		9AEF45552462FEB700B96893 /* DesignController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignController.swift; sourceTree = "<group>"; };
 		AFD8825A392A072C67A62CBD /* Pods-QuizTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuizTests/Pods-QuizTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B622FD47A66C103B7CF2F264 /* Pods-QuizUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuizUITests/Pods-QuizUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -223,6 +233,7 @@
 				D76C6EED222FEB6000A7458C /* AlertViewController.swift */,
 				BC0139FE2281483A009DA93B /* ResultAlert.swift */,
 				BC029822229CE4B800A50E80 /* RobotAlert.swift */,
+				9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */,
 			);
 			path = AlertView;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 				BC51055F2278C48E005377C8 /* BattlePlayController.swift */,
 				BC05417A229BB31400220644 /* RobotPlayView.swift */,
 				D76C6EEB222FD4A900A7458C /* ReView.swift */,
+				9A7F9C6B247D45090074266F /* SelfChallengePlay.swift */,
 			);
 			path = PlayView;
 			sourceTree = "<group>";
@@ -319,6 +331,7 @@
 				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
 				C6500A1623EAA7C400AC93BF /* AboutUsView.swift */,
 				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
+				9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
@@ -331,6 +344,8 @@
 				BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */,
 				BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */,
 				BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */,
+				9A3782CC247B757800EF6996 /* SelfChallengeController.swift */,
+				9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -484,6 +499,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA9DE93246BB2BE00876AF0 /* Ipad.storyboard in Resources */,
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
@@ -627,6 +643,7 @@
 				D76C6EEC222FD4AA00A7458C /* ReView.swift in Sources */,
 				BC0375A0227D530C006C0042 /* BookmarkPlayView.swift in Sources */,
 				BC029823229CE4B800A50E80 /* RobotAlert.swift in Sources */,
+				9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */,
 				BC2080ED22701F160071B5F3 /* PrivacyView.swift in Sources */,
 				D7FCFC9321A57E2800718EE2 /* CategoryView.swift in Sources */,
 				D7FCFC6221A5282D00718EE2 /* Quiz.xcdatamodeld in Sources */,
@@ -643,6 +660,7 @@
 				C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
 				BCBE508E23E55DA3001FD5A9 /* UserStatisticsView.swift in Sources */,
+				9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */,
 				D7964A49223B8BAF00D847A4 /* BookmarkView.swift in Sources */,
 				BC02A0BA22A919E90089025C /* FloatingTF.swift in Sources */,
 				BC32921522926066000AD46C /* OptionButton.swift in Sources */,
@@ -660,6 +678,8 @@
 				BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */,
 				BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */,
 				D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */,
+				9A7F9C6C247D45090074266F /* SelfChallengePlay.swift in Sources */,
+				9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */,
 				C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
 				D7BCD04C222AA86500B7E531 /* CircularProgressBar.swift in Sources */,
@@ -761,7 +781,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -779,7 +799,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "iPhone Developer: Harish Vekariya (QA5UX5B4B6)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -849,7 +869,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -872,7 +892,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

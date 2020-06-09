@@ -9,6 +9,7 @@ struct Category {
     let image:String
     let maxlvl:String
     let noOf:String
+    let noOfQues:String
 }
 class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, LanguageViewDelegate {
     
@@ -39,7 +40,9 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         languageButton.isHidden = true
         
-        config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        if isKeyPresentInUserDefaults(key: DEFAULT_SYS_CONFIG){
+             config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        }
         if config?.LANGUAGE_MODE == 1{
             apiName = "get_categories_by_language"
             apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
@@ -84,7 +87,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        // print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
@@ -98,7 +101,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
             catData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
-                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)"))
+                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
                 }
             }
         }

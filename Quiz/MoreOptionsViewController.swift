@@ -8,8 +8,6 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var emailAdrs: UILabel!
     
-    @IBOutlet weak var superViewImg: UIView!
-    @IBOutlet weak var imgView: UIView!
     @IBOutlet weak var imgProfile: UIImageView!
     
     @IBOutlet var scrollView: UIScrollView!

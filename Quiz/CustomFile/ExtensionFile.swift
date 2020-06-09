@@ -192,3 +192,49 @@ extension UIView{
     }
 }
 
+extension UIViewController{
+    func secondsToHoursMinutesSeconds (seconds : Int) -> String {
+        //String(format: "%02d", (seconds % 3600) % 60)
+        return "\(String(format: "%02d", (seconds % 3600) / 60)):\(String(format: "%02d", (seconds % 3600) % 60))"
+    }
+    func SetClickedOptionView(otpStr:String) -> UIView{
+        let color = UIColor.rgb(43, 146, 178, 1)
+        let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        lbl.text = otpStr.uppercased()
+        lbl.textAlignment = .center
+        lbl.textColor = .white
+        
+        let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
+        imgView.layer.cornerRadius = 4
+        imgView.layer.borderColor = color.cgColor
+        imgView.layer.borderWidth = 1
+        imgView.backgroundColor = color
+        imgView.addSubview(lbl)
+        return imgView
+    }
+}
+
+extension CALayer {
+
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
+
+        let border = CALayer()
+
+        switch edge {
+        case .top:
+            border.frame = CGRect(x: 0, y: 0, width: frame.width, height: thickness)
+        case .bottom:
+            border.frame = CGRect(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+        case .left:
+            border.frame = CGRect(x: 0, y: 0, width: thickness, height: frame.height)
+        case .right:
+            border.frame = CGRect(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+        default:
+            break
+        }
+
+        border.backgroundColor = color.cgColor;
+
+        addSublayer(border)
+    }
+}

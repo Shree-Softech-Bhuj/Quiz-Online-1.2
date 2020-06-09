@@ -53,7 +53,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-       // print("RS",jsonObj.value(forKey: "data"))
+        print("RS",jsonObj)
         // var optE = ""
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
@@ -111,7 +111,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadNotifications(jsonObj:NSDictionary){
-        
+       // print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {

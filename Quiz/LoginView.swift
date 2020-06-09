@@ -259,9 +259,9 @@ class LoginView: UIViewController,GIDSignInDelegate{
     //load category data here
     func ProcessLogin(jsonObj:NSDictionary){
         //print("LOG",jsonObj)
-        let status = jsonObj.value(forKey: "error") as! String
         let msg = jsonObj.value(forKey: "message") as! String
-        if (status == "true") {
+        let status = jsonObj.value(forKey: "error") as! String
+              if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: "Error", message:"\(msg)" )

@@ -144,6 +144,18 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    @IBAction func SelfChallengeBtn(_ sender: Any) {
+        
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController") as! SelfChallengeController
+        self.navigationController?.pushViewController(viewCont, animated: true)
+        
+    }
+    
     @IBAction func profileBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)

@@ -48,9 +48,10 @@ struct QuestionWithE: Codable {
     var image:String
     var level:String
     var note:String
+    var quesType:String
     
     var toDictionaryE: [String:String]{
-    return [        "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"opetionE":opetionE,"correctAns":correctAns,"image":image,"level":level,"note":note
+    return [        "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"opetionE":opetionE,"correctAns":correctAns,"image":image,"level":level,"note":note,"quesType":quesType
            ]
     }
 }
@@ -66,10 +67,11 @@ struct Question: Codable {
     var image:String
     var level:String
     var note:String
+    var quesType:String
     
     var toDictionary: [String:String]{
         return [
-            "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"correctAns":correctAns,"image":image,"level":level,"note":note
+            "id":id,"question":question,"opetionA":opetionA,"opetionB":opetionB,"opetionC":opetionC,"opetionD":opetionD,"correctAns":correctAns,"image":image,"level":level,"note":note,"quesType":quesType
         ]
     }
 }
@@ -85,7 +87,9 @@ struct ReQuestion {
     let image:String
     let level:String
     let note:String
+    var quesType:String
     let userSelect:String
+    
 }
 
 struct ReQuestionWithE {
@@ -100,7 +104,8 @@ struct ReQuestionWithE {
     let image:String
     let level:String
     let note:String
-    let userSelect:String
+    var quesType:String
+    var userSelect:String
 }
 
 struct SystemConfiguration:Codable{
