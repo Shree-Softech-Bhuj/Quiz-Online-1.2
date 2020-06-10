@@ -197,7 +197,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
-        let shareUrl = "I have complete self challenge with right answer \(self.trueCount)"
+        let shareUrl = "I have completed self challenge with right answer \(self.trueCount)"
         let textToShare = str + "\n" + shareUrl
         let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
         present(vc, animated: true)

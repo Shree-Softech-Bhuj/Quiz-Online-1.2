@@ -114,7 +114,7 @@ class SelfChallengeController: UIViewController {
     
     @IBAction func PlayAction(_ sender: Any) {
         if self.userSelectedQues == 0{
-            self.ShowAlert(title: "Select Quix Question", message: "")
+            self.ShowAlert(title: "Select Quiz Question", message: "")
             return
         }
         

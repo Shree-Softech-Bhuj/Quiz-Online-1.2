@@ -60,6 +60,12 @@ class SignUpViewController: UIViewController {
             password.isSecureTextEntry = true
         }
     }
+    
+    
+    @IBAction func backButton(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func SignupUser(_ sender: Any) {
         //create referernce to the data user enter
         let nameTxt = name.text!.trimmingCharacters(in: .whitespacesAndNewlines)

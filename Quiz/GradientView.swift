@@ -32,7 +32,7 @@ import UIKit
         gradientLayer.colors = [self.gradientColor1.cgColor, self.gradientColor2.cgColor]
         gradientLayer.startPoint = self.gradientStartPoint
         gradientLayer.endPoint = self.gradientEndPoint
-        gradientLayer.frame = self.bounds
+    gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width * Apps.screenWidth, height: self.frame.size.height * Apps.screenHeight)
         if let topLayer = self.layer.sublayers?.first, topLayer is CAGradientLayer
         {
             topLayer.removeFromSuperlayer()
