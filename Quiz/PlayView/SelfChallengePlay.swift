@@ -427,7 +427,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
             MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
         }
             
-        if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
+        if(currentQuestionPos  < quesData.count ) {
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 question.text = quesData[currentQuestionPos].question
