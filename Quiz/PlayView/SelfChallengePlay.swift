@@ -38,7 +38,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     @IBOutlet var rightView: UIView!
     
     @IBOutlet var timerLabel: UILabel!
-    
+    @IBOutlet var topView: TopView!
     
     var seconds = 0
     var score: Int = 0
@@ -113,7 +113,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
         btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
         
-        
+        self.topView.addBottomBorderWithColor(color: .gray, width: 1)
         //font
         resizeTextview()
       
@@ -465,7 +465,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
                 self.bookmarkBtn.tag = 0
             }
         } else {
-            self.ShowResultScreen()
+            //self.ShowResultScreen()
         }
     }
     

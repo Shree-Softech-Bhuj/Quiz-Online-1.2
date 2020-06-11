@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 import GoogleMobileAds
 
 class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentInteractionControllerDelegate {
@@ -49,6 +50,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     var controllerName:String = ""
+    var audioPlayer : AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,7 +173,12 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     }
     
     @IBAction func nxtButton(_ sender: UIButton) {
-
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "CategoryView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     @IBAction func reviewButton(_ sender: UIButton) {
@@ -232,8 +239,18 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     }
     
     @IBAction func rateButton(_ sender: UIButton) {
-        let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)")
-        UIApplication.shared.open(url!)
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+            
+        }else{
+            
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {

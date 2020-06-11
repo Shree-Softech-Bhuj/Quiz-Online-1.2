@@ -28,9 +28,10 @@ class RobotAlert: UIViewController {
     }
     
     @IBAction func PlayWithRobot(_ sender: Any) {
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let bpc: RobotPlayView = storyBoard.instantiateViewController(withIdentifier: "RobotPlayController") as! RobotPlayView
-        self.present(bpc, animated: true, completion: nil)
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "RobotPlayController")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
     @IBAction func TryAgainBtn(_ sender: Any) {
