@@ -48,7 +48,7 @@ class ViewController: UIViewController {
             //available
         }else{
             // not availabel add it to user default
-            UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: 6, points: 0)), forKey: "UserScore")
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: 0, points: 0)), forKey: "UserScore")
         }
         
         //register nsnotification for latter call for play music and stop music

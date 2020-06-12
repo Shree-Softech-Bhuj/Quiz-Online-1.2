@@ -26,6 +26,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     var count:CGFloat = 0.0
     var progressRing: CircularProgressBar!
+    var sysConfig:SystemConfiguration!
     var timer: Timer!
     
     var trueCount = 0
@@ -140,6 +141,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                 ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
             }
         }
+        sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -223,8 +225,11 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         let playLavel = percentage < 30 ? self.level : self.level + 1
         self.quesData.removeAll()
         
-        let apiURL = questionType == "main" ? "level=\(playLavel)&category=\(catID)" : "level=\(playLavel)&subcategory=\(catID)"
-        
+        var apiURL = questionType == "main" ? "level=\(playLavel)&category=\(catID)" : "level=\(playLavel)&subcategory=\(catID)"
+        if sysConfig.LANGUAGE_MODE == 1{
+            apiURL += "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+        }
+        print(apiURL)
         self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {

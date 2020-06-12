@@ -469,7 +469,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         //score count
         trueCount += 1
         trueLbl.text = "\(trueCount)"
-        progressBar.setProgress(Float(trueCount) / Float(10), animated: true)
+        progressBar.setProgress(Float(trueCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
         score.points = score.points + Apps.QUIZ_R_Q_POINTS
@@ -503,7 +503,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         //score count
         falseCount += 1
         falseLbl.text = "\(falseCount)"
-        progressFalseBar.setProgress(Float(falseCount) / Float(10), animated: true)
+        progressFalseBar.setProgress(Float(falseCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
         score.points = score.points - Apps.QUIZ_W_Q_POINTS

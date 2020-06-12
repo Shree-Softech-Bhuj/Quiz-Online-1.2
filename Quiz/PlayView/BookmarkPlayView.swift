@@ -231,7 +231,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         //score count
         trueCount += 1
         trueLbl.text = "\(trueCount)"
-        bookProgressBar.setProgress(Float(trueCount) / Float(10), animated: true)
+        bookProgressBar.setProgress(Float(trueCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
         btn.backgroundColor = Apps.RIGHT_ANS_COLOR
         btn.tintColor = UIColor.white
@@ -262,7 +262,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         //score count
         falseCount += 1
         falseLbl.text = "\(falseCount)"
-        bookProgressFalseBar.setProgress(Float(falseCount) / Float(10), animated: true)
+        bookProgressFalseBar.setProgress(Float(falseCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
         btn?.backgroundColor = Apps.WRONG_ANS_COLOR
         btn?.tintColor = UIColor.white

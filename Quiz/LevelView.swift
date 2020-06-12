@@ -160,7 +160,9 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                                     Apps.opt_E = true
                                 }
                             }
-                        }                 
+                        }
+                        Apps.TOTAL_PLAY_QS = data.count
+                        print(Apps.TOTAL_PLAY_QS)
                         
                         //check this level has enough (10) question to play? or not
                         if self.quesData.count >= Apps.TOTAL_PLAY_QS {

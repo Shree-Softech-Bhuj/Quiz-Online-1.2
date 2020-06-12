@@ -282,7 +282,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
-                let uScore:UserScore = UserScore.init(coins: 6, points: 00)
+                let uScore:UserScore = UserScore.init(coins: 0, points: 00)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(uScore),forKey: "UserScore")
             }
         }

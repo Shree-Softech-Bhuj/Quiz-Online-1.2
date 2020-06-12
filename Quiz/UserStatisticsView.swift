@@ -143,7 +143,6 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                     self.strongProgress.progress = strongP! / 100.0
                     self.weakProgress.progress = weakP! / 100.0
                     
-                    
                     let xPosition = self.circleProgView.frame.width / 2
                     let yPosition = self.circleProgView.frame.height / 2
                     let position = CGPoint(x: xPosition, y: yPosition - 15)
@@ -151,8 +150,12 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                     self.circleProgView.layer.addSublayer(progressRing)
                     progressRing.progressValue = CGFloat(Float(corr! * 100) / Float(ques!))
                     
-                    self.rightPerLabel.text = "\(Int(CGFloat(Float(corr! * 100) / Float(ques!))))%"
-                    self.wrongPerLabel.text = "\(Int(100 - (CGFloat(Float(corr! * 100) / Float(ques!)))))%"
+//                    self.rightPerLabel.text = "\(Int(CGFloat(Float(corr! * 100) / Float(ques!))))%"
+//                    self.wrongPerLabel.text = "\(Int(100 - (CGFloat(Float(corr! * 100) / Float(ques!)))))%"
+                    let rightPer = roundf(Float(corr! * 100) / Float(ques!))
+                    let wrongPer = floorf(Float(100 - (CGFloat(Float(corr! * 100) / Float(ques!)))))
+                    self.rightPerLabel.text = "\(Int(rightPer))%"
+                    self.wrongPerLabel.text = "\(Int(wrongPer))%"
                 }
             }
         }

@@ -224,6 +224,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                           }
                         }
                 }
+                Apps.TOTAL_PLAY_QS  =  data.count
+                print(Apps.TOTAL_PLAY_QS)
             }
         }
         //close loader here
@@ -267,7 +269,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             //score count
             wrongCount += 1
             falseCount.text = "\(wrongCount)"
-            falseVerticleBar.setProgress(Float(wrongCount) / Float(10), animated: true)
+            falseVerticleBar.setProgress(Float(wrongCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
             if Apps.TOTAL_PLAY_QS > self.currentQuestionPos{
                 self.currentQuestionPos += 1
                 self.LoadQuestion()
@@ -345,7 +347,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         //score count
         rightCount += 1
         trueCount.text = "\(rightCount)"
-        trueVerticleBar.setProgress(Float(rightCount) / Float(10), animated: true)
+        trueVerticleBar.setProgress(Float(rightCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         self.userCount1.text = "\(String(format: "%02d", rightCount))"
         
         btn.backgroundColor = Apps.RIGHT_ANS_COLOR
@@ -373,7 +375,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         //score count
         wrongCount += 1
         falseCount.text = "\(wrongCount)"
-        falseVerticleBar.setProgress(Float(wrongCount) / Float(10), animated: true)
+        falseVerticleBar.setProgress(Float(wrongCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
         btn?.backgroundColor = Apps.WRONG_ANS_COLOR
         btn?.tintColor = UIColor.white
