@@ -90,6 +90,8 @@ class SystemConfig: UIViewController {
                 Apps.SHARE_APP_TXT = share_txt
                 print("share apps text from server -- \(share_txt)")
                 
+                let ans_mode = DATA["answer_mode"]  as! String
+                Apps.ANS_MODE = ans_mode
             }
         }
         //close loader here

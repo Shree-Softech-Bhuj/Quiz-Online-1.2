@@ -41,6 +41,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     var falseCount = 0
     var zoomScale:CGFloat = 1
     
+    var correctAnswer = "a"
+    
     @IBOutlet weak var showAns: UIButton!
     
     override func viewDidLoad() {
@@ -267,6 +269,22 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         btn?.backgroundColor = Apps.WRONG_ANS_COLOR
         btn?.tintColor = UIColor.white
         
+        if Apps.ANS_MODE == "1"{
+            //show correct answer
+            for button in buttons{
+                if button.titleLabel?.text == correctAnswer{
+                     button.tag = 1
+                }
+                for button in buttons {
+                    if button.tag == 1{
+                        button.backgroundColor = Apps.RIGHT_ANS_COLOR
+                        button.tintColor = UIColor.white
+                        break
+                    }
+                }
+            }
+        }
+        
         // sound
         self.PlaySound(player: &player, file: "wrong")
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
@@ -342,6 +360,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             button.setTitle(opestions[index], for: .normal)
             if opestions[index] == rightAns{
                 button.tag = 1
+                let ans = button.currentTitle
+                correctAnswer = ans!
+                print(correctAnswer)
             }else{
                 button.tag = 0
             }

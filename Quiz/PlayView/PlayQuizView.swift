@@ -79,6 +79,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var opt_au = false
     var opt_re = false
     
+    var correctAnswer = "a"
+    
     var callLifeLine = ""
     let speechSynthesizer = AVSpeechSynthesizer()
     
@@ -512,6 +514,22 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         btn?.backgroundColor = Apps.WRONG_ANS_COLOR
         btn?.tintColor = UIColor.white
         
+        if Apps.ANS_MODE == "1"{
+            //show correct answer
+            for button in buttons{
+                if button.titleLabel?.text == correctAnswer{
+                     button.tag = 1
+                }
+                for button in buttons {
+                    if button.tag == 1{
+                        button.backgroundColor = Apps.RIGHT_ANS_COLOR
+                        button.tintColor = UIColor.white
+                        break
+                    }
+                }
+            }
+        }
+        
         // sound
         self.PlaySound(player: &audioPlayer, file: "wrong")
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
@@ -653,6 +671,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             button.setTitle(opestions[index], for: .normal)
             if opestions[index] == rightAns{
                 button.tag = 1
+                let ans = button.currentTitle
+                correctAnswer = ans!
+                print(correctAnswer)
             }else{
                 button.tag = 0
             }

@@ -31,6 +31,7 @@ struct Apps{
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
+    static var ANS_MODE = "0"
     
     static var screenHeight = CGFloat(0)
     static var screenWidth = CGFloat(0)

@@ -65,6 +65,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var observeQues = 0
     var sysConfig:SystemConfiguration!
     
+    var correctAnswer = "a"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -418,6 +420,22 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         btn?.backgroundColor = Apps.WRONG_ANS_COLOR
         btn?.tintColor = UIColor.white
         
+        if Apps.ANS_MODE == "1"{
+           //show correct answer
+           for button in buttons{
+               if button.titleLabel?.text == correctAnswer{
+                    button.tag = 1
+               }
+               for button in buttons {
+                   if button.tag == 1{
+                       button.backgroundColor = Apps.RIGHT_ANS_COLOR
+                       button.tintColor = UIColor.white
+                       break
+                   }
+               }
+           }
+        }
+        
         // sound
         self.PlaySound(player: &audioPlayer, file: "wrong")
         if self.oppAnswer{
@@ -530,6 +548,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             button.setTitle(opestions[index], for: .normal)
             if opestions[index] == rightAns{
                 button.tag = 1
+                let ans = button.currentTitle
+                correctAnswer = ans!
+                print(correctAnswer)
             }else{
                 button.tag = 0
             }
