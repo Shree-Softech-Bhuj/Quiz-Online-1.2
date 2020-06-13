@@ -162,12 +162,12 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     
     //load question here
     func LoadQuestion(){
-        if Apps.opt_E ==  true {
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
-        }else{
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
-        }
-                
+//        if Apps.opt_E ==  true {
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+//        }else{
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+//        }
+//
         if(currentQuestionPos  < BookQuesList.count ) {
             resetProgressCount()
             if(BookQuesList[currentQuestionPos].image == ""){
@@ -192,11 +192,27 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 
                 mainQuestionLbl.isHidden = true
             }
+            if (BookQuesList[currentQuestionPos].opetionE) == ""{
+                Apps.opt_E = false
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+                btnE.isHidden = true
+                buttons = [btnA,btnB,btnC,btnD]
+            }else{
+                Apps.opt_E = true
+                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+                 btnE.isHidden = false
+                 buttons = [btnA,btnB,btnC,btnD,btnE]
+            }
             if Apps.opt_E == true {
                 self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].opetionE,BookQuesList[currentQuestionPos].correctAns)
             }else{
                 self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].correctAns)
             }
+//            if Apps.opt_E == true {
+//                self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].opetionE,BookQuesList[currentQuestionPos].correctAns)
+//            }else{
+//                self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].correctAns)
+//            }
             qstnNo.roundCorners(corners: [ .bottomRight], radius: 5)
             qstnNo.text = "\(currentQuestionPos + 1)"//"\(currentQuestionPos + 1)/\(BookQuesList.count)"
             
@@ -312,11 +328,18 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
         var temp : [String]
-        if Apps.opt_E == true {
+        if opestions.contains("") { // if value of optionE is blank
+           print("true - \(opestions)")
+           temp = ["a","b","c","d"]
+       }else{
+             print("false - \(opestions)")
             temp = ["a","b","c","d","e"]
-        }else{
-            temp = ["a","b","c","d"]
-        }
+       }
+//        if Apps.opt_E == true {
+//            temp = ["a","b","c","d","e"]
+//        }else{
+//            temp = ["a","b","c","d"]
+//        }
         let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
@@ -343,6 +366,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                         $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
                    }
                }else{
+                
+                   self.buttons = [btnA,btnB,btnC,btnD]
+                   temp = ["a","b","c","d"]
                    btnC.isHidden = false
                    btnD.isHidden = false
                    

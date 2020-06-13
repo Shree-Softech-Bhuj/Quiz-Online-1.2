@@ -308,11 +308,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             resetProgressCount()
             ObserveQuestion()
-            if Apps.opt_E == true{
-                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
-            }else{
-                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
-            }
+//            if Apps.opt_E == true{
+//                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+//            }else{
+//                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+//            }
             
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
@@ -334,6 +334,20 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 imageQuestionLbl.isHidden = false
                 
                 mainQuestionLbl.isHidden = true
+            }
+            if(quesData[currentQuestionPos].opetionE) == ""{
+                Apps.opt_E = false
+                btnE.isHidden = true
+                buttons = [btnA,btnB,btnC,btnD]
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+                self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                
+            }else {
+                Apps.opt_E = true
+                btnE.isHidden = false
+                buttons = [btnA,btnB,btnC,btnD,btnE]
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+                self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
             }
             self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
             totalCount.roundCorners(corners: [ .bottomRight], radius: 5)
@@ -504,11 +518,16 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
         var temp : [String]
-        if Apps.opt_E == true {
-            temp = ["a","b","c","d","e"]
-        }else{
+        if opestions.contains("") {
             temp = ["a","b","c","d"]
+        }else{
+             temp = ["a","b","c","d","e"]
         }
+//        if Apps.opt_E == true {
+//            temp = ["a","b","c","d","e"]
+//        }else{
+//            temp = ["a","b","c","d"]
+//        }
         let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {

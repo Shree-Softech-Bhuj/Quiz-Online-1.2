@@ -417,15 +417,15 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         
         speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
         resetProgressCount() // reset timer
-        if Apps.opt_E == true {
-            clearColor(views: btnA,btnB,btnC,btnD,btnE)
-            // enabled opetions button
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
-        }else{
-            clearColor(views: btnA,btnB,btnC,btnD)
-            // enabled opetions button
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
-        }
+//        if Apps.opt_E == true {
+//            clearColor(views: btnA,btnB,btnC,btnD,btnE)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+//        }else{
+//            clearColor(views: btnA,btnB,btnC,btnD)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+//        }
             
         if(currentQuestionPos  < quesData.count ) {
             if(quesData[currentQuestionPos].image == ""){
@@ -449,7 +449,29 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
                 zoomBtn.isHidden = false
                 question.isHidden = true
             }
-         
+         if(quesData[currentQuestionPos].opetionE == "")
+         {
+             Apps.opt_E = false
+         }else{
+             Apps.opt_E = true
+         }
+         if Apps.opt_E == true {
+             clearColor(views: btnA,btnB,btnC,btnD,btnE)
+             btnE.isHidden = false
+             buttons = [btnA,btnB,btnC,btnD,btnE]
+             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+             self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+             // enabled opetions button
+             MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+         }else{
+             clearColor(views: btnA,btnB,btnC,btnD)
+             btnE.isHidden = true
+             buttons = [btnA,btnB,btnC,btnD]
+             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+             self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+             // enabled opetions button
+             MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+         }            
            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
             
             mainQuesCount.roundCorners(corners: [ .bottomRight], radius: 5)
@@ -487,11 +509,20 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
         var temp : [String]
-        if Apps.opt_E == true {
-             temp = ["a","b","c","d","e"]
-        }else{
+        if opestions.contains("") {
+             print("true - \(opestions)")
              temp = ["a","b","c","d"]
-        }
+             self.buttons = [btnA,btnB,btnC,btnD]
+         }else{
+               print("false - \(opestions)")
+               temp = ["a","b","c","d","e"]
+               self.buttons = [btnA,btnB,btnC,btnD,btnE]
+         }
+//        if Apps.opt_E == true {
+//             temp = ["a","b","c","d","e"]
+//        }else{
+//             temp = ["a","b","c","d"]
+//        }
        let ans = temp
         if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
         }else{

@@ -165,11 +165,11 @@ class ReView: UIViewController {
     
     //load question
     func LoadQuestion(){
-         if Apps.opt_E == true {
-            ClearColor(btns: btnA,btnB,btnC,btnD,btnE)
-         }else{
-           ClearColor(btns: btnA,btnB,btnC,btnD)
-        }
+//         if Apps.opt_E == true {
+//            ClearColor(btns: btnA,btnB,btnC,btnD,btnE)
+//         }else{
+//           ClearColor(btns: btnA,btnB,btnC,btnD)
+//        }
         
         lblNote.text = ""
         
@@ -203,6 +203,23 @@ class ReView: UIViewController {
             }else{
                 btnNote.isHidden = false
             }
+            
+            
+            if ReviewQues[currentQuesPosition].opetionE != ""{
+              Apps.opt_E = true
+              btnE.isHidden = false
+              ClearColor(btns: btnA,btnB,btnC,btnD,btnE)
+              self.SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
+//            }
+//            if Apps.opt_E == true {
+              btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
+          }else{
+              Apps.opt_E = false
+              btnE.isHidden = true
+              ClearColor(btns: btnA,btnB,btnC,btnD)
+              self.SetViewWithShadow(views: btnA,btnB,btnC,btnD)
+          }
+            
             let singleReQues = ReviewQues[currentQuesPosition]
             if singleReQues.quesType == "2"{
                 //set options and question lable here
@@ -226,11 +243,6 @@ class ReView: UIViewController {
                 btnC.setTitle("\(ReviewQues[currentQuesPosition].opetionC)", for: .normal)
                 btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
             }
-           
-            if Apps.opt_E == true {
-                btnE.setTitle("\(ReviewQues[currentQuesPosition].opetionE)", for: .normal)
-            }
-            
            CheckUserAnswer(userAnswer: ReviewQues[currentQuesPosition].userSelect)
             
             //check current question is in bookmark list or not

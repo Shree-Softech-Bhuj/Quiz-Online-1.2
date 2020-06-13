@@ -553,15 +553,15 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
         resetProgressCount() // reset timer
-        if Apps.opt_E == true {
-            clearColor(views: btnA,btnB,btnC,btnD,btnE)
-            // enabled opetions button
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
-        }else{
-            clearColor(views: btnA,btnB,btnC,btnD)
-            // enabled opetions button
-            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
-        }
+//        if Apps.opt_E == true {
+//            clearColor(views: btnA,btnB,btnC,btnD,btnE)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+//        }else{
+//            clearColor(views: btnA,btnB,btnC,btnD)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+//        }
             
         if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
            
@@ -586,6 +586,29 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 zoomBtn.isHidden = false
                 question.isHidden = true
             }
+            if(quesData[currentQuestionPos].opetionE == "")
+               {
+                   Apps.opt_E = false
+               }else{
+                   Apps.opt_E = true
+               }
+               if Apps.opt_E == true {
+                   clearColor(views: btnA,btnB,btnC,btnD,btnE)
+                   btnE.isHidden = false
+                   buttons = [btnA,btnB,btnC,btnD,btnE]
+                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+                   // enabled opetions button
+                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+               }else{
+                   clearColor(views: btnA,btnB,btnC,btnD)
+                   btnE.isHidden = true
+                   buttons = [btnA,btnB,btnC,btnD]
+                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                   // enabled opetions button
+                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+               }
            self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
             
             mainQuesCount.roundCorners(corners: [ .bottomRight], radius: 5)
@@ -620,15 +643,23 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var buttons:[UIButton] = []
     func SetButtonOpetion(opestions:String...){
         clickedButton.removeAll()
-        var temp : [String]
-        
-        if Apps.opt_E == true {
+        var temp : [String]        
+        if opestions.contains("") {
+           print("true - \(opestions)")
+           temp = ["a","b","c","d"]
+           self.buttons = [btnA,btnB,btnC,btnD]
+       }else{
+             print("false - \(opestions)")
              temp = ["a","b","c","d","e"]
              self.buttons = [btnA,btnB,btnC,btnD,btnE]
-        }else{
-             temp = ["a","b","c","d"]
-             self.buttons = [btnA,btnB,btnC,btnD]
-        }
+       }
+//        if Apps.opt_E == true {
+//             temp = ["a","b","c","d","e"]
+//             self.buttons = [btnA,btnB,btnC,btnD,btnE]
+//        }else{
+//             temp = ["a","b","c","d"]
+//             self.buttons = [btnA,btnB,btnC,btnD]
+//        }
         let singleQues = quesData[currentQuestionPos]
         if singleQues.quesType == "2"{
             

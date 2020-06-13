@@ -153,13 +153,13 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                         for val in data{
                             self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                             //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
-                            if let e = val["optione"] as? String {
-                                if e == ""{
-                                    Apps.opt_E = false
-                                }else{
-                                    Apps.opt_E = true
-                                }
-                            }
+//                            if let e = val["optione"] as? String {
+//                                if e == ""{
+//                                    Apps.opt_E = false
+//                                }else{
+//                                    Apps.opt_E = true
+//                                }
+//                            }
                         }
                         Apps.TOTAL_PLAY_QS = data.count
                         print(Apps.TOTAL_PLAY_QS)
