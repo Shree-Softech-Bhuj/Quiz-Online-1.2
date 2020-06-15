@@ -4,7 +4,7 @@ import UIKit
 class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var picker = UIImagePickerController();
-    var alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+    var alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .alert)
     var viewController: UIViewController?
     var pickImageCallback : ((UIImage) -> ())?;
     

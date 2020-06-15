@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import GoogleMobileAds
 
 class SelfChallengeController: UIViewController {
     
@@ -18,6 +19,7 @@ class SelfChallengeController: UIViewController {
     @IBOutlet var startBtn:UIButton!
     @IBOutlet var quesScroll:UIScrollView!
     @IBOutlet var timeScroll:UIScrollView!
+    @IBOutlet var adsView:GADBannerView!
     
     var catData:[Category] = []
     var subCatData:[SubCategory] = []
@@ -46,6 +48,14 @@ class SelfChallengeController: UIViewController {
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
+        
+        // Google AdMob Banner
+        adsView.adUnitID = Apps.BANNER_AD_UNIT_ID
+        adsView.rootViewController = self
+        let request = GADRequest()
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+        adsView.load(request)
         
         self.DesignTextField(textFields: mainCatField,subCatField)
         

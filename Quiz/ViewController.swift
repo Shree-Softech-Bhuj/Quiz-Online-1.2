@@ -59,26 +59,26 @@ class ViewController: UIViewController {
         //show all 5 buttons even if user is not logged in, instead chng action of logout button
         self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
         
-//        if Apps.screenHeight < 700 {
-//            leaderButton.frame = CGRect(x: 20, y: 5, width: 35, height: 35)
-//            //  leaderButton.translatesAutoresizingMaskIntoConstraints = false
-//            
-//            profileButton.frame = CGRect(x: 94, y: 5, width: 35, height: 35)
-//            // profileButton.translatesAutoresizingMaskIntoConstraints = false
-//            
-//            settingButton.frame = CGRect(x: 171, y: 5, width: 35, height: 35)
-//            // settingButton.translatesAutoresizingMaskIntoConstraints = false
-//            
-//            logoutButton.frame = CGRect(x: 254, y: 5, width: 35, height: 35)
-//            //logoutButton.translatesAutoresizingMaskIntoConstraints = false
-//            
-//            moreButton.frame = CGRect(x: 328, y: 5, width: 35, height: 35)
-//            // moreButton.translatesAutoresizingMaskIntoConstraints = false
-//        }
+        //        if Apps.screenHeight < 700 {
+        //            leaderButton.frame = CGRect(x: 20, y: 5, width: 35, height: 35)
+        //            //  leaderButton.translatesAutoresizingMaskIntoConstraints = false
+        //            
+        //            profileButton.frame = CGRect(x: 94, y: 5, width: 35, height: 35)
+        //            // profileButton.translatesAutoresizingMaskIntoConstraints = false
+        //            
+        //            settingButton.frame = CGRect(x: 171, y: 5, width: 35, height: 35)
+        //            // settingButton.translatesAutoresizingMaskIntoConstraints = false
+        //            
+        //            logoutButton.frame = CGRect(x: 254, y: 5, width: 35, height: 35)
+        //            //logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        //            
+        //            moreButton.frame = CGRect(x: 328, y: 5, width: 35, height: 35)
+        //            // moreButton.translatesAutoresizingMaskIntoConstraints = false
+        //        }
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
         }else{
-            logoutButton.setBackgroundImage(UIImage(named: "login"), for: .normal) //chng image for logout button
+            logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
         }
         
         languageButton.isHidden = true
@@ -150,9 +150,14 @@ class ViewController: UIViewController {
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
         
-        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-        let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController") as! SelfChallengeController
-        self.navigationController?.pushViewController(viewCont, animated: true)
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController") as! SelfChallengeController
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }else{
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+        
         
     }
     
@@ -177,6 +182,10 @@ class ViewController: UIViewController {
     
     @IBAction func logoutBtn(_ sender: Any) {
         
+        if !isKeyPresentInUserDefaults(key: "user"){
+            self.navigationController?.popToRootViewController(animated: true)
+            return
+        }
         let userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         
         let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
@@ -226,12 +235,11 @@ class ViewController: UIViewController {
         
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
+        
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             present(alert, animated: true, completion: nil)
         }else{
-            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "LoginView")
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = initialViewController
+            self.navigationController?.popToRootViewController(animated: true)
             return
         }
     }

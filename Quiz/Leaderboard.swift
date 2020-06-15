@@ -168,12 +168,12 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             ttlCount = Int(strCount)! //total number of records according to filter
             
             //get data for category
+            self.LeaderData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
                     LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
                 }
                 offset += data.count //updated every time
-                print(offset)
             }
         }
         //close loader here
@@ -181,12 +181,13 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             DispatchQueue.main.async {
                 self.DismissLoader(loader: self.Loader)
                 //set top 3 rank data here
-                
+                 
                 // print("total count is -> \(self.LeaderData.count)")
                 if self.LeaderData.count < 1 {
                     self.ShowAlert(title: "No Data", message: "No data avalable to show !")
                     return
                 }
+               
                 //hide views if in Daily leaderboard just contain 1 or 2 entries, otherwise show all data in default case.
                 switch self.LeaderData.count{
                 case 1:
@@ -204,6 +205,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     self.user2View.isHidden = true
                     self.user3View.isHidden = true
                     self.LeaderData.remove(at: 0)
+                   
                 case 2:
                     //user 1
                     if(!self.LeaderData[1].image.isEmpty){
@@ -236,6 +238,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     //if there is no other users data there then just hide that view.!
                     self.user3View.isHidden = true
                     self.LeaderData.remove(at: 0)
+                     
                 case 3:
                     //user 1
                     if(!self.LeaderData[1].image.isEmpty){
@@ -316,6 +319,10 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.user2View.isHidden = false
         self.user1View.isHidden = false
         self.user3View.isHidden = false
+        
+        self.LeaderData.remove(at: 0)
+        self.LeaderData.remove(at: 0)
+        self.LeaderData.remove(at: 0)
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -324,7 +331,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ttlCount - 3
+        return self.LeaderData.count
     }
     
     // create a cell for each table view row

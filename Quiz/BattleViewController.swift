@@ -195,6 +195,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                             DispatchQueue.main.async {
                                 self.user2.loadImageUsingCache(withUrl: "\(battleSnap.childSnapshot(forPath: "image").value!)")
                             }
+                            self.timer.invalidate()
                             self.StartBattle()
                         })
                     }
@@ -271,10 +272,16 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         self.CheckForBattle()
     }
     //start battle and pass data to battleplaycontroller
+    var isBattleStarted = false
     func StartBattle(){
+        if self.isBattleStarted{
+            return
+        }
+        self.ref.removeAllObservers()
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "BattlePlayController") as! BattlePlayController
         viewCont.battleUser = self.battleUser
+        self.isBattleStarted  = true
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     
@@ -287,7 +294,16 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         alert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         alert.imageUrl = user.image
         alert.parentController = self
+        alert.robortDelegate = self
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension BattleViewController:RobortDelegate{
+    func playWithRobot() {
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "RobotPlayController")
+        self.navigationController?.pushViewController(viewCont, animated: true)
     }
 }
 

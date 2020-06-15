@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="606-bF-2PW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="606-bF-2PW">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -440,7 +440,7 @@
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
                                         <inset key="titleEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="SELF CHALLANGE" image="battle">
+                                        <state key="normal" title="SELF CHALLANGE" image="challenge">
                                             <color key="titleColor" red="0.16853245880000001" green="0.57283500860000003" blue="0.69956282380000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" red="0.1076184283" green="0.38009061719999998" blue="0.4688561296" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -6371,7 +6371,7 @@ You have completed the level.</string>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleToFill" id="rgi-Wi-bOg">
+                            <view contentMode="scaleToFill" id="rgi-Wi-bOg" customClass="GADBannerView">
                                 <rect key="frame" x="17" y="360" width="733" height="150"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -6414,6 +6414,7 @@ You have completed the level.</string>
                         <viewLayoutGuide key="safeArea" id="m2Z-bf-PWZ"/>
                     </view>
                     <connections>
+                        <outlet property="adsView" destination="rgi-Wi-bOg" id="C0R-Hl-ros"/>
                         <outlet property="mainCatField" destination="aNa-j0-Hsh" id="VSW-d8-10d"/>
                         <outlet property="quesScroll" destination="Xhv-Wv-rgt" id="cFU-R0-ZXT"/>
                         <outlet property="startBtn" destination="5rT-tG-dVM" id="Xeh-rG-Dg3"/>
@@ -6748,6 +6749,7 @@ You have completed the level.</string>
                         <outlet property="speakBtn" destination="1Mk-Cr-o8U" id="TLB-tP-Kwe"/>
                         <outlet property="timerLabel" destination="axV-cK-alx" id="tXx-no-bLd"/>
                         <outlet property="titleBar" destination="5bk-eO-jOi" id="OBF-NQ-uno"/>
+                        <outlet property="topView" destination="Jdz-Q7-yZa" id="jkF-EP-geE"/>
                         <outlet property="verticalView" destination="MPg-Xk-fFU" id="kGn-k7-qMH"/>
                         <outlet property="view1" destination="At2-AB-tSz" id="FaV-oX-y4c"/>
                         <outlet property="zoomScroll" destination="xpH-MC-Ibd" id="3k2-05-djJ"/>
@@ -7092,6 +7094,7 @@ You have completed the level.</string>
         <image name="btnc" width="33.5" height="33.5"/>
         <image name="camerantb" width="30" height="30"/>
         <image name="cancel" width="33.5" height="33.5"/>
+        <image name="challenge" width="39" height="39"/>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="coins" width="43.5" height="27"/>

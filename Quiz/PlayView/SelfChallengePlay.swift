@@ -142,7 +142,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
         
-        self.titleBar.text = "\(Apps.LEVEL) \(level)"
         self.loadQuestion()
     }
     
@@ -493,6 +492,15 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     func ShowResultScreen(){
         timer.invalidate()
+        if self.quesData.count != self.reviewQues.count{
+            for ques in self.quesData{
+                if self.reviewQues.contains(where: {$0.id == ques.id}){
+                    print("Question attended")
+                }else{
+                    self.reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, quesType: ques.quesType, userSelect: ""))
+                }
+            }
+        }
         // If there are no more questions show the results
         let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let resultView = storyBoard.instantiateViewController(withIdentifier: "SelfPlayResultView") as! SelfPlayResultView
