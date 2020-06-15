@@ -80,7 +80,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         imageQuestionLbl.centerVertically()
         
         // add ring progress to timer view
-        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
+        if deviceStoryBoard == "Ipad"{
+            progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
+        }else{
+            progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
+        }
         timerView.layer.addSublayer(progressRing)
         
         setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar

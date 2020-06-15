@@ -78,7 +78,11 @@ class ViewController: UIViewController {
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
         }else{
-            logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
+            if deviceStoryBoard == "Ipad" {
+                logoutButton.setBackgroundImage(UIImage(named: "login"), for: .normal) //chng image for logout button
+            }else{
+                logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
+            }
         }
         
         languageButton.isHidden = true

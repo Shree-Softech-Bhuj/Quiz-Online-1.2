@@ -216,8 +216,10 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         self.ref.child(self.user.UID).removeValue()
         self.ref.removeAllObservers()
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = "user_id_1=\(self.user.UID)&user_id_2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
-            self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
+            if self.battleUser != nil{
+                let apiURL = "user_id_1=\(self.user.UID)&user_id_2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+                self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
+            }
         }
     }
     

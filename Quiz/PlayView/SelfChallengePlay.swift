@@ -364,7 +364,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     
     @IBAction func SubmitForResult(_ sender: Any) {
-        let alert = UIAlertController(title: "Are you sure, do you want to submit for results?",message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: "Are you sure, do you want to submit for result?",message: "",preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)

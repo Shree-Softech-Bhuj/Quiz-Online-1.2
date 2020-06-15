@@ -60,7 +60,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         if(Reachability.isConnectedToNetwork()){
             let dateFormatterGet = DateFormatter()
             dateFormatterGet.dateFormat = "yyyy-MM-dd"
-            Loader = LoadLoader(loader: Loader)
+           // Loader = LoadLoader(loader: Loader)
             //chk for selection from dropdown
             if (sel == "Daily") { //daily
                 let apiURL = "from=\(dateFormatterGet.string(from: Date()))&to=\(dateFormatterGet.string(from: Date()))"
