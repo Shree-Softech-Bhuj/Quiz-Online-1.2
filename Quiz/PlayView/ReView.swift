@@ -24,6 +24,8 @@ class ReView: UIViewController {
     @IBOutlet var lblNote: UILabel!
     @IBOutlet var btnNote: UIButton!
     
+    @IBOutlet var unAttend: UILabel!
+    
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
     
     var ReviewQues:[ReQuestionWithE] = []
@@ -258,7 +260,21 @@ class ReView: UIViewController {
         }
     }
     
+    let label = UILabel()
     func CheckUserAnswer(userAnswer:String){
+        label.frame = CGRect(x: 5, y: self.mainQuestionView.frame.height - 25, width: 150, height: 20)
+        label.textColor  = .darkGray
+        label.removeFromSuperview()
+        label.text = ""
+        label.font = .systemFont(ofSize: 10)
+        if userAnswer == ""{
+            print("Un Attemp")
+             label.text = "Un-Attepmted"
+            self.mainQuestionView.addSubview(label)
+            RightAnswer(opt: ReviewQues[currentQuesPosition].correctAns)
+            return
+        }
+        label.text = ""
         if ReviewQues[currentQuesPosition].opetionA == userAnswer{
             if ReviewQues[currentQuesPosition].correctAns == "a"{
                 RightAnswer(opt: "a")
