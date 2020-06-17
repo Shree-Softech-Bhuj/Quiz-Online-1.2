@@ -142,6 +142,9 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
         
+        for ques in self.quesData{
+            self.reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, quesType: ques.quesType, userSelect: ""))
+        }
         self.loadQuestion()
     }
     

@@ -236,7 +236,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 
                 // send data to server after successfully loged in
                 self.Loader = self.LoadLoader(loader: self.Loader)
-                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0"
+                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&firebase_id=\(user?.user.uid)"
                 self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             })
         }
@@ -258,16 +258,16 @@ class LoginView: UIViewController,GIDSignInDelegate{
     
     //load category data here
     func ProcessLogin(jsonObj:NSDictionary){
-        //print("LOG",jsonObj)
+        print("LOG",jsonObj)
         let msg = jsonObj.value(forKey: "message") as! String
         let status = jsonObj.value(forKey: "error") as! String
-              if (status == "true") {
+        if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: "Error", message:"\(msg)" )
                 })
             }
-            
+            return
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
@@ -285,6 +285,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 let uScore:UserScore = UserScore.init(coins: 0, points: 00)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(uScore),forKey: "UserScore")
             }
+                
         }
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
@@ -367,7 +368,7 @@ extension LoginView:ASAuthorizationControllerDelegate{
             
             // send data to server after successfully loged in
             self.Loader = self.LoadLoader(loader: self.Loader)
-            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=no&type=apple&fcm_id=null&ip_address=1.0.0&status=0"
+            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=no&type=apple&fcm_id=null&ip_address=1.0.0&status=0&firebase_id=null"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             //Write your code
             
