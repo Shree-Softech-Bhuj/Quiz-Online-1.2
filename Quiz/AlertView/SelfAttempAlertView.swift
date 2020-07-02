@@ -1,11 +1,3 @@
-//
-//  SelfAttempAlertView.swift
-//  Quiz
-//
-//  Created by Macmini on 02/06/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 
 class SelfAttempAlertView: UIViewController {

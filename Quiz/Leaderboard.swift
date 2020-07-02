@@ -18,6 +18,10 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet var usr2: UIImageView!
     @IBOutlet var usr3: UIImageView!
     
+     @IBOutlet weak var user1OutLine: UIView!
+     @IBOutlet weak var user2OutLine: UIView!
+     @IBOutlet weak var user3OutLine: UIView!
+    
     @IBOutlet var usr1Lbl: UILabel!
     @IBOutlet var usr2Lbl: UILabel!
     @IBOutlet var usr3Lbl: UILabel!
@@ -29,6 +33,11 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @IBOutlet weak var user2View: UIView!
     @IBOutlet weak var user1View: UIView!
     @IBOutlet weak var user3View: UIView!
+    
+    @IBOutlet weak var lblCrown: UILabel!
+    @IBOutlet weak var lblFirst: UILabel!
+    @IBOutlet weak var lblSecond: UILabel!
+    @IBOutlet weak var lblThird: UILabel!
     
     @IBOutlet weak var buttonAll: UIButton!
     
@@ -46,8 +55,43 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         tableView.dataSource = self
         
         usr1.layer.cornerRadius = usr1.frame.height/2
+        usr1.layer.borderWidth = 3
+        usr1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        
         usr2.layer.cornerRadius = usr2.frame.height/2
+        usr2.layer.borderWidth = 3
+        usr2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        
         usr3.layer.cornerRadius = usr3.frame.height/2
+        usr3.layer.borderWidth = 3
+        usr3.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        
+        user1OutLine.layer.cornerRadius = user1OutLine.frame.height/2
+//        user1OutLine.layer.masksToBounds = false
+//        user1OutLine.clipsToBounds = true
+        user1OutLine.layer.borderWidth = 4
+        user1OutLine.layer.borderColor = UIColor.white.cgColor
+        
+        user2OutLine.layer.cornerRadius = user2OutLine.frame.height/2
+//        user2OutLine.layer.masksToBounds = false
+//        user2OutLine.clipsToBounds = true
+        user2OutLine.layer.borderWidth = 4
+        user2OutLine.layer.borderColor = UIColor.white.cgColor
+        
+        user3OutLine.layer.cornerRadius = user3OutLine.frame.height/2
+//        user1OutLine.layer.masksToBounds = false
+//        user1OutLine.clipsToBounds = true
+        user3OutLine.layer.borderWidth = 4
+        user3OutLine.layer.borderColor = UIColor.white.cgColor
+        
+       lblCrown.text = ""
+       lblCrown.backgroundColor = UIColor(patternImage: UIImage(named: "crown")!)
+       lblFirst.text = ""
+       lblFirst.backgroundColor = UIColor(patternImage: UIImage(named: "first")!)
+       lblSecond.text = ""
+       lblSecond.backgroundColor = UIColor(patternImage: UIImage(named: "second")!)
+       lblThird.text = ""
+       lblThird.backgroundColor = UIColor(patternImage: UIImage(named: "third")!)
         
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print(thisUser)
@@ -146,7 +190,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             buttonAll.setTitle(buttonTitle, for: .normal)
         }
     }
-    //load category data here
+    //load data here
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
@@ -174,6 +218,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
                 }
                 offset += data.count //updated every time
+                print("leader data \(data)")
             }
         }
         //close loader here
@@ -237,7 +282,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     }
                     //if there is no other users data there then just hide that view.!
                     self.user3View.isHidden = true
-                    self.LeaderData.remove(at: 0)
+                   // self.LeaderData.remove(at: 0)
                      
                 case 3:
                     //user 1
@@ -280,7 +325,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     else{
                         self.user3View.isHidden = true
                     }
-                    self.LeaderData.remove(at: 0)
+                  //  self.LeaderData.remove(at: 0)
                 default:
                     //executed if LeaderData get more than 3 records
                     self.showALLinLeaderboard()
@@ -320,9 +365,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.user1View.isHidden = false
         self.user3View.isHidden = false
         
-        self.LeaderData.remove(at: 0)
-        self.LeaderData.remove(at: 0)
-        self.LeaderData.remove(at: 0)
+//        self.LeaderData.remove(at: 0)
+//        self.LeaderData.remove(at: 0)
+//        self.LeaderData.remove(at: 0)
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -331,7 +376,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.LeaderData.count
+        //return self.LeaderData.count
+         return self.LeaderData.count - 3
     }
     
     // create a cell for each table view row
@@ -344,7 +390,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             fatalError("The dequeued cell is not an instance.")
         }
         
-        let rowIndex = indexPath.row
+        let rowIndex = indexPath.row + 3
         
         cell.srLbl.text = "\(LeaderData[rowIndex].rank)"
         cell.scorLbl.text = "\(LeaderData[rowIndex].score)"
@@ -363,7 +409,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
         self.DesignImageView(cell.userImg)
-        cell.leadrView.frame = CGRect(origin: cell.leadrView.frame.origin, size: CGSize(width: self.view.frame.width - 20, height: cell.leadrView.frame.height))
+      //  cell.leadrView.frame = CGRect(origin: cell.leadrView.frame.origin, size: CGSize(width: Apps.screenWidth - 65, height: cell.leadrView.frame.height))        
+      //  cell.leadrView.frame = CGRect(origin: cell.leadrView.frame.origin, size: CGSize(width: self.view.frame.width - 20, height: cell.leadrView.frame.height))
         cell.imgView.layer.cornerRadius = cell.imgView.frame.width / 2
         cell.imgView.layer.masksToBounds = false
         cell.imgView.clipsToBounds = true
@@ -391,13 +438,16 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     //check user rank is it visible to view without scroll
     func AddUsertoBottom(){        
-        //if you change height belowchng the same in temp.frame.height == 60
+        //if you change height below chng the same in temp.frame.height == 60
         let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
         bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
         print(bottomView.frame)
         let this = LeaderData.filter{$0.userID == thisUser.userID}
+        print(thisUser.userID)
+        print(LeaderData)
         
         if !this.isEmpty {
+            print("trueee")
             let rankLabel = UILabel(frame: CGRect(x: 0, y: 10, width: 45, height: 30))
             rankLabel.text = this[0].rank
             rankLabel.textColor = UIColor.black
@@ -414,10 +464,21 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             }
             imageView.layer.cornerRadius = 40 / 2
             imageView.layer.masksToBounds = true
+            imageView.layer.borderColor = UIColor.rgb(255, 255, 255, 1.0).cgColor
+            imageView.layer.borderWidth = 1.5
             bottomView.addSubview(imageView)
             
-            let nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: 200, height: 30))
+            var nameLabel = UILabel()
+            if deviceStoryBoard == "Ipad" {
+                nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: 400,height: 30))
+            }else{
+                nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: self.view.frame.width - 200, height: 45))
+            }
+           // nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: self.view.frame.width - 200, height: 60)) //width: 300,height: 30
             nameLabel.text = this[0].name
+            nameLabel.textAlignment = .left
+            nameLabel.numberOfLines = 0
+            nameLabel.lineBreakMode = .byWordWrapping
             nameLabel.textColor = UIColor.white
             bottomView.addSubview(nameLabel)
             

@@ -113,15 +113,14 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                 UserDefaults.standard.set(self.level, forKey: "\(questionType)\(catID)")
             }
         }
+        score.coins = score.coins + earnedCoin
         
         lblCoin.text = "\(score.coins)"
         lblScore.text = "\(score.points)"
         
         lblTrue.text = "\(trueCount)"
         lblFalse.text = "\(Apps.TOTAL_PLAY_QS - trueCount)"
-        
-        score.coins = score.coins + earnedCoin
-        
+                
         totalCoin.text = "\(earnedCoin)"
         totalScore.text = "\(earnedPoints)"
         
@@ -135,7 +134,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                 var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
                 self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
                 
-                apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(earnedCoin)"
+                apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(score.coins)"
                 self.getAPIData(apiName: "set_users_statistics", apiURL: apiURL,completion: LoadData)
             }else{
                 ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
@@ -285,7 +284,19 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         let str  = Apps.APP_NAME
         let shareUrl = "I have completed level \(self.level) with score \(self.earnedPoints)"
         let textToShare = str + "\n" + shareUrl
-        let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
+        //take screenshot
+        UIGraphicsBeginImageContext(viewProgress.frame.size)
+        viewProgress.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        let vc = UIActivityViewController(activityItems: [textToShare, image! ], applicationActivities: [])
+       // vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionCentre;
+        vc.popoverPresentationController?.sourceView = sender;
+        //vc.popoverPresentationController?.sourceView = self.view
+//        if let popOver = vc.popoverPresentationController {
+//            popOver.sourceView = self.view
+//        }
         present(vc, animated: true)
     }
     
@@ -318,8 +329,11 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     }
     
     @IBAction func rateButton(_ sender: UIButton) {
-        let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)")
-        UIApplication.shared.open(url!)
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        }else if let url = URL(string: Apps.SHARE_APP) {
+            UIApplication.shared.open(url)
+        }
     }
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {

@@ -8,7 +8,7 @@ struct Apps{
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
-    static var TOTAL_PLAY_QS = 5 // how many there will be total question in quiz play
+    static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
     
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use this lifeline?
     static let OPT_SK_COIN = 2 // how many coins will be deduct when we use this lifeline?
@@ -55,17 +55,21 @@ struct Apps{
     static let USERS_DATA = "get_user_by_id"
     static var REFER_CODE = "refer_code"
     static let FRIENDS_CODE = "friends_code"
-    static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
+    //static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
     
     static let SYSTEM_CONFIG = "get_system_configurations"
     //static let OPTION_E = "option_e_mode"
     static var opt_E = false
+    //static var REFER_STRING = "Refer a Friend, and you will get 100 coins each time your referral code is used and your friend will get 50 coins by using your referral code"
+    static var REFER_COIN = "0"// added to friend's coins
+    static var EARN_COIN = "0" //added to user's own coins
+    static var REWARD_COIN = "4" //used to add coins to user coins when he/she watch reward video ad
         
     static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
     static let NOT_COMPLETE_LEVEL = "Oops!  Level not Completed.  Play again !"
     static let PLAY_AGAIN = "Play Again"
-    static let NOT_ENOUGH_QUESTION_TITLE = "Not Eought Question"
-    static let NO_ENOUGH_QUESTION_MSG = "This level does not have enought question to play quiz"
+    static let NOT_ENOUGH_QUESTION_TITLE = "Not Eough Question"
+    static let NO_ENOUGH_QUESTION_MSG = "This level does not have enough question to play quiz"
     static let COMPLETE_ALL_QUESTION = "You have Completed All Questions !!"
     static let LEVET_NOT_AVAILABEL = "Level not available"
     static let STATISTICS_NOT_AVAIL = "Data not available"

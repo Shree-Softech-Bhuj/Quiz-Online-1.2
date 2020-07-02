@@ -70,7 +70,7 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
         return cell
     }
     
-    
+    //set default_user_lang to use throuhout the app
     func didToggleRadioButton(_ indexPath: IndexPath) {
         selectedElement = langList[indexPath.row]
         UserDefaults.standard.set(selectedElement?.id, forKey: DEFAULT_USER_LANG)

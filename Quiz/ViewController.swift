@@ -28,11 +28,11 @@ class ViewController: UIViewController {
         
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
-        playButton.layer.cornerRadius = 32
+        playButton.layer.cornerRadius = playButton.frame.height / 2 //32
         startView.SetDarkShadow()
-        battleButton.layer.cornerRadius = 32
+        battleButton.layer.cornerRadius = battleButton.frame.height / 2//32
         battleView.SetDarkShadow()
-        selfChallange.layer.cornerRadius = 32
+        selfChallange.layer.cornerRadius = selfChallange.frame.height / 2//32
         selfChallange.SetDarkShadow()
         
         //check setting object in user default

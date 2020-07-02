@@ -79,6 +79,15 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                 
         btnE.isHidden = true
         buttons = [btnA,btnB,btnC,btnD]
+        
+        userImg1.layer.borderWidth = 2
+        userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg1.layer.cornerRadius = userImg1.bounds.width / 2
+        userImg1.clipsToBounds = true
+        userImg2.layer.borderWidth = 2
+        userImg2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg2.layer.cornerRadius = userImg2.bounds.width / 2
+        userImg2.clipsToBounds = true
                 
         NotificationCenter.default.post(name: Notification.Name("DismissAlert"), object: nil)
         // set refrence for firebase database
@@ -86,7 +95,11 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         imageQuestionLbl.centerVertically()
         
         // add ring progress to timer view
-        progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
+        if deviceStoryBoard == "Ipad"{
+                  progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+              }else{
+                   progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+              }
         timerView.layer.addSublayer(progressRing)
         
         self.setVerticleProgress(view: trueVerticleProgress, progress: trueVerticleBar)// true verticle progress bar
@@ -100,6 +113,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
+       // userName1.setLabel()
         userName2.text = robotName
         robotImage = UIImage(named: "robot")
         DispatchQueue.main.async {
@@ -113,10 +127,10 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            var apiURL = "user_id_1=\(user.UID)&user_id_2=0987654321&match_id=\(user.UID)"
+            var apiURL = ""//"user_id_1=\(user.UID)&user_id_2=0987654321&match_id=\(user.UID)"
             if sysConfig.LANGUAGE_MODE == 1{
                            let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
-                           apiURL += "&language_id=\(langID)"
+                           apiURL = "&language_id=\(langID)" //+=
                        }
             self.getAPIData(apiName: "get_random_questions_for_computer", apiURL: apiURL,completion: LoadData)
         }else{
@@ -408,8 +422,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                   break
               }
             }
-            }
-            }
+          }
+        }
         
         // sound
         self.PlaySound(player: &audioPlayer, file: "wrong")
@@ -527,9 +541,19 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         lbl.text = "\(robotName)"
         lbl.tag = 11 // identified tag for remove it from its super view
         lbl.clipsToBounds = true
-        lbl.layer.cornerRadius = lblHeight / 2
-        lbl.backgroundColor = UIColor.rgb(211, 205, 139, 1)
+       // lbl.layer.cornerRadius = lblHeight / 2
+        //lbl.backgroundColor = UIColor.rgb(211, 205, 139, 1)
         lbl.font = .systemFont(ofSize: 12)
+        //if robot selects same ans as user then bg is white and text is red or green and if robot ans is other than user then it shows text with color red or green
+        if btn.tag == 1{ // true answer
+            lbl.textColor = Apps.RIGHT_ANS_COLOR
+        }else{ //wrong answer
+             lbl.textColor = Apps.WRONG_ANS_COLOR
+        }
+       // if clickedButton.contains(btn){
+            lbl.backgroundColor = UIColor.white
+       // }
+        
         btn.addSubview(lbl)
         
         self.timer.invalidate()
@@ -543,6 +567,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     //play robot function
     func PlayRobot(){
         let opponentAns = buttons.randomElement()
+        
         for button in buttons {
             if button.title(for: .normal) == opponentAns?.title(for: .normal){
                 self.ShowOpponentAns(btn: button)

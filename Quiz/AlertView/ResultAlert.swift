@@ -17,6 +17,11 @@ class ResultAlert: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        userImage.layer.borderWidth = 2
+        userImage.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.clipsToBounds = true
+        
         if winnerName == "\(Apps.MATCH_DRAW)" {
             userName.text = "\(winnerName) \n The Game Is over! Play Again "
         }else{
@@ -39,11 +44,15 @@ class ResultAlert: UIViewController {
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {
+//        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+//        let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController") as! BattleViewController
+//        viewCont.isBattleStarted = false
+//        print("value changed to \(viewCont.isBattleStarted)")
         
         NotificationCenter.default.post(name: Notification.Name("CloseRobotPlay"), object: nil)
-        NotificationCenter.default.post(name: Notification.Name("CompleteBattle"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("CheckBattle"), object: nil)
-        parentController?.dismiss(animated: true, completion: nil)
+        NotificationCenter.default.post(name: Notification.Name("CompleteBattle"), object: nil)
+        parentController?.dismiss(animated: true, completion: nil)        
         self.dismiss(animated: true, completion: nil)
 }
     

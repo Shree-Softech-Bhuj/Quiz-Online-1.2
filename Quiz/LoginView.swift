@@ -160,7 +160,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 print("user data-- \(sUser)")
                 
                 // send data to server after successfully loged in
-                let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=''&type=email&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)"
+                let apiURL = "name=\(result?.user.displayName ?? "\(nm)")&email=\((result?.user.email)!)&profile=&type=email&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&friends_code=\(fcode)&refer_code=\(rcode)&firebase_id=\(result?.user.uid)"
                 self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
                 
                 let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -198,7 +198,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
-            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0"
+            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&firebase_id=\(sUser.UID)"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
         }
     }
@@ -253,7 +253,6 @@ class LoginView: UIViewController,GIDSignInDelegate{
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "TermsView")
         self.navigationController?.pushViewController(viewCont, animated: true)
-        
     }
     
     //load category data here
@@ -282,8 +281,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
-                let uScore:UserScore = UserScore.init(coins: 0, points: 00)
-                UserDefaults.standard.set(try? PropertyListEncoder().encode(uScore),forKey: "UserScore")
+//                let uScore:UserScore = UserScore.init(coins: 0, points: 00)
+//                UserDefaults.standard.set(try? PropertyListEncoder().encode(uScore),forKey: "UserScore")
             }
                 
         }
@@ -368,7 +367,7 @@ extension LoginView:ASAuthorizationControllerDelegate{
             
             // send data to server after successfully loged in
             self.Loader = self.LoadLoader(loader: self.Loader)
-            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=no&type=apple&fcm_id=null&ip_address=1.0.0&status=0&firebase_id=null"
+            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=&type=apple&fcm_id=null&ip_address=1.0.0&status=0&firebase_id=null"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             //Write your code
             

@@ -40,7 +40,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
             
             //imgProfile.SetShadow()
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
-            imgProfile.layer.masksToBounds = false
+            imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
             
             imgProfile.isUserInteractionEnabled = true
@@ -55,9 +55,9 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         }else{
             emailAdrs.text = ""
             userName.text = "Hello, User"
-            imgProfile.image = UIImage(named: "backtop")
+            imgProfile.image = UIImage(named: "user")
         }
-        //designImageView()
+        designImageView()
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
         
@@ -93,7 +93,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
         }
         imgProfile.layer.borderWidth = 2
         imgProfile.layer.borderColor = UIColor.white.cgColor
-        imgProfile.layer.masksToBounds = false
+        imgProfile.layer.masksToBounds = true
         imgProfile.clipsToBounds = true
     }
     // make button custom design function

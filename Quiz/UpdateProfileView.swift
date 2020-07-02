@@ -82,7 +82,7 @@ class UpdateProfileView: UIViewController{
         }
     }      
     
-    //load category data here
+    //load data here
     func LoadData(jsonObj:NSDictionary){
         print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String

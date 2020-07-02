@@ -25,7 +25,8 @@ extension UIViewController{
     }
     
     @objc func dismissCurrView() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+        //self.dismiss(animated: true, completion: nil)
     }
     
     //play sound
@@ -76,8 +77,8 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-       // print("POST URL",url)
-      //  print("POST String = \(postString)")
+        print("POST URL",url)
+        print("POST String = \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         //let data = NSMutableData();
@@ -143,7 +144,7 @@ extension UIViewController{
         alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.cancel, handler: nil))
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.45, execute: {
             DispatchQueue.main.async {
-                self.present(alert, animated: true, completion: nil)
+                self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
             }
         });
     }
@@ -200,7 +201,7 @@ extension UIViewController{
                image.layer.cornerRadius = image.frame.width / 2
            }
        }
-     
+         
     func RegisterNotification(notificationName:String){
         NotificationCenter.default.addObserver(self,selector: #selector(self.Dismiss),name: NSNotification.Name(rawValue: notificationName),object: nil)
     }

@@ -133,7 +133,18 @@ extension UITextView {
         contentOffset.y = -positiveTopOffset
     }
 }
-
+extension UILabel{
+    func setLabel(){
+          self.numberOfLines = 0
+          let maximumLabelSize: CGSize = CGSize(width: self.frame.width, height: self.frame.height)
+          let expectedLabelSize: CGSize = self.sizeThatFits(maximumLabelSize)
+          // create a frame that is filled with the UILabel frame data
+          var newFrame: CGRect = self.frame
+        //   newFrame.size.width = expectedLabelSize.width
+           newFrame.size.height = expectedLabelSize.height
+          self.frame = newFrame
+       }
+}
 extension UIButton {
     
     func resizeButton() {
@@ -169,7 +180,7 @@ extension UIView{
     }
     
     func SetDarkShadow(){
-        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.cornerRadius = self.frame.height / 2 //35
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: 3, height: 4)
         self.layer.shadowOpacity = 1
@@ -212,7 +223,19 @@ extension UIViewController{
         imgView.addSubview(lbl)
         return imgView
     }
+    
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+
+        return topMostViewController
+    }
 }
+
 
 extension CALayer {
 

@@ -134,7 +134,7 @@ class ReView: UIViewController {
     }
     
     @IBAction func preButton(_ sender: Any) {
-        if(currentQuesPosition >= 0){
+        if(currentQuesPosition > 0){
             currentQuesPosition -= 1
             self.LoadQuestion()
         }

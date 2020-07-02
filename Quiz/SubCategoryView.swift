@@ -140,8 +140,6 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         // cell.sCateImg.layer.cornerRadius = cell.sCateImg.frame.size.height/2
         cell.sCateImg.layer.masksToBounds = true
         
-    
-        
         cell.cellView1.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         
         UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.7,

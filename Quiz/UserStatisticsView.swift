@@ -89,6 +89,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
     }
     //load user data here
     func getUserData(jsonObj:NSDictionary){
+        print(jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
@@ -104,6 +105,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                     self.scoreLabel.text = "\(score!)"
                     let coins = Int("\(data["coins"]!)")
                     self.coinsLabel.text = "\(coins!)"
+                    UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: coins!, points: score!)), forKey: "UserScore")
                     let rank = Int("\(data["all_time_rank"]!)")
                    self.rankLabel.text = "\(rank!)"
                 }

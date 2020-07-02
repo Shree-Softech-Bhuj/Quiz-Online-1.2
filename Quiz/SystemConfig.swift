@@ -29,7 +29,7 @@ class SystemConfig: UIViewController {
     }
     //load response of updtFCMid data here
     func LoadResponse(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
@@ -77,6 +77,9 @@ class SystemConfig: UIViewController {
                 let langMode:String =  "\(DATA["language_mode"] ?? 0)"
                 let config = SystemConfiguration.init(LANGUAGE_MODE: Int(langMode) ?? 0)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(config),forKey: DEFAULT_SYS_CONFIG)
+                if langMode == "0" { //clear default lang. if language mode is disabled
+                    UserDefaults.standard.removeObject(forKey: DEFAULT_USER_LANG)
+                }
                 
                 let more_apps = DATA["ios_more_apps"]  as! String
                 Apps.MORE_APP = more_apps
@@ -92,6 +95,18 @@ class SystemConfig: UIViewController {
                 
                 let ans_mode = DATA["answer_mode"]  as! String
                 Apps.ANS_MODE = ans_mode
+                
+                let refer_coin = DATA["refer_coin"] as! String
+                Apps.REFER_COIN = refer_coin
+                print("refer coin value -- \(refer_coin)")
+                
+                let earn_coin = DATA["earn_coin"]  as! String
+                Apps.EARN_COIN = earn_coin
+                print("earn coin value -- \(earn_coin)")
+                
+                let reward_coin = DATA["reward_coin"] as! String
+                Apps.REWARD_COIN = reward_coin
+                print("reward coin value -- \(reward_coin)")
             }
         }
         //close loader here
@@ -113,12 +128,12 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadNotifications(jsonObj:NSDictionary){
-       // print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                //    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
         }else{
@@ -145,7 +160,7 @@ class SystemConfig: UIViewController {
             let apiURL = ""//Apps.OPTION_E
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
                 
-                //print("RS",jsonObj.value(forKey: "data"))
+              //  print("RS- lang.",jsonObj.value(forKey: "data"))
                 // var optE = ""
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {

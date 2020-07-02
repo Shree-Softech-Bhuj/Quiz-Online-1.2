@@ -5,10 +5,14 @@ class ReferAndEarnView: UIViewController {
     @IBOutlet weak var referBtn: UIButton!
     @IBOutlet weak var referCode: UILabel!
     
+    @IBOutlet weak var referText: UILabel!
+    
     var dUser:User? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        referText.text = "Refer a Friend, and you will get \(Apps.EARN_COIN) coins each time your referral code is used and your friend will get \(Apps.REFER_COIN) coins by using your referral code "
         
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user details \(dUser!) ")

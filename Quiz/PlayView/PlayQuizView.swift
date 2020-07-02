@@ -210,7 +210,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         
          var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        score.coins = score.coins + 4
+        score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
         UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
         mainCoinCount.text = "\(score.coins)"
     }
@@ -273,10 +273,27 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
               progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR
         }
         if count >= Apps.QUIZ_PLAY_TIME { // set timer here
+            
             timer.invalidate()
             currentQuestionPos += 1
-            loadQuestion()
-        }
+               //mark it as wrong answer if user haven't selected any option from given 4/5 or 2 option
+            falseCount += 1
+            falseLbl.text = "\(falseCount)"
+            progressFalseBar.setProgress(Float(falseCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
+            
+            var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            score.points = score.points - Apps.QUIZ_W_Q_POINTS
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+            
+            self.PlaySound(player: &audioPlayer, file: "wrong")
+              loadQuestion()
+//         for button in buttons{
+//            if button.tag != 1{
+//                wrongAnswer(btn: button)
+//                break
+//            }
+//        }
+      }
     }
     
     @IBAction func settingButton(_ sender: Any) {

@@ -19,6 +19,11 @@ class RobotAlert: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userImage.layer.borderWidth = 2
+        userImage.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImage.layer.cornerRadius = userImage.bounds.width / 2
+        userImage.clipsToBounds = true
+        
         if !imageUrl.isEmpty{
             userImage.loadImageUsingCache(withUrl: imageUrl)
         }
@@ -29,6 +34,11 @@ class RobotAlert: UIViewController {
         playWithRobot.layer.cornerRadius = 20
         tryAgain.layer.cornerRadius = 20
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        dismiss(animated: false, completion: nil)
     }
     
     @IBAction func PlayWithRobot(_ sender: Any) {

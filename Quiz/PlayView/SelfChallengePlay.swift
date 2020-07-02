@@ -218,7 +218,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         
          var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        score.coins = score.coins + 4
+        score.coins = score.coins + Int(Apps.REWARD_COIN)!//4
         UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
       
     }

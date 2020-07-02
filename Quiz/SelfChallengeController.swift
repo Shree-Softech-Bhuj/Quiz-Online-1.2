@@ -175,7 +175,7 @@ class SelfChallengeController: UIViewController {
                             }
                         }
                     }
-                    
+                    Apps.TOTAL_PLAY_QS = data.count
                     //check this level has enough (10) question to play? or not
                     if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                         viewCont.quesData = self.quesData

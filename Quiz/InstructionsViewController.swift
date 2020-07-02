@@ -13,7 +13,7 @@ class InstructionsViewController: UIViewController {
         if(Reachability.isConnectedToNetwork()){
             self.Loader = self.LoadLoader(loader: self.Loader)
             let apiURL = ""
-            self.getAPIData(apiName: "privacy_policy_settings", apiURL: apiURL,completion: LoadData)
+            self.getAPIData(apiName: "get_instructions", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }

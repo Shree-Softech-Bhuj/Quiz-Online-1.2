@@ -101,6 +101,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         
         return true
     }
+    //to redirect back to app from google login in ios 10
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return (GIDSignIn.sharedInstance()?.handle(url as URL!))!
+    }
+    
     //to preview notification in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print(Apps.badgeCount)
@@ -240,6 +245,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
         application.applicationIconBadgeNumber = Apps.badgeCount
     }
     func fragmentRemoteData(_  str:String){
