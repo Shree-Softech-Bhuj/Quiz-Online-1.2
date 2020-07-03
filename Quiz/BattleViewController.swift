@@ -142,6 +142,8 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     // check for battle
     @objc func CheckForBattle(){
         
+        self.isBattleStarted  = false
+        
         let userLang = (UserDefaults.standard.string(forKey: DEFAULT_USER_LANG) == nil ? "0" : UserDefaults.standard.string(forKey: DEFAULT_USER_LANG))
         var userDetails:[String:String] = [:]
         userDetails["userID"] = self.user.userID
@@ -296,6 +298,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
+                self.isBattleStarted = false
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -312,6 +315,7 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     //start battle and pass data to battleplaycontroller
     var isBattleStarted = false
     func StartBattle(){
+        self.searchPlayerBtn.isEnabled = true
         print(isBattleStarted)
         if self.isBattleStarted{
             return
