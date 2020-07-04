@@ -38,8 +38,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         Apps.screenWidth = screenBounds.width
         Apps.screenHeight = screenBounds.height
         
-        //check app is log in or not if not than navigate to login view controller
+        //to get system configurations parameters as per requirement
+       varSys.ConfigureSystem()
+       varSys.LoadLanguages(completion: {})
+       varSys.getNotifications()
         
+        
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        application.registerForRemoteNotifications()
+        
+        //set badge
+        if Apps.badgeCount > 0 {
+            application.applicationIconBadgeNumber = Apps.badgeCount
+        }else{ //clear badge
+            application.applicationIconBadgeNumber = 0
+        }
+        Messaging.messaging().delegate = self
+        Messaging.messaging().shouldEstablishDirectChannel = true
+        
+        let token = Messaging.messaging().fcmToken ?? "none"
+        Apps.FCM_ID = token
+        print("FCM TOKEN", token)
+        
+        
+        //check app is log in or not if not then navigate to login view controller
         if UIDevice.current.userInterfaceIdiom == .pad{
             deviceStoryBoard = "Ipad"
         }else{
@@ -68,36 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             window?.makeKeyAndVisible()
             
         }
-        
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-        application.registerForRemoteNotifications()
-        
-        //set badge
-        if Apps.badgeCount > 0 {
-            application.applicationIconBadgeNumber = Apps.badgeCount
-        }else{ //clear badge
-            application.applicationIconBadgeNumber = 0
-        }
-        Messaging.messaging().delegate = self
-        Messaging.messaging().shouldEstablishDirectChannel = true
-        
-        let token = Messaging.messaging().fcmToken ?? "none"
-        Apps.FCM_ID = token
-        print("FCM TOKEN", token)
-        //to get system configurations parameters as per requirement
-        varSys.ConfigureSystem()
-        varSys.getNotifications()
         
         return true
     }

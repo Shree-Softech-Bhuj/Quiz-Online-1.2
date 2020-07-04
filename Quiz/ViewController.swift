@@ -84,7 +84,8 @@ class ViewController: UIViewController {
                 logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
             }
         }
-        
+    }
+    override func viewDidAppear(_ animated: Bool) {
         languageButton.isHidden = true
         if isKeyPresentInUserDefaults(key: DEFAULT_SYS_CONFIG){
             let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
@@ -125,6 +126,12 @@ class ViewController: UIViewController {
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
+        //check if language is enabled and not selected
+        if languageButton.isHidden == false{
+            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+                LanguageButton(self)
+            }
+        }
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "CategoryView")
@@ -153,6 +160,13 @@ class ViewController: UIViewController {
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
+        
+        //check if language is enabled and not selected
+        if languageButton.isHidden == false{
+            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+                LanguageButton(self)
+            }
+        }
         
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)

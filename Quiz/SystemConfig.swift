@@ -160,7 +160,7 @@ class SystemConfig: UIViewController {
             let apiURL = ""//Apps.OPTION_E
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
                 
-              //  print("RS- lang.",jsonObj.value(forKey: "data"))
+              print("RS- lang.",jsonObj.value(forKey: "data"))
                 // var optE = ""
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
@@ -168,14 +168,20 @@ class SystemConfig: UIViewController {
                         self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
                     })
                 }else{
+                    var lang_id = 0
                     //get data for category
                     var lang:[Language] = []
                     if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                         for val in data{
                             lang.append(Language.init(id: Int("\(val["id"]!)")!, name: "\(val["language"]!)", status: Int("\(val["status"]!)")!))
+                            lang_id = Int("\(val["id"]!)")!
+                        }
+                        if data.count == 1 { // if only one language is present in admin panel, then select it by default
+                            UserDefaults.standard.set(lang_id , forKey: DEFAULT_USER_LANG)
                         }
                     }
                     UserDefaults.standard.set(try? PropertyListEncoder().encode(lang),forKey: DEFAULT_LANGUAGE)
+                
                     completion()
                 }
             })

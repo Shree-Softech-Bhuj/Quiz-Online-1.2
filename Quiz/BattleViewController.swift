@@ -108,11 +108,15 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
 //            }
             
         }else{
-            //get data for category
+            //get data for battle statistics
             DataList.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
+                    let o_id = val["opponent_id"] as! String
+                    if o_id != "0" {
+                    
                     DataList.append(BattleStatistics.init(oppID: "\(val["opponent_id"]!)", oppName: "\(val["opponent_name"]!)", oppImage: "\(val["opponent_profile"]!)", battleStatus: "\(val["mystatus"]!)", battleDate: "\(val["date_created"]!)"))
+                    }
                 }
             }
         }

@@ -225,22 +225,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BCE23B62-9A13-4578-9F1D-22C9E8F7BB10"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Quiz/SystemConfig.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "LoadData(jsonObj:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "70080E80-025E-41CC-9DF4-86EADFADD5D5"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -296,8 +280,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -306,22 +290,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "155E56E7-868B-4373-9369-2714E1B41420"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Quiz/BattleViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "CheckForBattle()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C653D93E-2EE1-47D2-8736-FC22295CFDB9"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -337,6 +305,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "C653D93E-2EE1-47D2-8736-FC22295CFDB9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/BattleViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "CheckForBattle()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "AB199AD0-D970-4DF7-99CF-DBB446E4AB1B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -344,8 +328,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -360,8 +344,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -370,7 +354,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B655EA20-88B0-45DB-B75C-5613351FD92D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Quiz/UserStatisticsView.swift"
@@ -392,8 +376,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -440,8 +424,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "StartBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -456,8 +440,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
             landmarkName = "StartBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -466,14 +450,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "81AC4B94-C539-4D41-B580-634C96EF9F82"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "346"
-            endingLineNumber = "346"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "ShowRobotAlert()"
             landmarkType = "7">
          </BreakpointContent>
@@ -488,8 +472,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -504,9 +488,9 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
-            landmarkName = "StartBattle()"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
+            landmarkName = "CheckBattleButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -520,8 +504,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
             landmarkName = "CheckForBattle()"
             landmarkType = "7">
             <Locations>
@@ -568,8 +552,8 @@
             filePath = "Quiz/BattleViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "QuitBattle()"
             landmarkType = "7">
          </BreakpointContent>
@@ -584,10 +568,153 @@
             filePath = "Quiz/CategoryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1955ED90-1CF6-4E8E-B8AB-C5B28074205B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/SystemConfig.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "LoadLanguages(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67FA5806-EFB6-4B0D-B63C-36176CE6EF80"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/SystemConfig.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "LoadLanguages(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "91C2FA7D-7594-4C91-92CD-F777D75D1775"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/SystemConfig.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "91C2FA7D-7594-4C91-92CD-F777D75D1775 - 15f3380f2e54aeb3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Quiz.SystemConfig.viewDidLoad() -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online-1.2/Quiz/SystemConfig.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "91C2FA7D-7594-4C91-92CD-F777D75D1775 - c32b3ac39f83ee47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Quiz.SystemConfig.viewDidLoad() -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online-1.2/Quiz/SystemConfig.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "91C2FA7D-7594-4C91-92CD-F777D75D1775 - d483887eda60e14f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "@objc Quiz.SystemConfig.viewDidLoad() -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online-1.2/Quiz/SystemConfig.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88752A63-43F6-4C30-9B7D-D1490EF87D6E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/SystemConfig.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "LoadData(jsonObj:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "88752A63-43F6-4C30-9B7D-D1490EF87D6E - 8c314f628edccf9a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Quiz.SystemConfig.LoadData(jsonObj: __C.NSDictionary) -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online-1.2/Quiz/SystemConfig.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
+                  offsetFromSymbolStart = "2044">
+               </Location>
+               <Location
+                  uuid = "88752A63-43F6-4C30-9B7D-D1490EF87D6E - 8c314f628edccf9a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Quiz.SystemConfig.LoadData(jsonObj: __C.NSDictionary) -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online-1.2/Quiz/SystemConfig.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
+                  offsetFromSymbolStart = "2252">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

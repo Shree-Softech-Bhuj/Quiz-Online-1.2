@@ -580,16 +580,13 @@
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WLd-Kj-8Wa">
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WLd-Kj-8Wa">
                                         <rect key="frame" x="338" y="32" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" red="0.22352941179999999" green="0.50588235290000005" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" image="languagecolored">
                                             <color key="titleColor" red="0.22352941179999999" green="0.50588235290000005" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="LanguageButton:" destination="dpC-0N-zU5" eventType="touchUpInside" id="SzJ-7z-IYV"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0m-zs-DKs">
                                         <rect key="frame" x="376" y="32" width="30" height="30"/>
@@ -682,7 +679,6 @@
                     <connections>
                         <outlet property="bannerView" destination="50h-4L-O1R" id="xqS-uM-IWi"/>
                         <outlet property="catetableView" destination="vtc-8u-j1R" id="EDR-xO-a1N"/>
-                        <outlet property="languageButton" destination="WLd-Kj-8Wa" id="Yk6-Jf-QQO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHZ-9X-1cB" sceneMemberID="firstResponder"/>
@@ -5094,10 +5090,10 @@ You have completed the level.</string>
             </objects>
             <point key="canvasLocation" x="745" y="1471"/>
         </scene>
-        <!--ReferAndEarnView-->
+        <!--Self Challenge Controller-->
         <scene sceneID="X8u-qw-gaj">
             <objects>
-                <viewController storyboardIdentifier="SelfChallengeController" id="NlM-bT-sbO" userLabel="ReferAndEarnView" customClass="SelfChallengeController" customModule="Quiz" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelfChallengeController" id="NlM-bT-sbO" customClass="SelfChallengeController" customModule="Quiz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R0Q-KA-BVi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -5254,7 +5250,7 @@ You have completed the level.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLa-mV-BZP" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1490" y="-533"/>
+            <point key="canvasLocation" x="1448" y="-533"/>
         </scene>
         <!--UserStatistics-->
         <scene sceneID="oDO-jP-Bkd">
