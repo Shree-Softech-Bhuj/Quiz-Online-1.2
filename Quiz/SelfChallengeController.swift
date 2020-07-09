@@ -74,8 +74,14 @@ class SelfChallengeController: UIViewController {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = ""
-            self.getAPIData(apiName: "get_categories", apiURL: apiURL,completion: LoadData)
+            var apiName = "get_categories"
+            var apiURL = ""
+            if sysConfig?.LANGUAGE_MODE == 1{
+                apiName = "get_categories_by_language"
+                apiURL = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+            }
+           
+            self.getAPIData(apiName:apiName, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
@@ -211,6 +217,13 @@ class SelfChallengeController: UIViewController {
         let buttonPadding:CGFloat = 10
         var xOffset:CGFloat = 10
         
+        if toVal < 5{
+            let label = UILabel(frame: CGRect(x: 10, y: 5, width: 200, height: 30))
+            label.text = "Questions not available"
+            label.textColor = .black
+             scrollView.addSubview(label)
+            return
+        }
         for i in stride(from: 5, to: toVal, by: 5) {
             let button = UIButton()
             button.tag = i

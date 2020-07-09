@@ -287,7 +287,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     @IBAction func backButton(_ sender: Any) {
-        let alert = UIAlertController(title: Apps.EXIT_APP_MSG,message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: "Are you sure?",message: "You haven't submitted this test yet. Are you sure You want to leave?",preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
@@ -367,7 +367,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     
     @IBAction func SubmitForResult(_ sender: Any) {
-        let alert = UIAlertController(title: "Are you sure, do you want to submit for result?",message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: "You want to submit this test",message: "",preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
@@ -498,7 +498,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         if self.quesData.count != self.reviewQues.count{
             for ques in self.quesData{
                 if self.reviewQues.contains(where: {$0.id == ques.id}){
-                    print("Question attended")
                 }else{
                     self.reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:ques.opetionE, correctAns: ques.correctAns, image: ques.image, level: ques.level, note: ques.note, quesType: ques.quesType, userSelect: ""))
                 }

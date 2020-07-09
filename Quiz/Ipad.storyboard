@@ -6878,26 +6878,11 @@ You have completed the level.</string>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="Et1-qg-cuQ">
-                                        <rect key="frame" x="0.0" y="462" width="768" height="489"/>
+                                        <rect key="frame" x="0.0" y="605" width="768" height="346"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EoJ-OX-wZf">
-                                                <rect key="frame" x="37" y="10" width="693" height="45"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
-                                                <state key="normal" title="Play Next Level">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <variation key="heightClass=regular-widthClass=compact">
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                </variation>
-                                                <connections>
-                                                    <action selector="nxtButton:" destination="d5k-Uq-NZY" eventType="touchUpInside" id="5GH-Bt-I4v"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="I70-l1-VDW">
-                                                <rect key="frame" x="37" y="65" width="693" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iTO-2P-OfK">
+                                                <rect key="frame" x="34" y="19" width="700" height="55"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
@@ -6907,42 +6892,45 @@ You have completed the level.</string>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 </variation>
-                                                <connections>
-                                                    <action selector="reviewButton:" destination="d5k-Uq-NZY" eventType="touchUpInside" id="ilu-H0-gvQ"/>
-                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gYA-tw-7wx">
-                                                <rect key="frame" x="37" y="120" width="693" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HsL-fd-Ues">
+                                                <rect key="frame" x="34" y="82" width="700" height="55"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
-                                                <state key="normal" title="Share Your Score">
+                                                <state key="normal" title="Share Result">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 </variation>
-                                                <connections>
-                                                    <action selector="scoreButton:" destination="d5k-Uq-NZY" eventType="touchUpInside" id="J1l-dR-DJb"/>
-                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Os7-Gg-8Xv">
-                                                <rect key="frame" x="37" y="175" width="693" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qre-2u-6VQ">
+                                                <rect key="frame" x="34" y="145" width="700" height="55"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
-                                                <state key="normal" title="Rate Us">
+                                                <state key="normal" title="Play Quiz">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 </variation>
-                                                <connections>
-                                                    <action selector="rateButton:" destination="d5k-Uq-NZY" eventType="touchUpInside" id="EeW-Xe-54D"/>
-                                                </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QiM-KN-O11">
-                                                <rect key="frame" x="37" y="230" width="693" height="45"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qcw-9F-nLI">
+                                                <rect key="frame" x="34" y="208" width="700" height="55"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                <state key="normal" title="Battle Quiz">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                </variation>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ybb-Sh-jjS">
+                                                <rect key="frame" x="34" y="271" width="700" height="55"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
@@ -6952,9 +6940,6 @@ You have completed the level.</string>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 </variation>
-                                                <connections>
-                                                    <action selector="homeButton:" destination="d5k-Uq-NZY" eventType="touchUpInside" id="5XV-hC-nvF"/>
-                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -6963,17 +6948,15 @@ You have completed the level.</string>
                                         <rect key="frame" x="21" y="8" width="727" height="409"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZJ-pE-17f">
-                                                <rect key="frame" x="0.0" y="3" width="727" height="77"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have completed the Challenge." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JZJ-pE-17f">
+                                                <rect key="frame" x="13" y="35" width="700" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <string key="text">Congratulations !!
-You have completed the Challenge.</string>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="heightClass=regular-widthClass=compact">
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 </variation>
                                             </label>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1YS-SN-MZN">
@@ -7034,8 +7017,20 @@ You have completed the Challenge.</string>
                                                 <color key="textColor" red="0.16853245880000001" green="0.57283500860000003" blue="0.69956282380000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DsV-rA-5jt">
+                                                <rect key="frame" x="279" y="5" width="167" height="27"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.83137254900000002" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="sbz-EN-xPb" customClass="GADBannerView">
+                                        <rect key="frame" x="21" y="425" width="727" height="172"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -7071,23 +7066,19 @@ You have completed the Challenge.</string>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
-                        <outlet property="homeBtn" destination="QiM-KN-O11" id="CmG-Qm-dJN"/>
+                        <outlet property="adsView" destination="sbz-EN-xPb" id="Oph-X5-LJr"/>
                         <outlet property="lblFalse" destination="ej0-Kv-sa0" id="2kV-br-Sco"/>
                         <outlet property="lblResults" destination="JZJ-pE-17f" id="GHT-WZ-h3x"/>
                         <outlet property="lblTrue" destination="6NX-5o-R3Y" id="MKD-1k-xNK"/>
-                        <outlet property="nxtLvl" destination="EoJ-OX-wZf" id="Kfz-rr-sCu"/>
-                        <outlet property="rateUs" destination="Os7-Gg-8Xv" id="ZGq-dg-IcU"/>
-                        <outlet property="reviewAns" destination="I70-l1-VDW" id="sev-65-VD8"/>
                         <outlet property="scrollView" destination="Et1-qg-cuQ" id="TNF-3R-o6L"/>
                         <outlet property="timerLabel" destination="Ndk-Oc-pj9" id="82F-pn-AHF"/>
                         <outlet property="titleText" destination="pdg-EO-Wbx" id="6Er-OL-4KG"/>
                         <outlet property="viewProgress" destination="wTk-uS-Wdb" id="83G-WS-Hnj"/>
-                        <outlet property="yourScore" destination="gYA-tw-7wx" id="U2t-3f-FPw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50f-pK-oez" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3498" y="-533"/>
+            <point key="canvasLocation" x="3497.65625" y="-533.203125"/>
         </scene>
         <!--Leaderboard-->
         <scene sceneID="xRA-Ex-5L9">

@@ -30,6 +30,8 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var titleText: UILabel!
     
+    @IBOutlet var adsView:GADBannerView!
+    
     var interstitialAd : GADInterstitial!
     
     var count:CGFloat = 0.0
@@ -55,33 +57,39 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 430)
         
         let xPosition = viewProgress.center.x - 20
         let yPosition = viewProgress.center.y-viewProgress.frame.origin.y - 15
         let position = CGPoint(x: xPosition, y: yPosition)
         
         // set circular progress bar here and pass required parameters
-        progressRing = CircularProgressBar(radius: 35, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5,progValue: CGFloat(self.totalTime * 60))
+        progressRing = CircularProgressBar(radius: 35, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5,progValue: CGFloat(self.totalTime))
         viewProgress.layer.addSublayer(progressRing)
         progressRing.progressLabel.numberOfLines = 1;
         progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(20)
         progressRing.progressLabel.minimumScaleFactor = 0.5;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
+        self.lblResults.text = "You have completed the challenge \n in \(self.secondsToHoursMinutesSeconds(seconds: self.completedTime)) Sec"
         // Calculate the percentage of quesitons you got right
         self.timerLabel.text = "Challenge time: \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
         
+        var attempCount = 0
         for rev in self.ReviewQues{
             let rightStr = self.GetRightAnsString(correctAns: rev.correctAns, quetions: rev)
             if rightStr == rev.userSelect{
                 self.trueCount += 1
             }
+            
+            if rev.userSelect == ""{
+                attempCount += 1
+            }
         }
-        percentage = CGFloat(trueCount) / CGFloat(self.quesCount)
+        percentage = CGFloat(trueCount) / CGFloat(attempCount)
         percentage *= 100
         // set timer for progress ring and make it active
-        timer = Timer.scheduledTimer(timeInterval: 0.06, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
         
         // call button design button and pass button variable those buttons need to be design
@@ -90,8 +98,15 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         viewProgress.SetShadow()
         
         lblTrue.text = "\(trueCount)"
-        lblFalse.text = "\(self.quesCount - trueCount)"
+        lblFalse.text = "\(attempCount - trueCount)"
         
+        // Google AdMob Banner
+        adsView.adUnitID = Apps.BANNER_AD_UNIT_ID
+        adsView.rootViewController = self
+        let request = GADRequest()
+        //request.testDevices = Apps.AD_TEST_DEVICE
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+        adsView.load(request)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -157,11 +172,13 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     @objc func incrementCount() {
         let comTime = self.totalTime - self.completedTime
         count += 2
-        progressRing.progressManual = CGFloat(count)
-        progressRing.progressLabel.text = self.secondsToHoursMinutesSeconds(seconds: Int(count))
         if count >= CGFloat(comTime) {
             timer.invalidate()
+            return
         }
+        progressRing.progressManual = CGFloat(count)
+        progressRing.progressLabel.text = self.secondsToHoursMinutesSeconds(seconds: Int(count))
+      
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -204,7 +221,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
-        let shareUrl = "I have completed self challenge with right answer \(self.trueCount)"
+        let shareUrl = "I have finished \(self.secondsToHoursMinutesSeconds(seconds: Int(self.totalTime))) minute self challenge in \(self.secondsToHoursMinutesSeconds(seconds: Int(self.completedTime))) minute in Quiz"
         let textToShare = str + "\n" + shareUrl
         let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
         present(vc, animated: true)
