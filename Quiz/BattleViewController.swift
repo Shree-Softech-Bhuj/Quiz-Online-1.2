@@ -11,6 +11,7 @@ struct BattleUser {
     let image:String
     let matchingID:String
 }
+
 class BattleViewController: UIViewController,GADBannerViewDelegate {
     
     @IBOutlet var user1: UIImageView!
