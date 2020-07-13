@@ -17,6 +17,8 @@ class ReView: UIViewController {
     
     @IBOutlet var bookBtn: UIButton!
     @IBOutlet weak var bookMarkBtn: UIButton!
+    @IBOutlet var secondChildView: UIView!
+    @IBOutlet var scroll: UIScrollView!
     
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
@@ -60,6 +62,141 @@ class ReView: UIViewController {
         // load question when view will appear
         currentQuesPosition = 0
         self.LoadQuestion()
+    }
+    
+    var btnY = 0
+       func SetButtonHeight(buttons:UIButton...){
+           
+           var minHeight = 50
+           if UIDevice.current.userInterfaceIdiom == .pad{
+               minHeight = 90
+           }else{
+               minHeight = 50
+           }
+           self.scroll.setContentOffset(.zero, animated: true)
+           
+           let perButtonChar = 35
+           btnY = Int(self.secondChildView.frame.height + self.secondChildView.frame.origin.y)
+           
+           for button in buttons{
+               let btnWidth = button.frame.width
+               //let fonSize = 18
+               let charCount = button.title(for: .normal)?.count
+               
+               let btnX = button.frame.origin.x
+               
+               let charLine = Int(charCount! / perButtonChar) + 1
+               
+               let btnHeight = charLine * 20 < minHeight ? minHeight : charLine * 20
+               
+               let newFram = CGRect(x: Int(btnX), y: btnY, width: Int(btnWidth), height: btnHeight)
+               btnY += btnHeight + 8
+               
+               button.frame = newFram
+               
+               button.titleLabel?.lineBreakMode = .byWordWrapping
+               button.titleLabel?.numberOfLines = 0
+           }
+           
+           let with = self.scroll.frame.width
+           
+           self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+           SetExtraNote()
+       }
+    
+    let exView = UIView()
+    let button = UIButton()
+    let label = UILabel()
+    func SetExtraNote(){
+        let color = UIColor.rgb(82, 0, 0, 1)
+        exLabel.removeFromSuperview()
+        if ReviewQues[currentQuesPosition].note.isEmpty{
+            
+            exView.removeFromSuperview()
+            button.removeFromSuperview()
+            label.removeFromSuperview()
+            let with = self.scroll.frame.width
+                   
+            self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+            return
+        }
+        exView.frame = CGRect(x: self.btnA.frame.origin.x, y: CGFloat(btnY + 20), width: self.btnA.frame.width, height: 50)
+        exView.removeFromSuperview()
+        
+        exView.backgroundColor = .white
+        exView.SetShadow()
+        
+        label.frame = CGRect(x: 5,y: 5, width: 250, height: 30)
+        label.text = "Soru hakkında detay"
+        label.font = .boldSystemFont(ofSize: 15.0)
+        label.textColor = color
+        exView.addSubview(label)
+        
+        button.frame = CGRect(x: btnA.frame.width - 35 ,y: 5, width: 30, height: 30)
+        button.removeFromSuperview()
+        button.setTitleColor(color, for: .normal)
+        button.tintColor = color
+        button.tag = 0
+        if #available(iOS 13.0, *) {
+            let image = UIImage(systemName: "chevron.down")
+            button.setImage(image, for: .normal)
+        } else {
+            // Fallback on earlier versions
+        }
+        button.addTarget(self,action:#selector(buttonClicked),for: .touchUpInside)
+        exView.addSubview(button)
+        
+        self.scroll.addSubview(exView)
+        let with = self.scroll.frame.width
+        
+        self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY) + 75)
+    }
+    
+    let exLabel = UILabel()
+    @objc func buttonClicked(sender:UIButton){
+          let color = UIColor.rgb(82, 0, 0, 1)
+        let view = sender.superview
+        let exNote = self.ReviewQues[self.currentQuesPosition].note
+
+        exLabel.removeFromSuperview()
+        
+        if sender.tag == 0{
+            if #available(iOS 13.0, *) {
+                let image = UIImage(systemName: "chevron.up")
+                sender.setImage(image, for: .normal)
+            } else {
+                // Fallback on earlier versions
+            }
+            let charCount = exNote.count
+            let charLine = Int(charCount / 35)
+            let labelHeight = charLine * 20 < 40 ? 40 : charLine * 20
+            
+            exLabel.frame = CGRect(x: 5,y: 50, width: Int((view?.frame.width)! - 15), height: labelHeight)
+            exLabel.text = exNote
+            exLabel.font = .systemFont(ofSize: 15.0)
+            exLabel.textColor = color
+            exLabel.numberOfLines = 0
+            
+            view?.frame = CGRect(x: Int((view?.frame.origin.x)!), y: Int((view?.frame.origin.y)!), width: Int((view?.frame.width)!), height: labelHeight + 80)
+            view?.addSubview(exLabel)
+            sender.tag = 1
+            
+            let with = self.scroll.frame.width
+            self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY) + 75 + labelHeight)
+        }else{
+            exLabel.text = ""
+            if #available(iOS 13.0, *) {
+                let image = UIImage(systemName: "chevron.down")
+                sender.setImage(image, for: .normal)
+            } else {
+                // Fallback on earlier versions
+            }
+            view?.frame = CGRect(x: self.btnA.frame.origin.x, y: CGFloat(btnY + 20), width: self.btnA.frame.width, height: 50)
+            sender.tag = 0
+            
+            let with = self.scroll.frame.width
+            self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY) + 75)
+        }
     }
     
     @IBAction func msgButton(_ sender: Any) {
@@ -246,6 +383,7 @@ class ReView: UIViewController {
                 btnD.setTitle("\(ReviewQues[currentQuesPosition].opetionD)", for: .normal)
             }
            CheckUserAnswer(userAnswer: ReviewQues[currentQuesPosition].userSelect)
+           self.SetButtonHeight(buttons: btnA,btnB,btnC,btnD,btnE)
             
             //check current question is in bookmark list or not
             if(BookQuesList.contains(where: {$0.id == ReviewQues[currentQuesPosition].id && $0.correctAns == ReviewQues[currentQuesPosition].correctAns})){
@@ -260,21 +398,21 @@ class ReView: UIViewController {
         }
     }
     
-    let label = UILabel()
+    let label1 = UILabel()
     func CheckUserAnswer(userAnswer:String){
-        label.frame = CGRect(x: 5, y: self.mainQuestionView.frame.height - 25, width: 150, height: 20)
-        label.textColor  = .darkGray
-        label.removeFromSuperview()
-        label.text = ""
-        label.font = .systemFont(ofSize: 10)
+        label1.frame = CGRect(x: 5, y: self.mainQuestionView.frame.height - 25, width: 150, height: 20)
+        label1.textColor  = .darkGray
+        label1.removeFromSuperview()
+        label1.text = ""
+        label1.font = .systemFont(ofSize: 10)
         if userAnswer == ""{
             print("Un Attemp")
-             label.text = "Un-Attepmted"
+             label1.text = "Un-Attepmted"
             self.mainQuestionView.addSubview(label)
             RightAnswer(opt: ReviewQues[currentQuesPosition].correctAns)
             return
         }
-        label.text = ""
+        label1.text = ""
         if ReviewQues[currentQuesPosition].opetionA == userAnswer{
             if ReviewQues[currentQuesPosition].correctAns == "a"{
                 RightAnswer(opt: "a")

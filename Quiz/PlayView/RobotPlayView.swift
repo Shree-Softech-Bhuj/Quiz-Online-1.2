@@ -15,6 +15,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var userImg1: UIImageView!
     @IBOutlet weak var userImg2: UIImageView!
     
+    @IBOutlet var scroll: UIScrollView!
+    @IBOutlet var secondChildView: UIView!
+    
     @IBOutlet weak var userName1: UILabel!
     @IBOutlet weak var userName2: UILabel!
     
@@ -143,6 +146,43 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteRobotBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.DismissSelf),name: NSNotification.Name(rawValue: "CloseRobotPlay"),object: nil) // close this view controller
         
+    }
+    
+    var btnY = 0
+    func SetButtonHeight(buttons:UIButton...){
+        
+        var minHeight = 50
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            minHeight = 90
+        }else{
+            minHeight = 50
+        }
+        self.scroll.setContentOffset(.zero, animated: true)
+        
+        let perButtonChar = 35
+        btnY = Int(self.secondChildView.frame.height + self.secondChildView.frame.origin.y)
+        
+        for button in buttons{
+            let btnWidth = button.frame.width
+            //let fonSize = 18
+            let charCount = button.title(for: .normal)?.count
+            
+            let btnX = button.frame.origin.x
+            
+            let charLine = Int(charCount! / perButtonChar) + 1
+            
+            let btnHeight = charLine * 20 < minHeight ? minHeight : charLine * 20
+            
+            let newFram = CGRect(x: Int(btnX), y: btnY, width: Int(btnWidth), height: btnHeight)
+            btnY += btnHeight + 8
+            
+            button.frame = newFram
+            
+            button.titleLabel?.lineBreakMode = .byWordWrapping
+            button.titleLabel?.numberOfLines = 0
+        }
+        let with = self.scroll.frame.width
+        self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -494,6 +534,8 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             button.addTarget(self, action: #selector(ButtonDown), for: .touchDown)
             index += 1
         }
+        
+        self.SetButtonHeight(buttons: btnA,btnB,btnC,btnD,btnE)
     }
     
     // opetion buttons click action

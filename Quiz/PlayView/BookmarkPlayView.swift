@@ -24,6 +24,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     @IBOutlet weak var mainQuestionLbl: UITextView!
     @IBOutlet var mainQuestionView: UIView!
     @IBOutlet var progressview: UIView!
+    @IBOutlet var secondChildView: UIView!
     
     @IBOutlet var trueLbl: UILabel!
     @IBOutlet var falseLbl: UILabel!
@@ -87,6 +88,43 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         
         self.LoadQuestion()
     }
+    
+    var btnY = 0
+      func SetButtonHeight(buttons:UIButton...){
+          
+          var minHeight = 50
+          if UIDevice.current.userInterfaceIdiom == .pad{
+              minHeight = 90
+          }else{
+              minHeight = 50
+          }
+          self.scroll.setContentOffset(.zero, animated: true)
+          
+          let perButtonChar = 35
+          btnY = Int(self.secondChildView.frame.height + self.secondChildView.frame.origin.y)
+          
+          for button in buttons{
+              let btnWidth = button.frame.width
+              //let fonSize = 18
+              let charCount = button.title(for: .normal)?.count
+              
+              let btnX = button.frame.origin.x
+              
+              let charLine = Int(charCount! / perButtonChar) + 1
+              
+              let btnHeight = charLine * 20 < minHeight ? minHeight : charLine * 20
+              
+              let newFram = CGRect(x: Int(btnX), y: btnY, width: Int(btnWidth), height: btnHeight)
+              btnY += btnHeight + 8
+              
+              button.frame = newFram
+              
+              button.titleLabel?.lineBreakMode = .byWordWrapping
+              button.titleLabel?.numberOfLines = 0
+          }
+          let with = self.scroll.frame.width
+          self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+      }
     
     @IBAction func backButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -396,6 +434,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             button.addTarget(self, action: #selector(ButtonDown), for: .touchDown)
             index += 1
         }
+        
+        self.SetButtonHeight(buttons: btnA,btnB,btnC,btnD,btnE)
     }
     
     // opetion buttons click action
