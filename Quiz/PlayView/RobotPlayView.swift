@@ -79,7 +79,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        imageQuestionLbl.backgroundColor = .white
         btnE.isHidden = true
         buttons = [btnA,btnB,btnC,btnD]
         

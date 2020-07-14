@@ -40,7 +40,7 @@ class ReView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        lblQuestion.backgroundColor = .white
         setGradientBackground()
         
         if Apps.opt_E == true {

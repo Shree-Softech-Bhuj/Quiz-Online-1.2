@@ -88,7 +88,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        lblQuestion.backgroundColor = .white
         if Apps.opt_E == true {
             btnE.isHidden = false
             buttons = [btnA,btnB,btnC,btnD,btnE]

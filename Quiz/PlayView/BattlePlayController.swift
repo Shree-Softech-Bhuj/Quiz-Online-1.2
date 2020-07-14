@@ -72,7 +72,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        imageQuestionLbl.backgroundColor = .white
         hasLeave = false
        userImg1.layer.borderWidth = 2
        userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor

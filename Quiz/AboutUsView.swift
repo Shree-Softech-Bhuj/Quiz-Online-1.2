@@ -9,7 +9,7 @@ class AboutUsView: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.txtView.backgroundColor = .white
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             let apiURL = ""

@@ -14,7 +14,7 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.backgroundColor = .white
         let config = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         if config.LANGUAGE_MODE == 1{
             if isKeyPresentInUserDefaults(key: DEFAULT_LANGUAGE){
