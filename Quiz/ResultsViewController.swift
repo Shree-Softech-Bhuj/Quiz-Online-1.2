@@ -105,12 +105,27 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         
         //apps has level lock unlock, remove this code if add no need level lock unlock
         if (percentage >= 30){
-            var lvl = 0
-            if UserDefaults.standard.value(forKey:"\(questionType)\(catID)") != nil {
-                lvl = Int(truncating: UserDefaults.standard.value(forKey:"\(questionType)\(catID)") as! NSNumber)
-            }
-            if self.level > lvl {
-                UserDefaults.standard.set(self.level, forKey: "\(questionType)\(catID)")
+            if scoreLavel + 1 == self.level{
+                score.points = score.points + earnedPoints
+                score.coins = score.coins + earnedCoin
+                
+                totalCoin.text = "\(score.coins)"
+                totalScore.text = "\(score.points)"
+                
+                if UserDefaults.standard.bool(forKey: "isLogedin") {
+                    let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+                    
+                    if(Reachability.isConnectedToNetwork()){
+                        self.SetUserLevel()
+                        var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)" //"user_id=\(duser.userID)&score=\(score.points)"
+                        self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
+                        
+                        apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(score.coins + earnedCoin)" 
+                        self.getAPIData(apiName: "set_users_statistics", apiURL: apiURL,completion: LoadData)
+                    }else{
+                        ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+                    }
+                }
             }
         }
         score.coins = score.coins + earnedCoin
@@ -126,20 +141,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         
         UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
         
-        if UserDefaults.standard.bool(forKey: "isLogedin") {
-            let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-            //get data from server
-            if(Reachability.isConnectedToNetwork()){
-                
-                var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)"
-                self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
-                
-                apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(score.coins)"
-                self.getAPIData(apiName: "set_users_statistics", apiURL: apiURL,completion: LoadData)
-            }else{
-                ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-            }
-        }
         sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
     }
     
@@ -228,7 +229,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         if sysConfig.LANGUAGE_MODE == 1{
             apiURL += "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
         }
-        print(apiURL)
+     
         self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
@@ -338,5 +339,20 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self//or use return self.navigationController for fetching app navigation bar colour
+    }
+}
+
+extension ResultsViewController{
+    
+    func SetUserLevel(){
+        if(Reachability.isConnectedToNetwork()){
+            let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            let apiURL = self.questionType == "main" ? "user_id=\(user.userID)&category=\(self.catID)&subcategory=0&level=\(self.level)" : "user_id=\(user.userID)&category=\(mainCatID)&subcategory=\(self.catID)&level=\(self.level)"
+            self.getAPIData(apiName: "set_level_data", apiURL: apiURL,completion: { jsonObj in
+                print("JSON",jsonObj)
+            })
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
     }
 }

@@ -108,7 +108,7 @@ class ReView: UIViewController {
     let button = UIButton()
     let label = UILabel()
     func SetExtraNote(){
-        let color = UIColor.rgb(82, 0, 0, 1)
+        let color = UIColor.black
         exLabel.removeFromSuperview()
         if ReviewQues[currentQuesPosition].note.isEmpty{
             
@@ -127,7 +127,7 @@ class ReView: UIViewController {
         exView.SetShadow()
         
         label.frame = CGRect(x: 5,y: 5, width: 250, height: 30)
-        label.text = "Soru hakkında detay"
+        label.text = "Extra Note"
         label.font = .boldSystemFont(ofSize: 15.0)
         label.textColor = color
         exView.addSubview(label)
@@ -154,7 +154,7 @@ class ReView: UIViewController {
     
     let exLabel = UILabel()
     @objc func buttonClicked(sender:UIButton){
-          let color = UIColor.rgb(82, 0, 0, 1)
+        let color = UIColor.black
         let view = sender.superview
         let exNote = self.ReviewQues[self.currentQuesPosition].note
 

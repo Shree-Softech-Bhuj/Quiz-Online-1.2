@@ -2,12 +2,16 @@ import UIKit
 import AVFoundation
 import GoogleMobileAds
 
+var scoreLavel = 0
+var mainCatID = 0
+
 class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate {
     
     @IBOutlet var tableView: UITableView!
     
     var maxLevel = 0
     var catID = 0
+    var mainCatid = 0
     var questionType = "sub"
     var unLockLevel =  0
     var quesData: [QuestionWithE] = []
@@ -39,6 +43,14 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         }
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        }
+        
+        self.tableView.isHidden = true
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            self.GetUserLevel()
+        }else{
+            self.tableView.isHidden = false
+            self.tableView.reloadData()
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -183,6 +195,50 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             })
         }else{
             self.ShowAlert(title: Apps.OOPS, message: Apps.LEVEL_LOCK)
+        }
+    }
+}
+
+extension LevelView{
+    
+    func GetUserLevel(){
+        if(Reachability.isConnectedToNetwork()){
+            let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            Loader = LoadLoader(loader: Loader)
+            mainCatID = self.mainCatid
+            let apiURL = self.questionType == "main" ? "user_id=\(user.userID)&category=\(self.catID)&subcategory=0" : "user_id=\(user.userID)&category=\(self.mainCatid)&subcategory=\(self.catID)"
+            self.getAPIData(apiName: "get_level_data", apiURL: apiURL,completion: { jsonObj in
+                
+                print("JSON",jsonObj)
+                let status = jsonObj.value(forKey: "error") as! String
+                if (status == "true") {
+                    DispatchQueue.main.async {
+                        self.Loader.dismiss(animated: true, completion: {
+                            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                        })
+                    }
+                    
+                }else{
+                    //close loader here
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                        DispatchQueue.main.async {
+                            self.DismissLoader(loader: self.Loader)
+                            let data = jsonObj.value(forKey: "data") as? [String:Any]
+                            self.unLockLevel = Int("\(data!["level"]!)")!
+                            scoreLavel = self.unLockLevel
+                            self.tableView.isHidden = false
+                            self.tableView.delegate = self
+                            self.tableView.dataSource = self
+                            
+                            self.tableView.reloadData()
+                           
+                        }
+                    });
+                }
+                
+            })
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
 }
