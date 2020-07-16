@@ -273,11 +273,12 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
             timerLabel.attributedText = attributedString
         }
         seconds -= 1
-        searchPlayerBtn.isEnabled = false //to prevent timer increment ..should allow to click button only 1 time and then disable it for that time and will be enabled again when Press on TRY AGAIN button or reload this view
+       // searchPlayerBtn.isEnabled = false //to prevent timer increment ..should allow to click button only 1 time and then disable it for that time and will be enabled again when Press on TRY AGAIN button or reload this view
         if seconds < 0 {
             // invalidate timer and no user is avalable for battle
             timer.invalidate()
-            searchPlayerBtn.isEnabled = true
+            self.isSearching = false
+           // searchPlayerBtn.isEnabled = true
             self.seconds = 10
             self.QuitBattle()
             //if isBattleStarted == false {
@@ -313,15 +314,19 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
         }
          NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
     }
-    
+    var isSearching = false
     @IBAction func CheckBattleButton(_ sender:Any){
+        print("START SEARCH")
+        if isSearching{
+            return
+        }
+        self.isSearching = true
         self.CheckForBattle()
     }
     //start battle and pass data to battleplaycontroller
     var isBattleStarted = false
     func StartBattle(){
-        self.searchPlayerBtn.isEnabled = true
-        print(isBattleStarted)
+      
         if self.isBattleStarted{
             return
         }
@@ -329,15 +334,13 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
 
         self.timer.invalidate()
         self.seconds = 10
-        // remove alert to try again or play with robot if opened before
-//        if self.presentedViewController != nil {
-//            dismissCurrView()
-//        }
+
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "BattlePlayController") as! BattlePlayController
         viewCont.battleUser = self.battleUser
         print("passed user details to battleplay  4- \(self.battleUser)")
         self.isBattleStarted  = true
+        self.isSearching = false
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     

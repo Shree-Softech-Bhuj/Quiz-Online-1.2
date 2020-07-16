@@ -44,11 +44,6 @@ class ResultAlert: UIViewController {
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {
-//        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-//        let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController") as! BattleViewController
-//        viewCont.isBattleStarted = false
-//        print("value changed to \(viewCont.isBattleStarted)")
-        
         NotificationCenter.default.post(name: Notification.Name("CloseRobotPlay"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("CheckBattle"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("CompleteBattle"), object: nil)

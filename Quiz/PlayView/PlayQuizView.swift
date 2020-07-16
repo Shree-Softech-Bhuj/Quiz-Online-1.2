@@ -220,7 +220,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         var getFont = UserDefaults.standard.float(forKey: "fontSize")
         if (getFont == 0){
-            getFont = 18
+            getFont = 16
         }
         lblQuestion.font = lblQuestion.font?.withSize(CGFloat(getFont))
         question.font = question.font?.withSize(CGFloat(getFont))

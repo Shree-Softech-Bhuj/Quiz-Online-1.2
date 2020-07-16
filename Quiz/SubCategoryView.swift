@@ -162,6 +162,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         if self.subCatData[indexPath.row].maxlevel.isInt{
             viewCont.maxLevel = Int(self.subCatData[indexPath.row].maxlevel)!
         }
+        viewCont.mainCatid = Int(self.catID)!
         viewCont.catID = Int(self.subCatData[indexPath.row].id)!
         viewCont.questionType = "sub"
         self.navigationController?.pushViewController(viewCont, animated: true)

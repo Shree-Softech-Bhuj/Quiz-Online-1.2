@@ -71,7 +71,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         progressRing.progressLabel.minimumScaleFactor = 0.5;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
-        self.lblResults.text = "You have completed the challenge \n in \(self.secondsToHoursMinutesSeconds(seconds: self.completedTime)) Sec"
+        self.lblResults.text = "You have completed the challenge \n in \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) Sec"
         // Calculate the percentage of quesitons you got right
         self.timerLabel.text = "Challenge time: \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
         
@@ -82,7 +82,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
                 self.trueCount += 1
             }
             
-            if rev.userSelect == ""{
+            if rev.userSelect != ""{
                 attempCount += 1
             }
         }
@@ -171,14 +171,13 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     
     @objc func incrementCount() {
         let comTime = self.totalTime - self.completedTime
-        count += 2
+        count += 1
+        progressRing.progressManual = CGFloat(count)
+        progressRing.progressLabel.text = self.secondsToHoursMinutesSeconds(seconds: Int(count))
         if count >= CGFloat(comTime) {
             timer.invalidate()
             return
         }
-        progressRing.progressManual = CGFloat(count)
-        progressRing.progressLabel.text = self.secondsToHoursMinutesSeconds(seconds: Int(count))
-      
     }
     
     @IBAction func backButton(_ sender: Any) {

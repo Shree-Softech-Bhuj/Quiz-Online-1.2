@@ -289,7 +289,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         let msg = jsonObj.value(forKey: "message") as! String
-        print("msg - \(msg)")
+    
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
@@ -297,7 +297,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
         }else{
             //get data for category
-            print(jsonObj.value(forKey: "data") as Any)
+            self.quesData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
                     quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
@@ -321,8 +321,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
 //                    }
                 }
                 Apps.TOTAL_PLAY_QS = data.count
-                print(data)
-                print( Apps.TOTAL_PLAY_QS)
             }
         }
         //close loader here
