@@ -95,9 +95,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         // add ring progress to timer view
         if deviceStoryBoard == "Ipad"{
-            progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 20), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
+            progressRing = CircularProgressBar(radius:18, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 15), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
         }else{
-           progressRing = CircularProgressBar(radius: 20, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+           progressRing = CircularProgressBar(radius: 18, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
             
         }
         timerView.layer.addSublayer(progressRing)
