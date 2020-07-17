@@ -206,8 +206,12 @@ extension UIView{
 extension UIViewController{
     func secondsToHoursMinutesSeconds (seconds : Int) -> String {
         //String(format: "%02d", (seconds % 3600) % 60)
+        if seconds % 3600 == 0{
+             return "60:00"
+        }
         return "\(String(format: "%02d", (seconds % 3600) / 60)):\(String(format: "%02d", (seconds % 3600) % 60))"
     }
+    
     func SetClickedOptionView(otpStr:String) -> UIView{
         let color = UIColor.rgb(43, 146, 178, 1)
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))

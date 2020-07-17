@@ -3865,7 +3865,7 @@ You have completed the level.</string>
                                                                             <action selector="ZoomBtn:" destination="yAa-Hr-o89" eventType="touchUpInside" id="LNP-km-rgC"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Question" textAlignment="center" adjustsFontForContentSizeCategory="YES" selectable="NO" id="ysb-xk-l2i">
+                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Question" textAlignment="center" adjustsFontForContentSizeCategory="YES" selectable="NO" id="ysb-xk-l2i">
                                                                         <rect key="frame" x="27" y="26" width="429" height="202"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

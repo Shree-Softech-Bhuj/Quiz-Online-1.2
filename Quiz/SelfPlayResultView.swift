@@ -220,7 +220,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
     
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
-        let shareUrl = "I have finished \(self.secondsToHoursMinutesSeconds(seconds: Int(self.totalTime))) minute self challenge in \(self.secondsToHoursMinutesSeconds(seconds: Int(self.completedTime))) minute in Quiz"
+        let shareUrl = "I have finished \(self.secondsToHoursMinutesSeconds(seconds: Int(self.totalTime))) minute self challenge in \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) minute in Quiz"
         let textToShare = str + "\n" + shareUrl
         let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
         present(vc, animated: true)

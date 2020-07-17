@@ -23,10 +23,6 @@ class ReView: UIViewController {
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
     @IBOutlet var lblQstn: UILabel!
-    @IBOutlet var lblNote: UILabel!
-    @IBOutlet var btnNote: UIButton!
-    
-    @IBOutlet var unAttend: UILabel!
     
     var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
     
@@ -277,9 +273,6 @@ class ReView: UIViewController {
         }
     }
     
-    @IBAction func eNoteBtn(_ sender: Any) {
-        lblNote.text = "\(ReviewQues[currentQuesPosition].note)"
-    }
     
     @IBAction func BookmarkBtn(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -310,8 +303,6 @@ class ReView: UIViewController {
 //           ClearColor(btns: btnA,btnB,btnC,btnD)
 //        }
         
-        lblNote.text = ""
-        
         if(ReviewQues.count  > currentQuesPosition && currentQuesPosition >= 0){
             lblQstn.roundCorners(corners: [ .bottomRight], radius: 5)
             lblQstn.text = "\(currentQuesPosition + 1)"//"\(currentQuesPosition + 1)/\(Apps.TOTAL_PLAY_QS)"
@@ -336,11 +327,6 @@ class ReView: UIViewController {
                 DispatchQueue.main.async {
                     self.questionImage.loadImageUsingCache(withUrl: self.ReviewQues[self.currentQuesPosition].image)
                 }
-            }
-            if ReviewQues[currentQuesPosition].note.isEmpty{
-                btnNote.isHidden = true
-            }else{
-                btnNote.isHidden = false
             }
             
             
@@ -408,7 +394,7 @@ class ReView: UIViewController {
         if userAnswer == ""{
             print("Un Attemp")
              label1.text = "Un-Attepmted"
-            self.mainQuestionView.addSubview(label)
+            self.mainQuestionView.addSubview(label1)
             RightAnswer(opt: ReviewQues[currentQuesPosition].correctAns)
             return
         }
