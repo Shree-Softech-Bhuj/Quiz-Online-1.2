@@ -72,7 +72,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
         self.lblResults.text = "You have completed the challenge \n in \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) Sec"
-        // Calculate the percentage of quesitons you got right
+        // Calculate the percentage of quesitons you got right here 
         self.timerLabel.text = "Challenge time: \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
         
         var attempCount = 0
