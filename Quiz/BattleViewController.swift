@@ -192,14 +192,14 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                 DispatchQueue.main.async {
                     self.user2.loadImageUsingCache(withUrl: self.battleUser.image)
                 }
+                self.ref.child(self.battleUser.UID).child("matchingID").setValue(self.user.UID)
                 self.ref.child(self.battleUser.UID).child("isAvail").setValue("0")
                 self.ref.child(self.battleUser.UID).child("opponentID").setValue(self.user.UID)
-                self.ref.child(self.battleUser.UID).child("matchingID").setValue(self.user.UID)
                 
+                self.ref.child(self.user.UID).child("matchingID").setValue(self.user.UID)
                 self.ref.child(self.user.UID).child("isAvail").setValue("0")
                 self.ref.child(self.user.UID).child("opponentID").setValue(self.battleUser.UID)
-                self.ref.child(self.user.UID).child("matchingID").setValue(self.user.UID)
-                
+               
                 self.timer.invalidate()
                 print("before calling start battle 2 - \(self.battleUser)")
                self.StartBattle()
