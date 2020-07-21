@@ -221,17 +221,22 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                         self.ref.child(opponentID).observeSingleEvent(of: .value, with: {(battleSnap) in
                             
                             // this user is avalable for battle
-                            self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
-                            self.isAvail = true
-                            print("before battle starts!! 3 - \(self.battleUser) called at every next question shown")
-                            self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
-                         //   self.name2.setLabel()
-                          //  self.playerView.frame.size.height = self.playerView.frame.size.height + (self.user2.frame.height/5)
-                            DispatchQueue.main.async {
-                                self.user2.loadImageUsingCache(withUrl: "\(battleSnap.childSnapshot(forPath: "image").value!)")
+                            if battleSnap.hasChild("matchingID"){
+                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
+                                self.isAvail = true
+                                print("before battle starts!! 3 - \(self.battleUser) called at every next question shown")
+                                self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
+                                //   self.name2.setLabel()
+                                //  self.playerView.frame.size.height = self.playerView.frame.size.height + (self.user2.frame.height/5)
+                                DispatchQueue.main.async {
+                                    self.user2.loadImageUsingCache(withUrl: "\(battleSnap.childSnapshot(forPath: "image").value!)")
+                                }
+                                self.timer.invalidate()
+                                self.StartBattle()
+                            }else{
+                                print("MTCH NULL")
                             }
-                            self.timer.invalidate()
-                            self.StartBattle()
+                            
                         })
                     }
                 }
