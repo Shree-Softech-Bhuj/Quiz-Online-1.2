@@ -240,6 +240,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                     for val in data{
                         self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: "\(val["answer"]!)", image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType:  "\(val["question_type"]!)"))
                     }
+                    Apps.TOTAL_PLAY_QS = data.count
                     //check this level has enough (10) question to play? or not
                     if self.quesData.count >= Apps.TOTAL_PLAY_QS {
                         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -252,9 +253,9 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                         DispatchQueue.main.async {
                             self.navigationController?.pushViewController(viewCont, animated: true)
                         }
-                    }else{
-                        self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
-                    }
+                    }//else{
+//                        self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
+//                    }
                 }
             }
         })
@@ -293,7 +294,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         
         let vc = UIActivityViewController(activityItems: [textToShare, image! ], applicationActivities: [])
        // vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionCentre;
-        vc.popoverPresentationController?.sourceView = sender;
+        vc.popoverPresentationController?.sourceView = sender
         //vc.popoverPresentationController?.sourceView = self.view
 //        if let popOver = vc.popoverPresentationController {
 //            popOver.sourceView = self.view

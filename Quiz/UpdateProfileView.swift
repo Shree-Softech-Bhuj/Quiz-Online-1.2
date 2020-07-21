@@ -42,6 +42,7 @@ class UpdateProfileView: UIViewController{
         email = dUser!.email
         emailTxt.text = dUser?.email
         
+        
         DispatchQueue.main.async {
             if(self.dUser!.image != ""){
                 self.usrImg.loadImageUsingCache(withUrl: self.dUser!.image)
@@ -136,6 +137,22 @@ class UpdateProfileView: UIViewController{
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
             (alertAction: UIAlertAction!) in
+            if self.dUser!.userType == "apple"{
+               // if app is not loged in than navigate to loginview controller
+               UserDefaults.standard.set(false, forKey: "isLogedin")
+               UserDefaults.standard.removeObject(forKey: "user")
+               
+               let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+               let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+               
+               let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+               navigationcontroller.setNavigationBarHidden(true, animated: false)
+               navigationcontroller.isNavigationBarHidden = true
+               
+               UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+               return
+           }
+            
             if Auth.auth().currentUser != nil {
                 do {
                     try Auth.auth().signOut() 

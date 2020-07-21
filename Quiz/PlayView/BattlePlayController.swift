@@ -69,6 +69,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
     var correctAnswer = "a"
     var hasLeave = false
+    var updatedOnce = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -261,21 +262,6 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
         }
         
-        if(Reachability.isConnectedToNetwork()){
-            var winnerID = ""
-            if rightCount > opponentRightCount{
-                winnerID = user.userID
-            }else if rightCount < opponentRightCount{
-                winnerID = battleUser.userID
-            }else{
-                winnerID = ""
-            }
-            if hasLeave == false {
-                let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
-                print("set stats.. \(apiURL)")
-                self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
-            }
-        }
         
         NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
 //         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -331,6 +317,42 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 self.ObserveData()
             }
         });
+    }
+    
+    
+    func setStatistics(){
+        if(Reachability.isConnectedToNetwork()){
+            var winnerID = ""
+            if rightCount > opponentRightCount{
+                winnerID = user.userID
+                
+                if hasLeave == false && updatedOnce == false {
+                    let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+                    print("set stats.. \(apiURL)")
+                    self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+                     updatedOnce = true
+                }
+                
+            }else if rightCount < opponentRightCount{
+                winnerID = battleUser.userID
+                
+                if hasLeave == false && updatedOnce == false {
+                   let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+                   print("set stats.. \(apiURL)")
+                   self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+                     updatedOnce = true
+               }
+                
+            }else{
+                winnerID = ""
+                if hasLeave == false && updatedOnce == false {
+                  let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=&is_drawn=1"
+                  print("set stats.. \(apiURL)")
+                  self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+                  updatedOnce = true
+                }
+            }
+        }
     }
     
     // Note only works when time has not been invalidated yet
@@ -428,6 +450,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         } else {
             // If there are no more questions show the results
             if oppAnswer{
+                setStatistics()
                 ShowResultAlert()
             }
         }
@@ -584,6 +607,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                     }
                     if self.currentQuestionPos + 1 >= Apps.TOTAL_PLAY_QS{
                         if self.myAnswer{
+                          //  self.setStatistics()
                             self.ShowResultAlert()
                         }
                     }

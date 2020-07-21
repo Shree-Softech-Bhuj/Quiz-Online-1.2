@@ -56,6 +56,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         if #available(iOS 13.0, *) {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
+            
+            
             let request = appleIDProvider.createRequest()
             
             request.requestedScopes = [.fullName, .email]
@@ -85,10 +87,10 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBAction func pswdBtn(_ sender: UIButton) {
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if pswdTxt.isSecureTextEntry == true {
-            pswdButton.setImage(UIImage(named: "eye"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControlState.normal)
             pswdTxt.isSecureTextEntry = false
         }else{
-            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "eye"), for: UIControlState.normal)
             pswdTxt.isSecureTextEntry = true
         }
     }
@@ -351,23 +353,24 @@ extension LoginView:ASAuthorizationControllerDelegate{
             
             let appleId = appleIDCredential.user
             
-            let appleUserFirstName = appleIDCredential.fullName?.givenName
+            let appleUserFirstName = appleIDCredential.fullName!.givenName
             
-            let appleUserLastName = appleIDCredential.fullName?.familyName
+            let appleUserLastName = appleIDCredential.fullName!.familyName
             
-            let appleUserEmail = appleIDCredential.email
+            let appleUserEmail =  appleIDCredential.email
+            print(appleUserEmail)
             
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
             
             let uid = appleId.replacingOccurrences(of: ".", with: "", options: NSString.CompareOptions.literal, range: nil)
-            let sUser = User.init(UID: "\(uid)",userID: "", name: "\(appleUserFirstName) \(appleUserLastName)", email: "\(appleUserEmail ?? "none")", phone: "0", address: " ",userType: "apple", image: "", status: "0", ref_code: "")
+            let sUser = User.init(UID: "\(uid)",userID: "", name: "\(appleUserFirstName) \(appleUserLastName)", email: "\(appleUserEmail ?? "\(uid)@privaterelay.appleid.com")", phone: "0", address: " ",userType: "apple", image: "", status: "0", ref_code: "\(uid)")
             
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             
             // send data to server after successfully loged in
             self.Loader = self.LoadLoader(loader: self.Loader)
-            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "none")&profile=&type=apple&fcm_id=null&ip_address=1.0.0&status=0&firebase_id=null"
+            let apiURL = "name=\(appleUserFirstName ?? "none") \(appleUserLastName)&email=\(appleUserEmail ?? "\(uid)@privaterelay.appleid.com")&profile=&type=apple&fcm_id=null&ip_address=1.0.0&status=0&firebase_id=null&refer_code=\(uid)"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             //Write your code
             
@@ -376,8 +379,6 @@ extension LoginView:ASAuthorizationControllerDelegate{
             let appleUsername = passwordCredential.user
             
             let applePassword = passwordCredential.password
-            
-            //Write your code
             
         }
         

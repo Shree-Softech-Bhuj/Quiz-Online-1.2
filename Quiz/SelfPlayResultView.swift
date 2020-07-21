@@ -223,6 +223,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         let shareUrl = "I have finished \(self.secondsToHoursMinutesSeconds(seconds: Int(self.totalTime))) minute self challenge in \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) minute in Quiz"
         let textToShare = str + "\n" + shareUrl
         let vc = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
+         vc.popoverPresentationController?.sourceView = sender
         present(vc, animated: true)
     }
     

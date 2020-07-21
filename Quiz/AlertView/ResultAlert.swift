@@ -10,13 +10,19 @@ class ResultAlert: UIViewController {
     @IBOutlet weak var reBattle: UIButton!
     @IBOutlet weak var exit: UIButton!
     
+    @IBOutlet weak var titleBtn: UIButton!
+    
     var winnerName = ""
     var winnerImg = ""
     var parentController:UIViewController?
+    var dUser:User? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey: "user") as? Data)!)
+        print(dUser!)
+        
         userImage.layer.borderWidth = 2
         userImage.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
         userImage.layer.cornerRadius = userImage.bounds.width / 2
@@ -24,10 +30,15 @@ class ResultAlert: UIViewController {
         
         if winnerName == "\(Apps.MATCH_DRAW)" {
             userName.text = "\(winnerName) \n The Game Is over! Play Again "
-        }else{
+            titleBtn.setTitle("Quiz", for: .normal)
+        }else if winnerName == dUser?.name {
             userName.text = "\(winnerName) , you win the Battle"
+               titleBtn.setTitle("Congratulations", for: .normal)
+        }else{
+            userName.text = "\(winnerName) , win the Battle"
+               titleBtn.setTitle("Better Luck Next Time", for: .normal)
         }
-        
+                
         if winnerName == "Robot"{
             userImage.image = UIImage(named: "robot")
         }else{

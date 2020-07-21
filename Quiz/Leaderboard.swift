@@ -441,14 +441,13 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         //if you change height below chng the same in temp.frame.height == 60
         let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
         bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
-        print(bottomView.frame)
         let this = LeaderData.filter{$0.userID == thisUser.userID}
         print(thisUser.userID)
         print(LeaderData)
         
         if !this.isEmpty {
-            print("trueee")
-            let rankLabel = UILabel(frame: CGRect(x: 0, y: 10, width: 45, height: 30))
+           // print("trueee")
+            let rankLabel = UILabel(frame: CGRect(x: 0, y: 10, width: 45, height: 35))
             rankLabel.text = this[0].rank
             rankLabel.textColor = UIColor.black
             rankLabel.textAlignment = NSTextAlignment.center
@@ -471,6 +470,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             var nameLabel = UILabel()
             if deviceStoryBoard == "Ipad" {
                 nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: 400,height: 30))
+                nameLabel.font = nameLabel.font?.withSize(CGFloat(20))
+                nameLabel.adjustsFontSizeToFitWidth = true;
             }else{
                 nameLabel = UILabel(frame: CGRect(x: 105, y: 10, width: self.view.frame.width - 200, height: 45))
             }
@@ -482,7 +483,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             nameLabel.textColor = UIColor.white
             bottomView.addSubview(nameLabel)
             
-            let scoreLabel = UILabel(frame: CGRect(x: self.view.frame.width - 60, y: 10, width: 60, height: 30))
+            let scoreLabel = UILabel(frame: CGRect(x: self.view.frame.width - 60, y: 10, width: 60, height: 35))
             scoreLabel.text = this[0].score
             scoreLabel.textColor = UIColor.black
             scoreLabel.textAlignment = .center
@@ -497,7 +498,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }else{
             //remove subview
             for temp in self.view.subviews {
-                print(temp)
+               // print(temp)
                 print(temp.frame)
                 if temp.frame.height == 60  { //temp.frame.origin == CGPoint(x: 0, y: 577)-position of bottomView which we want to remove
                     print("origin => \(temp)")

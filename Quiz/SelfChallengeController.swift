@@ -180,12 +180,12 @@ class SelfChallengeController: UIViewController {
                         DispatchQueue.main.async {
                             self.navigationController?.pushViewController(viewCont, animated: true)
                         }
-                    }else{
-                        DispatchQueue.main.async {
-                            print("This Category does not have enough question",self.quesData.count)
-                            self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
-                        }
-                    }
+                    }//else{
+//                        DispatchQueue.main.async {
+//                            print("This Category does not have enough question",self.quesData.count)
+//                            self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
+//                        }
+//                    }
                 }else{
                     
                 }

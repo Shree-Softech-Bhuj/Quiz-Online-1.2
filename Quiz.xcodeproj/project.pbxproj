@@ -304,48 +304,48 @@
 		D7FCFC5821A5282D00718EE2 /* Quiz */ = {
 			isa = PBXGroup;
 			children = (
-				BC5EAF6522B21A3A00094DF8 /* PlayView */,
-				BC029826229CF47400A50E80 /* AssetsFile */,
-				BC029825229CF43900A50E80 /* CustomFile */,
-				BC029824229CF40A00A50E80 /* AlertView */,
 				D767B1E22239260D00B0A588 /* Quiz.entitlements */,
-				C63F8B772416677400B4C503 /* GradientView.swift */,
-				D7FCFC5921A5282D00718EE2 /* AppDelegate.swift */,
-				D7FCFC8A21A52A6600718EE2 /* LoginView.swift */,
-				C67708AC23D0394800DC90B5 /* SystemConfig.swift */,
-				D79A4E00223A730000F98E75 /* UpdateProfileView.swift */,
-				BC02A0B922A919E80089025C /* FloatingTF.swift */,
-				D7FCFC5B21A5282D00718EE2 /* ViewController.swift */,
-				D75C4C49223289AA006C68EF /* Leaderboard.swift */,
-				D7FCFC9421A57F4700718EE2 /* TableViewCell.swift */,
-				C662045423DFEB770028ED5B /* NotificationsView.swift */,
-				D7FCFC9121A57E2800718EE2 /* CategoryView.swift */,
-				D7FCFC9021A57E2800718EE2 /* SubCategoryView.swift */,
-				D7BCD049222A667800B7E531 /* LevelView.swift */,
-				D7964A48223B8BAE00D847A4 /* BookmarkView.swift */,
-				BC2080EC22701F160071B5F3 /* PrivacyView.swift */,
-				D7A611952233D7B8002D1E8C /* BattleViewController.swift */,
-				D74A119921A6B8B60026B327 /* ResultsViewController.swift */,
-				C6679A4023B7734200670AC0 /* SignUpViewController.swift */,
-				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
-				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
-				C6500A1623EAA7C400AC93BF /* AboutUsView.swift */,
-				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
-				9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */,
-				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
-				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
-				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
-				D7FCFC6821A5283C00718EE2 /* Info.plist */,
-				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
 				BCB79C50241CC78000465FEA /* GoogleService-Info.plist */,
-				BC0310A0229F9D2900923A3F /* TermsService.swift */,
+				D7FCFC6821A5283C00718EE2 /* Info.plist */,
+				C6500A1623EAA7C400AC93BF /* AboutUsView.swift */,
+				D7FCFC5921A5282D00718EE2 /* AppDelegate.swift */,
+				BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */,
+				D7A611952233D7B8002D1E8C /* BattleViewController.swift */,
+				D7964A48223B8BAE00D847A4 /* BookmarkView.swift */,
+				D7FCFC9121A57E2800718EE2 /* CategoryView.swift */,
+				BC02A0B922A919E80089025C /* FloatingTF.swift */,
+				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
+				C63F8B772416677400B4C503 /* GradientView.swift */,
+				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
 				BCE582D523DF068C006BD387 /* LanguageCell.swift */,
 				BCE582D723DF0767006BD387 /* LanguageView.swift */,
+				D75C4C49223289AA006C68EF /* Leaderboard.swift */,
+				D7BCD049222A667800B7E531 /* LevelView.swift */,
+				D7FCFC8A21A52A6600718EE2 /* LoginView.swift */,
+				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
+				C662045423DFEB770028ED5B /* NotificationsView.swift */,
+				BC2080EC22701F160071B5F3 /* PrivacyView.swift */,
 				BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */,
-				BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */,
-				BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */,
+				D74A119921A6B8B60026B327 /* ResultsViewController.swift */,
 				9A3782CC247B757800EF6996 /* SelfChallengeController.swift */,
 				9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */,
+				C6679A4023B7734200670AC0 /* SignUpViewController.swift */,
+				D7FCFC9021A57E2800718EE2 /* SubCategoryView.swift */,
+				C67708AC23D0394800DC90B5 /* SystemConfig.swift */,
+				D7FCFC9421A57F4700718EE2 /* TableViewCell.swift */,
+				BC0310A0229F9D2900923A3F /* TermsService.swift */,
+				D79A4E00223A730000F98E75 /* UpdateProfileView.swift */,
+				BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */,
+				D7FCFC5B21A5282D00718EE2 /* ViewController.swift */,
+				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
+				BC029824229CF40A00A50E80 /* AlertView */,
+				BC029826229CF47400A50E80 /* AssetsFile */,
+				BC029825229CF43900A50E80 /* CustomFile */,
+				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
+				9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */,
+				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
+				BC5EAF6522B21A3A00094DF8 /* PlayView */,
+				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -781,7 +781,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -799,7 +799,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "iPhone Developer: Harish Vekariya (QA5UX5B4B6)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};

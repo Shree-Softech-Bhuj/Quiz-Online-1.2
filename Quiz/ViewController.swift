@@ -143,14 +143,20 @@ class ViewController: UIViewController {
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
+        
+        //check if language is enabled and not selected
+        if languageButton.isHidden == false{
+            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+                LanguageButton(self)
+            }
+        }
+        
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
             self.navigationController?.pushViewController(viewCont, animated: true)
             
-        }else{
-            
+        }else{            
             self.navigationController?.popToRootViewController(animated: true)
         }
     }

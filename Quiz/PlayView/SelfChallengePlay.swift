@@ -66,7 +66,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     var BookQuesList:[QuestionWithE] = []
     
     var currentQuestionPos = 0
-    var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
+    //var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
    
     var audioPlayer : AVAudioPlayer!
     var isInitial = true

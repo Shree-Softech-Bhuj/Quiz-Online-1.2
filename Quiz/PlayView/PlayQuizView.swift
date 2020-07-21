@@ -19,8 +19,10 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBOutlet var btnE: UIButton!
         
     @IBOutlet weak var bookmarkBtn: UIButton!
-     @IBOutlet var secondChildView: UIView!
+    @IBOutlet var secondChildView: UIView!
     
+    @IBOutlet weak var lifeLineView: UIView!
+        
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
     @IBOutlet var speakBtn: UIButton!
@@ -349,7 +351,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             
             if(score.coins < Apps.OPT_FT_COIN){
                 // user does not have enough coins
-                self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_FT_COIN, lifelineName: "fifty")
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_FT_COIN, lifelineName: "fifty")
             }else{
                 // if user have coins
                 var index = 0
@@ -376,8 +378,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
             
             if(score.coins < Apps.OPT_SK_COIN){
-                // user dose not have enought coins
-                self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_SK_COIN, lifelineName: "skip")
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_SK_COIN, lifelineName: "skip")
             }else{
                 // if user have coins
                 timer.invalidate()
@@ -401,8 +403,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
             
             if(score.coins < Apps.OPT_SK_COIN){
-                // user dose not have enought coins
-                self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_AU_COIN, lifelineName: "audions")
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_AU_COIN, lifelineName: "audions")
             }else{
                 // if user have coins
                 var r1:Int,r2:Int,r3:Int,r4:Int,r5:Int
@@ -443,8 +445,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
             
             if(score.coins < Apps.OPT_RES_COIN){
-                // user dose not have enought coins
-                self.ShowAlertForNotEnoughtCoins(requiredCoins: Apps.OPT_RES_COIN, lifelineName: "reset")
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_RES_COIN, lifelineName: "reset")
             }else{
                 // if user have coins
                 timer.invalidate()
@@ -730,6 +732,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             self.buttons.forEach{
                  $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
             }
+            //lifelines are not applicable for true/ false
+            lifeLineView.alpha = 0
         }else{
             btnC.isHidden = false
             btnD.isHidden = false
@@ -741,6 +745,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             btnE.setImage(UIImage(named: "btnE"), for: .normal)
             
             buttons.shuffle()
+            // show lifelines incase were hidden in previous questions
+            lifeLineView.alpha = 1
         }
         
        let ans = temp
@@ -845,8 +851,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         }
     }
     
-    //show alert for not enought coins
-    func ShowAlertForNotEnoughtCoins(requiredCoins:Int, lifelineName:String){
+    //show alert for not enough coins
+    func ShowAlertForNotEnoughCoins(requiredCoins:Int, lifelineName:String){
         self.timer.invalidate()
         let alert = UIAlertController(title: Apps.MSG_ENOUGH_COIN, message: "\(Apps.NEED_COIN_MSG1) \(requiredCoins) \(Apps.NEED_COIN_MSG2) \n \(Apps.NEED_COIN_MSG3)", preferredStyle: .alert)
         

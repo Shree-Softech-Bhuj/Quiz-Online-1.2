@@ -35,6 +35,7 @@ class ReferAndEarnView: UIViewController {
         let msgTxt = "\(Apps.SHARE_MSG) \" \(referCode.text!) \" "
         let shareContent: [Any] = [shareText, msgTxt,"\n", url]
         let activityController = UIActivityViewController(activityItems: shareContent,applicationActivities: nil)
+        activityController.popoverPresentationController?.sourceView = sender as! UIView 
         self.present(activityController, animated: true, completion: nil)
     }
     

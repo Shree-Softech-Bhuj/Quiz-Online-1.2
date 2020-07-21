@@ -11,9 +11,9 @@ struct Apps{
     static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
     
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use this lifeline?
-    static let OPT_SK_COIN = 2 // how many coins will be deduct when we use this lifeline?
-    static let OPT_AU_COIN = 2 // how many coins will be deduct when we use this lifeline?
-    static let OPT_RES_COIN = 2 // how many coins will be deduct when we use this lifeline?
+    static let OPT_SK_COIN = 4 // how many coins will be deduct when we use this lifeline?
+    static let OPT_AU_COIN = 4 // how many coins will be deduct when we use this lifeline?
+    static let OPT_RES_COIN = 4 // how many coins will be deduct when we use this lifeline?
     
     static let QUIZ_R_Q_POINTS = 5 // how many points will user get when he select right answer in play area
     static let QUIZ_W_Q_POINTS = 2 // how many points will deduct when user select wrong answer in play area
@@ -68,7 +68,7 @@ struct Apps{
     static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
     static let NOT_COMPLETE_LEVEL = "Oops!  Level not Completed.  Play again !"
     static let PLAY_AGAIN = "Play Again"
-    static let NOT_ENOUGH_QUESTION_TITLE = "Not Eough Question"
+    static let NOT_ENOUGH_QUESTION_TITLE = "Not Enough Question"
     static let NO_ENOUGH_QUESTION_MSG = "This level does not have enough question to play quiz"
     static let COMPLETE_ALL_QUESTION = "You have Completed All Questions !!"
     static let LEVET_NOT_AVAILABEL = "Level not available"

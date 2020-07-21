@@ -238,7 +238,7 @@ extension UIViewController{
             button.contentMode = .center
             button.SetShadow()
             button.titleLabel?.numberOfLines = 2
-            button.titleLabel?.lineBreakMode = .byCharWrapping
+            button.titleLabel?.lineBreakMode = .byWordWrapping
         }
     }
     
