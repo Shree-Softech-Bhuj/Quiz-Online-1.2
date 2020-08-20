@@ -94,7 +94,7 @@ class SelfChallengeController: UIViewController {
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
             
@@ -122,12 +122,12 @@ class SelfChallengeController: UIViewController {
     
     @IBAction func PlayAction(_ sender: Any) {
         if self.userSelectedQues == 0{
-            self.ShowAlert(title: "Select Quiz Question", message: "")
+            self.ShowAlert(title: Apps.ALERT_TITLE, message: "")
             return
         }
         
         if self.userSelectedtTime == 0{
-            self.ShowAlert(title: "Select Quiz Play time", message: "")
+            self.ShowAlert(title: Apps.ALERT_TITLE1, message: "")
             return
         }
       
@@ -157,7 +157,7 @@ class SelfChallengeController: UIViewController {
            // print("JSON",jsonObj)
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             }else{
                 //get data for category
                 self.quesData.removeAll()
@@ -219,7 +219,7 @@ class SelfChallengeController: UIViewController {
         
         if toVal < 5{
             let label = UILabel(frame: CGRect(x: 10, y: 5, width: 200, height: 30))
-            label.text = "Questions not available"
+            label.text = Apps.NO_BOOKMARK //"Questions not available"
             label.textColor = .black
              scrollView.addSubview(label)
             return
@@ -230,7 +230,7 @@ class SelfChallengeController: UIViewController {
             button.backgroundColor = UIColor.darkGray
             button.setTitle("\(i)", for: .normal)
             button.accessibilityLabel = "ques"
-            button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
             let color = UIColor.rgb(43, 146, 178, 1)
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
             
@@ -259,7 +259,7 @@ class SelfChallengeController: UIViewController {
             button.backgroundColor = UIColor.darkGray
             button.setTitle("\(i)", for: .normal)
             button.accessibilityLabel = "time"
-            button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
             let color = UIColor.rgb(43, 146, 178, 1)
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
             
@@ -382,7 +382,7 @@ extension SelfChallengeController:UIPickerViewDataSource,UIPickerViewDelegate{
                 if (status == "true") {
                     DispatchQueue.main.async {
                         self.Loader.dismiss(animated: true, completion: {
-                            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                            self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                         })
                     }
                 }else{

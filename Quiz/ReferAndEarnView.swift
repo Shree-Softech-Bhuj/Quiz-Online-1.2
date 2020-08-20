@@ -12,7 +12,7 @@ class ReferAndEarnView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        referText.text = "Refer a Friend, and you will get \(Apps.EARN_COIN) coins each time your referral code is used and your friend will get \(Apps.REFER_COIN) coins by using your referral code "
+        referText.text = "\(Apps.REFER_MSG1) \(Apps.EARN_COIN) \(Apps.REFER_MSG2) \(Apps.REFER_COIN) \(Apps.REFER_MSG3)"
         
         dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user details \(dUser!) ")
@@ -25,7 +25,7 @@ class ReferAndEarnView: UIViewController {
     @IBAction func buttonTapped(_ sender: UIButton) {
         //copy refercode to clipboard
         UIPasteboard.general.string = referCode.text
-        ShowAlertOnly(title: "", message: "Refer Code Copied to Clipboard")
+        ShowAlertOnly(title: "", message: Apps.REFER_CODE_COPY)
     }
     
     @IBAction func referNow(_ sender: Any) {

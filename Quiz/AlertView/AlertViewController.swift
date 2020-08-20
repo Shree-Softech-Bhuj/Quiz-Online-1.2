@@ -74,7 +74,7 @@ class AlertViewController: UIViewController {
         let defaultSliderValue = UserDefaults.standard.float(forKey: "fontSize")*3
         
         //create the Alert message with extra return spaces
-        let sliderAlert = UIAlertController(title: "Font Size", message: "Increase/Decrease Font Size\n\n\n\n\n\n", preferredStyle: .alert)
+        let sliderAlert = UIAlertController(title:Apps.FONT_TITLE, message: Apps.FONT_MSG, preferredStyle: .alert)
         
         //create a Slider and fit within the extra message spaces
         let screenSize: CGRect = sliderAlert.view.bounds
@@ -89,7 +89,7 @@ class AlertViewController: UIViewController {
         
         sliderAlert.view.addSubview(mySlider)
         //OK button action
-        let sliderAction = UIAlertAction(title: "OK", style: .default, handler: { (result : UIAlertAction) -> Void in
+        let sliderAction = UIAlertAction(title: Apps.OK, style: .default, handler: { (result : UIAlertAction) -> Void in
             UserDefaults.standard.set(mySlider.value/4, forKey: "fontSize")
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
@@ -147,7 +147,7 @@ class AlertViewController: UIViewController {
     @IBAction func MoreAppsBtn(_ sender: Any) {
         let url=NSURL(string: Apps.MORE_APP)
          if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url! as URL) // open is used with only supported iOS 10+
+            UIApplication.shared.canOpenURL(url! as URL) // open is used with only supported iOS 10+
          }else {
             UIApplication.shared.openURL(url! as URL)
         }
@@ -158,10 +158,15 @@ class AlertViewController: UIViewController {
             SKStoreReviewController.requestReview()
         }else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)") {
            if #available(iOS 10.0, *) {
-               UIApplication.shared.open(url)
+            UIApplication.shared.canOpenURL(url)
             }else {
                UIApplication.shared.openURL(url)
            }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

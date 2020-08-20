@@ -1,11 +1,3 @@
-//
-//  SelfPlayResultView.swift
-//  Quiz
-//
-//  Created by Macmini on 02/06/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -71,9 +63,9 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         progressRing.progressLabel.minimumScaleFactor = 0.5;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
-        self.lblResults.text = "You have completed the challenge \n in \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) Sec"
+        self.lblResults.text = "\(Apps.RESULT_TXT) \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) \(Apps.SECONDS)"
         // Calculate the percentage of quesitons you got right here 
-        self.timerLabel.text = "Challenge time: \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
+        self.timerLabel.text = "\(Apps.CHLNG_TIME) \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
         
         var attempCount = 0
         for rev in self.ReviewQues{
@@ -127,7 +119,7 @@ class SelfPlayResultView: UIViewController,GADInterstitialDelegate, UIDocumentIn
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+            self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             
         }else{
             // on success response do code here

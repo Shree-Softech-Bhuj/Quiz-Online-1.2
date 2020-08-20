@@ -32,7 +32,7 @@ class SystemConfig: UIViewController {
         print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+            self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             
         }else{
             // on success response do code here
@@ -58,7 +58,7 @@ class SystemConfig: UIViewController {
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             })
         }else{
             //get data for category
@@ -165,7 +165,7 @@ class SystemConfig: UIViewController {
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
                     self.Loader.dismiss(animated: true, completion: {
-                        self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                        self.ShowAlert(title:Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                     })
                 }else{
                     var lang_id = 0

@@ -151,7 +151,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         let speechSynthesizer = AVSpeechSynthesizer()
         let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "\(BookQuesList[currentQuestionPos].question)")
         speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: Apps.LANG)
         speechSynthesizer.speak(speechUtterance)
         
     }
@@ -381,10 +381,10 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
-            rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
+            rightAns = opestions[ans.firstIndex(of: opestions.last!.lowercased())!]
         }else{
             
-            self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
+            self.ShowAlert(title: Apps.INVALID_QUE, message: Apps.INVALID_QUE_MSG)
             rightAnswer(btn: btnA)
         }
         let singleQues = BookQuesList[currentQuestionPos]
@@ -405,8 +405,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                    }
                }else{
                 
-                   self.buttons = [btnA,btnB,btnC,btnD]
-                   temp = ["a","b","c","d"]
+//                   self.buttons = [btnA,btnB,btnC,btnD]
+//                   temp = ["a","b","c","d"]
                    btnC.isHidden = false
                    btnD.isHidden = false
                    

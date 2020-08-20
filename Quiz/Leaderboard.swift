@@ -201,9 +201,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     print("Data Not Found !!!")
                     //print(jsonObj.value(forKey: "status")!)
                     if jsonObj.value(forKey: "message")! == nil {
-                        self.ShowAlert(title: "Error", message:"Data Not Found !!!" )
+                        self.ShowAlert(title: Apps.ERROR, message: Apps.NO_DATA )
                     }else{
-                        self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                        self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                     }
                 })
             }            
@@ -212,7 +212,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             ttlCount = Int(strCount)! //total number of records according to filter
             
             //get data for category
-            self.LeaderData.removeAll()
+          //  self.LeaderData.removeAll()
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
                     LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
@@ -229,7 +229,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                  
                 // print("total count is -> \(self.LeaderData.count)")
                 if self.LeaderData.count < 1 {
-                    self.ShowAlert(title: "No Data", message: "No data avalable to show !")
+                    self.ShowAlert(title: Apps.NO_DATA_TITLE, message: Apps.NO_DATA)
                     return
                 }
                
@@ -249,7 +249,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     //if there is no other users data there then just hide that view.!
                     self.user2View.isHidden = true
                     self.user3View.isHidden = true
-                    self.LeaderData.remove(at: 0)
+                   // self.LeaderData.remove(at: 0)
                    
                 case 2:
                     //user 1
@@ -391,6 +391,21 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
         let rowIndex = indexPath.row + 3
+        
+        if offset < ttlCount  && rowIndex > (LeaderData.count - 3) {
+            var nm = buttonAll.title(for: .normal)
+                 print("\(nm!)- btn name")
+                 if nm?.contains(" ") == true {
+                     nm = nm!.trimmingCharacters(in: .whitespacesAndNewlines)
+                 }
+                 print(nm!)
+                 if nm != nil {
+                  getLeaders(sel: nm!)
+                 }
+                 do { //delay to load appending data
+                     sleep(2)
+                 }
+             }       
         
         cell.srLbl.text = "\(LeaderData[rowIndex].rank)"
         cell.scorLbl.text = "\(LeaderData[rowIndex].score)"

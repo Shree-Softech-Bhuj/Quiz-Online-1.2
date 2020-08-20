@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://newquiz.wrteam.in/api-v2.php"
+    static var URL = "https://quizdemo.wrteam.in/api-v2.php"//"http://newquiz.wrteam.in/api-v2.php"
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
@@ -102,5 +102,62 @@ struct Apps{
     static let FROM_LIBRARY = "Gallary"
     static let TAKE_PHOTO = "Camera"
     static let NO_BOOKMARK = "Questions not available"
+    static let LEAVE_MSG = "Are you sure , You want to leave ?"
+    static let ERROR = "Error"
+    static let ERROR_MSG = "Error while fetching data"
+    static let MSG_NM = "Please Enter Name"
+    static let MSG_ERR = "Error Creating User"
+    static let PROFILE_UPDT = "Profile Update"
+    static let WARNING = "Warning"
+    static let WAIT = "Please wait..."
+    static let DISMISS = "Dismiss"
+    static let OK = "OK"
+    static let HELLO = "Hello,"
+    static let USER = "User"
+    static let INVALID_QUE = "Invalid Question"
+    static let INVALID_QUE_MSG = " This Question has wrong value."
+    static let ENTER_MAILID = "Please enter email id."
+    //---REVIEW---
+    static let EXTRA_NOTE = "Extra Note"
+    static let UN_ATTEMPTED = "Un-Attepmted"
+    //---RESET PASSWORD---
+    static let RESET_FAILED = "Reset Failed"
+    static let RESET_TITLE = "To Reset Password, Email sent successfully"
+    static let RESET_MSG = "Check your mail"
+    //---ALERT MSG ------
+    static let NO_DATA_TITLE = "No Data"
+    static let NO_DATA = "Data Not Found !!!"
+    //---LOGIN ALERTS---
+    static let APPLE_LOGIN_TITLE =  "Not Supported"
+    static let APPLE_LOGIN_MSG = "Apple sign in not supported in your device. try another sign method"
+     static let VERIFY_MSG = "Please Verify Email First & Go Ahead !"
+     static let VERIFY_MSG1 = "User verification email sent"
+     static let CORRECT_DATA_MSG = "Please enter correct username and password"
+    //--REFER CODE----
+    static let REFER_CODE_COPY = "Refer Code Copied to Clipboard"
+    static let REFER_MSG1 = "Refer a Friend, and you will get"
+    static let REFER_MSG2 = "coins each time your referral code is used and your friend will get"
+    static let REFER_MSG3 = "coins by using your referral code "
+    //----SELF CHALLENGE ---
+    static let ALERT_TITLE = "Select Quiz Question"
+    static let ALERT_TITLE1 = "Select Quiz Play time"
+    static let BACK_MSG = "You haven't submitted this test yet."
+    static let SUBMIT_TEST = "You want to submit this test?"
+    static let RESULT_TXT = "You have completed the challenge \n in"
+    static let SECONDS = "Sec"
+    static let CHLNG_TIME = "Challenge time:"
+    //---FONT----
+    static let FONT_TITLE =  "Font Size"
+    static let FONT_MSG = "Increase/Decrease Font Size\n\n\n\n\n\n"
+    //---IMAGE---
+    static let IMG_TITLE =  "Choose Image"
+    static let NO_CAMERA = "You don't have camera"
+    //---BATTLE----
+    static let GAME_OVER = "The Game Is over! Play Again "
+    static let WIN_BATTLE = "you win the Battle"
+    static let CONGRATS = "Congratulations!!"
+    static let OPP_WIN_BATTLE = "win the Battle"
+    static let LOSE_BATTLE = "Better Luck Next Time"
+    static let LANG = "en-US"
     
 }

@@ -123,7 +123,7 @@ class ReView: UIViewController {
         exView.SetShadow()
         
         label.frame = CGRect(x: 5,y: 5, width: 250, height: 30)
-        label.text = "Extra Note"
+        label.text = Apps.EXTRA_NOTE
         label.font = .boldSystemFont(ofSize: 15.0)
         label.textColor = color
         exView.addSubview(label)
@@ -227,7 +227,7 @@ class ReView: UIViewController {
         let status = jsonObj.value(forKey: "error") as! Bool
         if (status) {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             })
         }else{
             //get data for category
@@ -393,7 +393,7 @@ class ReView: UIViewController {
         label1.font = .systemFont(ofSize: 10)
         if userAnswer == ""{
             print("Un Attemp")
-             label1.text = "Un-Attepmted"
+            label1.text = Apps.UN_ATTEMPTED
             self.mainQuestionView.addSubview(label1)
             RightAnswer(opt: ReviewQues[currentQuesPosition].correctAns)
             return

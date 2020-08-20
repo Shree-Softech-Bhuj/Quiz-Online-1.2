@@ -1,11 +1,3 @@
-//
-//  DesignController.swift
-//  Quiz
-//
-//  Created by Macmini on 06/05/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-// this file is created by LPK Technosoft while redesign apps at version 5.5
-
 import Foundation
 import AVFoundation
 import UIKit
@@ -18,7 +10,7 @@ class PaddingLabel: UILabel {
 
     override func drawText(in rect: CGRect) {
         let insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)//CGRect.inset(by:)
-        super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
+        super.drawText(in: rect.inset(by: insets))
     }
 }
 

@@ -451,10 +451,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = "LPK Techno";
+				ORGANIZATIONNAME = "WR Team";
 				TargetAttributes = {
 					D7FCFC5521A5282D00718EE2 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1160;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -466,10 +467,12 @@
 					};
 					D7FCFC6C21A5283C00718EE2 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1160;
 						TestTargetID = D7FCFC5521A5282D00718EE2;
 					};
 					D7FCFC7721A5283C00718EE2 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1160;
 						TestTargetID = D7FCFC5521A5282D00718EE2;
 					};
 				};
@@ -878,7 +881,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.quiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -902,7 +905,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.quiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -923,7 +926,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lpk.techno.QuizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quiz.app/Quiz";
 			};
@@ -945,7 +948,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lpk.techno.QuizTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quiz.app/Quiz";
 			};
@@ -966,7 +969,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lpk.techno.QuizUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Quiz;
 			};
@@ -987,7 +990,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lpk.techno.QuizUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Quiz;
 			};

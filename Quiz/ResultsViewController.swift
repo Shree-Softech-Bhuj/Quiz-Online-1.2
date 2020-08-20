@@ -162,7 +162,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+            self.ShowAlert(title:Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             
         }else{
             // on success response do code here
@@ -233,7 +233,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: "Oops!", message: "Error while fetching data")
+                self.ShowAlert(title: Apps.OOPS, message: Apps.ERROR_MSG )
             }else{
                 //get data for category
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
@@ -334,7 +334,8 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
         }else if let url = URL(string: Apps.SHARE_APP) {
-            UIApplication.shared.open(url)
+             UIApplication.shared.open(url)
+            //UIApplication.shared.openconvertToUIApplicationOpenExternalURLOptionsKeyDictionary(()url)
         }
     }
     
@@ -356,4 +357,9 @@ extension ResultsViewController{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

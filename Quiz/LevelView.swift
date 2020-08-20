@@ -157,7 +157,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                 //print("JSON",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 }else{
                     //get data for category
                     self.quesData.removeAll()
@@ -214,7 +214,7 @@ extension LevelView{
                 if (status == "true") {
                     DispatchQueue.main.async {
                         self.Loader.dismiss(animated: true, completion: {
-                            self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                            self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                         })
                     }
                     

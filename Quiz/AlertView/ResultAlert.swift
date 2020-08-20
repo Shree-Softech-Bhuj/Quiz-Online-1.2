@@ -29,14 +29,14 @@ class ResultAlert: UIViewController {
         userImage.clipsToBounds = true
         
         if winnerName == "\(Apps.MATCH_DRAW)" {
-            userName.text = "\(winnerName) \n The Game Is over! Play Again "
-            titleBtn.setTitle("Quiz", for: .normal)
+            userName.text = "\(winnerName) \n \(Apps.GAME_OVER)"
+            titleBtn.setTitle("المبدع", for: .normal)
         }else if winnerName == dUser?.name {
-            userName.text = "\(winnerName) , you win the Battle"
-               titleBtn.setTitle("Congratulations", for: .normal)
+            userName.text = "\(winnerName) , \(Apps.WIN_BATTLE)"
+            titleBtn.setTitle(Apps.CONGRATS, for: .normal)
         }else{
-            userName.text = "\(winnerName) , win the Battle"
-               titleBtn.setTitle("Better Luck Next Time", for: .normal)
+            userName.text = "\(winnerName) , \(Apps.OPP_WIN_BATTLE)"
+            titleBtn.setTitle(Apps.LOSE_BATTLE, for: .normal)
         }
                 
         if winnerName == "Robot"{

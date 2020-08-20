@@ -4,7 +4,7 @@ import UIKit
 class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var picker = UIImagePickerController();
-    var alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .alert)
+    var alert = UIAlertController(title: Apps.IMG_TITLE, message: nil, preferredStyle: .alert)
     var viewController: UIViewController?
     var pickImageCallback : ((UIImage) -> ())?;
     
@@ -42,7 +42,7 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
             picker.sourceType = .camera
             self.viewController!.present(picker, animated: true, completion: nil)
         } else {
-            let alertWarning = UIAlertView(title:"Warning", message: "You don't have camera", delegate:nil, cancelButtonTitle:"OK", otherButtonTitles:"")
+            let alertWarning = UIAlertView(title: Apps.WARNING, message: Apps.NO_CAMERA, delegate:nil, cancelButtonTitle:Apps.OK, otherButtonTitles:"")
             alertWarning.show()
         }
     }
@@ -56,9 +56,12 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         picker.dismiss(animated: true, completion: nil)
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
         pickImageCallback?(image)
     }
     
@@ -74,4 +77,14 @@ class ImagePickerManager: NSObject, UIImagePickerControllerDelegate, UINavigatio
     @objc func imagePickerController(_ picker: UIImagePickerController, pickedImage: UIImage?) {
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

@@ -312,12 +312,12 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     
     @IBAction func backButton(_ sender: Any) {
         let alert = UIAlertController(title: Apps.EXIT_APP_MSG,message: "",preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             self.timer.invalidate()
             self.speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
@@ -332,7 +332,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     @IBAction func speakButton(_ sender: Any) {
         let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "\(quesData[currentQuestionPos].question)")
         speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: Apps.LANG)
         speechSynthesizer.speak(speechUtterance)
     }
     
@@ -752,7 +752,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
        let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
-            rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
+            rightAns = opestions[ans.firstIndex(of: opestions.last!.lowercased())!]
         }else{
             //self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
             rightAnswer(btn: btnA)

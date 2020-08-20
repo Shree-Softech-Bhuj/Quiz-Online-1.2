@@ -35,8 +35,11 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         //rounded borders of buttons
-        btnSignUp.layer.cornerRadius = 10
-        btnLogin.layer.cornerRadius = 10
+       btnSignUp.layer.cornerRadius = btnSignUp.frame.height / 2//10
+//        btnSignUp.layer.borderColor = UIColor.rgb(49,36,36, 1).cgColor
+//        btnSignUp.layer.borderWidth = 2
+        btnLogin.layer.cornerRadius = btnLogin.frame.height / 2//10
+
         
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
@@ -69,7 +72,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
             authorizationController.performRequests()
         } else {
             // Fallback on earlier versions
-            self.ShowAlert(title: "Not Support", message: "Aple sign in not support in your device try another sign method")
+            self.ShowAlert(title: Apps.APPLE_LOGIN_TITLE, message: Apps.APPLE_LOGIN_MSG)
         }
         
         
@@ -87,10 +90,10 @@ class LoginView: UIViewController,GIDSignInDelegate{
     @IBAction func pswdBtn(_ sender: UIButton) {
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if pswdTxt.isSecureTextEntry == true {
-            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
             pswdTxt.isSecureTextEntry = false
         }else{
-            pswdButton.setImage(UIImage(named: "eye"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
             pswdTxt.isSecureTextEntry = true
         }
     }
@@ -114,13 +117,13 @@ class LoginView: UIViewController,GIDSignInDelegate{
                     if Auth.auth().currentUser?.isEmailVerified == true {
                         self.signInVerification()
                     }else{
-                        let alert = UIAlertController(title: "Check Your Mail", message: "Please Verify Email First & Go Ahead !", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        let alert = UIAlertController(title: Apps.RESET_MSG, message: Apps.VERIFY_MSG, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true)
                     }
                 }else{
-                    let alert = UIAlertController(title: "Error", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    let alert = UIAlertController(title: Apps.ERROR, message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true)
                     print(error?.localizedDescription ?? "error")
                 }
@@ -136,8 +139,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         Auth.auth().signIn(withEmail: username, password: password) { (result,error) in
             if error != nil {
-                let alert = UIAlertController(title: "ERROR", message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                let alert = UIAlertController(title: Apps.ERROR, message: error!.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true)
                 print(error!.localizedDescription)
             }else{
@@ -176,8 +179,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
     {
         if emailTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || pswdTxt.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
             print("Please enter correct username and password")
-            let alert = UIAlertController(title: "", message: "Please enter correct username and password", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            let alert = UIAlertController(title: "", message: Apps.CORRECT_DATA_MSG, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true)
         } else{
             checkIfEmailVerified()
@@ -194,13 +197,20 @@ class LoginView: UIViewController,GIDSignInDelegate{
             if let error = error {
                 // error signin
                 return
-            }            
+            }
+            
+            let displayname = user?.user.email!.components(separatedBy: "@")
+            let nm = displayname![0]
+            //print("\(nm)")
+            let rcode = nm //ref code is same as initial username
+            Apps.REFER_CODE = rcode
+            
             UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "")
+            let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user?.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ", userType: "gmail", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "\(rcode)")
             UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
             
             // send data to server after successfully loged in
-            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&firebase_id=\(sUser.UID)"
+            let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=gmail&fcm_id=\(Apps.FCM_ID)&refer_code=\(rcode)&ip_address=1.0.0&status=0&firebase_id=\(sUser.UID)"
             self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
         }
     }
@@ -224,21 +234,33 @@ class LoginView: UIViewController,GIDSignInDelegate{
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                 if let error = error {
                     print("Login error: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    let alertController = UIAlertController(title: Apps.ERROR, message: error.localizedDescription, preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: Apps.OK, style: .cancel, handler: nil)
                     alertController.addAction(okayAction)
                     self.present(alertController, animated: true, completion: nil)
                     return
                 }
                 
+                let displayname = user?.user.email!.components(separatedBy: "@")
+                   let nm = displayname![0]
+                   var rcode = ""
+                   //print("\(nm)")
+                   if displayname![0] == "" {
+                       rcode = user?.user.phoneNumber as! String
+                   }else{
+                    rcode = nm //ref code is same as initial username
+                   }
+                   
+                   Apps.REFER_CODE = rcode
+                
                 UserDefaults.standard.set(true, forKey: "isLogedin") //Bool
-                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user!.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "") //,frnd_code: "",ref_code: ""
+                let sUser = User.init(UID: "\((user?.user.uid)!)",userID: "", name: "\((user!.user.displayName)!)", email: "\((user?.user.email)!)", phone: "\(String(describing: user?.user.phoneNumber))", address: " ",userType: "fb", image: "\((user?.user.photoURL)!)", status: "0",ref_code: "\(rcode)") //,frnd_code: "",ref_code: ""
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(sUser), forKey: "user")
                 
                 // send data to server after successfully loged in
                 self.Loader = self.LoadLoader(loader: self.Loader)
-                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=\(Apps.FCM_ID)&ip_address=1.0.0&status=0&firebase_id=\(user?.user.uid)"
+                let apiURL = "name=\((user?.user.displayName)!)&email=\((user?.user.email)!)&profile=\((user?.user.photoURL)!)&type=fb&fcm_id=\(Apps.FCM_ID)&refer_code=\(rcode)&ip_address=1.0.0&status=0&firebase_id=\(user?.user.uid)"
                 self.getAPIData(apiName: "user_signup", apiURL: apiURL,completion: self.ProcessLogin)
             })
         }
@@ -265,7 +287,7 @@ class LoginView: UIViewController,GIDSignInDelegate{
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(msg)" )
+                    self.ShowAlert(title: Apps.OK, message:"\(msg)" )
                 })
             }
             return

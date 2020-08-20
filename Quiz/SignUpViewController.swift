@@ -34,7 +34,7 @@ class SignUpViewController: UIViewController {
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             })
         }else{
             //get data for category
@@ -53,10 +53,10 @@ class SignUpViewController: UIViewController {
     @IBAction func pswdBtn(_ sender: UIButton) {
         //change img/icon accordingly and set text secure and unsecure as button tapped
         if password.isSecureTextEntry == true {
-            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
             password.isSecureTextEntry = false
         }else{
-            pswdButton.setImage(UIImage(named: "eye"), for: UIControlState.normal)
+            pswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
             password.isSecureTextEntry = true
         }
     }
@@ -77,8 +77,8 @@ class SignUpViewController: UIViewController {
         if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
         {
             self.name.becomeFirstResponder()
-            let alert = UIAlertController(title: "", message: "Please Enter Name", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            let alert = UIAlertController(title: "", message: Apps.MSG_NM, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true)
         }else{
             //create a user
@@ -88,18 +88,18 @@ class SignUpViewController: UIViewController {
                     if error_descr != nil {
                         print(" error -- creating user \(error_descr!)")
                         let alert = UIAlertController(title: "", message: error_descr!, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true)
                     }
                     else{
                         print("Error Creating User")
-                        let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        let alert = UIAlertController(title: "", message: Apps.MSG_ERR, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true)
                     }
                     print("Error Creating User")
-                    let alert = UIAlertController(title: "", message: "Error Creating User", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    let alert = UIAlertController(title: "", message: Apps.MSG_ERR, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
                     self.present(alert, animated: true)
                 }
                 else {
@@ -126,8 +126,8 @@ class SignUpViewController: UIViewController {
                                 user.sendEmailVerification { (error) in
                                     guard let error = error else {
                                         print("user verification email sent")
-                                        let alert = UIAlertController(title: "", message: "User verification email sent", preferredStyle: UIAlertController.Style.alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                                        let alert = UIAlertController(title: "", message: Apps.VERIFY_MSG1, preferredStyle: UIAlertController.Style.alert)
+                                        alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: { action in
                                             self.dismissCurrView()
                                             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                                             let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController")

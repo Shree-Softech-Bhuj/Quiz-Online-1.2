@@ -43,7 +43,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         
         userDefault = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print("user data-\(String(describing: userDefault))")
-        userName.text = "Hello, \(userDefault!.name)"
+        userName.text = "\(Apps.HELLO) \(userDefault!.name)"
        
         self.userImage.contentMode = .scaleAspectFill
         userImage.clipsToBounds = true
@@ -94,7 +94,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
         }else{
@@ -119,7 +119,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
         }else{

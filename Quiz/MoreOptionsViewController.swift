@@ -36,7 +36,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             print("user details \(dUser!) ")
             emailAdrs.text = dUser?.email
-            userName.text = "Hello, " + dUser!.name
+            userName.text = Apps.HELLO + dUser!.name
             
             //imgProfile.SetShadow()
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
@@ -54,7 +54,7 @@ class MoreOptionsViewController: UIViewController,GADInterstitialDelegate, UIDoc
             }
         }else{
             emailAdrs.text = ""
-            userName.text = "Hello, User"
+            userName.text = "\(Apps.HELLO) + \(Apps.USER)"
             imgProfile.image = UIImage(named: "user")
         }
         designImageView()

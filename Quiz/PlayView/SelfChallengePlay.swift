@@ -1,11 +1,3 @@
-//
-//  SelfChallenegePlay.swift
-//  Quiz
-//
-//  Created by Macmini on 26/05/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -327,13 +319,13 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     @IBAction func backButton(_ sender: Any) {
-        let alert = UIAlertController(title: "Are you sure?",message: "You haven't submitted this test yet. Are you sure You want to leave?",preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
+        let alert = UIAlertController(title: Apps.LEAVE_MSG ,message: Apps.BACK_MSG,preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             if self.timer.isValid{
                 self.timer.invalidate()
@@ -350,7 +342,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     @IBAction func speakButton(_ sender: Any) {
         let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "\(quesData[currentQuestionPos].question)")
         speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: Apps.LANG)
         speechSynthesizer.speak(speechUtterance)
     }
     
@@ -407,13 +399,13 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     
     @IBAction func SubmitForResult(_ sender: Any) {
-        let alert = UIAlertController(title: "You want to submit this test",message: "",preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
+        let alert = UIAlertController(title: Apps.SUBMIT_TEST,message: "",preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             self.ShowResultScreen()
         }))
@@ -488,7 +480,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
                 //show some components
                 lblQuestion.isHidden = false
                 questionImage.isHidden = false
-                zoomBtn.isHidden = false
+             //   zoomBtn.isHidden = false
                 question.isHidden = true
             }
          if(quesData[currentQuestionPos].opetionE == "")
@@ -576,7 +568,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
        let ans = temp
         if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
         }else{
-            self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
+            self.ShowAlert(title: Apps.INVALID_QUE, message: Apps.INVALID_QUE_MSG)
         }
       let singleQues = quesData[currentQuestionPos]
        if singleQues.quesType == "2"{

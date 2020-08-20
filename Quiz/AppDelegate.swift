@@ -105,8 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         return true
     }
     //to redirect back to app from google login in ios 10
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        return (GIDSignIn.sharedInstance()?.handle(url as URL!))!
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return (GIDSignIn.sharedInstance()?.handle(url as URL?))!
     }
     
     //to preview notification in foreground
@@ -335,7 +335,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         content.title = title
         content.subtitle = subtitle //"Subtitle"
         content.body = body
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "testIdentifier", content: content, trigger: trigger)
@@ -352,7 +352,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         content.title = title
         content.subtitle = subtitle //"Subtitle"
         content.body = body
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound.default
         print("data \(img)")
         if img.path.contains("jpg"){
             print("file is present @ \(img.path)")

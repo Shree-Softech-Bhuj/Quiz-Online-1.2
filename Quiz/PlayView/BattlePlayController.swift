@@ -210,18 +210,18 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         let speechSynthesizer = AVSpeechSynthesizer()
         let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "\(quesData[currentQuestionPos].question)")
         speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
-        speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: Apps.LANG)
         speechSynthesizer.speak(speechUtterance)
     }
     
     @IBAction func LeaveBattle(_ sender: Any) {
         let alert = UIAlertController(title: Apps.EXIT_APP_MSG,message: "",preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             //  if let validTimer = self.timer?.isValid {
             self.hasLeave = true
@@ -278,7 +278,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             })
             
         }else{
@@ -638,7 +638,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
-            rightAns = opestions[ans.index(of: opestions.last!.lowercased())!]
+            rightAns = opestions[ans.firstIndex(of: opestions.last!.lowercased())!]
         }else{
             rightAnswer(btn: btnA)
         }

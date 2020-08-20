@@ -101,7 +101,7 @@ extension UIViewController{
                 return
             }
             
-            if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
+            if let jsonObj = ((try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary) as NSDictionary??) {
                 if (jsonObj != nil)  {
                     completion(jsonObj!)
                 }else{
@@ -121,12 +121,12 @@ extension UIViewController{
     
     //load loader
     func LoadLoader(loader:UIAlertController)->UIAlertController{
-        let pending = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        let pending = UIAlertController(title: nil, message: Apps.WAIT , preferredStyle: .alert)
         
         pending.view.tintColor = UIColor.black
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(origin: CGPoint(x:10,y:5), size: CGSize(width: 50, height: 50))) as UIActivityIndicatorView
         loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray // if ios -13 UIActivityIndicatorViewStyle.medium
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray // if ios -13 UIActivityIndicatorViewStyle.medium
         loadingIndicator.startAnimating();
         
         pending.view.addSubview(loadingIndicator)
@@ -141,7 +141,7 @@ extension UIViewController{
     func ShowAlert(title:String,message:String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: Apps.DISMISS, style: UIAlertAction.Style.cancel, handler: nil))
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.45, execute: {
             DispatchQueue.main.async {
                 self.getTopMostViewController()?.present(alert, animated: true, completion: nil)

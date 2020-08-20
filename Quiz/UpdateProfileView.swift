@@ -49,17 +49,17 @@ class UpdateProfileView: UIViewController{
             }
         }
         
-        emailTxt.leftViewMode = UITextFieldViewMode.always
+        emailTxt.leftViewMode = UITextField.ViewMode.always
         emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
         
-        nmbrTxt.leftViewMode = UITextFieldViewMode.always
+        nmbrTxt.leftViewMode = UITextField.ViewMode.always
         nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
-        nmbrTxt.rightViewMode = UITextFieldViewMode.always
+        nmbrTxt.rightViewMode = UITextField.ViewMode.always
         nmbrTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
         
-        nameTxt.leftViewMode = UITextFieldViewMode.always
+        nameTxt.leftViewMode = UITextField.ViewMode.always
         nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
-        nameTxt.rightViewMode = UITextFieldViewMode.always
+        nameTxt.rightViewMode = UITextField.ViewMode.always
         nameTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
         
         //hide updt btn by default, show it on editing of any of textfields
@@ -89,7 +89,7 @@ class UpdateProfileView: UIViewController{
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             })
         }else{
             //get data for success response
@@ -97,7 +97,7 @@ class UpdateProfileView: UIViewController{
             //            print(msg)
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlertOnly(title: "Profile Update", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlertOnly(title: Apps.PROFILE_UPDT, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
         }
@@ -130,12 +130,12 @@ class UpdateProfileView: UIViewController{
     @IBAction func logoutBtn(_ sender: Any) {
         
         let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             if self.dUser!.userType == "apple"{
                // if app is not loged in than navigate to loginview controller
@@ -237,7 +237,7 @@ class UpdateProfileView: UIViewController{
         let boundary = generateBoundaryString()
         
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        let imageData = UIImageJPEGRepresentation(self.usrImg.image!, 0.5)
+        let imageData = self.usrImg.image!.jpegData(compressionQuality: 0.5)
         
         if(imageData==nil)  {return; }
         
@@ -255,13 +255,13 @@ class UpdateProfileView: UIViewController{
                 return
             }
             
-            if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
+            if let jsonObj = ((try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary) as NSDictionary??) {
                 if (jsonObj != nil)  {
                     print("JSON",jsonObj!)
                     let status = jsonObj!.value(forKey: "error") as! NSNumber as! Bool
                     if (status) {
                         self.Loader.dismiss(animated: true, completion: {
-                            self.ShowAlert(title: "Error", message:"\(jsonObj!.value(forKey: "message")!)" )
+                            self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj!.value(forKey: "message")!)" )
                         })
                         
                     }else{

@@ -192,14 +192,14 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                 DispatchQueue.main.async {
                     self.user2.loadImageUsingCache(withUrl: self.battleUser.image)
                 }
-                self.ref.child(self.battleUser.UID).child("matchingID").setValue(self.user.UID)
                 self.ref.child(self.battleUser.UID).child("isAvail").setValue("0")
                 self.ref.child(self.battleUser.UID).child("opponentID").setValue(self.user.UID)
+                self.ref.child(self.battleUser.UID).child("matchingID").setValue(self.user.UID)
                 
-                self.ref.child(self.user.UID).child("matchingID").setValue(self.user.UID)
                 self.ref.child(self.user.UID).child("isAvail").setValue("0")
                 self.ref.child(self.user.UID).child("opponentID").setValue(self.battleUser.UID)
-               
+                self.ref.child(self.user.UID).child("matchingID").setValue(self.user.UID)
+                
                 self.timer.invalidate()
                 print("before calling start battle 2 - \(self.battleUser)")
                self.StartBattle()
@@ -236,6 +236,18 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
                             }else{
                                 print("MTCH NULL")
                             }
+                              
+                            //                            // this user is avalable for battle
+                            //                            self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
+                            //                            self.isAvail = true
+                            //                            print("before battle starts!! 3 - \(self.battleUser) called at every next question shown")
+                            //                            self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
+                            //                            DispatchQueue.main.async {
+                            //                                self.user2.loadImageUsingCache(withUrl: "\(battleSnap.childSnapshot(forPath: "image").value!)")
+                            //                            }
+                            //                            self.timer.invalidate()
+                            //                            self.StartBattle()
+                            
                             
                         })
                     }
@@ -305,10 +317,10 @@ class BattleViewController: UIViewController,GADBannerViewDelegate {
     
     @IBAction func backButton(_ sender: Any) {
         if timer != nil{
-            let alert = UIAlertController(title: "", message: "Are you sure , You want to leave ?", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: Apps.LEAVE_MSG, preferredStyle: UIAlertController.Style.alert)
             // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
-            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
+            alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.destructive, handler: { action in
                 self.isBattleStarted = false
                 self.navigationController?.popViewController(animated: true)
             }))
@@ -395,9 +407,9 @@ extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {         
         var height = CGFloat(0)
         if deviceStoryBoard == "Ipad"{
-            height = UITableViewAutomaticDimension +  150
+            height = UITableView.automaticDimension +  150
         }else{
-             height = UITableViewAutomaticDimension +  100
+             height = UITableView.automaticDimension +  100
         }
         
         return  height

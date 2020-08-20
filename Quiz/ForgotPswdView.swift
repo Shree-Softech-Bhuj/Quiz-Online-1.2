@@ -29,7 +29,7 @@ class ForgotPswdView: UIViewController {
     @IBAction func submitBtn(_ sender: UIButton)
         {
         if email.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""{
-                    email.placeholder? = "Please enter email id."
+            email.placeholder? = Apps.ENTER_MAILID
                     email.placeHolderColor = UIColor.red
                    // email.becomeFirstResponder()
              }
@@ -40,13 +40,13 @@ class ForgotPswdView: UIViewController {
                      DispatchQueue.main.async {
                          //Use "if let" to access the error, if it is non-nil
                          if let error = error {
-                             let resetFailedAlert = UIAlertController(title: "Reset Failed", message: error.localizedDescription, preferredStyle: .alert)
-                             resetFailedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            let resetFailedAlert = UIAlertController(title: Apps.RESET_FAILED , message: error.localizedDescription, preferredStyle: .alert)
+                            resetFailedAlert.addAction(UIAlertAction(title: Apps.OK, style: .default, handler: nil))
                             //do nothing or give chance to enter proper email
                             self.present(resetFailedAlert, animated: true, completion: nil)
                          } else {
-                             let resetEmailSentAlert = UIAlertController(title: "To Reset Password, Email sent successfully", message: "Check your email", preferredStyle: .alert)
-                             resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            let resetEmailSentAlert = UIAlertController(title: Apps.RESET_TITLE, message: Apps.RESET_MSG, preferredStyle: .alert)
+                            resetEmailSentAlert.addAction(UIAlertAction(title: Apps.OK, style: .default, handler: { action in
                                 self.dismissView()
                             }))
                              self.present(resetEmailSentAlert, animated: true, completion: nil)
