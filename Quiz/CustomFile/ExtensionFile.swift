@@ -238,6 +238,23 @@ extension UIViewController{
 
         return topMostViewController
     }
+    
+    func SetBookmark(quesID:String, status:String, completion:@escaping ()->Void){
+         if isKeyPresentInUserDefaults(key: "user"){
+             let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+             if(Reachability.isConnectedToNetwork()){
+                 let apiURL = "user_id=\(user.userID)&question_id=\(quesID)&status=\(status)"
+                self.getAPIData(apiName: Apps.API_BOOKMARK_SET, apiURL: apiURL,completion: {jsonObj in
+                     //print("SET BOOK",jsonObj)
+                     if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                         DispatchQueue.main.async {
+                             completion()
+                         }
+                     }
+                 })
+             }
+         }
+     }
 }
 
 

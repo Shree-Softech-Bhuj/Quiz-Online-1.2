@@ -246,10 +246,13 @@ class ReView: UIViewController {
             self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
             bookMarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookMarkBtn.tag = 1
+            self.SetBookmark(quesID: reQues.id, status: "1", completion: {})
         }else{
+            let reQues = ReviewQues[currentQuesPosition]
             BookQuesList.removeAll(where: {$0.id == ReviewQues[currentQuesPosition].id && $0.correctAns == ReviewQues[currentQuesPosition].correctAns})
-             bookMarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
+            bookMarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
             bookMarkBtn.tag = 0
+            self.SetBookmark(quesID: reQues.id, status: "0", completion: {})
         }
         
         UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")

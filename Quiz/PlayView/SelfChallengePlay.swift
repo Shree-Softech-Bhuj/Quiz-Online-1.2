@@ -365,10 +365,13 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
             self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
             bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
             bookmarkBtn.tag = 1
+            self.SetBookmark(quesID: reQues.id, status: "1", completion: {})
         }else{
+            let reQues = quesData[currentQuestionPos]
             BookQuesList.removeAll(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})
             bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
             bookmarkBtn.tag = 0
+            self.SetBookmark(quesID: reQues.id, status: "0", completion: {})
         }
         
         UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")

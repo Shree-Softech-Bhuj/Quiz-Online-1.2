@@ -160,4 +160,8 @@ struct Apps{
     static let LOSE_BATTLE = "Better Luck Next Time"
     static let LANG = "en-US"
     
+    //api url here
+    static let API_BOOKMARK_GET = "get_bookmark"
+    static let API_BOOKMARK_SET = "set_bookmark"
+    
 }

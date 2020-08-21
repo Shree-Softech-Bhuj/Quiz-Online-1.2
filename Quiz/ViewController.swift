@@ -93,7 +93,44 @@ class ViewController: UIViewController {
                 languageButton.isHidden = false
             }
         }
+        
+        //get data from server
+        if(Reachability.isConnectedToNetwork()){
+            let userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            let apiURL = "user_id=\(userD.userID)"
+            self.getAPIData(apiName: Apps.API_BOOKMARK_GET, apiURL: apiURL,completion: LoadBookmarkData)
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
     }
+    
+    //load Bookmark data here
+     func LoadBookmarkData(jsonObj:NSDictionary){
+         //print("RS",jsonObj)
+         var BookQuesList: [QuestionWithE] = []
+         
+         let status = jsonObj.value(forKey: "error") as! String
+         if (status == "true") {
+             DispatchQueue.main.async {
+                 self.Loader.dismiss(animated: true, completion: {
+                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                 })
+             }
+         }else{
+             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                 for val in data{
+                     BookQuesList.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"] ?? "0")"))
+                 }
+             }
+         }
+         //close loader here
+         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+             DispatchQueue.main.async {
+                 self.DismissLoader(loader: self.Loader)
+                 UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
+             }
+         });
+     }
     
     @IBAction func moreBtn(_ sender: UIButton) {
         
