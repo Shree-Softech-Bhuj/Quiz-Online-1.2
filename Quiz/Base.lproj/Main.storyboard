@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Grs-38-bWD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Grs-38-bWD">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -516,7 +516,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="tintColor" red="0.22352941179999999" green="0.50588235290000005" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <state key="normal" image="menu">
+                                                <state key="normal" image="drawer">
                                                     <color key="titleColor" white="0.85662813930000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -7278,6 +7278,7 @@ You have completed the level.</string>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="coins" width="43.5" height="27"/>
         <image name="delete" width="30.5" height="30.5"/>
+        <image name="drawer" width="37" height="37"/>
         <image name="eye" width="20" height="13"/>
         <image name="fb" width="55" height="55"/>
         <image name="fireworkers" width="227.5" height="109"/>
@@ -7290,7 +7291,6 @@ You have completed the level.</string>
         <image name="logout" width="37" height="37"/>
         <image name="mainsetting" width="37" height="37"/>
         <image name="mark" width="33.5" height="33.5"/>
-        <image name="menu" width="27" height="19.5"/>
         <image name="msg" width="27" height="27"/>
         <image name="multiply.circle" catalog="system" width="128" height="121"/>
         <image name="nxt" width="30" height="30"/>
