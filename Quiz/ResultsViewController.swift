@@ -284,7 +284,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
-        let shareUrl = "I have completed level \(self.level) with score \(self.earnedPoints)"
+        let shareUrl = "\(Apps.SHARE1) \(self.level) \(Apps.SHARE2) \(self.earnedPoints)"
         let textToShare = str + "\n" + shareUrl
         //take screenshot
         UIGraphicsBeginImageContext(viewProgress.frame.size)

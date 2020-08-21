@@ -158,6 +158,14 @@ struct Apps{
     static let CONGRATS = "Congratulations!!"
     static let OPP_WIN_BATTLE = "win the Battle"
     static let LOSE_BATTLE = "Better Luck Next Time"
+    //--SHARE TEXT-SELF CHALLENGE---
+    static let SELF_CHALLENGE_SHARE1 = "I have finished"
+    static let SELF_CHALLENGE_SHARE2 = "minute self challenge in"
+    static let SELF_CHALLENGE_SHARE3 = "minute in Quiz"
+    //---SHARE QUIZ PLAY RESULT---
+    static let SHARE1 = "I have completed level"
+    static let SHARE2 = "with score"
+    
     static let LANG = "en-US"
     
     //api url here

@@ -30,7 +30,7 @@ class ResultAlert: UIViewController {
         
         if winnerName == "\(Apps.MATCH_DRAW)" {
             userName.text = "\(winnerName) \n \(Apps.GAME_OVER)"
-            titleBtn.setTitle("المبدع", for: .normal)
+            titleBtn.setTitle(Apps.APP_NAME, for: .normal)
         }else if winnerName == dUser?.name {
             userName.text = "\(winnerName) , \(Apps.WIN_BATTLE)"
             titleBtn.setTitle(Apps.CONGRATS, for: .normal)

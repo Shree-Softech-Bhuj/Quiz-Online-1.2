@@ -112,9 +112,9 @@ class ViewController: UIViewController {
          let status = jsonObj.value(forKey: "error") as! String
          if (status == "true") {
              DispatchQueue.main.async {
-                 self.Loader.dismiss(animated: true, completion: {
-                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-                 })
+//                 self.Loader.dismiss(animated: true, completion: {
+//                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+//                 })
              }
          }else{
              if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
          //close loader here
          DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
              DispatchQueue.main.async {
-                 self.DismissLoader(loader: self.Loader)
+                 //self.DismissLoader(loader: self.Loader)
                  UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
              }
          });
