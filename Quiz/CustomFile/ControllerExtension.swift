@@ -77,8 +77,8 @@ extension UIViewController{
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-        print("POST URL",url)
-        print("POST String = \(postString)")
+        //        print("POST URL",url)
+        //        print("POST String = \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         //let data = NSMutableData();
@@ -92,6 +92,8 @@ extension UIViewController{
                 completion(res)
                 return
             }
+            
+            //print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8))
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {   // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
@@ -111,9 +113,9 @@ extension UIViewController{
                 }
             }else{
                 let res = ["error":"false","message":"Error while fetching data"] as NSDictionary
-             print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8)!)
+                print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8)!)
                 completion(res)
-              
+                
             }
         }
         task.resume()
@@ -149,9 +151,9 @@ extension UIViewController{
         });
     }
     //show alert view here with any title and messages & without button
-       func ShowAlertOnly(title:String,message:String){
-           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            for c  in 0...15 {
+    func ShowAlertOnly(title:String,message:String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for c  in 0...15 {
             if c == 0 {
                 self.present(alert, animated: true)
             }
@@ -159,7 +161,7 @@ extension UIViewController{
                 self.dismiss(animated: true, completion: nil)
             }
         }
-       }
+    }
     //dismiss loader
     func DismissLoader(loader:UIAlertController){
         loader.dismiss(animated: true, completion: nil)
@@ -193,15 +195,15 @@ extension UIViewController{
     }
     
     //design image view
-       func DesignImageView(_ images:UIImageView...){
-           for image in images{
-               image.layer.backgroundColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
-               image.layer.masksToBounds = false
-               image.clipsToBounds = true
-               image.layer.cornerRadius = image.frame.width / 2
-           }
-       }
-         
+    func DesignImageView(_ images:UIImageView...){
+        for image in images{
+            image.layer.backgroundColor = UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+            image.layer.masksToBounds = false
+            image.clipsToBounds = true
+            image.layer.cornerRadius = image.frame.width / 2
+        }
+    }
+    
     func RegisterNotification(notificationName:String){
         NotificationCenter.default.addObserver(self,selector: #selector(self.Dismiss),name: NSNotification.Name(rawValue: notificationName),object: nil)
     }
@@ -255,14 +257,14 @@ extension UIViewController{
     }
     
     func isKeyPresentInUserDefaults(key: String) -> Bool {
-           return UserDefaults.standard.object(forKey: key) != nil
-       }
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
 }
 
 extension UIView {
     
     func createImage() -> UIImage {
-
+        
         let rect: CGRect = self.frame 
         
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
@@ -272,7 +274,20 @@ extension UIView {
         UIGraphicsEndImageContext()
         
         return img!
-
+        
     }
     
+}
+
+extension String {
+    var bool: Bool? {
+        switch self.lowercased() {
+        case "true", "t", "yes", "y", "1":
+            return true
+        case "false", "f", "no", "n", "0":
+            return false
+        default:
+            return nil
+        }
+    }
 }

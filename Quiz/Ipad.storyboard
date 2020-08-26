@@ -2120,12 +2120,12 @@
                         <viewLayoutGuide key="safeArea" id="BsG-f9-clf"/>
                     </view>
                     <connections>
-                        <outlet property="bannerView" destination="28e-wa-u8J" id="hqO-9w-7V6"/>
+                        <outlet property="adsView" destination="28e-wa-u8J" id="Z6b-2b-BmN"/>
                         <outlet property="battleTableView" destination="vgs-by-U1L" id="0ch-uc-HE7"/>
                         <outlet property="name1" destination="NeU-jd-dPR" id="M3g-N6-80M"/>
                         <outlet property="name2" destination="6vk-tl-NeO" id="tQm-hg-RlS"/>
                         <outlet property="playerView" destination="do2-7V-fG0" id="Ffw-AH-WqW"/>
-                        <outlet property="searchPlayerBtn" destination="XMU-I3-B5B" id="gTk-TR-7V2"/>
+                        <outlet property="searchButton" destination="XMU-I3-B5B" id="kco-uc-3Ml"/>
                         <outlet property="timerLabel" destination="0ID-he-xbV" id="8zV-ew-xGd"/>
                         <outlet property="user1" destination="ogT-fW-F2a" id="TUo-Ix-xyx"/>
                         <outlet property="user2" destination="NqD-DS-QX4" id="NUL-5h-CVw"/>

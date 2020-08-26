@@ -618,20 +618,25 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     // opetion buttons click action
     var bottomAlertData:[Int] = []
     @objc func ClickButton(button:UIButton){
-          let singleQues = quesData[currentQuestionPos]
+        
+        self.PlaySound(player: &audioPlayer, file: "selfClick") // play sound
+        self.Vibrate() // make device vibrate
+        
+        let singleQues = quesData[currentQuestionPos]
+        
         buttons.forEach{
             $0.isUserInteractionEnabled = false
             if singleQues.quesType == "2"{
-                  $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+                $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
             }else{
-                  $0.setImage(SetOptionView(otpStr: ($0.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
+                $0.setImage(SetOptionView(otpStr: ($0.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
             }
-          
+            
         }
         if singleQues.quesType == "2"{
-              button.setImage(self.SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+            button.setImage(self.SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
         }else{
-              button.setImage(self.SetClickedOptionView(otpStr: (button.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
+            button.setImage(self.SetClickedOptionView(otpStr: (button.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
         }
       
         if clickedButton.first?.title(for: .normal) == button.title(for: .normal){

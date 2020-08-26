@@ -67,7 +67,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //load sub category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {

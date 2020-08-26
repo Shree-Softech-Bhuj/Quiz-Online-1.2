@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         
         let token = Messaging.messaging().fcmToken ?? "none"
         Apps.FCM_ID = token
-        print("FCM TOKEN", token)
+       // print("FCM TOKEN", token)
         
         
         //check app is log in or not if not then navigate to login view controller
@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
         }
         actionAccordingToData()
-        print(" user info - \(userInfo)")
+       // print(" user info - \(userInfo)")
         completionHandler()
     }
     private func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -152,18 +152,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             completionHandler(.newData)
         }
         
-        print("USER INFO ",userInfo)
+       // print("USER INFO ",userInfo)
         completionHandler(UIBackgroundFetchResult.newData)
     }
     private func application(application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         Messaging.messaging().apnsToken = deviceToken as Data
-        print("token \(deviceToken)")
+        //print("token \(deviceToken)")
     }
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print(fcmToken)
+       // print(fcmToken)
     }
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
+      //  print("Firebase registration token: \(fcmToken)")
         
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -172,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         varSys.updtFCMToServer()
     }
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("Received data message: \(remoteMessage.appData)")
+        //print("Received data message: \(remoteMessage.appData)")
         if (remoteMessage.appData["notification"] as? [String:Any]) != nil { //cloud message - firebase
             print(remoteMessage.appData["notification"]!)
             let notif = remoteMessage.appData["notification"] //receive from Firebase

@@ -16,7 +16,7 @@ class SystemConfig: UIViewController {
         //update fcm id
         if UserDefaults.standard.bool(forKey: "isLogedin") {
             let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-            print(duser)
+           // print(duser)
             if duser.userID != ""{
                 if(Reachability.isConnectedToNetwork()){
                     let apiURL = "user_id=\(duser.userID)&fcm_id=\(Apps.FCM_ID)"
@@ -29,7 +29,7 @@ class SystemConfig: UIViewController {
     }
     //load response of updtFCMid data here
     func LoadResponse(jsonObj:NSDictionary){
-        print("RS",jsonObj)
+        //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
@@ -53,7 +53,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        print("RS",jsonObj)
+        //print("RS",jsonObj)
         // var optE = ""
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
@@ -66,7 +66,7 @@ class SystemConfig: UIViewController {
                 guard let DATA = data as? [String:Any] else{
                     return
                 }
-                print(DATA)
+                //print(DATA)
                 let state = DATA["option_e_mode"]  as! String
                 if state == "1" {
                     Apps.opt_E = true
@@ -83,30 +83,30 @@ class SystemConfig: UIViewController {
                 
                 let more_apps = DATA["ios_more_apps"]  as! String
                 Apps.MORE_APP = more_apps
-                print("more apps link from server -- \(more_apps)")
+               // print("more apps link from server -- \(more_apps)")
                 
                 let share_apps = DATA["ios_app_link"]  as! String
                 Apps.SHARE_APP = share_apps
-                print("share apps link from server -- \(share_apps)")
+                //print("share apps link from server -- \(share_apps)")
                 
                 let share_txt = DATA["shareapp_text"]  as! String
                 Apps.SHARE_APP_TXT = share_txt
-                print("share apps text from server -- \(share_txt)")
+              //  print("share apps text from server -- \(share_txt)")
                 
                 let ans_mode = DATA["answer_mode"]  as! String
                 Apps.ANS_MODE = ans_mode
                 
                 let refer_coin = DATA["refer_coin"] as! String
                 Apps.REFER_COIN = refer_coin
-                print("refer coin value -- \(refer_coin)")
+                //print("refer coin value -- \(refer_coin)")
                 
                 let earn_coin = DATA["earn_coin"]  as! String
                 Apps.EARN_COIN = earn_coin
-                print("earn coin value -- \(earn_coin)")
+               // print("earn coin value -- \(earn_coin)")
                 
                 let reward_coin = DATA["reward_coin"] as! String
                 Apps.REWARD_COIN = reward_coin
-                print("reward coin value -- \(reward_coin)")
+               // print("reward coin value -- \(reward_coin)")
             }
         }
         //close loader here
@@ -128,7 +128,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadNotifications(jsonObj:NSDictionary){
-        print("RS",jsonObj)
+       // print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
@@ -142,7 +142,7 @@ class SystemConfig: UIViewController {
             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                 for val in data{
                     NotificationList.append(Notifications.init(title: "\(val["title"]!)", msg: "\(val["message"]!)", img: "\(val["image"]!)")) 
-                    print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
+                   // print("title \(val["title"]!) msg  \(val["message"]!) img \(val["image"]!)")
                 }
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(NotificationList), forKey: "notification")
             }
@@ -160,7 +160,7 @@ class SystemConfig: UIViewController {
             let apiURL = ""//Apps.OPTION_E
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
                 
-              print("RS- lang.",jsonObj.value(forKey: "data"))
+             // print("RS- lang.",jsonObj.value(forKey: "data"))
                 // var optE = ""
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {

@@ -121,6 +121,7 @@ class SelfChallengeController: UIViewController {
     }
     
     @IBAction func PlayAction(_ sender: Any) {
+        
         if self.userSelectedQues == 0{
             self.ShowAlert(title: Apps.ALERT_TITLE, message: "")
             return

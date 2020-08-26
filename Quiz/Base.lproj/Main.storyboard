@@ -6836,12 +6836,12 @@ You have completed the level.</string>
                         <viewLayoutGuide key="safeArea" id="h8A-Ph-r7f"/>
                     </view>
                     <connections>
-                        <outlet property="bannerView" destination="Be6-lO-njc" id="SLm-Ri-z7E"/>
+                        <outlet property="adsView" destination="Be6-lO-njc" id="syh-5w-WeO"/>
                         <outlet property="battleTableView" destination="oJY-SE-A1q" id="UDk-AB-UsW"/>
                         <outlet property="name1" destination="MO8-fw-F8g" id="w0e-X7-xzJ"/>
                         <outlet property="name2" destination="rsH-r2-IsE" id="5i2-qg-cmk"/>
                         <outlet property="playerView" destination="Kvy-EZ-pY6" id="cMX-OG-btn"/>
-                        <outlet property="searchPlayerBtn" destination="0Xy-2T-qce" id="bkf-rc-oWH"/>
+                        <outlet property="searchButton" destination="0Xy-2T-qce" id="LIr-af-QpR"/>
                         <outlet property="timerLabel" destination="JTl-sF-9OO" id="5uf-NS-EpJ"/>
                         <outlet property="user1" destination="UKe-oN-59T" id="osF-tk-XTe"/>
                         <outlet property="user2" destination="Lue-NA-wnR" id="fNk-7p-L4C"/>

@@ -59,23 +59,6 @@ class ViewController: UIViewController {
         //show all 5 buttons even if user is not logged in, instead chng action of logout button
         self.AllignButton(buttons: leaderButton,profileButton,settingButton,logoutButton,moreButton)
         
-        //        if Apps.screenHeight < 700 {
-        //            leaderButton.frame = CGRect(x: 20, y: 5, width: 35, height: 35)
-        //            //  leaderButton.translatesAutoresizingMaskIntoConstraints = false
-        //            
-        //            profileButton.frame = CGRect(x: 94, y: 5, width: 35, height: 35)
-        //            // profileButton.translatesAutoresizingMaskIntoConstraints = false
-        //            
-        //            settingButton.frame = CGRect(x: 171, y: 5, width: 35, height: 35)
-        //            // settingButton.translatesAutoresizingMaskIntoConstraints = false
-        //            
-        //            logoutButton.frame = CGRect(x: 254, y: 5, width: 35, height: 35)
-        //            //logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        //            
-        //            moreButton.frame = CGRect(x: 328, y: 5, width: 35, height: 35)
-        //            // moreButton.translatesAutoresizingMaskIntoConstraints = false
-        //        }
-        
         if UserDefaults.standard.bool(forKey: "isLogedin"){
         }else{
             if deviceStoryBoard == "Ipad" {
@@ -84,6 +67,8 @@ class ViewController: UIViewController {
                 logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
             }
         }
+        
+        self.CheckAppsUpdate()
     }
     override func viewDidAppear(_ animated: Bool) {
         languageButton.isHidden = true
@@ -105,32 +90,32 @@ class ViewController: UIViewController {
     }
     
     //load Bookmark data here
-     func LoadBookmarkData(jsonObj:NSDictionary){
-         //print("RS",jsonObj)
-         var BookQuesList: [QuestionWithE] = []
-         
-         let status = jsonObj.value(forKey: "error") as! String
-         if (status == "true") {
-             DispatchQueue.main.async {
-//                 self.Loader.dismiss(animated: true, completion: {
-//                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-//                 })
-             }
-         }else{
-             if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                 for val in data{
-                     BookQuesList.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"] ?? "0")"))
-                 }
-             }
-         }
-         //close loader here
-         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-             DispatchQueue.main.async {
-                 //self.DismissLoader(loader: self.Loader)
-                 UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
-             }
-         });
-     }
+    func LoadBookmarkData(jsonObj:NSDictionary){
+        // print("RS BK",jsonObj)
+        var BookQuesList: [QuestionWithE] = []
+        
+        let status = "\(jsonObj.value(forKey: "error") ?? "1")".bool ?? true
+        if (status) {
+            DispatchQueue.main.async {
+                //                 self.Loader.dismiss(animated: true, completion: {
+                //                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                //                 })
+            }
+        }else{
+            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                for val in data{
+                    BookQuesList.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"] ?? "0")"))
+                }
+            }
+        }
+        //close loader here
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.async {
+                //self.DismissLoader(loader: self.Loader)
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
+            }
+        });
+    }
     
     @IBAction func moreBtn(_ sender: UIButton) {
         
@@ -326,5 +311,68 @@ class ViewController: UIViewController {
             // view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
             view.border(color: UIColor(red: 57/255, green: 129/255, blue: 156/255, alpha: 0.5), radius: view.frame.size.height / 2, bWidth: 2)
         }
+    }
+}
+
+extension ViewController{
+    
+    enum VersionError: Error {
+        case invalidResponse, invalidBundleInfo
+    }
+    
+    func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) throws -> URLSessionDataTask {
+        guard let info = Bundle.main.infoDictionary,
+            let currentVersion = info["CFBundleShortVersionString"] as? String,
+            let identifier = info["CFBundleIdentifier"] as? String,
+            let url = URL(string: "http://itunes.apple.com/lookup?bundleId=\(identifier)") else {
+                throw VersionError.invalidBundleInfo
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                if let error = error { throw error }
+                guard let data = data else { throw VersionError.invalidResponse }
+                let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any]
+                guard let result = (json?["results"] as? [Any])?.first as? [String: Any], let version = result["version"] as? String else {
+                    throw VersionError.invalidResponse
+                }
+                completion(version != currentVersion, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+        task.resume()
+        return task
+    }
+    
+    func CheckAppsUpdate(){
+        _ = try? isUpdateAvailable { (update, error) in
+            if let error = error {
+                print("APPS UPDATE",error)
+            } else if let update = update {
+                print("Apps UPDATE SU",update)
+            }
+        }
+    }
+    
+    func popupUpdateDialogue(){
+        let alert = UIAlertController(title: Apps.UPDATE_TITLE, message: Apps.UPDATE_MSG, preferredStyle: .alert)
+        
+        let okBtn = UIAlertAction(title: Apps.UPDATE_BUTTON, style: .default, handler: {(_ action: UIAlertAction) -> Void in
+            if let url = URL(string: Apps.SHARE_APP),
+                UIApplication.shared.canOpenURL(url){
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        })
+        let noBtn = UIAlertAction(title:Apps.UPDATE_SKIP , style: .destructive, handler: {(_ action: UIAlertAction) -> Void in
+        })
+        alert.addAction(okBtn)
+        alert.addAction(noBtn)
+        self.present(alert, animated: true, completion: nil)
+        
     }
 }

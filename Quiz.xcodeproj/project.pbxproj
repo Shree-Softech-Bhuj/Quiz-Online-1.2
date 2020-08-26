@@ -10,6 +10,7 @@
 		104DCA6EBBD7F96600F896A5 /* Pods_QuizUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84B8B5DE5D049A997B5E982 /* Pods_QuizUITests.framework */; };
 		279817AF397096B2B7BA8DCA /* Pods_QuizTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 251F6F3CC8059908050DF02D /* Pods_QuizTests.framework */; };
 		753D42C378971AB969A4D7DE /* Pods_Quiz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */; };
+		9A2E3E4324F4CC860099144B /* selfClick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2E3E4224F4CC860099144B /* selfClick.mp3 */; };
 		9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3782CC247B757800EF6996 /* SelfChallengeController.swift */; };
 		9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */; };
 		9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */; };
@@ -110,6 +111,7 @@
 		6C9D51952B8B36A42BB59AAC /* Pods-Quiz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.debug.xcconfig"; sourceTree = "<group>"; };
 		738C4A7298208A8EFA3564A9 /* Pods-Quiz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.release.xcconfig"; sourceTree = "<group>"; };
 		8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quiz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A2E3E4224F4CC860099144B /* selfClick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = selfClick.mp3; sourceTree = "<group>"; };
 		9A3782CC247B757800EF6996 /* SelfChallengeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChallengeController.swift; sourceTree = "<group>"; };
 		9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttempAlertView.swift; sourceTree = "<group>"; };
 		9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfPlayResultView.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 		BC029826229CF47400A50E80 /* AssetsFile */ = {
 			isa = PBXGroup;
 			children = (
+				9A2E3E4224F4CC860099144B /* selfClick.mp3 */,
 				D791BA972240B9AB00F6671C /* click.mp3 */,
 				D791BA992240B9AD00F6671C /* right.mp3 */,
 				D791BA982240B9AC00F6671C /* snd_bg.mp3 */,
@@ -506,6 +509,7 @@
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
+				9A2E3E4324F4CC860099144B /* selfClick.mp3 in Resources */,
 				D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */,
 				D791BA9B2240B9AD00F6671C /* click.mp3 in Resources */,
 				D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */,

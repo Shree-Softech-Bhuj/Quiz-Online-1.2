@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
 import AVFoundation
-import  FirebaseDatabase
+import FirebaseDatabase
+import CallKit
 
 class BattlePlayController: UIViewController, UIScrollViewDelegate {
     
@@ -70,20 +71,25 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var correctAnswer = "a"
     var hasLeave = false
     var updatedOnce = false
+    var callObserver: CXCallObserver!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        callObserver = CXCallObserver()
+        callObserver.setDelegate(self, queue: nil) // nil queue means main thread
+        
         imageQuestionLbl.backgroundColor = .white
         hasLeave = false
-       userImg1.layer.borderWidth = 2
-       userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
-       userImg1.layer.cornerRadius = userImg1.bounds.width / 2
-       userImg1.clipsToBounds = true
+        userImg1.layer.borderWidth = 2
+        userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg1.layer.cornerRadius = userImg1.bounds.width / 2
+        userImg1.clipsToBounds = true
         
-       userImg2.layer.borderWidth = 2
-       userImg2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
-       userImg2.layer.cornerRadius = userImg2.bounds.width / 2
-       userImg2.clipsToBounds = true
+        userImg2.layer.borderWidth = 2
+        userImg2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg2.layer.cornerRadius = userImg2.bounds.width / 2
+        userImg2.clipsToBounds = true
         
         //show 4 options by default & set 5th later by checking for opt E mode
         btnE.isHidden = true
@@ -98,7 +104,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if deviceStoryBoard == "Ipad"{
             progressRing = CircularProgressBar(radius:18, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 15), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
         }else{
-           progressRing = CircularProgressBar(radius: 18, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
+            progressRing = CircularProgressBar(radius: 18, position: CGPoint(x: timerView.center.x, y: timerView.center.y + 3), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6)
             
         }
         timerView.layer.addSublayer(progressRing)
@@ -114,9 +120,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         userName1.text = user.name
-      //  userName1.setLabel()
+        //  userName1.setLabel()
         userName2.text = battleUser.name
-       // userName2.setLabel()
+        // userName2.setLabel()
         DispatchQueue.main.async {
             self.userImg1.loadImageUsingCache(withUrl: self.user.image)
             self.userImg2.loadImageUsingCache(withUrl: self.battleUser.image)
@@ -223,22 +229,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
-            //  if let validTimer = self.timer?.isValid {
-            self.hasLeave = true
-            self.ref.child(self.user.UID).child("leftBattle").setValue("true") //to be used for opponent user
-            if (self.timer?.isValid) != nil {
-                self.timer!.invalidate()
-            }
-            self.ref.removeAllObservers()
-            self.ref.removeValue()
-            self.ref = nil
-            if(Reachability.isConnectedToNetwork()){
-                let apiURL = "match_id=\(self.battleUser.matchingID)&destroy_match=1" //user_id_1=\(self.user.UID)&user_id_2=\(self.battleUser.UID)&
-                self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
-            }
-            NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
-            NotificationCenter.default.post(name: Notification.Name("CloseBattleViewController"), object: nil)
-            self.navigationController?.popViewController(animated: true)
+           self.LeaveBattleProc()
         }))
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
@@ -247,35 +238,41 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func CompleteBattle(){
-        print("complete battle called ")
-        if timer != nil && timer!.isValid{
-            timer!.invalidate()
-        }
-        if ref != nil{
-            self.ref.removeAllObservers()
-            self.ref.removeValue()
-            self.ref = nil
-        }
-        
-        if(Reachability.isConnectedToNetwork()){
-            let apiURL = "match_id=\(battleUser.matchingID)&destroy_match=1" //user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&
-            self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
-        }
-        
-        
-        NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
-//         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-//        let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController") as! BattleViewController
-//        viewCont.isBattleStarted = false
-//        print("value changed to \(viewCont.isBattleStarted)")
-        self.navigationController?.popViewController(animated: true)
-    }
+          if timer != nil && timer!.isValid{
+              timer!.invalidate()
+          }
+          if ref != nil{
+              self.ref.removeAllObservers()
+              self.ref.removeValue()
+              self.ref = nil
+          }
+          
+          if(Reachability.isConnectedToNetwork()){
+              let apiURL = "user_id1=\(user.UID)&user_id2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=1"
+              self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
+          }
+          
+          if(Reachability.isConnectedToNetwork()){
+              var winnerID = ""
+              if rightCount > opponentRightCount{
+                  winnerID = user.userID
+              }else{
+                  winnerID = battleUser.userID
+              }
+              if !self.hasLeave{
+                  let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+                  self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+              }
+          }
+          NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
+          self.navigationController?.popViewController(animated: true)
+      }
     //load sub category data here
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         let msg = jsonObj.value(forKey: "message") as! String
-    
+        
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
                 self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
@@ -288,23 +285,23 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                 for val in data{
                     quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                     
-//                    if let e = val["optione"] as? String {
-//                        if e == ""{
-//                            Apps.opt_E = false
-//                            DispatchQueue.main.async {
-//                                self.btnE.isHidden = true
-//                            }
-//                            buttons = [btnA,btnB,btnC,btnD]
-//                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-//                        }else{
-//                            Apps.opt_E = true
-//                            DispatchQueue.main.async {
-//                                self.btnE.isHidden = false
-//                            }
-//                            buttons = [btnA,btnB,btnC,btnD,btnE]
-//                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
-//                        }
-//                    }
+                    //                    if let e = val["optione"] as? String {
+                    //                        if e == ""{
+                    //                            Apps.opt_E = false
+                    //                            DispatchQueue.main.async {
+                    //                                self.btnE.isHidden = true
+                    //                            }
+                    //                            buttons = [btnA,btnB,btnC,btnD]
+                    //                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                    //                        }else{
+                    //                            Apps.opt_E = true
+                    //                            DispatchQueue.main.async {
+                    //                                self.btnE.isHidden = false
+                    //                            }
+                    //                            buttons = [btnA,btnB,btnC,btnD,btnE]
+                    //                            self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+                    //                        }
+                    //                    }
                 }
                 Apps.TOTAL_PLAY_QS = data.count
             }
@@ -330,26 +327,26 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                     let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
                     print("set stats.. \(apiURL)")
                     self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
-                     updatedOnce = true
+                    updatedOnce = true
                 }
                 
             }else if rightCount < opponentRightCount{
                 winnerID = battleUser.userID
                 
                 if hasLeave == false && updatedOnce == false {
-                   let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
-                   print("set stats.. \(apiURL)")
-                   self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
-                     updatedOnce = true
-               }
+                    let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+                    print("set stats.. \(apiURL)")
+                    self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+                    updatedOnce = true
+                }
                 
             }else{
                 winnerID = ""
                 if hasLeave == false && updatedOnce == false {
-                  let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=&is_drawn=1"
-                  print("set stats.. \(apiURL)")
-                  self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
-                  updatedOnce = true
+                    let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=&is_drawn=1"
+                    print("set stats.. \(apiURL)")
+                    self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+                    updatedOnce = true
                 }
             }
         }
@@ -400,11 +397,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             resetProgressCount()
             ObserveQuestion()
-//            if Apps.opt_E == true{
-//                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
-//            }else{
-//                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
-//            }
+            //            if Apps.opt_E == true{
+            //                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)// enable button and restore to its default value
+            //            }else{
+            //                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)// enable button and restore to its default value
+            //            }
             
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
@@ -457,6 +454,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     }
     
     func ShowResultAlert(){
+        NotificationCenter.default.post(name: Notification.Name("StopMusic"), object: nil)
         if timer != nil && timer!.isValid{
             timer!.invalidate()
         }
@@ -477,8 +475,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         DispatchQueue.main.async {
             self.present(alert, animated: true, completion: nil)
         }
-        
     }
+    
     // right answer operation function
     func rightAnswer(btn:UIView){
         
@@ -531,19 +529,19 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         btn?.tintColor = UIColor.white
         
         if Apps.ANS_MODE == "1"{
-           //show correct answer
-           for button in buttons{
-               if button.titleLabel?.text == correctAnswer{
+            //show correct answer
+            for button in buttons{
+                if button.titleLabel?.text == correctAnswer{
                     button.tag = 1
-               }
-               for button in buttons {
-                   if button.tag == 1{
-                       button.backgroundColor = Apps.RIGHT_ANS_COLOR
-                       button.tintColor = UIColor.white
-                       break
-                   }
-               }
-           }
+                }
+                for button in buttons {
+                    if button.tag == 1{
+                        button.backgroundColor = Apps.RIGHT_ANS_COLOR
+                        button.tintColor = UIColor.white
+                        break
+                    }
+                }
+            }
         }
         
         // sound
@@ -566,7 +564,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             data["userSelect"] = userAns
             if self.ref != nil{
-                   self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
+                self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
             }
         }
     }
@@ -580,10 +578,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                     self.opponentRightCount = Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!
                 }
                 if snapshot.hasChild("leftBattle"){
-                    let boolCheck = snapshot.childSnapshot(forPath: "leftBattle").value as! String
-                    if boolCheck == "true"{
-                        self.hasLeave = true
-                        self.ShowResultAlert()
+                    if  let boolCheck = snapshot.childSnapshot(forPath: "leftBattle").value as? Bool{
+                        if boolCheck{
+                            self.hasLeave = true
+                            self.ShowResultAlert()
+                        }
                     }
                 }
             })
@@ -595,28 +594,42 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.ref.child(battleUser.UID).child("Questions").child("\(self.currentQuestionPos)").observe(.value, with: {(snapshot) in
                 let data = snapshot.value as? [String:Any]
                 if data != nil{
+                    print("COMES 1")
                     self.oppSelectedAns = data!["userSelect"]! as! String
+                    self.oppSelectedAns = self.oppSelectedAns.trimmingCharacters(in: .whitespacesAndNewlines)
                     if self.myAnswer{
+                        print("COMES 2")
+                        if self.oppSelectedAns.isEmpty || self.oppSelectedAns == ""{
+                            self.timer!.invalidate()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+                                // load next question after 1 second
+                                if self.timer!.isValid{
+                                    self.timer?.invalidate()
+                                }
+                                self.currentQuestionPos += 1 //increament for next question
+                                self.LoadQuestion()
+                            })
+                        }
                         for button in self.buttons{
-                            if button.title(for: .normal) == self.oppSelectedAns{
+                            let str = button.title(for: .normal)!.trimmingCharacters(in: .whitespacesAndNewlines)
+                            print("COMES 3",str,"ANS",self.oppSelectedAns)
+                            if str == self.oppSelectedAns{
+                                print("COMES 4")
                                 self.ShowOpponentAns(btn: button, str: "\(self.battleUser.name)")
                             }
                         }
                     }else{
+                        print("COMES 5")
                         self.oppAnswer = true
                     }
                     if self.currentQuestionPos + 1 >= Apps.TOTAL_PLAY_QS{
                         if self.myAnswer{
-                          //  self.setStatistics()
                             self.ShowResultAlert()
                         }
                     }
                 }
                 
             })
-        }else{
-            print("other user has leave")
-            // self.ShowResultAlert()
         }
     }
     
@@ -628,13 +641,13 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if opestions.contains("") {
             temp = ["a","b","c","d"]
         }else{
-             temp = ["a","b","c","d","e"]
+            temp = ["a","b","c","d","e"]
         }
-//        if Apps.opt_E == true {
-//            temp = ["a","b","c","d","e"]
-//        }else{
-//            temp = ["a","b","c","d"]
-//        }
+        //        if Apps.opt_E == true {
+        //            temp = ["a","b","c","d","e"]
+        //        }else{
+        //            temp = ["a","b","c","d"]
+        //        }
         let ans = temp
         var rightAns = ""
         if ans.contains("\(opestions.last!.lowercased())") {
@@ -642,7 +655,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         }else{
             rightAnswer(btn: btnA)
         }
-       let singleQues = quesData[currentQuestionPos]
+        let singleQues = quesData[currentQuestionPos]
         print("QUES",singleQues)
         if singleQues.quesType == "2"{
             
@@ -650,12 +663,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             
             btnC.isHidden = true
             btnD.isHidden = true
-
+            
             self.buttons = [btnA,btnB]
             //btnE.isHidden = true
-             temp = ["a","b"]
+            temp = ["a","b"]
             self.buttons.forEach{
-                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+                $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
             }
         }else{
             btnC.isHidden = false
@@ -729,17 +742,17 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         lbl.text = "\(str)"
         lbl.tag = 11 // identified tag for remove it from its super view
         lbl.clipsToBounds = true
-//        lbl.layer.cornerRadius = lblHeight / 2
-//        lbl.backgroundColor = UIColor.rgb(211, 205, 139, 1)
+        //        lbl.layer.cornerRadius = lblHeight / 2
+        //        lbl.backgroundColor = UIColor.rgb(211, 205, 139, 1)
         lbl.font = .systemFont(ofSize: 12)
         if btn.tag == 1{ // true answer
-           lbl.textColor = Apps.RIGHT_ANS_COLOR
-       }else{ //wrong answer
+            lbl.textColor = Apps.RIGHT_ANS_COLOR
+        }else{ //wrong answer
             lbl.textColor = Apps.WRONG_ANS_COLOR
-       }
-      // if clickedButton.contains(btn){
-           lbl.backgroundColor = UIColor.white
-      // }
+        }
+        // if clickedButton.contains(btn){
+        lbl.backgroundColor = UIColor.white
+        // }
         btn.addSubview(lbl)
         
         self.timer!.invalidate()
@@ -748,5 +761,46 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             self.currentQuestionPos += 1 //increament for next question
             self.LoadQuestion()
         })
+    }
+}
+
+extension BattlePlayController: CXCallObserverDelegate {
+    func LeaveBattleProc(){
+        self.hasLeave = true
+        self.ref.child(self.user.UID).child("leftBattle").setValue(true) //to be used for opponent user
+        
+        if (self.timer?.isValid) != nil {
+            self.timer!.invalidate()
+        }
+        self.ref.removeAllObservers()
+        //self.ref.removeValue()
+        // self.ref = nil
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+            self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
+        }
+        NotificationCenter.default.post(name: Notification.Name("StopMusic"), object: nil)
+        //NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
+        //NotificationCenter.default.post(name: Notification.Name("CloseBattleViewController"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        if call.hasEnded == true {
+            print("Disconnected")
+        }
+        
+        if call.isOutgoing == true && call.hasConnected == false {
+            print("Dialing")
+        }
+        
+        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+            print("Incoming")
+        }
+        
+        if call.hasConnected == true && call.hasEnded == false {
+            print("Connected")
+            self.LeaveBattleProc()
+        }
     }
 }

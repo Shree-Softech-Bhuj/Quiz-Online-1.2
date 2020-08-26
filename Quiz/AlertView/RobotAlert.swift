@@ -1,8 +1,9 @@
 import UIKit
 
-protocol RobortDelegate {
+protocol RobotDelegate {
    func playWithRobot()
 }
+
 class RobotAlert: UIViewController {
 
     @IBOutlet weak var userImage: UIImageView!
@@ -14,7 +15,7 @@ class RobotAlert: UIViewController {
     
     var imageUrl = ""
     var parentController:UIViewController?
-    var robortDelegate:RobortDelegate?
+    var robotDelegate:RobotDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +44,7 @@ class RobotAlert: UIViewController {
     
     @IBAction func PlayWithRobot(_ sender: Any) {
         self.dismiss(animated: true, completion: {
-            self.robortDelegate?.playWithRobot()
+            self.robotDelegate?.playWithRobot()
         })
     }
     

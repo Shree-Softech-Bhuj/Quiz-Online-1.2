@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "https://quizdemo.wrteam.in/api-v2.php"//"http://newquiz.wrteam.in/api-v2.php"
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://newquiz.wrteam.in/api-v2.php"
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
@@ -168,6 +168,11 @@ struct Apps{
     
     static let LANG = "en-US"
     
+    // apps update info string
+    static let UPDATE_TITLE = "New Updates Available"
+    static let UPDATE_MSG = "New updates is available for the apps, to get more functionality and good experiance please updates apps"
+    static let UPDATE_BUTTON = "Update Now"
+    static let UPDATE_SKIP = "SKIP"
     //api url here
     static let API_BOOKMARK_GET = "get_bookmark"
     static let API_BOOKMARK_SET = "set_bookmark"
