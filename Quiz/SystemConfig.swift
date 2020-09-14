@@ -29,7 +29,7 @@ class SystemConfig: UIViewController {
     }
     //load response of updtFCMid data here
     func LoadResponse(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )

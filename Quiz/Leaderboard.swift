@@ -108,7 +108,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             //chk for selection from dropdown
             if (sel == "Daily") { //daily
                 let apiURL = "from=\(dateFormatterGet.string(from: Date()))&to=\(dateFormatterGet.string(from: Date()))"
-                print(apiURL)
+               // print(apiURL)
                 self.getAPIData(apiName: "get_datewise_leaderboard", apiURL: apiURL,completion: LoadData)
             }
             if (sel == "Monthly"){ //monthly
@@ -194,11 +194,11 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
-        print(status)
+        //print(status)
         if (status == "true") {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    print("Data Not Found !!!")
+                    //print("Data Not Found !!!")
                     //print(jsonObj.value(forKey: "status")!)
                     if jsonObj.value(forKey: "message")! == nil {
                         self.ShowAlert(title: Apps.ERROR, message: Apps.NO_DATA )
@@ -218,7 +218,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     LeaderData.append(Leader.init(rank: "\(val["rank"]!)", name: "\(val["name"]!)", image: "\(val["profile"]!)", score: "\(val["score"]!)", userID: "\(val["user_id"]!)"))
                 }
                 offset += data.count //updated every time
-                print("leader data \(data)")
+               // print("leader data \(data)")
             }
         }
         //close loader here
@@ -394,11 +394,11 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         if offset < ttlCount  && rowIndex > (LeaderData.count - 3) {
             var nm = buttonAll.title(for: .normal)
-                 print("\(nm!)- btn name")
+               //  print("\(nm!)- btn name")
                  if nm?.contains(" ") == true {
                      nm = nm!.trimmingCharacters(in: .whitespacesAndNewlines)
                  }
-                 print(nm!)
+                 //print(nm!)
                  if nm != nil {
                   getLeaders(sel: nm!)
                  }
@@ -457,8 +457,8 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
         bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
         let this = LeaderData.filter{$0.userID == thisUser.userID}
-        print(thisUser.userID)
-        print(LeaderData)
+        //print(thisUser.userID)
+        //print(LeaderData)
         
         if !this.isEmpty {
            // print("trueee")
@@ -516,7 +516,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                // print(temp)
                 print(temp.frame)
                 if temp.frame.height == 60  { //temp.frame.origin == CGPoint(x: 0, y: 577)-position of bottomView which we want to remove
-                    print("origin => \(temp)")
+                    //print("origin => \(temp)")
                     temp.removeFromSuperview ()
                 }
             }

@@ -10,6 +10,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var battleButton: UIButton!
     @IBOutlet weak var selfChallange: UIButton!
+    @IBOutlet weak var DailyQuiz: UIButton!
     
     @IBOutlet weak var moreButton: UIButton!
     
@@ -23,6 +24,8 @@ class ViewController: UIViewController {
     var backgroundMusicPlayer: AVAudioPlayer!
     var setting:Setting? = nil
     
+      var sysConfig:SystemConfiguration!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +37,8 @@ class ViewController: UIViewController {
         battleView.SetDarkShadow()
         selfChallange.layer.cornerRadius = selfChallange.frame.height / 2//32
         selfChallange.SetDarkShadow()
+        DailyQuiz.layer.cornerRadius = selfChallange.frame.height / 2//32
+        DailyQuiz.SetDarkShadow()
         
         //check setting object in user default
         if UserDefaults.standard.value(forKey:"setting") != nil {
@@ -67,6 +72,11 @@ class ViewController: UIViewController {
                 logoutButton.setImage(UIImage(named: "login"), for: .normal) //chng image for logout button
             }
         }
+        
+        if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
+            sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
+        }
+        
         
         self.CheckAppsUpdate()
     }
@@ -203,7 +213,25 @@ class ViewController: UIViewController {
         }else{
             self.navigationController?.popToRootViewController(animated: true)
         }
+    }
+    
+    @IBAction func DailyQuiz(_ sender: Any) {
         
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        
+        //check if language is enabled and not selected
+        if languageButton.isHidden == false{
+            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+                LanguageButton(self)
+            }
+        }
+        
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            self.getDailyQues()
+        }else{
+            self.navigationController?.popToRootViewController(animated: true)
+        }
         
     }
     
@@ -375,4 +403,61 @@ extension ViewController{
         self.present(alert, animated: true, completion: nil)
         
     }
+    
+    func getDailyQues(){
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+        
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        var quesData: [QuestionWithE] = []
+        var apiURL = ""
+        
+        if sysConfig.LANGUAGE_MODE == 1{
+            let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+            apiURL += "language_id=\(langID)"
+        }
+        self.getAPIData(apiName: "get_daily_quiz", apiURL: apiURL,completion: {jsonObj in
+            print("JSON",jsonObj)
+            let status = jsonObj.value(forKey: "error") as! String
+            if (status == "true") {
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+            }else{
+                //get data for category
+                quesData.removeAll()
+                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                    for val in data{
+                        quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
+                        //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
+                        //                            if let e = val["optione"] as? String {
+                        //                                if e == ""{
+                        //                                    Apps.opt_E = false
+                        //                                }else{
+                        //                                    Apps.opt_E = true
+                        //                                }
+                        //                            }
+                    }
+                    
+                    Apps.TOTAL_PLAY_QS = data.count
+                    
+                    //check this level has enough (10) question to play? or not
+                    if quesData.count >= Apps.TOTAL_PLAY_QS {
+                        viewCont.quesData = quesData
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(viewCont, animated: true)
+                        }
+                    }//else{
+                    //                            DispatchQueue.main.async {
+                    //                                print("This level does not have enough question",self.quesData.count)
+                    //                                self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
+                    //                            }
+                    //                        }
+                }else{
+                    
+                }
+            }
+        })
+    }
 }
+

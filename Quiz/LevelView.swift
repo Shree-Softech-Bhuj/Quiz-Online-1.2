@@ -165,13 +165,13 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                         for val in data{
                             self.quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                             //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
-//                            if let e = val["optione"] as? String {
-//                                if e == ""{
-//                                    Apps.opt_E = false
-//                                }else{
-//                                    Apps.opt_E = true
-//                                }
-//                            }
+                            //                            if let e = val["optione"] as? String {
+                            //                                if e == ""{
+                            //                                    Apps.opt_E = false
+                            //                                }else{
+                            //                                    Apps.opt_E = true
+                            //                                }
+                            //                            }
                         }
                         Apps.TOTAL_PLAY_QS = data.count
                         print(Apps.TOTAL_PLAY_QS)
@@ -183,11 +183,11 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
                                 self.navigationController?.pushViewController(viewCont, animated: true)
                             }
                         }//else{
-//                            DispatchQueue.main.async {
-//                                print("This level does not have enough question",self.quesData.count)
-//                                self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
-//                            }
-//                        }
+                        //                            DispatchQueue.main.async {
+                        //                                print("This level does not have enough question",self.quesData.count)
+                        //                                self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
+                        //                            }
+                        //                        }
                     }else{
                         
                     }
@@ -209,7 +209,7 @@ extension LevelView{
             let apiURL = self.questionType == "main" ? "user_id=\(user.userID)&category=\(self.catID)&subcategory=0" : "user_id=\(user.userID)&category=\(self.mainCatid)&subcategory=\(self.catID)"
             self.getAPIData(apiName: "get_level_data", apiURL: apiURL,completion: { jsonObj in
                 
-                print("JSON",jsonObj)
+               // print("JSON",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
                     DispatchQueue.main.async {
@@ -231,11 +231,10 @@ extension LevelView{
                             self.tableView.dataSource = self
                             
                             self.tableView.reloadData()
-                           
+                            
                         }
                     });
                 }
-                
             })
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
