@@ -90,6 +90,13 @@ class ViewController: UIViewController {
             }
         }
         
+        if isKeyPresentInUserDefaults(key: "isLogedin"){
+            if !UserDefaults.standard.bool(forKey: "isLogedin"){
+                return
+            }
+        }else{
+            return
+        }
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             let userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
