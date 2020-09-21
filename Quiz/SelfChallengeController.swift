@@ -225,7 +225,9 @@ class SelfChallengeController: UIViewController {
              scrollView.addSubview(label)
             return
         }
-        for i in stride(from: 5, to: toVal, by: 5) {
+      
+        for i in stride(from: 5, to: toVal + 1, by: 5) {
+          
             let button = UIButton()
             button.tag = i
             button.backgroundColor = UIColor.darkGray
