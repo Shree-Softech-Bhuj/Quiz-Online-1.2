@@ -15,7 +15,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     @IBOutlet var btnD: UIButton!
     @IBOutlet var btnE: UIButton!
         
-    @IBOutlet weak var bookmarkBtn: UIButton!
+    //@IBOutlet weak var bookmarkBtn: UIButton!
     
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
@@ -25,7 +25,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     @IBOutlet var zoomScroll: UIScrollView!
     @IBOutlet var view1: UIView!
     
-    @IBOutlet var leftView: UIView!
+   // @IBOutlet var leftView: UIView!
     @IBOutlet var centerView: UIView!
     @IBOutlet var rightView: UIView!
     @IBOutlet var secondChildView: UIView!
@@ -97,7 +97,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
          }else{
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
-        centerView.layer.addBorder(edge: .left, color: .darkGray, thickness: 1)
+       // centerView.layer.addBorder(edge: .left, color: .darkGray, thickness: 1)
         centerView.layer.addBorder(edge: .right, color: .darkGray, thickness: 1)
         
         btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
@@ -114,7 +114,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
             BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:((UserDefaults.standard.value(forKey: "booklist") as? Data)!))
         }
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ResumeTimer), name: NSNotification.Name(rawValue: "ResumeTimer"), object: nil)
@@ -178,7 +177,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         let with = self.scroll.frame.width
         self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
     }
-    
     
     func SetOptionView(otpStr:String) -> UIView{
         let color = UIColor.rgb(43, 146, 178, 1)
@@ -292,11 +290,11 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     
     // Note only works when time has not been invalidated yet
     @objc func resetProgressCount() {
-       buttons.forEach{$0.isUserInteractionEnabled = true}
-       
+        buttons.forEach{$0.isUserInteractionEnabled = true}
+        
         zoomScale = 1
         zoomScroll.zoomScale = 1
-       
+        
     }
     
     @objc func incrementCount() {
@@ -358,25 +356,25 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
        // clearColor()
     }
     
-    @IBAction func BookMark(_ sender: Any) {
-        
-        if(self.bookmarkBtn.tag == 0){
-            let reQues = quesData[currentQuestionPos]
-            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
-            bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
-            bookmarkBtn.tag = 1
-            self.SetBookmark(quesID: reQues.id, status: "1", completion: {})
-        }else{
-            let reQues = quesData[currentQuestionPos]
-            BookQuesList.removeAll(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})
-            bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
-            bookmarkBtn.tag = 0
-            self.SetBookmark(quesID: reQues.id, status: "0", completion: {})
-        }
-        
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
-        
-    }
+//    @IBAction func BookMark(_ sender: Any) {
+//
+//        if(self.bookmarkBtn.tag == 0){
+//            let reQues = quesData[currentQuestionPos]
+//            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
+//            bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
+//            bookmarkBtn.tag = 1
+//            self.SetBookmark(quesID: reQues.id, status: "1", completion: {})
+//        }else{
+//            let reQues = quesData[currentQuestionPos]
+//            BookQuesList.removeAll(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})
+//            bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
+//            bookmarkBtn.tag = 0
+//            self.SetBookmark(quesID: reQues.id, status: "0", completion: {})
+//        }
+//
+//        UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
+//
+//    }
     
     func clearColor(views:UIView...){
         
@@ -515,14 +513,14 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
             mainQuesCount.text = "\(currentQuestionPos + 1)" //"\(currentQuestionPos + 1)/10"
            
             
-            //check current question is in bookmark list or not
-            if(BookQuesList.contains(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})){
-                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
-                self.bookmarkBtn.tag = 1
-            }else{
-                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
-                self.bookmarkBtn.tag = 0
-            }
+//            //check current question is in bookmark list or not
+//            if(BookQuesList.contains(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})){
+//                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
+//                self.bookmarkBtn.tag = 1
+//            }else{
+//                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
+//                self.bookmarkBtn.tag = 0
+//            }
         } else {
             //self.ShowResultScreen()
         }

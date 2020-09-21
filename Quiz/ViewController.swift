@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     var setting:Setting? = nil
     
       var sysConfig:SystemConfiguration!
+      var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,11 +228,17 @@ class ViewController: UIViewController {
             }
         }
         
-        if UserDefaults.standard.bool(forKey: "isLogedin"){
-            self.getDailyQues()
+        if(Reachability.isConnectedToNetwork()){
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+                self.getDailyQues()
+            }else{
+                self.navigationController?.popToRootViewController(animated: true)
+            }
         }else{
-            self.navigationController?.popToRootViewController(animated: true)
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
+        
+       
         
     }
     
@@ -418,8 +425,16 @@ extension ViewController{
             let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
             apiURL += "language_id=\(langID)"
         }
+        
+        Loader = LoadLoader(loader: Loader)
         self.getAPIData(apiName: "get_daily_quiz", apiURL: apiURL,completion: {jsonObj in
-            print("JSON",jsonObj)
+            //  print("JSON",jsonObj)
+            //close loader here
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                DispatchQueue.main.async {
+                    self.DismissLoader(loader: self.Loader)
+                }
+            });
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
                 self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
@@ -429,14 +444,7 @@ extension ViewController{
                 if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
                     for val in data{
                         quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
-                        //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
-                        //                            if let e = val["optione"] as? String {
-                        //                                if e == ""{
-                        //                                    Apps.opt_E = false
-                        //                                }else{
-                        //                                    Apps.opt_E = true
-                        //                                }
-                        //                            }
+                        
                     }
                     
                     Apps.TOTAL_PLAY_QS = data.count
@@ -447,16 +455,10 @@ extension ViewController{
                         DispatchQueue.main.async {
                             self.navigationController?.pushViewController(viewCont, animated: true)
                         }
-                    }//else{
-                    //                            DispatchQueue.main.async {
-                    //                                print("This level does not have enough question",self.quesData.count)
-                    //                                self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
-                    //                            }
-                    //                        }
-                }else{
-                    
+                    }
                 }
             }
+         
         })
     }
 }
