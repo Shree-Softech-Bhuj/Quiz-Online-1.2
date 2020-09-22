@@ -422,6 +422,7 @@ extension ViewController{
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+        viewCont.playType = "daily"
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
@@ -435,7 +436,7 @@ extension ViewController{
         
         Loader = LoadLoader(loader: Loader)
         self.getAPIData(apiName: "get_daily_quiz", apiURL: apiURL,completion: {jsonObj in
-            //  print("JSON",jsonObj)
+            print("JSON",jsonObj)
             //close loader here
             DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
                 DispatchQueue.main.async {
@@ -459,9 +460,12 @@ extension ViewController{
                     //check this level has enough (10) question to play? or not
                     if quesData.count >= Apps.TOTAL_PLAY_QS {
                         viewCont.quesData = quesData
-                        DispatchQueue.main.async {
-                            self.navigationController?.pushViewController(viewCont, animated: true)
-                        }
+                        DispatchQueue.global().asyncAfter(deadline: .now() + 0.6, execute: {
+                            DispatchQueue.main.async {
+                                self.navigationController?.pushViewController(viewCont, animated: true)
+                            }
+                        })
+                       
                     }
                 }
             }

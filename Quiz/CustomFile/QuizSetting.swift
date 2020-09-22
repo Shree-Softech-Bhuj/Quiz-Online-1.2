@@ -173,6 +173,11 @@ struct Apps{
     static let UPDATE_MSG = "New updates is available for the apps, to get more functionality and good experiance please updates apps"
     static let UPDATE_BUTTON = "Update Now"
     static let UPDATE_SKIP = "SKIP"
+    static let DAILY_QUIZ = "Daily Quiz"
+    static let DAILY_QUIZ_TITLE = "Play Again"
+    static let DAILY_QUIZ_MSG_SUCCESS = "Daily Quiz Completed"
+    static let DAILY_QUIZ_MSG_FAIL = "Daily Quiz Fail"
+    static let DAILY_QUIZ_SHARE_MSG = "I have completed daily quiz with score "
     //api url here
     static let API_BOOKMARK_GET = "get_bookmark"
     static let API_BOOKMARK_SET = "set_bookmark"

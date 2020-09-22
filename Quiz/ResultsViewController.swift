@@ -44,6 +44,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     var controllerName:String = ""
+    var playType = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,29 +79,35 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
        // view1.SetShadow()
         viewProgress.SetShadow()
+        
+        if self.playType == "daily"{
+            titleText.text = Apps.DAILY_QUIZ_TITLE
+            nxtLvl.setTitle( Apps.DAILY_QUIZ_TITLE, for: .normal)
+        }
+      
         // Based on the percentage of questions you got right present the user with different message
         if(percentage >= 30 && percentage < 50) {
             earnedCoin = 1
-            lblResults.text = Apps.COMPLETE_LEVEL
+            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
-            lblResults.text = Apps.COMPLETE_LEVEL
+            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 70 && percentage < 90) {
             earnedCoin = 3
-            lblResults.text = Apps.COMPLETE_LEVEL
+            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 90) {
             earnedCoin = 4
-            lblResults.text = Apps.COMPLETE_LEVEL
+            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else{
             earnedCoin = 0
-            lblResults.text = Apps.NOT_COMPLETE_LEVEL
+            lblResults.text = self.playType == "main" ? Apps.NOT_COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_FAIL
             viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
             //chng backcolor of containing view to red-pink & titlebar txt to play again
-            titleText.text = Apps.PLAY_AGAIN
-            nxtLvl.setTitle(Apps.PLAY_AGAIN, for: .normal)
+            titleText.text = self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE
+            nxtLvl.setTitle(self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE, for: .normal)
         }
         
         //apps has level lock unlock, remove this code if add no need level lock unlock
@@ -284,7 +291,13 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
-        let shareUrl = "\(Apps.SHARE1) \(self.level) \(Apps.SHARE2) \(self.earnedPoints)"
+        var shareUrl = ""
+        if self.playType == "main"{
+            shareUrl = "\(Apps.SHARE1) \(self.level) \(Apps.SHARE2) \(self.earnedPoints)"
+        }else{
+            shareUrl = "\(Apps.DAILY_QUIZ_SHARE_MSG) \(self.earnedPoints)"
+        }
+       
         let textToShare = str + "\n" + shareUrl
         //take screenshot
         UIGraphicsBeginImageContext(viewProgress.frame.size)
@@ -351,7 +364,7 @@ extension ResultsViewController{
             let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             let apiURL = self.questionType == "main" ? "user_id=\(user.userID)&category=\(self.catID)&subcategory=0&level=\(self.level)" : "user_id=\(user.userID)&category=\(mainCatID)&subcategory=\(self.catID)&level=\(self.level)"
             self.getAPIData(apiName: "set_level_data", apiURL: apiURL,completion: { jsonObj in
-                print("JSON",jsonObj)
+               // print("JSON",jsonObj)
             })
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)

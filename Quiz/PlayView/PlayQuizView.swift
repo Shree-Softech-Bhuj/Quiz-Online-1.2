@@ -87,6 +87,8 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var callLifeLine = ""
     let speechSynthesizer = AVSpeechSynthesizer()
     
+    var playType = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         lblQuestion.backgroundColor = .white
@@ -155,7 +157,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
         
         RequestForRewardAds()
         
-        self.titleBar.text = "\(Apps.LEVEL) \(level)"
+        self.titleBar.text = self.playType == "main" ? "\(Apps.LEVEL) \(level)" : Apps.DAILY_QUIZ
         self.loadQuestion()
     }
     
@@ -647,21 +649,27 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
                 self.bookmarkBtn.tag = 0
             }
         } else {
-            timer.invalidate()
-            // If there are no more questions show the results
-            let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-            let resultView:ResultsViewController = storyBoard.instantiateViewController(withIdentifier: "ResultsViewController") as! ResultsViewController
-            resultView.trueCount = trueCount
-            resultView.falseCount = falseCount
-            resultView.earnedPoints = (trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS)
-            resultView.ReviewQues = reviewQues
-            resultView.level = self.level
-            resultView.catID = self.catID
-            resultView.questionType = self.questionType
-            self.navigationController?.pushViewController(resultView, animated: true)
+            self.ShowResultView()
         }
     }
     
+    
+    func ShowResultView(){
+        timer.invalidate()
+        // If there are no more questions show the results
+        let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let resultView:ResultsViewController = storyBoard.instantiateViewController(withIdentifier: "ResultsViewController") as! ResultsViewController
+        resultView.playType = self.playType
+        
+        resultView.trueCount = trueCount
+        resultView.falseCount = falseCount
+        resultView.earnedPoints = (trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS)
+        resultView.ReviewQues = reviewQues
+        resultView.level = self.level
+        resultView.catID = self.catID
+        resultView.questionType = self.questionType
+        self.navigationController?.pushViewController(resultView, animated: true)
+    }
     var btnY = 0
       func SetButtonHeight(buttons:UIButton...){
           

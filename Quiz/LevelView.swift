@@ -134,6 +134,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+            viewCont.playType = "main"
             
             viewCont.catID = self.catID
             viewCont.level = indexPath.row + 1

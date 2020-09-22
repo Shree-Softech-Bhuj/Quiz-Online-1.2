@@ -236,6 +236,7 @@ class BattleViewController: UIViewController {
         if timer != nil && timer.isValid{
             timer.invalidate()
         }
+        self.searchButton.isHidden = false
         // remove user data from firebase database
        // self.ref.child(self.user.UID).removeValue()
         self.ref.removeAllObservers()
@@ -316,7 +317,7 @@ class BattleViewController: UIViewController {
     //start battle and pass data to battleplaycontroller
     var isBattlePlay = false
     func StartBattle(){
-        print("BB USER",self.battleUser)
+       // print("BB USER",self.battleUser)
         self.isSearchingStart = false
     
         if self.timer.isValid{
