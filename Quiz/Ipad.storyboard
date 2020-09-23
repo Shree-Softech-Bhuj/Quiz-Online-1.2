@@ -552,6 +552,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <connections>
+                        <outlet property="DailyQuiz" destination="KFg-sm-6QW" id="QK0-N3-qBb"/>
                         <outlet property="battleButton" destination="deF-hw-RiL" id="Wbb-N2-bQl"/>
                         <outlet property="battleView" destination="FhM-1g-4sQ" id="D73-FH-Gee"/>
                         <outlet property="languageButton" destination="NbK-YV-WAD" id="GKF-9x-9aF"/>
