@@ -111,13 +111,10 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         }
         
         //apps has level lock unlock, remove this code if add no need level lock unlock
-        if (percentage >= 30){
-            if scoreLavel + 1 == self.level{
-                score.points = score.points + earnedPoints
+        if true { //if (percentage >= 30){
+            if true { // if scoreLavel + 1 == self.level{
+               // score.points = score.points + earnedPoints
                 score.coins = score.coins + earnedCoin
-                
-                totalCoin.text = "\(score.coins)"
-                totalScore.text = "\(score.points)"
                 
                 if UserDefaults.standard.bool(forKey: "isLogedin") {
                     let duser =  try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
@@ -127,7 +124,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                         var apiURL = "user_id=\(duser.userID)&score=\(earnedPoints)" //"user_id=\(duser.userID)&score=\(score.points)"
                         self.getAPIData(apiName: "set_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
                         
-                        apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(score.coins + earnedCoin)" 
+                        apiURL = "user_id=\(duser.userID)&questions_answered=\(trueCount + falseCount)&correct_answers=\(trueCount)&category_id=\(catID)&ratio=\(percentage)&coins=\(score.coins)"
                         self.getAPIData(apiName: "set_users_statistics", apiURL: apiURL,completion: LoadData)
                     }else{
                         ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
@@ -135,7 +132,6 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
                 }
             }
         }
-        score.coins = score.coins + earnedCoin
         
         lblCoin.text = "\(score.coins)"
         lblScore.text = "\(score.points)"
