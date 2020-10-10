@@ -42,6 +42,7 @@ class UpdateProfileView: UIViewController{
         email = dUser!.email
         emailTxt.text = dUser?.email
         
+        logOutBtn.setBorder()
         
         DispatchQueue.main.async {
             if(self.dUser!.image != ""){
@@ -65,7 +66,7 @@ class UpdateProfileView: UIViewController{
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
-        btnUpdate.layer.cornerRadius = 15
+        btnUpdate.layer.cornerRadius = btnUpdate.bounds.size.height/2 //15
         
 //        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
 //        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)

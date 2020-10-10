@@ -84,11 +84,11 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         buttons = [btnA,btnB,btnC,btnD]
         
         userImg1.layer.borderWidth = 2
-        userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg1.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImg1.layer.cornerRadius = userImg1.bounds.width / 2
         userImg1.clipsToBounds = true
         userImg2.layer.borderWidth = 2
-        userImg2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg2.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImg2.layer.cornerRadius = userImg2.bounds.width / 2
         userImg2.clipsToBounds = true
                 
@@ -303,7 +303,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         }
         
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
-        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1) //chng font color to initial color
+        progressRing.progressLabel.textColor = Apps.BASIC_COLOR //chng font color to initial color
         
         zoomScale = 1
         zoomScroll.zoomScale = 1
@@ -583,8 +583,6 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         lbl.text = "\(robotName)"
         lbl.tag = 11 // identified tag for remove it from its super view
         lbl.clipsToBounds = true
-       // lbl.layer.cornerRadius = lblHeight / 2
-        //lbl.backgroundColor = UIColor.rgb(211, 205, 139, 1)
         lbl.font = .systemFont(ofSize: 12)
         //if robot selects same ans as user then bg is white and text is red or green and if robot ans is other than user then it shows text with color red or green
         if btn.tag == 1{ // true answer

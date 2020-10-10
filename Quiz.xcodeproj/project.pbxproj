@@ -10,7 +10,7 @@
 		104DCA6EBBD7F96600F896A5 /* Pods_QuizUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E84B8B5DE5D049A997B5E982 /* Pods_QuizUITests.framework */; };
 		279817AF397096B2B7BA8DCA /* Pods_QuizTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 251F6F3CC8059908050DF02D /* Pods_QuizTests.framework */; };
 		753D42C378971AB969A4D7DE /* Pods_Quiz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */; };
-		9A2E3E4324F4CC860099144B /* selfClick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2E3E4224F4CC860099144B /* selfClick.mp3 */; };
+		9A2E3E4324F4CC860099144B /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2E3E4224F4CC860099144B /* click.mp3 */; };
 		9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3782CC247B757800EF6996 /* SelfChallengeController.swift */; };
 		9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */; };
 		9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */; };
@@ -28,7 +28,6 @@
 		BC11D56022A4FD740035A6B4 /* ControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC11D55F22A4FD740035A6B4 /* ControllerExtension.swift */; };
 		BC16479B22548E2E00FB7810 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC16479A22548E2E00FB7810 /* Structure.swift */; };
 		BC2080ED22701F160071B5F3 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2080EC22701F160071B5F3 /* PrivacyView.swift */; };
-		BC26C60722A6822500CF6EB1 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC26C60622A6822500CF6EB1 /* SubmitButton.swift */; };
 		BC32921522926066000AD46C /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC32921422926066000AD46C /* OptionButton.swift */; };
 		BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51055F2278C48E005377C8 /* BattlePlayController.swift */; };
 		BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */; };
@@ -52,7 +51,7 @@
 		D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75C4C49223289AA006C68EF /* Leaderboard.swift */; };
 		D76C6EEC222FD4AA00A7458C /* ReView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EEB222FD4A900A7458C /* ReView.swift */; };
 		D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EED222FEB6000A7458C /* AlertViewController.swift */; };
-		D791BA9B2240B9AD00F6671C /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA972240B9AB00F6671C /* click.mp3 */; };
+		D791BA9B2240B9AD00F6671C /* old_click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA972240B9AB00F6671C /* old_click.mp3 */; };
 		D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA982240B9AC00F6671C /* snd_bg.mp3 */; };
 		D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA992240B9AD00F6671C /* right.mp3 */; };
 		D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA9A2240B9AD00F6671C /* wrong.mp3 */; };
@@ -111,7 +110,7 @@
 		6C9D51952B8B36A42BB59AAC /* Pods-Quiz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.debug.xcconfig"; sourceTree = "<group>"; };
 		738C4A7298208A8EFA3564A9 /* Pods-Quiz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.release.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.release.xcconfig"; sourceTree = "<group>"; };
 		8E1D7B1B1669D7D12516DD89 /* Pods_Quiz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quiz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A2E3E4224F4CC860099144B /* selfClick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = selfClick.mp3; sourceTree = "<group>"; };
+		9A2E3E4224F4CC860099144B /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
 		9A3782CC247B757800EF6996 /* SelfChallengeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChallengeController.swift; sourceTree = "<group>"; };
 		9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttempAlertView.swift; sourceTree = "<group>"; };
 		9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfPlayResultView.swift; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 		BC11D55F22A4FD740035A6B4 /* ControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerExtension.swift; sourceTree = "<group>"; };
 		BC16479A22548E2E00FB7810 /* Structure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structure.swift; sourceTree = "<group>"; };
 		BC2080EC22701F160071B5F3 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
-		BC26C60622A6822500CF6EB1 /* SubmitButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButton.swift; sourceTree = "<group>"; };
 		BC32921422926066000AD46C /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		BC51055F2278C48E005377C8 /* BattlePlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlePlayController.swift; sourceTree = "<group>"; };
 		BC62687E23E04652008E3B38 /* ReferAndEarnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferAndEarnView.swift; sourceTree = "<group>"; };
@@ -158,7 +156,7 @@
 		D767B1E22239260D00B0A588 /* Quiz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quiz.entitlements; sourceTree = "<group>"; };
 		D76C6EEB222FD4A900A7458C /* ReView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReView.swift; sourceTree = "<group>"; };
 		D76C6EED222FEB6000A7458C /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		D791BA972240B9AB00F6671C /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
+		D791BA972240B9AB00F6671C /* old_click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = old_click.mp3; sourceTree = "<group>"; };
 		D791BA982240B9AC00F6671C /* snd_bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = snd_bg.mp3; sourceTree = "<group>"; };
 		D791BA992240B9AD00F6671C /* right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = right.mp3; sourceTree = "<group>"; };
 		D791BA9A2240B9AD00F6671C /* wrong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wrong.mp3; sourceTree = "<group>"; };
@@ -250,7 +248,6 @@
 				BC32921422926066000AD46C /* OptionButton.swift */,
 				BC03109E229F964B00923A3F /* ImagePickerManager.swift */,
 				BC11D55F22A4FD740035A6B4 /* ControllerExtension.swift */,
-				BC26C60622A6822500CF6EB1 /* SubmitButton.swift */,
 				BC027F6022A7A48B0024A1BF /* TopView.swift */,
 				9AEF45552462FEB700B96893 /* DesignController.swift */,
 			);
@@ -260,8 +257,8 @@
 		BC029826229CF47400A50E80 /* AssetsFile */ = {
 			isa = PBXGroup;
 			children = (
-				9A2E3E4224F4CC860099144B /* selfClick.mp3 */,
-				D791BA972240B9AB00F6671C /* click.mp3 */,
+				9A2E3E4224F4CC860099144B /* click.mp3 */,
+				D791BA972240B9AB00F6671C /* old_click.mp3 */,
 				D791BA992240B9AD00F6671C /* right.mp3 */,
 				D791BA982240B9AC00F6671C /* snd_bg.mp3 */,
 				D791BA9A2240B9AD00F6671C /* wrong.mp3 */,
@@ -509,9 +506,9 @@
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
-				9A2E3E4324F4CC860099144B /* selfClick.mp3 in Resources */,
+				9A2E3E4324F4CC860099144B /* click.mp3 in Resources */,
 				D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */,
-				D791BA9B2240B9AD00F6671C /* click.mp3 in Resources */,
+				D791BA9B2240B9AD00F6671C /* old_click.mp3 in Resources */,
 				D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */,
 				D7FCFC6421A5283C00718EE2 /* Assets.xcassets in Resources */,
 				D7FCFC5F21A5282D00718EE2 /* Main.storyboard in Resources */,
@@ -642,7 +639,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC26C60722A6822500CF6EB1 /* SubmitButton.swift in Sources */,
 				D7FCFC5C21A5282D00718EE2 /* ViewController.swift in Sources */,
 				D7BCD04A222A667900B7E531 /* LevelView.swift in Sources */,
 				D7FCFC9221A57E2800718EE2 /* SubCategoryView.swift in Sources */,

@@ -10,15 +10,13 @@ extension UIColor{
         return UIColor.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
     }
     
-    static let defaultOuterColor = UIColor.rgb(224, 224, 224,1)//UIColor.rgb(216, 216, 216,1)
-    static let defaultInnerColor: UIColor = .rgb(57, 129, 156,1)//.rgb(96, 104, 153,1)
-    static let defaultPulseFillColor = UIColor.rgb(248, 248, 248,1)//UIColor.rgb(86, 30, 63,1)
+    static let defaultOuterColor = UIColor.rgb(224, 224, 224,1)
+    static let defaultInnerColor = Apps.BASIC_COLOR
+    static let defaultPulseFillColor = UIColor.rgb(248, 248, 248,1)
     
     static let Vertical_progress_true = Apps.RIGHT_ANS_COLOR //verticle proress bar color for true answer
     static let Vertical_progress_false = Apps.WRONG_ANS_COLOR // verticle progress bar color for false answer
     
-//    static let RightAnswerColor = UIColor.rgb(35, 176, 75,1) //right answer color
-//    static let WrongAnswerColor = UIColor.rgb(237, 42, 42, 1) //wrong answer color
 }
 
 extension UIProgressView{
@@ -152,7 +150,13 @@ extension UIButton {
         let btnSize = titleLabel?.sizeThatFits(CGSize(width: frame.width, height: .greatestFiniteMagnitude)) ?? .zero
         let desiredButtonSize = CGSize(width: btnSize.width + titleEdgeInsets.left + titleEdgeInsets.right, height: btnSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)
         self.titleLabel?.sizeThatFits(desiredButtonSize)
-    }    
+    }
+    func setBorder(){
+        self.layer.cornerRadius = self.frame.height / 3 //2 //15
+        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR 
+        self.layer.borderWidth = 2
+    }
+    
 }
 
 extension UIView{
@@ -165,7 +169,7 @@ extension UIView{
         self.layer.shadowOffset = CGSize(width: 5, height: 5)
         self.layer.shadowRadius = 1
         self.layer.masksToBounds = false
-        self.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 189/255, green: 189/255, blue: 189/255, alpha: 0.5).cgColor
+        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         self.layer.borderWidth = 1
     }
     
@@ -213,7 +217,7 @@ extension UIViewController{
     }
     
     func SetClickedOptionView(otpStr:String) -> UIView{
-        let color = UIColor.rgb(43, 146, 178, 1)
+        let color = Apps.BASIC_COLOR
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center

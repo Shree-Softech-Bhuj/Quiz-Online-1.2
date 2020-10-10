@@ -18,8 +18,8 @@ class ReferAndEarnView: UIViewController {
         print("user details \(dUser!) ")
         referCode.text = dUser?.ref_code
         referCode.layer.borderWidth = 1.0
-        referCode.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
-        referBtn.layer.cornerRadius = 20
+        referCode.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
+        referBtn.layer.cornerRadius = referBtn.bounds.size.height/2 //20
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {

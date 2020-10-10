@@ -23,9 +23,7 @@ class ReView: UIViewController {
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
     @IBOutlet var lblQstn: UILabel!
-    
-    var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
-    
+        
     var ReviewQues:[ReQuestionWithE] = []
     var BookQuesList:[QuestionWithE] = []
     
@@ -226,9 +224,11 @@ class ReView: UIViewController {
         // print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! Bool
         if (status) {
-            self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-            })
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
         }else{
             //get data for category
         }

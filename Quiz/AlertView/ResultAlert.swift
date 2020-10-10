@@ -24,7 +24,7 @@ class ResultAlert: UIViewController {
         print(dUser!)
         
         userImage.layer.borderWidth = 2
-        userImage.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImage.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImage.layer.cornerRadius = userImage.bounds.width / 2
         userImage.clipsToBounds = true
         
@@ -49,9 +49,8 @@ class ResultAlert: UIViewController {
             }
         }
         
-       // mainView.SetShadow()
-        reBattle.layer.cornerRadius = 15
-        exit.layer.cornerRadius = 15
+        reBattle.setBorder()
+        exit.layer.cornerRadius = exit.bounds.size.height/2 //15
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {

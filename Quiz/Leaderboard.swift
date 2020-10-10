@@ -56,15 +56,15 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         usr1.layer.cornerRadius = usr1.frame.height/2
         usr1.layer.borderWidth = 3
-        usr1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        usr1.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         
         usr2.layer.cornerRadius = usr2.frame.height/2
         usr2.layer.borderWidth = 3
-        usr2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        usr2.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         
         usr3.layer.cornerRadius = usr3.frame.height/2
         usr3.layer.borderWidth = 3
-        usr3.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        usr3.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         
         user1OutLine.layer.cornerRadius = user1OutLine.frame.height/2
 //        user1OutLine.layer.masksToBounds = false
@@ -96,7 +96,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         thisUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         print(thisUser)
         
-        getLeaders(sel: "All")//get data from server
+        getLeaders(sel: Apps.ALL)//get data from server
     }
     
     //get data from server
@@ -106,12 +106,12 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             dateFormatterGet.dateFormat = "yyyy-MM-dd"
            // Loader = LoadLoader(loader: Loader)
             //chk for selection from dropdown
-            if (sel == "Daily") { //daily
+            if (sel == Apps.DAILY) { //daily
                 let apiURL = "from=\(dateFormatterGet.string(from: Date()))&to=\(dateFormatterGet.string(from: Date()))"
                // print(apiURL)
                 self.getAPIData(apiName: "get_datewise_leaderboard", apiURL: apiURL,completion: LoadData)
             }
-            if (sel == "Monthly"){ //monthly
+            if (sel == Apps.MONTHLY){ //monthly
                 
                 var apiURL = "date=\(dateFormatterGet.string(from: Date().startOfMonth()))"
                 if offset < ttlCount {
@@ -119,7 +119,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
                 self.getAPIData(apiName: "get_monthly_leaderboard", apiURL: apiURL,completion: LoadData)
             }
-            if(sel == "All"){ //all
+            if(sel == Apps.ALL){ //all
                 var apiURL = ""
                 if offset < ttlCount {
                     apiURL = "offset=\(offset)" //+1
@@ -430,7 +430,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.imgView.layer.masksToBounds = false
         cell.imgView.clipsToBounds = true
         cell.imgView.layer.borderWidth = 2
-        cell.imgView.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor//UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0).cgColor
+        cell.imgView.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         
         cell.leadrView.layer.masksToBounds = true
         cell.leadrView.layer.cornerRadius = 0 //35
@@ -455,7 +455,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func AddUsertoBottom(){        
         //if you change height below chng the same in temp.frame.height == 60
         let bottomView = UIView(frame: CGRect(x: 0, y: self.view.frame.height - 60, width: self.tableView.frame.width, height: 60))
-        bottomView.backgroundColor = UIColor.rgb(57, 129, 156, 1.0)
+        bottomView.backgroundColor = Apps.BASIC_COLOR
         let this = LeaderData.filter{$0.userID == thisUser.userID}
         //print(thisUser.userID)
         //print(LeaderData)

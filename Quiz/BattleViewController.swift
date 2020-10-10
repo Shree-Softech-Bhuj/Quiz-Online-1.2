@@ -277,7 +277,7 @@ class BattleViewController: UIViewController {
     func DesignViews(views:UIView...){
         for view in views{
             view.layer.borderWidth = 2
-            view.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+            view.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
             view.SetShadow()
             view.layer.cornerRadius = view.frame.height / 2
             view.clipsToBounds = true

@@ -234,7 +234,7 @@ class SelfChallengeController: UIViewController {
             button.setTitle("\(i)", for: .normal)
             button.accessibilityLabel = "ques"
             button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
-            let color = UIColor.rgb(43, 146, 178, 1)
+            let color = Apps.BASIC_COLOR
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
             
             button.layer.cornerRadius = 35 / 2
@@ -263,7 +263,7 @@ class SelfChallengeController: UIViewController {
             button.setTitle("\(i)", for: .normal)
             button.accessibilityLabel = "time"
             button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
-            let color = UIColor.rgb(43, 146, 178, 1)
+            let color = Apps.BASIC_COLOR
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
             
             button.layer.cornerRadius = 35 / 2
@@ -281,7 +281,7 @@ class SelfChallengeController: UIViewController {
     }
     
     @objc func ButtonClicked(_ sender:UIButton){
-        let color = UIColor.rgb(43, 146, 178, 1)
+        let color = Apps.BASIC_COLOR
         if sender.accessibilityLabel! == "ques"{
             self.quesScroll.subviews.forEach({
                 $0.backgroundColor = UIColor.clear

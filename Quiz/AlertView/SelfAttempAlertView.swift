@@ -27,7 +27,7 @@ class SelfAttempAlertView: UIViewController {
             button.setTitle("\(i)", for: .normal)
             button.accessibilityLabel = "time"
            
-            let color = UIColor.rgb(43, 146, 178, 1)
+            let color = Apps.BASIC_COLOR
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 35, height: 35)
             
             button.layer.cornerRadius = 35 / 2

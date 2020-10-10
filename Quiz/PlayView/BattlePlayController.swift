@@ -82,12 +82,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         imageQuestionLbl.backgroundColor = .white
         hasLeave = false
         userImg1.layer.borderWidth = 2
-        userImg1.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg1.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImg1.layer.cornerRadius = userImg1.bounds.width / 2
         userImg1.clipsToBounds = true
         
         userImg2.layer.borderWidth = 2
-        userImg2.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImg2.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImg2.layer.cornerRadius = userImg2.bounds.width / 2
         userImg2.clipsToBounds = true
         
@@ -359,7 +359,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             timer!.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
-        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+        progressRing.progressLabel.textColor = Apps.BASIC_COLOR
         zoomScale = 1
         zoomScroll.zoomScale = 1
         

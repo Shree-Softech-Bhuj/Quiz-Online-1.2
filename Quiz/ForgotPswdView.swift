@@ -19,7 +19,8 @@ class ForgotPswdView: UIViewController {
        //hide current view if user tap twice ,other than email txt
         self.hideCurrViewWhenTappedAround()
         hideKeyboardWhenTappedAround()
-        btnSubmit.layer.cornerRadius = 15
+//        btnSubmit.layer.cornerRadius = btnSubmit.bounds.size.height/2  //15
+        btnSubmit.setBorder()
     }
       
     func dismissView(){

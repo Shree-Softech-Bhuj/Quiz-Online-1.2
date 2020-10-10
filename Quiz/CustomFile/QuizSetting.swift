@@ -25,6 +25,10 @@ struct Apps{
     
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
     static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color    
+   
+    static let BASIC_COLOR = UIColor.rgb(57, 129, 156, 1.0)
+    static let BASIC_COLOR_CGCOLOR = UIColor.rgb(57, 129, 156, 1.0).cgColor
+    
     
     static let APP_ID = "1467888574"
     static var SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
@@ -73,7 +77,7 @@ struct Apps{
     static let COMPLETE_ALL_QUESTION = "You have Completed All Questions !!"
     static let LEVET_NOT_AVAILABEL = "Level not available"
     static let STATISTICS_NOT_AVAIL = "Data not available"
-    static let SKIP_COINS = "SKIP. I DON'T NEED COINS"
+    static let SKIP_COINS = "SKIP"
     static let MSG_ENOUGH_COIN = "Not Enough Coins !"
     static let NEED_COIN_MSG1 = "You don't have enough coins. You need atleast"
     static let NEED_COIN_MSG2 = "coins to use this lifeline."
@@ -99,7 +103,7 @@ struct Apps{
     static let TYPE_MSG = "Type a message"
     static let SUBMIT = "Submit"
     static let CANCEL = "Cancel"
-    static let FROM_LIBRARY = "Gallary"
+    static let FROM_LIBRARY = "Gallery"
     static let TAKE_PHOTO = "Camera"
     static let NO_BOOKMARK = "Questions not available"
     static let LEAVE_MSG = "Are you sure , You want to leave ?"
@@ -119,7 +123,7 @@ struct Apps{
     static let ENTER_MAILID = "Please enter email id."
     //---REVIEW---
     static let EXTRA_NOTE = "Extra Note"
-    static let UN_ATTEMPTED = "Un-Attepmted"
+    static let UN_ATTEMPTED = "Un-Attempted"
     //---RESET PASSWORD---
     static let RESET_FAILED = "Reset Failed"
     static let RESET_TITLE = "To Reset Password, Email sent successfully"
@@ -139,11 +143,11 @@ struct Apps{
     static let REFER_MSG2 = "coins each time your referral code is used and your friend will get"
     static let REFER_MSG3 = "coins by using your referral code "
     //----SELF CHALLENGE ---
-    static let ALERT_TITLE = "Select Quiz Question"
+    static let ALERT_TITLE = "Select Number Of Questions"
     static let ALERT_TITLE1 = "Select Quiz Play time"
     static let BACK_MSG = "You haven't submitted this test yet."
     static let SUBMIT_TEST = "You want to submit this test?"
-    static let RESULT_TXT = "You have completed the challenge \n in"
+    static let RESULT_TXT = "you have completed challenge \n in"
     static let SECONDS = "Sec"
     static let CHLNG_TIME = "Challenge time:"
     //---FONT----
@@ -181,5 +185,10 @@ struct Apps{
     //api url here
     static let API_BOOKMARK_GET = "get_bookmark"
     static let API_BOOKMARK_SET = "set_bookmark"
+    
+    //leaderboard Filters / options
+    static let ALL = "All"
+    static let MONTHLY = "Monthly"
+    static let DAILY = "Daily"
     
 }

@@ -69,7 +69,7 @@ public class CircularProgressBar: CALayer {
         progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
         progressLabel.text = "0"
         progressLabel.font = progressLabel.font.withSize(12)
-        progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+        progressLabel.textColor = Apps.BASIC_COLOR
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
@@ -114,7 +114,7 @@ public class CircularProgressBar: CALayer {
         progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
         progressLabel.text = "0"
         progressLabel.font = progressLabel.font.withSize(12)
-        progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+        progressLabel.textColor = Apps.BASIC_COLOR
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
@@ -158,7 +158,7 @@ public class CircularProgressBar: CALayer {
            progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
            //progressLabel.text = "0"
            progressLabel.font = progressLabel.font.withSize(12)
-           progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+           progressLabel.textColor = Apps.BASIC_COLOR
            progressLabel.textAlignment = .center
            insertSublayer(progressLabel.layer, at: 0)
            

@@ -58,7 +58,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     var BookQuesList:[QuestionWithE] = []
     
     var currentQuestionPos = 0
-    //var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
    
     var audioPlayer : AVAudioPlayer!
     var isInitial = true
@@ -179,7 +178,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     func SetOptionView(otpStr:String) -> UIView{
-        let color = UIColor.rgb(43, 146, 178, 1)
+        let color = Apps.BASIC_COLOR
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center
@@ -617,7 +616,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     var bottomAlertData:[Int] = []
     @objc func ClickButton(button:UIButton){
         
-        self.PlaySound(player: &audioPlayer, file: "selfClick") // play sound
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound "selfClick"
         self.Vibrate() // make device vibrate
         
         let singleQues = quesData[currentQuestionPos]

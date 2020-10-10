@@ -59,7 +59,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         viewProgress.layer.addSublayer(progressRing)
         progressRing.progressLabel.numberOfLines = 1;
         progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(20)
-        progressRing.progressLabel.minimumScaleFactor = 0.7;
+        progressRing.progressLabel.minimumScaleFactor = 0.6;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
         self.RegisterNotification(notificationName: "ResultView")
@@ -89,6 +89,7 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
         if(percentage >= 30 && percentage < 50) {
             earnedCoin = 1
             lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
             lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS

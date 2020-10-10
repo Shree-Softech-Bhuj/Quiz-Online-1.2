@@ -25,7 +25,7 @@ class SignUpViewController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        btnSignUp.layer.cornerRadius = 10
+        btnSignUp.setBorder()
     }
     
     //load category data here

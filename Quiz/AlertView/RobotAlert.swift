@@ -21,7 +21,7 @@ class RobotAlert: UIViewController {
         super.viewDidLoad()
         
         userImage.layer.borderWidth = 2
-        userImage.layer.borderColor = UIColor.rgb(57, 129, 156, 1.0).cgColor
+        userImage.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         userImage.layer.cornerRadius = userImage.bounds.width / 2
         userImage.clipsToBounds = true
         
@@ -32,8 +32,8 @@ class RobotAlert: UIViewController {
          NotificationCenter.default.addObserver(self,selector: #selector(self.DismissAlert),name: NSNotification.Name(rawValue: "DismissAlert"),object: nil)
         
         mainView.SetShadow()
-        playWithRobot.layer.cornerRadius = 20
-        tryAgain.layer.cornerRadius = 20
+        tryAgain.layer.cornerRadius = tryAgain.bounds.size.height/2 //20
+        playWithRobot.setBorder()
         
     }
     

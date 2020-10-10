@@ -35,10 +35,8 @@ class LoginView: UIViewController,GIDSignInDelegate{
         
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         //rounded borders of buttons
-       btnSignUp.layer.cornerRadius = btnSignUp.frame.height / 2//10
-//        btnSignUp.layer.borderColor = UIColor.rgb(49,36,36, 1).cgColor
-//        btnSignUp.layer.borderWidth = 2
-        btnLogin.layer.cornerRadius = btnLogin.frame.height / 2//10
+        btnSignUp.setBorder()
+        btnLogin.layer.cornerRadius = btnLogin.frame.height / 3//10
 
         
         //slight curve in borders of views

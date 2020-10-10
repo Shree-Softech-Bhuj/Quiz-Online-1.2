@@ -66,7 +66,6 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
     var BookQuesList:[QuestionWithE] = []
     
     var currentQuestionPos = 0
-    var color1 = UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0)
    
     var audioPlayer : AVAudioPlayer!
     var isInitial = true
@@ -262,7 +261,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoA
             self.timer.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
-        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+        progressRing.progressLabel.textColor = Apps.BASIC_COLOR
         zoomScale = 1
         zoomScroll.zoomScale = 1
         count = 0

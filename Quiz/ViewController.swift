@@ -214,13 +214,13 @@ class ViewController: UIViewController {
             }
         }
         
-        if UserDefaults.standard.bool(forKey: "isLogedin"){
+//        if UserDefaults.standard.bool(forKey: "isLogedin"){
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController") as! SelfChallengeController
             self.navigationController?.pushViewController(viewCont, animated: true)
-        }else{
-            self.navigationController?.popToRootViewController(animated: true)
-        }
+//        }else{
+//            self.navigationController?.popToRootViewController(animated: true)
+//        }
     }
     
     @IBAction func DailyQuiz(_ sender: Any) {
@@ -244,9 +244,6 @@ class ViewController: UIViewController {
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
-        
-       
-        
     }
     
     @IBAction func profileBtn(_ sender: Any) {
@@ -345,13 +342,6 @@ class ViewController: UIViewController {
             
         }else{
             self.navigationController?.popToRootViewController(animated: true)
-        }
-    }
-    
-    func DesignView(views:UIView...){
-        for view in views{
-            // view.border(color: UIColor(red: 63/255, green: 69/255, blue: 101/255, alpha: 1.0), radius: view.frame.size.height / 2, bWidth: 2)
-            view.border(color: UIColor(red: 57/255, green: 129/255, blue: 156/255, alpha: 0.5), radius: view.frame.size.height / 2, bWidth: 2)
         }
     }
 }

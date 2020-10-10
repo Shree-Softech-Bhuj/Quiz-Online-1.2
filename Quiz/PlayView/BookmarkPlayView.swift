@@ -176,7 +176,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             timer.invalidate()
         }
         progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
-        progressRing.progressLabel.textColor = UIColor.rgb(57, 129, 156,1)
+        progressRing.progressLabel.textColor = Apps.BASIC_COLOR
         self.zoomScroll.zoomScale = 1
         self.zoomScale = 1
         showAns.setTitle(Apps.SHOW_ANSWER, for: .normal)
@@ -268,7 +268,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             view.addSubview(label)
             
             let button = UIButton(frame: CGRect(x: (self.view.frame.width / 2) - 50, y: 50, width: 100, height: 40))
-            button.backgroundColor = UIColor.rgb(57, 129, 156,1)
+            button.backgroundColor = Apps.BASIC_COLOR
             button.setTitle(Apps.BACK, for: .normal)
             button.titleLabel?.textAlignment = .center
             button.addTarget(self, action: #selector(self.backButton(_:)), for: .touchUpInside)
