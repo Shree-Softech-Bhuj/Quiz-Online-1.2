@@ -12,7 +12,7 @@ import Firebase
 var deviceStoryBoard = "Main"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , MessagingDelegate, UNUserNotificationCenterDelegate, GADFullScreenContentDelegate { 
     
     var window: UIWindow?
     let varSys = SystemConfig()
@@ -26,6 +26,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     var category : [String] = []
     let screenBounds = UIScreen.main.bounds
     
+    //test
+    var appOpenAd: GADAppOpenAd?
+    var loadTime = Date()
+    //test
+    
+    //AppOpenAds
+   // var appOpenAd: GADAppOpenAd?
+
+//    func requestAppOpenAd() {
+//        appOpenAd = nil // you can change UIInterfaceOrientation.portrait below to landscape or whatever you want
+//        GADAppOpenAd.load(
+//            withAdUnitID: Apps.APP_OPEN_UNIT_ID,
+//            request: GADRequest(),
+//            orientation: UIInterfaceOrientation.portrait,
+//            completionHandler: { [self] appOpenAd, error in
+//                if let error = error {
+//                    print("Failed to load app open ad: \(error)")
+//                    return
+//                }
+//                self.appOpenAd = appOpenAd
+//            })
+//    }
+//
+//    func tryToPresentAd() {
+//        let ad = appOpenAd
+//        appOpenAd = nil
+//
+//        if let ad = ad {
+//            let rootController = window?.rootViewController
+//            ad.present(fromRootViewController: rootController)
+//
+////            let navigationcontroller = UINavigationController(rootViewController: ad)
+////            navigationcontroller.setNavigationBarHidden(true, animated: false)
+////            navigationcontroller.isNavigationBarHidden = true
+////
+////            window?.rootViewController = navigationcontroller
+////            window?.makeKeyAndVisible()
+//
+//
+//            let newViewController =  window?.rootViewController
+//            navigationController?.pushViewController(newViewController, animated: true)
+//
+//        } else {
+//            // If you don't have an ad ready, request one.
+//            requestAppOpenAd()
+//        }
+//    }
+    //AppOpenAds
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //firebase configuration
@@ -46,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
+            UNUserNotificationCenter.current().delegate = self 
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
@@ -65,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
             application.applicationIconBadgeNumber = 0
         }
         Messaging.messaging().delegate = self
-        Messaging.messaging().shouldEstablishDirectChannel = true
+        //Messaging.messaging().shouldEstablishDirectChannel = true
         
         let token = Messaging.messaging().fcmToken ?? "none"
         Apps.FCM_ID = token
@@ -162,60 +210,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
        // print(fcmToken)
     }
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
       //  print("Firebase registration token: \(fcmToken)")
         
-        let dataDict:[String: String] = ["token": fcmToken]
+        let dataDict:[String: String?] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         //send token to application server.
-        Apps.FCM_ID = fcmToken
+        Apps.FCM_ID = fcmToken!
         varSys.updtFCMToServer()
     }
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        //print("Received data message: \(remoteMessage.appData)")
-        if (remoteMessage.appData["notification"] as? [String:Any]) != nil { //cloud message - firebase
-            print(remoteMessage.appData["notification"]!)
-            let notif = remoteMessage.appData["notification"] //receive from Firebase
-            guard let DATA = notif as? [String:Any] else{
-                return
-            }
-            if DATA["image"] != nil {
-                isImgAttached = true
-                let img = DATA["image"]  as! String
-                imgURL = setAttachment(img)
-                isImgAttached = true
-            }else{
-                isImgAttached = false
-            }
-            title = DATA["title"]  as! String
-            if let s_title = DATA["subtitle"] {
-                subtitle = s_title as! String
-            }
-            body = DATA["body"]  as! String
-            if  isImgAttached == true {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 7.0, execute: {
-                    self.showNotificationWithAttachment(self.title,self.body,self.imgURL!)
-                })
-            }else{
-                showNotification(title,body)
-            }
-            
-        }else if (remoteMessage.appData["data"]) != nil { //app message check
-            let notif = remoteMessage.appData["data"] //receive from API - Server
-            print(notif!)
-            let str : String = remoteMessage.appData["data"] as! String
-            fragmentRemoteData(str)
-            if  isImgAttached == true {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 7.0, execute: {
-                    self.showNotificationWithAttachment(self.title,self.body,self.imgURL!)
-                })
-            }else{
-                showNotification(title,body)
-            }
-        }else{
-            print("There is No Pending messages / Notifications !!")
-        }
-    }
+//    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+//        //print("Received data message: \(remoteMessage.appData)")
+//        if (remoteMessage.appData["notification"] as? [String:Any]) != nil { //cloud message - firebase
+//            print(remoteMessage.appData["notification"]!)
+//            let notif = remoteMessage.appData["notification"] //receive from Firebase
+//            guard let DATA = notif as? [String:Any] else{
+//                return
+//            }
+//            if DATA["image"] != nil {
+//                isImgAttached = true
+//                let img = DATA["image"]  as! String
+//                imgURL = setAttachment(img)
+//                isImgAttached = true
+//            }else{
+//                isImgAttached = false
+//            }
+//            title = DATA["title"]  as! String
+//            if let s_title = DATA["subtitle"] {
+//                subtitle = s_title as! String
+//            }
+//            body = DATA["body"]  as! String
+//            if  isImgAttached == true {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 7.0, execute: {
+//                    self.showNotificationWithAttachment(self.title,self.body,self.imgURL!)
+//                })
+//            }else{
+//                showNotification(title,body)
+//            }
+//
+//        }else if (remoteMessage.appData["data"]) != nil { //app message check
+//            let notif = remoteMessage.appData["data"] //receive from API - Server
+//            print(notif!)
+//            let str : String = remoteMessage.appData["data"] as! String
+//            fragmentRemoteData(str)
+//            if  isImgAttached == true {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 7.0, execute: {
+//                    self.showNotificationWithAttachment(self.title,self.body,self.imgURL!)
+//                })
+//            }else{
+//                showNotification(title,body)
+//            }
+//        }else{
+//            print("There is No Pending messages / Notifications !!")
+//        }
+//    }
     
     // Google Sign In
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -241,6 +289,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        
+        //test
+        self.tryToPresentAd()
+        //test
+        
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
     
@@ -251,6 +304,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
         application.applicationIconBadgeNumber = Apps.badgeCount
     }
+    
+    //test
+    func requestAppOpenAd() {
+        let request = GADRequest()
+        GADAppOpenAd.load(withAdUnitID: Apps.APP_OPEN_UNIT_ID,
+                          request: request,
+                          orientation: UIInterfaceOrientation.portrait,
+                          completionHandler: { (appOpenAdIn, _) in
+                            self.appOpenAd = appOpenAdIn
+                            self.appOpenAd!.fullScreenContentDelegate = self
+                            self.loadTime = Date()
+                            print("Ad is ready")
+                          })
+    }
+
+    func tryToPresentAd() {
+        if let gOpenAd = self.appOpenAd, let rwc = self.window?.rootViewController, wasLoadTimeLessThanNHoursAgo(thresholdN: 4) {
+            gOpenAd.present(fromRootViewController: rwc)
+        } else {
+            self.requestAppOpenAd()
+        }
+    }
+
+    func wasLoadTimeLessThanNHoursAgo(thresholdN: Int) -> Bool {
+        let now = Date()
+        let timeIntervalBetweenNowAndLoadTime = now.timeIntervalSince(self.loadTime)
+        let secondsPerHour = 3600.0
+        let intervalInHours = timeIntervalBetweenNowAndLoadTime / secondsPerHour
+        return intervalInHours < Double(thresholdN)
+    }
+    
+    //test
+    
     func fragmentRemoteData(_  str:String){
         //separate parameters of response by using ","
         let displayname = str.components(separatedBy: ",")
@@ -486,4 +572,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate ,UNUserN
         }
     }
 }
-
+//AppOpenAds
+//func requestAppOpenAd() {
+//}
+//
+//func tryToPresentAd() {
+//}
+//AppOpenAds

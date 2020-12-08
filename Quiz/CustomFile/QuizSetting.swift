@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://newquiz.wrteam.in/api-v2.php"
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"
     static var ACCESS_KEY = "6808"
     
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
@@ -18,9 +18,10 @@ struct Apps{
     static let QUIZ_R_Q_POINTS = 5 // how many points will user get when he select right answer in play area
     static let QUIZ_W_Q_POINTS = 2 // how many points will deduct when user select wrong answer in play area
     
-    static let BANNER_AD_UNIT_ID = "ca-app-pub-9494734299483429/5838705416"
-    static let REWARD_AD_UNIT_ID = "ca-app-pub-9494734299483429/7263467729"
-    static let INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9494734299483429/1272774440"
+    static let BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"//"ca-app-pub-9494734299483429/5838705416"
+    static let REWARD_AD_UNIT_ID = "ca-app-pub-3940256099942544/1712485313"//"ca-app-pub-9494734299483429/7263467729"
+    static let INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/4411468910"//"ca-app-pub-9494734299483429/1272774440"
+    static let APP_OPEN_UNIT_ID = "ca-app-pub-3940256099942544/5662855259"
     static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7","8099b28d92fa3eae7101498204255467"]
     
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
