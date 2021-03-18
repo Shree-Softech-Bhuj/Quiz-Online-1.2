@@ -157,7 +157,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -211,6 +211,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             if(BookQuesList[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = BookQuesList[currentQuestionPos].question
+                mainQuestionLbl.stringFormation(BookQuesList[currentQuestionPos].question)
                 mainQuestionLbl.centerVertically()
                 //hide some components
                 lblQuestion.isHidden = true
@@ -221,6 +222,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             }else{
                 // if question has image
                 lblQuestion.text = BookQuesList[currentQuestionPos].question
+                lblQuestion.stringFormation(BookQuesList[currentQuestionPos].question)
                 lblQuestion.centerVertically()
                 questionImage.loadImageUsingCache(withUrl: BookQuesList[currentQuestionPos].image)
                 //show some components
@@ -313,7 +315,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     func wrongAnswer(btn:UIView?){
         
         //make timer invalidate
-        timer.invalidate() //by me
+        timer.invalidate() 
         
         //score count
         falseCount += 1
@@ -410,11 +412,11 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                    btnC.isHidden = false
                    btnD.isHidden = false
                    
-                   btnA.setImage(UIImage(named: "btnA"), for: .normal)
-                   btnB.setImage(UIImage(named: "btnB"), for: .normal)
-                   btnC.setImage(UIImage(named: "btnc"), for: .normal)
-                   btnD.setImage(UIImage(named: "btnD"), for: .normal)
-                   btnE.setImage(UIImage(named: "btnE"), for: .normal)
+//                   btnA.setImage(UIImage(named: "btnA"), for: .normal)
+//                   btnB.setImage(UIImage(named: "btnB"), for: .normal)
+//                   btnC.setImage(UIImage(named: "btnc"), for: .normal)
+//                   btnD.setImage(UIImage(named: "btnD"), for: .normal)
+//                   btnE.setImage(UIImage(named: "btnE"), for: .normal)
                    
                    buttons.shuffle()
                }

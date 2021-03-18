@@ -365,7 +365,7 @@ extension SelfChallengeController:UIPickerViewDataSource,UIPickerViewDelegate{
         toolBar.tintColor = UIColor.white
         toolBar.backgroundColor = UIColor.black
         
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.action))
+        let button = UIBarButtonItem(title: Apps.DONE, style: .plain, target: self, action: #selector(self.action))
         toolBar.setItems([button], animated: true)
         toolBar.isUserInteractionEnabled = true
         return toolBar

@@ -41,7 +41,7 @@ class UpdateProfileView: UIViewController{
         nmbrTxt.text = dUser!.phone
         email = dUser!.email
         emailTxt.text = dUser?.email
-        
+        print(dUser?.userType)
         logOutBtn.setBorder()
         
         DispatchQueue.main.async {
@@ -49,20 +49,26 @@ class UpdateProfileView: UIViewController{
                 self.usrImg.loadImageUsingCache(withUrl: self.dUser!.image)
             }
         }
-        
-        emailTxt.leftViewMode = UITextField.ViewMode.always
-        emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
-        
+                
         nmbrTxt.leftViewMode = UITextField.ViewMode.always
         nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
-        nmbrTxt.rightViewMode = UITextField.ViewMode.always
-        nmbrTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
-        
+        if emailTxt.text != " " {
+            nmbrTxt.rightViewMode = UITextField.ViewMode.always
+            nmbrTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
+            nmbrTxt.tintColor = Apps.BASIC_COLOR
+            
+            emailTxt.leftViewMode = UITextField.ViewMode.always
+            emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
+        }else{
+            nmbrTxt.isUserInteractionEnabled = false
+        }
         nameTxt.leftViewMode = UITextField.ViewMode.always
         nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
         nameTxt.rightViewMode = UITextField.ViewMode.always
         nameTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
-        
+        nameTxt.tintColor = Apps.BASIC_COLOR
+              
+                
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
@@ -188,8 +194,13 @@ class UpdateProfileView: UIViewController{
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
-            let apiURL = "email=\(String(describing: emailTxt.text!))&name=\(String(describing: nameTxt.text!))&mobile=\(String(describing: nmbrTxt.text!))"
-            // print(apiURL)
+            var apiURL = ""
+            if dUser?.userType == "Mobile"{
+                apiURL = "user_id=\(dUser?.userID ?? "0")&email=\(String(describing: emailTxt.text!))&name=\(String(describing: nameTxt.text!))" //&mobile=\(String(describing: nmbrTxt.text!))
+            }else{
+                apiURL = "user_id=\(dUser?.userID ?? "0")&email=\(String(describing: emailTxt.text!))&name=\(String(describing: nameTxt.text!))&mobile=\(String(describing: nmbrTxt.text!))"
+            }         
+             print(apiURL)
             self.getAPIData(apiName: "update_profile", apiURL: apiURL,completion: LoadData)
             //print("Data updated")
         }else{
@@ -259,7 +270,7 @@ class UpdateProfileView: UIViewController{
             if let jsonObj = ((try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary) as NSDictionary??) {
                 if (jsonObj != nil)  {
                     print("JSON",jsonObj!)
-                    let status = jsonObj!.value(forKey: "error") as! NSNumber as! Bool
+                    let status = jsonObj!.value(forKey: "error") as! Bool //as! NSNumber
                     if (status) {
                         self.Loader.dismiss(animated: true, completion: {
                             self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj!.value(forKey: "message")!)" )

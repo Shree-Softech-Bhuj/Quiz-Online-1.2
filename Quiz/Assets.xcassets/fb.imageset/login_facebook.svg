@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="81" height="75" viewBox="0 0 81 75">
+  <g id="login_facebook" transform="translate(-0.343 0.181)">
+    <g id="Rectangle_240" data-name="Rectangle 240" transform="translate(0.343 -0.181)" fill="none" stroke="#fff" stroke-width="1">
+      <rect width="81" height="75" rx="15" stroke="none"/>
+      <rect x="0.5" y="0.5" width="80" height="74" rx="14.5" fill="none"/>
+    </g>
+    <path id="Icon_awesome-facebook-f" data-name="Icon awesome-facebook-f" d="M19.627,20.25l1-6.515H14.375V9.507c0-1.782.873-3.52,3.673-3.52h2.842V.44A34.658,34.658,0,0,0,15.846,0C10.7,0,7.332,3.12,7.332,8.769v4.965H1.609V20.25H7.332V36h7.043V20.25Z" transform="translate(29.593 19.319)" fill="#fff"/>
+  </g>
+</svg>

@@ -130,6 +130,18 @@ extension UITextView {
         let positiveTopOffset = max(1, topOffset)
         contentOffset.y = -positiveTopOffset
     }
+    
+    // html tags set
+    func stringFormation(_ str: String) {
+        let recStr = str
+        var getFont = UserDefaults.standard.float(forKey: "fontSize")
+        if (getFont == 0){
+            getFont = 16.0
+        }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.attributedText = recStr.htmlToAttributedString
+        self.font = .systemFont(ofSize: CGFloat(getFont)) //UIFont(name: "System Medium", size: CGFloat(getFont))
+    }    
 }
 extension UILabel{
     func setLabel(){
@@ -153,10 +165,9 @@ extension UIButton {
     }
     func setBorder(){
         self.layer.cornerRadius = self.frame.height / 3 //2 //15
-        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR 
+        self.layer.borderColor = UIColor.white.cgColor//Apps.BASIC_COLOR_CGCOLOR 
         self.layer.borderWidth = 2
-    }
-    
+    }    
 }
 
 extension UIView{
@@ -175,7 +186,7 @@ extension UIView{
     
     func SetShadow(){
         
-        self.layer.cornerRadius = 6
+        //self.layer.cornerRadius = 6
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowRadius = 1.0
         self.layer.shadowOpacity = 0.5
@@ -250,7 +261,7 @@ extension UIViewController{
                  let apiURL = "user_id=\(user.userID)&question_id=\(quesID)&status=\(status)"
                 self.getAPIData(apiName: Apps.API_BOOKMARK_SET, apiURL: apiURL,completion: {jsonObj in
                      //print("SET BOOK",jsonObj)
-                     if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                    if (jsonObj.value(forKey: "data") as? [String:Any]) != nil {//if let data = jsonObj.value(forKey: "data") as? [String:Any] {
                          DispatchQueue.main.async {
                              completion()
                          }
@@ -284,5 +295,19 @@ extension CALayer {
         border.backgroundColor = color.cgColor;
 
         addSublayer(border)
+    }
+}
+
+extension String {
+    var htmlToAttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            return nil
+        }
+    }
+    var htmlToString: String {
+        return htmlToAttributedString?.string ?? ""
     }
 }

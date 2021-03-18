@@ -77,7 +77,7 @@ class AlertViewController: UIViewController {
         let sliderAlert = UIAlertController(title:Apps.FONT_TITLE, message: Apps.FONT_MSG, preferredStyle: .alert)
         
         //create a Slider and fit within the extra message spaces
-        let screenSize: CGRect = sliderAlert.view.bounds
+        //let screenSize: CGRect = sliderAlert.view.bounds
         let mySlider = UISlider(frame:CGRect(x: 10, y: 100, width: 250, height: 20))
         
         mySlider.minimumValue = 40

@@ -231,7 +231,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         present(alert, animated: true, completion: nil)
     }
     @IBAction func settingButton(_ sender: Any) {
-          let storyboard = UIStoryboard(name: "Main", bundle: nil)
+          let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
           let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
           myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
           myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -345,6 +345,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
+                mainQuestionLbl.stringFormation(quesData[currentQuestionPos].question)
                 //hide some components
                 imageQuestionLbl.isHidden = true
                 questionImageView.isHidden = true
@@ -354,6 +355,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             }else{
                 // if question has image
                 imageQuestionLbl.text = quesData[currentQuestionPos].question
+                imageQuestionLbl.stringFormation(quesData[currentQuestionPos].question)
                 questionImageView.loadImageUsingCache(withUrl: quesData[currentQuestionPos].image)
                 
                 //show some components
@@ -391,7 +393,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         if timer != nil && timer.isValid{
             timer.invalidate()
         }
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let alert = storyboard.instantiateViewController(withIdentifier: "ResultAlert") as! ResultAlert
         alert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         alert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -511,11 +513,11 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
             btnC.isHidden = false
             btnD.isHidden = false
             
-            btnA.setImage(UIImage(named: "btnA"), for: .normal)
-            btnB.setImage(UIImage(named: "btnB"), for: .normal)
-            btnC.setImage(UIImage(named: "btnc"), for: .normal)
-            btnD.setImage(UIImage(named: "btnD"), for: .normal)
-            btnE.setImage(UIImage(named: "btnE"), for: .normal)
+//            btnA.setImage(UIImage(named: "btnA"), for: .normal)
+//            btnB.setImage(UIImage(named: "btnB"), for: .normal)
+//            btnC.setImage(UIImage(named: "btnc"), for: .normal)
+//            btnD.setImage(UIImage(named: "btnD"), for: .normal)
+//            btnE.setImage(UIImage(named: "btnE"), for: .normal)
             
             buttons.shuffle()
         }

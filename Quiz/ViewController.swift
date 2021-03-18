@@ -11,6 +11,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var battleButton: UIButton!
     @IBOutlet weak var selfChallange: UIButton!
     @IBOutlet weak var DailyQuiz: UIButton!
+    @IBOutlet weak var contestButton: UIButton!
     
     @IBOutlet weak var moreButton: UIButton!
     
@@ -20,6 +21,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet var languageButton: UIButton!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var btnsView: UIView!
+    @IBOutlet weak var randomQuizBtn: UIButton!
+    @IBOutlet weak var trueFalseBtn: UIButton!
+    @IBOutlet weak var bookrmarksBtn: UIButton!
+    
+    @IBOutlet weak var leaderboardButton: UIButton!
+        
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
     var setting:Setting? = nil
@@ -27,25 +36,34 @@ class ViewController: UIViewController {
       var sysConfig:SystemConfiguration!
       var Loader: UIAlertController = UIAlertController()
     
+    let varSys = SystemConfig()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
-        playButton.layer.cornerRadius = playButton.frame.height / 2 //32
-        startView.SetDarkShadow()
-        battleButton.layer.cornerRadius = battleButton.frame.height / 2//32
-        battleView.SetDarkShadow()
-        selfChallange.layer.cornerRadius = selfChallange.frame.height / 2//32
-        selfChallange.SetDarkShadow()
-        DailyQuiz.layer.cornerRadius = selfChallange.frame.height / 2//32
-        DailyQuiz.SetDarkShadow()
+        playButton.layer.cornerRadius = playButton.frame.height / 4//32
+        //startView.SetDarkShadow()
+        battleButton.layer.cornerRadius = battleButton.frame.height / 4//32
+        //battleView.SetDarkShadow()
+        selfChallange.layer.cornerRadius = selfChallange.frame.height / 4//32
+        //selfChallange.SetDarkShadow()
+        DailyQuiz.layer.cornerRadius = selfChallange.frame.height / 4//32
+        //DailyQuiz.SetDarkShadow()
+        contestButton.layer.cornerRadius = contestButton.frame.height / 3//32
+        //contestButton.SetDarkShadow()
+        
+        btnsView.layer.cornerRadius = btnsView.frame.height / 4//32
+        bookrmarksBtn.layer.cornerRadius = bookrmarksBtn.frame.height / 4
+        trueFalseBtn.layer.cornerRadius = trueFalseBtn.frame.height / 4
+        randomQuizBtn.layer.cornerRadius = randomQuizBtn.frame.height / 4
         
         //check setting object in user default
         if UserDefaults.standard.value(forKey:"setting") != nil {
             setting = try! PropertyListDecoder().decode(Setting.self, from: (UserDefaults.standard.value(forKey:"setting") as? Data)!)
         }else{
-            setting = Setting.init(sound: true, backMusic: true, vibration: true)
+            setting = Setting.init(sound: true, backMusic: false, vibration: true)
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.setting), forKey: "setting")
         }
         
@@ -77,9 +95,7 @@ class ViewController: UIViewController {
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
-        
-        
-        self.CheckAppsUpdate()
+       
     }
     override func viewDidAppear(_ animated: Bool) {
         languageButton.isHidden = true
@@ -105,6 +121,48 @@ class ViewController: UIViewController {
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
+        leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)//(String(Apps.ALL_TIME_RANK) , for: .normal)
+        
+        varSys.getUserDetails()
+        self.DailyQuiz.alpha = 0
+        self.contestButton.alpha = 0
+        if Apps.FORCE_UPDT_MODE == "1" {
+            self.CheckAppsUpdate()
+        }
+        if Apps.DAILY_QUIZ_MODE == "1" {
+            self.DailyQuiz.alpha = 1
+        }
+        if Apps.CONTEST_MODE == "1" {
+          self.contestButton.alpha = 1
+        }
+    }
+    @IBAction func showBookmarks(_ sender: Any) {
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "BookmarkView")
+        self.navigationController?.pushViewController(viewCont, animated: true)
+    }
+    @IBAction func playTrueFalse(_ sender: Any) {
+        if(Reachability.isConnectedToNetwork()){
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+                self.getQues(2)
+            }else{
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
+    @IBAction func playRandomQuiz(_ sender: Any) {
+        if(Reachability.isConnectedToNetwork()){
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+                self.getQues(1)
+            }else{
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+        
     }
     
     //load Bookmark data here
@@ -116,7 +174,7 @@ class ViewController: UIViewController {
         if (status) {
             DispatchQueue.main.async {
                 //                 self.Loader.dismiss(animated: true, completion: {
-                //                     //self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                //                     //self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 //                 })
             }
         }else{
@@ -142,7 +200,25 @@ class ViewController: UIViewController {
         self.navigationController?.pushViewController(viewCont, animated: true)
         
     }
-    
+    @IBAction func showContest(_ sender: Any) {
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        
+        //check if language is enabled and not selected
+//        if languageButton.isHidden == false{
+//            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+//                LanguageButton(self)
+//            }
+//        }
+        
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "ContestView")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }else{
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+    }
     // play background music function
     @objc func PlayBackMusic(){
         backgroundMusicPlayer.play()
@@ -155,7 +231,7 @@ class ViewController: UIViewController {
     
     @IBAction func LanguageButton(_ sender: Any){
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
         view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -245,7 +321,7 @@ class ViewController: UIViewController {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
-    
+  
     @IBAction func profileBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -258,7 +334,7 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func privacyBtn(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -294,6 +370,14 @@ class ViewController: UIViewController {
                 navigationcontroller.isNavigationBarHidden = true
                 
                 UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+                
+                let firebaseAuth = Auth.auth()
+                do {
+                  try firebaseAuth.signOut()
+                } catch let signOutError as NSError {
+                  print ("Error signing out: %@", signOutError)
+                }
+              
                 return
             }
             if Auth.auth().currentUser != nil {
@@ -407,7 +491,64 @@ extension ViewController{
         self.present(alert, animated: true, completion: nil)
         
     }
-    
+    func getQues(_ type: Int){
+        
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
+        
+        if type == 1{
+            viewCont.playType = "RandomQuiz"
+        }else{
+            viewCont.playType = "TrueFalse"
+        }
+        self.PlaySound(player: &audioPlayer, file: "click") // play sound
+        self.Vibrate() // make device vibrate
+        var quesData: [QuestionWithE] = []
+        var apiURL = ""
+        
+       //if sysConfig.LANGUAGE_MODE == 1{
+          //  let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+            apiURL = "&type=\(type)&limit=10" //type 1 -> random quiz and type 2 -> true-false
+       // }
+        
+        Loader = LoadLoader(loader: Loader)
+        self.getAPIData(apiName: "get_questions_by_type", apiURL: apiURL,completion: {jsonObj in
+            print("JSON",jsonObj)
+            //close loader here
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+                DispatchQueue.main.async {
+                    self.DismissLoader(loader: self.Loader)
+                }
+            });
+            let status = jsonObj.value(forKey: "error") as! String
+            if (status == "true") {
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+            }else{
+//                loadTrueFalseQues(jsonObj: jsonObj)
+                quesData.removeAll()
+                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                    for val in data{
+                        quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
+                    }
+                    Apps.TOTAL_PLAY_QS = data.count
+                    //check this level has enough (10) question to play? or not
+                    if quesData.count >= Apps.TOTAL_PLAY_QS {
+                        viewCont.quesData = quesData
+                        DispatchQueue.global().asyncAfter(deadline: .now() + 0.6, execute: {
+                            DispatchQueue.main.async {
+                                self.navigationController?.pushViewController(viewCont, animated: true)
+                            }
+                        })
+                       
+                    }
+                }
+            }
+        })
+//        func loadTrueFalseQues(jsonObj:NSDictionary){
+//
+//        }
+        
+    }
     func getDailyQues(){
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -435,32 +576,45 @@ extension ViewController{
             });
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                //self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                //show random 10 questions if there are no questions in daily quiz.
+                var apiURL = ""
+                if self.sysConfig.LANGUAGE_MODE == 1{
+                       let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                       apiURL = "&language_id=\(langID)" //+=
+               }
+                self.getAPIData(apiName: "get_random_questions_for_computer", apiURL: apiURL,completion: loadQuestions)
+                
             }else{
-                //get data for category
-                quesData.removeAll()
-                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                    for val in data{
-                        quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
-                        
-                    }
+               loadQuestions(jsonObj: jsonObj)
+            }
+        })
+        
+        func loadQuestions(jsonObj:NSDictionary){
+            //get data for category
+            quesData.removeAll()
+            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                for val in data{
+                    quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
                     
-                    Apps.TOTAL_PLAY_QS = data.count
-                    
-                    //check this level has enough (10) question to play? or not
-                    if quesData.count >= Apps.TOTAL_PLAY_QS {
-                        viewCont.quesData = quesData
-                        DispatchQueue.global().asyncAfter(deadline: .now() + 0.6, execute: {
-                            DispatchQueue.main.async {
-                                self.navigationController?.pushViewController(viewCont, animated: true)
-                            }
-                        })
-                       
-                    }
+                }
+                
+                Apps.TOTAL_PLAY_QS = data.count
+                
+                //check this level has enough (10) question to play? or not
+                if quesData.count >= Apps.TOTAL_PLAY_QS {
+                    viewCont.quesData = quesData
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 0.6, execute: {
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(viewCont, animated: true)
+                        }
+                    })
+                   
                 }
             }
-         
-        })
+        }
+        
     }
+    
 }
 

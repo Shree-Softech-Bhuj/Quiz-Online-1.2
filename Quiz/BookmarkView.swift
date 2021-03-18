@@ -34,7 +34,7 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve

@@ -36,6 +36,22 @@ struct  Setting:Codable {
     var vibration:Bool
 }
 
+struct contestQuestion: Codable {
+    var id:String
+    //var type_id:String
+    var contest_id:String
+    var question:String
+    var opetionA:String
+    var opetionB:String
+    var opetionC:String
+    var opetionD:String
+    var opetionE:String
+    var correctAns:String
+    var image:String
+    var note:String
+    var quesType:String   
+}
+
 struct QuestionWithE: Codable {
     var id:String
     var question:String

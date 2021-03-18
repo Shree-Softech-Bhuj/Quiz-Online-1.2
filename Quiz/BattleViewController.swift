@@ -80,7 +80,7 @@ class BattleViewController: UIViewController {
         
     }
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -94,7 +94,7 @@ class BattleViewController: UIViewController {
         if (status!) {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
             
@@ -218,9 +218,8 @@ class BattleViewController: UIViewController {
                                 }
                                 self.StartBattle()
                             }else{
-                                print("MTCH NULLLL")
+                                print("MATCH NULLLL")
                             }
-                            
                         })
                     }
                 }
@@ -286,10 +285,10 @@ class BattleViewController: UIViewController {
     
     @IBAction func backButton(_ sender: Any) {
         if timer != nil{
-            let alert = UIAlertController(title: "", message: "Are you sure , You want to leave ?", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: Apps.LEAVE_MSG, preferredStyle: UIAlertController.Style.alert)
             // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
-            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
+            alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.destructive, handler: { action in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -306,12 +305,12 @@ class BattleViewController: UIViewController {
             return
         }
         self.isSearchingStart = true
-        if self.battleUser != nil{
-            if(Reachability.isConnectedToNetwork()){
-                let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
-                //self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {json in print("JSON",json) })
-            }
-        }
+//        if self.battleUser != nil{
+//            if(Reachability.isConnectedToNetwork()){
+//                let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+//                //self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {json in print("JSON",json) })
+//            }
+//        }
         self.CheckForBattle()
     }
     //start battle and pass data to battleplaycontroller
@@ -339,7 +338,7 @@ class BattleViewController: UIViewController {
     //Show robot alert view to ask user play with robot or try again
     func ShowRobotAlert(){
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let alert = storyboard.instantiateViewController(withIdentifier: "RobotAlert") as! RobotAlert
         alert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         alert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve

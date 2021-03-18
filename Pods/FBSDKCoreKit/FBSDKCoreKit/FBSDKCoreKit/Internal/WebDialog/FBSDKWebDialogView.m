@@ -183,7 +183,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
     }
     decisionHandler(WKNavigationActionPolicyCancel);
   } else if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
-    [[UIApplication sharedApplication] openURL:URL];
+     // [[UIApplication sharedApplicationopenURL:options:completionHandler:RL:options:completionHandler::URL];
     decisionHandler(WKNavigationActionPolicyCancel);
   } else {
     decisionHandler(WKNavigationActionPolicyAllow);

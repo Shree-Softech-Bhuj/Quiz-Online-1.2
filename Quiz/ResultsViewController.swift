@@ -1,8 +1,9 @@
 import Foundation
 import UIKit
 import GoogleMobileAds
+import StoreKit
 
-class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumentInteractionControllerDelegate {
+class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,GADInterstitialDelegate -10feb- //, UIDocumentInteractionControllerDelegate
     
     @IBOutlet var lblCoin: UILabel!
     @IBOutlet var lblScore: UILabel!
@@ -22,7 +23,8 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     @IBOutlet weak var titleText: UILabel!
     
-    var interstitialAd : GADInterstitial!
+    var interstitialAd : GADInterstitialAd?
+    //GADInterstitial! -10feb-
     
     var count:CGFloat = 0.0
     var progressRing: CircularProgressBar!
@@ -176,17 +178,29 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     //Google AdMob
     func RequestInterstitialAd() {
         
-        self.interstitialAd = GADInterstitial(adUnitID: Apps.INTERSTITIAL_AD_UNIT_ID)
+       /* self.interstitialAd = GADInterstitial(adUnitID: Apps.INTERSTITIAL_AD_UNIT_ID)
         self.interstitialAd.delegate = self
         let request = GADRequest()
         // request.testDevices = [ kGADSimulatorID ];
         //request.testDevices = Apps.AD_TEST_DEVICE
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
-        self.interstitialAd.load(request)
+        self.interstitialAd.load(request) -10feb-*/
+        let request = GADRequest()
+         GADInterstitialAd.load(withAdUnitID:Apps.INTERSTITIAL_AD_UNIT_ID,
+                                    request: request,
+                                    completionHandler: { (ad, error) in
+                                     if let error = error {
+                                       print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+                                       return
+                                     }
+                                     self.interstitialAd = ad
+                                     self.interstitialAd!.fullScreenContentDelegate = self
+         })
     }
     
     // Tells the delegate the interstitial had been animated off the screen.
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+    //func interstitialDidDismissScreen(_ ad: GADInterstitial) { -10feb-
+        func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd){
         if self.controllerName == "review"{
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "ReView") as! ReView
@@ -267,9 +281,12 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     @IBAction func reviewButton(_ sender: UIButton) {
         self.controllerName = "review"
-        if interstitialAd.isReady{
+        /*if interstitialAd.isReady{
             self.interstitialAd.present(fromRootViewController: self)
-        }else{
+        }   -10feb-*/
+        if let ad = interstitialAd {
+           ad.present(fromRootViewController: self)
+         }else{
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "ReView") as! ReView
             viewCont.ReviewQues = ReviewQues
@@ -279,9 +296,12 @@ class ResultsViewController: UIViewController,GADInterstitialDelegate, UIDocumen
     
     @IBAction func homeButton(_ sender: UIButton) {
         self.controllerName = "home"
-        if interstitialAd.isReady{
-            interstitialAd.present(fromRootViewController: self)
-        }else{
+        /*if interstitialAd.isReady{
+            self.interstitialAd.present(fromRootViewController: self)
+        }   -10feb-*/
+        if let ad = interstitialAd {
+           ad.present(fromRootViewController: self)
+         }else{
             self.navigationController?.popToRootViewController(animated: true)
         }
     }

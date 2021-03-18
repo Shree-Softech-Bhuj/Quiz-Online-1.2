@@ -17,6 +17,9 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet var bannerView: GADBannerView!
     //@IBOutlet var languageButton: UIButton!
     
+    @IBOutlet weak var sBtn: UIButton!
+    
+    
     var audioPlayer : AVAudioPlayer!
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -65,6 +68,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
         catetableView.refreshControl = refreshController
         
+        //self.sBtn.imageView?.transform = CGAffineTransform(rotationAngle: 360)
     }
     
     func ReLaodCategory() {
@@ -125,7 +129,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
     
 //    @IBAction func LanguageButton(_ sender: Any){
 //
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
 //        let view = storyboard.instantiateViewController(withIdentifier: "LanguageView") as! LanguageView
 //        view.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
 //        view.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -134,7 +138,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
 //    }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -163,6 +167,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
 //        cell.cateImg.SetShadow()
        
         cell.cateLbl.text = self.catData[indexPath.row].name
+        cell.CateQue.text = "Que: \(self.catData[indexPath.row].noOfQues)"
         if(catData[indexPath.row]).image == "" {
             cell.cateImg.image = UIImage(named: "score") // set default image
         }else{
@@ -170,7 +175,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
                 cell.cateImg.loadImageUsingCache(withUrl: self.catData[indexPath.row].image)// load image from url using cache
             }
         }
-    
+        cell.cateImg.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: 10)    
         
         cell.cellView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         

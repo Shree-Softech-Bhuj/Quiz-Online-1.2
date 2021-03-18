@@ -4,6 +4,7 @@ import FirebaseInstanceID
 import AVFoundation
 import Reachability
 import SystemConfiguration
+import SwiftyJWT
 
 extension UIViewController{
     
@@ -52,7 +53,7 @@ extension UIViewController{
             player.prepareToPlay()
             
             if(UserDefaults.standard.value(forKey:"setting") == nil){
-                UserDefaults.standard.set(try? PropertyListEncoder().encode(Setting.init(sound: true, backMusic: true, vibration: true)),forKey: "setting")
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(Setting.init(sound: true, backMusic: false, vibration: true)),forKey: "setting")
             }
             let setting = try! PropertyListDecoder().decode(Setting.self, from: (UserDefaults.standard.value(forKey:"setting") as? Data)!)
             
@@ -73,18 +74,33 @@ extension UIViewController{
         }
     }
     
+    // generate JWT Token Has
+       func GetTokenHash() -> String {
+        let headerWithKeyId = JWTHeader.init(keyId:Apps.JWT)
+
+           var payload = JWTPayload()
+           payload.expiration = Int(Date(timeIntervalSinceNow: 60).timeIntervalSince1970)
+           payload.issuer = "quiz"
+           payload.subject = "quiz Authentication"
+           payload.issueAt = Int(Date().timeIntervalSince1970)
+           let alg = JWTAlgorithm.hs256(Apps.JWT)
+           let jwtWithKeyId = try? JWT.init(payload: payload, algorithm: alg, header: headerWithKeyId)
+           return jwtWithKeyId!.rawString!
+       }
+
+    
     // get api data
     func getAPIData(apiName:String, apiURL:String,completion:@escaping (NSDictionary)->Void,image:UIImageView? = nil){
+              
         let url = URL(string: Apps.URL)!
         let postString = "access_key=\(Apps.ACCESS_KEY)&\(apiName)=1&\(apiURL)"
-        //        print("POST URL",url)
-        //        print("POST String = \(postString)")
+                print("POST URL",url)
+                print("POST String = \(postString)")
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        //let data = NSMutableData();
-        //request.httpBody = postString.data(using: .utf8)
-        
         request.httpBody = Data(postString.utf8)
+        request.addValue("Bearer \(GetTokenHash())", forHTTPHeaderField: "Authorization")
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {             // check for fundamental networking error
                 print("error=\(String(describing: error))")
@@ -92,8 +108,6 @@ extension UIViewController{
                 completion(res)
                 return
             }
-            
-            //print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8))
             
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {   // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
@@ -109,18 +123,27 @@ extension UIViewController{
                 }else{
                     let res = ["status":false,"message":"JSON Parser Error"] as NSDictionary
                     completion(res)
-                    print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8))
+                    print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8)!)
                 }
             }else{
                 let res = ["error":"false","message":"Error while fetching data"] as NSDictionary
                 print("JSON API ERROR",String(data: data, encoding: String.Encoding.utf8)!)
                 completion(res)
-                
             }
         }
         task.resume()
     }
-    
+    //refer code generator
+    func referCodeGenerator(_ displayNm: String) -> String {
+        let displayname = displayNm
+        var g = SystemRandomNumberGenerator()
+        let rn = Int.random(in: 0000...9999, using: &g)
+        let referCode = (displayname)+String(rn)
+        
+        return referCode
+    }
+   
+        
     //load loader
     func LoadLoader(loader:UIAlertController)->UIAlertController{
         let pending = UIAlertController(title: nil, message: Apps.WAIT , preferredStyle: .alert)
@@ -128,9 +151,9 @@ extension UIViewController{
         pending.view.tintColor = UIColor.black
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(origin: CGPoint(x:10,y:5), size: CGSize(width: 50, height: 50))) as UIActivityIndicatorView
         loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.gray // if ios -13 UIActivityIndicatorViewStyle.medium
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium//UIActivityIndicatorView.Style.gray
         loadingIndicator.startAnimating();
-        
+          
         pending.view.addSubview(loadingIndicator)
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
             DispatchQueue.main.async {
@@ -239,7 +262,7 @@ extension UIViewController{
         for button in buttons{
             button.contentMode = .center
             button.SetShadow()
-            button.titleLabel?.numberOfLines = 2
+            button.titleLabel?.numberOfLines = 0
             button.titleLabel?.lineBreakMode = .byWordWrapping
         }
     }

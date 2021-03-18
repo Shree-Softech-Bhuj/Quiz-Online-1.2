@@ -23,6 +23,8 @@ class ReView: UIViewController {
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet var mainQuestionView: UIView!
     @IBOutlet var lblQstn: UILabel!
+    
+    var dUser:User? = nil
         
     var ReviewQues:[ReQuestionWithE] = []
     var BookQuesList:[QuestionWithE] = []
@@ -202,14 +204,16 @@ class ReView: UIViewController {
         let okAction = UIAlertAction(title:Apps.SUBMIT, style: UIAlertAction.Style.default, handler: {(action:UIAlertAction!)->Void in
             //submit question'snote to server
             if(Reachability.isConnectedToNetwork()){
+                self.dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey: "user") as? Data)!)
+                print(self.dUser!)
+             
                 self.Loader = self.LoadLoader(loader: self.Loader)
-                let apiURL = "question_id=\(self.ReviewQues[self.currentQuesPosition].id)&message=\( (alert.textFields![0].text)!)"
+                let apiURL = "question_id=\(self.ReviewQues[self.currentQuesPosition].id)&message=\( (alert.textFields![0].text)!)&user_id=\(self.dUser?.userID ?? "0")"
                 print("API",apiURL)
                 self.getAPIData(apiName: "report_question", apiURL: apiURL,completion: self.SubmitReview)
             }else{
                 self.ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
             }
-            
         })
         alert.addAction(okAction)
         alert.addAction(UIAlertAction(title: Apps.CANCEL, style: .default, handler: { action in
@@ -354,8 +358,8 @@ class ReView: UIViewController {
                 btnA.setTitle("\(ReviewQues[currentQuesPosition].opetionA)", for: .normal)
                 btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)
                 
-                btnA.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
-                btnB.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//                btnA.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//                btnB.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
                 
                 btnC.isHidden = true
                 btnD.isHidden = true
@@ -363,8 +367,8 @@ class ReView: UIViewController {
                 btnC.isHidden = false
                 btnD.isHidden = false
                 
-                btnA.setImage(UIImage(named: "btnA"), for: .normal)
-                btnB.setImage(UIImage(named: "btnB"), for: .normal)
+//                btnA.setImage(UIImage(named: "btnA"), for: .normal)
+//                btnB.setImage(UIImage(named: "btnB"), for: .normal)
                 //set options and question lable here
                 btnA.setTitle("\(ReviewQues[currentQuesPosition].opetionA)", for: .normal)
                 btnB.setTitle("\(ReviewQues[currentQuesPosition].opetionB)", for: .normal)

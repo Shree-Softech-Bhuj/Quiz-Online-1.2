@@ -3,7 +3,7 @@ import UIKit
 import AVFoundation
 import GoogleMobileAds
 
-class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedVideoAdDelegate {
+class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBasedVideoAdDelegate
     
     @IBOutlet weak var titleBar: UILabel!
     @IBOutlet var lblQuestion: UITextView!
@@ -43,7 +43,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     var adRequestInProgress = false
     
     // The reward-based video ad.
-    var rewardBasedVideo: GADRewardBasedVideoAd?
+    var rewardBasedVideo: GADRewardedAd? //GADRewardBasedVideoAd?
 
     var falseCount = 0
     var trueCount = 0
@@ -89,8 +89,8 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         }
        // view1.SetShadow()
         //Google AdMob
-        rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
-        rewardBasedVideo!.delegate = self
+//        rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
+//        rewardBasedVideo!.delegate = self
          if Apps.opt_E == true {
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
          }else{
@@ -99,11 +99,11 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
        // centerView.layer.addBorder(edge: .left, color: .darkGray, thickness: 1)
         centerView.layer.addBorder(edge: .right, color: .darkGray, thickness: 1)
         
-        btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
-        btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
-        btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
-        btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
-        btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
+//        btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
+//        btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
+//        btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
+//        btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
+//        btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
         
         self.topView.addBottomBorderWithColor(color: .gray, width: 1)
         //font
@@ -125,7 +125,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
         self.mainQuestionView.DesignViewWithShadow()
         
         quesData.shuffle()
-        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+        GADRewardedAd.load()//GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
         
         RequestForRewardAds()
         
@@ -194,11 +194,11 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     func RequestForRewardAds(){
-        let request = GADRequest()
+//        let request = GADRequest()
         //request.testDevices = [ kGADSimulatorID ];
        // request.testDevices = Apps.AD_TEST_DEVICE
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
-        rewardBasedVideo?.load(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+        GADRewardedAd.load()//(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
     }
     
     @objc func ReloadFont(noti: NSNotification){
@@ -206,43 +206,46 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     func watchAd() {
-        if rewardBasedVideo?.isReady == true {
-            rewardBasedVideo?.present(fromRootViewController: self)
-        }
+        /*  if rewardedAd?.isReady == true {
+              rewardedAd!.present(fromRootViewController: self, delegate:self)
+          } -10feb- */
+          if let ad = rewardBasedVideo {
+              ad.present(fromRootViewController: self, userDidEarnRewardHandler: self.viewDidLoad)
+          }
     }
     
     // MARK: GADRewardBasedVideoAdDelegate implementation
     
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,
                             didFailToLoadWithError error: Error) {
         print("Reward based video ad failed to load: \(error.localizedDescription)")
     }
     
-    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardedAd) {
         print("Reward based video ad is received.")
     }
     
-    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardedAd) {
         print("Opened reward based video ad.")
     }
     
-    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardedAd) {
         print("Reward based video ad started playing.")
     }
     
-    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardedAd) { //GADRewardBasedVideoAd
         print("Reward based video ad is closed.")
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
         
-        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+        GADRewardedAd.load()//GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
     }
     
-    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
+    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardedAd) {
         print("Reward based video ad will leave application.")
     }
     
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
+    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,
                             didRewardUserWith reward: GADAdReward) {
         print("Reward received with currency: \(reward.type), amount \(reward.amount).")
         
@@ -305,7 +308,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -378,16 +381,16 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     func clearColor(views:UIView...){
         
         let singleQues = quesData[currentQuestionPos]
-        if singleQues.quesType == "2"{
-            btnA.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
-            btnB.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
-        }else{
-            btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
-            btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
-            btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
-            btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
-            btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
-        }
+//        if singleQues.quesType == "2"{
+//            btnA.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+//            btnB.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+//        }else{
+//            btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
+//            btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
+//            btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
+//            btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
+//            btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
+//        }
        
       
         for view in views{
@@ -426,7 +429,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
     }
    
     @IBAction func ShowAttemp(_ sender: Any){
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "SelfAttempAlertView") as! SelfAttempAlertView
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -465,6 +468,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 question.text = quesData[currentQuestionPos].question
+                question.stringFormation(quesData[currentQuestionPos].question)
                 question.centerVertically()
                 //hide some components
                 lblQuestion.isHidden = true
@@ -475,6 +479,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate, GADRewardBasedV
             }else{
                 // if question has image
                 lblQuestion.text = quesData[currentQuestionPos].question
+                lblQuestion.stringFormation(quesData[currentQuestionPos].question)
                 lblQuestion.centerVertically()
                 questionImage.loadImageUsingCache(withUrl: quesData[currentQuestionPos].image)
                 //show some components

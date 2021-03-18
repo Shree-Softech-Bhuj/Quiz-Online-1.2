@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="81" height="75" viewBox="0 0 81 75">
+  <g id="login_google" transform="translate(0.328 0.181)">
+    <g id="Rectangle_241" data-name="Rectangle 241" transform="translate(-0.328 -0.181)" fill="none" stroke="#fff" stroke-width="1">
+      <rect width="81" height="75" rx="15" stroke="none"/>
+      <rect x="0.5" y="0.5" width="80" height="74" rx="14.5" fill="none"/>
+    </g>
+    <path id="Icon_awesome-google" data-name="Icon awesome-google" d="M35.419,18.983c0,10.27-7.033,17.579-17.419,17.579a18,18,0,1,1,0-36,17.31,17.31,0,0,1,12.07,4.71l-4.9,4.71C18.762,3.8,6.844,8.445,6.844,18.563A11.275,11.275,0,0,0,18,29.929c7.127,0,9.8-5.11,10.219-7.759H18V15.979H35.136A15.78,15.78,0,0,1,35.419,18.983Z" transform="translate(22.462 18.757)" fill="#fff"/>
+  </g>
+</svg>

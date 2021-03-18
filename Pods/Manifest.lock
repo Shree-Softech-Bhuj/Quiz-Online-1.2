@@ -223,6 +223,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
+  - EVTopTabBar (2.2.1)
   - FacebookCore (0.9.0):
     - FBSDKCoreKit (~> 5.0)
   - FacebookLogin (0.9.0):
@@ -311,7 +312,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Reachability (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
-  - Google-Mobile-Ads-SDK (7.69.0):
+  - Google-Mobile-Ads-SDK (8.0.0):
     - GoogleAppMeasurement (~> 7.0)
     - GoogleUserMessagingPlatform (~> 1.1)
   - GoogleAppMeasurement (7.2.0):
@@ -386,8 +387,12 @@ PODS:
   - nanopb/encode (2.30906.0)
   - PromisesObjC (1.2.11)
   - ReachabilitySwift (5.0.0)
+  - SwiftyCrypto (0.0.1)
+  - SwiftyJWT (0.0.3):
+    - SwiftyCrypto (~> 0.0.1)
 
 DEPENDENCIES:
+  - EVTopTabBar
   - FacebookLogin
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -399,12 +404,14 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - GoogleSignIn
   - ReachabilitySwift
+  - SwiftyJWT
 
 SPEC REPOS:
   trunk:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - EVTopTabBar
     - FacebookCore
     - FacebookLogin
     - FBSDKCoreKit
@@ -433,11 +440,14 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - ReachabilitySwift
+    - SwiftyCrypto
+    - SwiftyJWT
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
+  EVTopTabBar: 91fb0a2e068d8c318439a933ead68a935707dcea
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
   FacebookLogin: 6cee9fd6e1fe976fe8f7eec199e27b28b14f5d63
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
@@ -452,7 +462,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 9ab3a9a6522e687f59ff9bcfd92949ac85073f3c
   FirebaseInstanceID: 68d2fa458c0c6adfde0007ffe35b51a37b163dec
   FirebaseMessaging: 7091222bfac24ca89c569c3c59e58390311e487f
-  Google-Mobile-Ads-SDK: 2f288748a42920d1c744946a460896a95b0e9110
+  Google-Mobile-Ads-SDK: 9509c62617e8d77e2524833eed0b73dd028f0bc6
   GoogleAppMeasurement: 57a0df93dc2feb5176b1bac06012dbd725191ba5
   GoogleDataTransport: e4085e6762f36a6141738f46b0153473ce57fb18
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
@@ -466,7 +476,9 @@ SPEC CHECKSUMS:
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SwiftyCrypto: ab59cdb153a7ca99b657fa8d9ebd2ebbd7694bbe
+  SwiftyJWT: e46e8457138c6567a1a9ff05a6efc8ef678c1187
 
-PODFILE CHECKSUM: 10a7615facb77c63b2ffb03ee6c3fdcb6f84c663
+PODFILE CHECKSUM: 5272e7cc8b86741173f121217daef17028256f14
 
 COCOAPODS: 1.10.0

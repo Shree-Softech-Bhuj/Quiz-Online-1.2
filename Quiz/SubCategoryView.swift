@@ -67,7 +67,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     //load sub category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
@@ -102,7 +102,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -126,6 +126,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         // Name
         cell.sCateLbl.text = subCatData[indexPath.row].name
+        cell.sCateQue.text = "Que: \(self.subCatData[indexPath.row].noOf)"
         
         if(subCatData[indexPath.row]).image == "" {
             cell.sCateImg.image = UIImage(named: "score")
@@ -134,6 +135,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
                 cell.sCateImg.loadImageUsingCache(withUrl: self.subCatData[indexPath.row].image)
             }
         }
+        cell.sCateImg.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: 10)
         
         //cell.sCateImg.layer.borderColor = UIColor.lightGray.cgColor
         //cell.sCateImg.layer.borderWidth = 0.8

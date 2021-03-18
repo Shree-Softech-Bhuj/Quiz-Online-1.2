@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleURLSchemes</key>
-	<string>fb567937396950509</string>
+	<string>fb2338640796222596</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb567937396950509</string>
+				<string>fb2338640796222596</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>567937396950509</string>
+	<string>2338640796222596</string>
 	<key>FacebookDisplayName</key>
 	<string>Quiz Online</string>
 	<key>GADApplicationIdentifier</key>

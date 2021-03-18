@@ -205,7 +205,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         zoomScroll.zoomScale = zoomScale
     }
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -271,7 +271,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     func LoadData(jsonObj:NSDictionary){
         //print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
-        let msg = jsonObj.value(forKey: "message") as! String
+//        let msg = jsonObj.value(forKey: "message") as! String 
         
         if (status == "true") {
             self.Loader.dismiss(animated: true, completion: {
@@ -406,7 +406,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             if(quesData[currentQuestionPos].image == ""){
                 // if question dose not contain images
                 mainQuestionLbl.text = quesData[currentQuestionPos].question
-                
+                mainQuestionLbl.stringFormation(quesData[currentQuestionPos].question)
                 //hide some components
                 imageQuestionLbl.isHidden = true
                 questionImageView.isHidden = true
@@ -416,6 +416,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             }else{
                 // if question has image
                 imageQuestionLbl.text = quesData[currentQuestionPos].question
+                imageQuestionLbl.stringFormation(quesData[currentQuestionPos].question)
                 questionImageView.loadImageUsingCache(withUrl: quesData[currentQuestionPos].image)
                 
                 questionImageView.isHidden = false
@@ -458,7 +459,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if timer != nil && timer!.isValid{
             timer!.invalidate()
         }
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let alert = storyboard.instantiateViewController(withIdentifier: "ResultAlert") as! ResultAlert
         alert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         alert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -560,8 +561,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     // add question data to firebase
     func AddQuestionToFIR(question:QuestionWithE, userAns:String){
         if question != nil{
-            var data = question.toDictionaryE
-            
+            var data = question.toDictionaryE            
             data["userSelect"] = userAns
             if self.ref != nil{
                 self.ref.child(user.UID).child("Questions").child("\(self.currentQuestionPos)").setValue(data)
@@ -674,11 +674,11 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             btnC.isHidden = false
             btnD.isHidden = false
             
-            btnA.setImage(UIImage(named: "btnA"), for: .normal)
-            btnB.setImage(UIImage(named: "btnB"), for: .normal)
-            btnC.setImage(UIImage(named: "btnc"), for: .normal)
-            btnD.setImage(UIImage(named: "btnD"), for: .normal)
-            btnE.setImage(UIImage(named: "btnE"), for: .normal)
+//            btnA.setImage(UIImage(named: "btnA"), for: .normal)
+//            btnB.setImage(UIImage(named: "btnB"), for: .normal)
+//            btnC.setImage(UIImage(named: "btnc"), for: .normal)
+//            btnD.setImage(UIImage(named: "btnD"), for: .normal)
+//            btnE.setImage(UIImage(named: "btnE"), for: .normal)
             
             buttons.shuffle()
         }

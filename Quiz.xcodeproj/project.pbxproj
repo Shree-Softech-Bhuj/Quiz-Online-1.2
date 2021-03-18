@@ -40,12 +40,22 @@
 		BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D723DF0767006BD387 /* LanguageView.swift */; };
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
+		C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */; };
 		C63F8B782416677700B4C503 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63F8B772416677400B4C503 /* GradientView.swift */; };
+		C646502F25DF846F006588CC /* ContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646502E25DF846F006588CC /* ContestView.swift */; };
+		C646503425DF84F2006588CC /* ContestMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646503325DF84F2006588CC /* ContestMainView.swift */; };
+		C646506225DF86B9006588CC /* ContestLeaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646506125DF86B9006588CC /* ContestLeaderboard.swift */; };
+		C646506325DF86B9006588CC /* PlayContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646506025DF86B9006588CC /* PlayContestView.swift */; };
+		C646506425DF86B9006588CC /* ContestResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646505F25DF86B9006588CC /* ContestResultsViewController.swift */; };
 		C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6500A1623EAA7C400AC93BF /* AboutUsView.swift */; };
+		C6582DCA25F36D8800F79C03 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6582DC925F36D8800F79C03 /* test.swift */; };
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
 		C6679A4123B7734200670AC0 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6679A4023B7734200670AC0 /* SignUpViewController.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
+		C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */; };
+		C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDA8D1260245A2006AC97D /* GradientButton.swift */; };
+		C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC8FE425DAA2B1000046F9 /* OTPController.swift */; };
 		D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119721A6B4D80026B327 /* PlayQuizView.swift */; };
 		D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119921A6B8B60026B327 /* ResultsViewController.swift */; };
 		D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75C4C49223289AA006C68EF /* Leaderboard.swift */; };
@@ -142,14 +152,24 @@
 		BCE582D723DF0767006BD387 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
+		C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewMobileController.swift; sourceTree = "<group>"; };
 		C63F8B772416677400B4C503 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		C646502E25DF846F006588CC /* ContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestView.swift; sourceTree = "<group>"; };
+		C646503325DF84F2006588CC /* ContestMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestMainView.swift; sourceTree = "<group>"; };
+		C646505F25DF86B9006588CC /* ContestResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestResultsViewController.swift; sourceTree = "<group>"; };
+		C646506025DF86B9006588CC /* PlayContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayContestView.swift; sourceTree = "<group>"; };
+		C646506125DF86B9006588CC /* ContestLeaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestLeaderboard.swift; sourceTree = "<group>"; };
 		C6500A1623EAA7C400AC93BF /* AboutUsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
+		C6582DC925F36D8800F79C03 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
 		C6679A4023B7734200670AC0 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
+		C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdViewController.swift; sourceTree = "<group>"; };
+		C6DDA8D1260245A2006AC97D /* GradientButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		C6F6600A23F67E2600015F15 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C6F6600C23F67E2600015F15 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		C6FC8FE425DAA2B1000046F9 /* OTPController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPController.swift; sourceTree = "<group>"; };
 		D74A119721A6B4D80026B327 /* PlayQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayQuizView.swift; sourceTree = "<group>"; };
 		D74A119921A6B8B60026B327 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		D75C4C49223289AA006C68EF /* Leaderboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
@@ -307,6 +327,13 @@
 				D767B1E22239260D00B0A588 /* Quiz.entitlements */,
 				BCB79C50241CC78000465FEA /* GoogleService-Info.plist */,
 				D7FCFC6821A5283C00718EE2 /* Info.plist */,
+				C6582DC925F36D8800F79C03 /* test.swift */,
+				C646506125DF86B9006588CC /* ContestLeaderboard.swift */,
+				C646505F25DF86B9006588CC /* ContestResultsViewController.swift */,
+				C646506025DF86B9006588CC /* PlayContestView.swift */,
+				C646503325DF84F2006588CC /* ContestMainView.swift */,
+				C646502E25DF846F006588CC /* ContestView.swift */,
+				C6FC8FE425DAA2B1000046F9 /* OTPController.swift */,
 				C6500A1623EAA7C400AC93BF /* AboutUsView.swift */,
 				D7FCFC5921A5282D00718EE2 /* AppDelegate.swift */,
 				BC69FF5F23EA922A009B5DF8 /* BattleStatisticsCell.swift */,
@@ -315,6 +342,7 @@
 				D7FCFC9121A57E2800718EE2 /* CategoryView.swift */,
 				BC02A0B922A919E80089025C /* FloatingTF.swift */,
 				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
+				C6DDA8D1260245A2006AC97D /* GradientButton.swift */,
 				C63F8B772416677400B4C503 /* GradientView.swift */,
 				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
 				BCE582D523DF068C006BD387 /* LanguageCell.swift */,
@@ -322,6 +350,7 @@
 				D75C4C49223289AA006C68EF /* Leaderboard.swift */,
 				D7BCD049222A667800B7E531 /* LevelView.swift */,
 				D7FCFC8A21A52A6600718EE2 /* LoginView.swift */,
+				C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */,
 				C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */,
 				C662045423DFEB770028ED5B /* NotificationsView.swift */,
 				BC2080EC22701F160071B5F3 /* PrivacyView.swift */,
@@ -329,6 +358,7 @@
 				D74A119921A6B8B60026B327 /* ResultsViewController.swift */,
 				9A3782CC247B757800EF6996 /* SelfChallengeController.swift */,
 				9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */,
+				C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */,
 				C6679A4023B7734200670AC0 /* SignUpViewController.swift */,
 				D7FCFC9021A57E2800718EE2 /* SubCategoryView.swift */,
 				C67708AC23D0394800DC90B5 /* SystemConfig.swift */,
@@ -401,6 +431,8 @@
 			dependencies = (
 			);
 			name = Quiz;
+			packageProductDependencies = (
+			);
 			productName = Quiz;
 			productReference = D7FCFC5621A5282D00718EE2 /* Quiz.app */;
 			productType = "com.apple.product-type.application";
@@ -486,6 +518,8 @@
 				Base,
 			);
 			mainGroup = D7FCFC4D21A5282D00718EE2;
+			packageReferences = (
+			);
 			productRefGroup = D7FCFC5721A5282D00718EE2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -649,16 +683,22 @@
 				9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */,
 				BC2080ED22701F160071B5F3 /* PrivacyView.swift in Sources */,
 				D7FCFC9321A57E2800718EE2 /* CategoryView.swift in Sources */,
+				C646503425DF84F2006588CC /* ContestMainView.swift in Sources */,
 				D7FCFC6221A5282D00718EE2 /* Quiz.xcdatamodeld in Sources */,
+				C646502F25DF846F006588CC /* ContestView.swift in Sources */,
 				C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */,
+				C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */,
 				BC11D56022A4FD740035A6B4 /* ControllerExtension.swift in Sources */,
 				BC16479B22548E2E00FB7810 /* Structure.swift in Sources */,
 				C63F8B782416677700B4C503 /* GradientView.swift in Sources */,
+				C646506225DF86B9006588CC /* ContestLeaderboard.swift in Sources */,
+				C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */,
 				D7A611962233D7B9002D1E8C /* BattleViewController.swift in Sources */,
 				D7FCFC8B21A52A6600718EE2 /* LoginView.swift in Sources */,
 				BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */,
 				9AEF45562462FEB700B96893 /* DesignController.swift in Sources */,
 				BC69FF6023EA922A009B5DF8 /* BattleStatisticsCell.swift in Sources */,
+				C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */,
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
 				C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
@@ -674,6 +714,7 @@
 				BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */,
 				BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */,
 				D7FCFC9521A57F4700718EE2 /* TableViewCell.swift in Sources */,
+				C6582DCA25F36D8800F79C03 /* test.swift in Sources */,
 				D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */,
 				D7FCFC5A21A5282D00718EE2 /* AppDelegate.swift in Sources */,
 				BC03109F229F964B00923A3F /* ImagePickerManager.swift in Sources */,
@@ -685,9 +726,12 @@
 				9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */,
 				C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
+				C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */,
 				D7BCD04C222AA86500B7E531 /* CircularProgressBar.swift in Sources */,
 				C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */,
+				C646506325DF86B9006588CC /* PlayContestView.swift in Sources */,
 				BC0139FF2281483A009DA93B /* ResultAlert.swift in Sources */,
+				C646506425DF86B9006588CC /* ContestResultsViewController.swift in Sources */,
 				BC0310A1229F9D2900923A3F /* TermsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -875,7 +919,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -899,7 +943,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 89C47N4UTZ;
 				INFOPLIST_FILE = Quiz/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

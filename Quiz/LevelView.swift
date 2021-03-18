@@ -33,7 +33,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         adBannerView.rootViewController = self
         let request = GADRequest()
         // request.testDevices = Apps.AD_TEST_DEVICE
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         adBannerView.load(request)
         
         // apps level lock unlock, no need level lock unlock remove this code
@@ -53,6 +53,16 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             self.tableView.reloadData()
         }
     }
+    
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+          print("Banner loaded successfully")
+      }
+
+    private func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: NSError) {
+          print("Fail to receive ads")
+          print(error)
+      }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if !isInitial{
@@ -69,7 +79,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     }
     
     @IBAction func settingButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
         myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -103,7 +113,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         
         // apps lock unlock code
         if (self.unLockLevel >= indexPath.row){
-            cell.lockImg.image = UIImage(named: "unlockColored")
+            cell.lockImg.image = UIImage(named: "unlock")
         }else{
             cell.lockImg.image = UIImage(named: "lock")
         }
@@ -225,6 +235,7 @@ extension LevelView{
                         DispatchQueue.main.async {
                             self.DismissLoader(loader: self.Loader)
                             let data = jsonObj.value(forKey: "data") as? [String:Any]
+                            print("level data \(data)")
                             self.unLockLevel = Int("\(data!["level"]!)")!
                             scoreLavel = self.unLockLevel
                             self.tableView.isHidden = false

@@ -88,8 +88,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         
         //to get system configurations parameters as per requirement
        varSys.ConfigureSystem()
+       varSys.getUserDetails()
        varSys.LoadLanguages(completion: {})
        varSys.getNotifications()
+       
         
         
         if #available(iOS 10.0, *) {
@@ -165,14 +167,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
     
     //func called when user tap on notification
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse,withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
+        let userInfo = response.notification.request.content.userInfo 
         //deduct 1 from badgeCount As user opens notification
         if Apps.badgeCount > 0 {
             Apps.badgeCount -= 1
             UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
         }
         actionAccordingToData()
-       // print(" user info - \(userInfo)")
+        print(" user info - \(userInfo)")
         completionHandler()
     }
     private func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -197,7 +199,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         case .active:
             print("Active")
             //Show an in-app banner
-            completionHandler(.newData)
+           // completionHandler(.newData)
+        @unknown default:
+            print("default case")
         }
         
        // print("USER INFO ",userInfo)
@@ -214,7 +218,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
       //  print("Firebase registration token: \(fcmToken)")
         
         let dataDict:[String: String?] = ["token": fcmToken]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict as [AnyHashable : Any])
+        //NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         //send token to application server.
         Apps.FCM_ID = fcmToken!
         varSys.updtFCMToServer()
@@ -315,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
                             self.appOpenAd = appOpenAdIn
                             self.appOpenAd!.fullScreenContentDelegate = self
                             self.loadTime = Date()
-                            print("Ad is ready")
+                            //print("Ad is ready")
                           })
     }
 
@@ -337,7 +342,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
     
     //test
     
-    func fragmentRemoteData(_  str:String){
+    /*func fragmentRemoteData(_  str:String){
         //separate parameters of response by using ","
         let displayname = str.components(separatedBy: ",")
         //print(displayname)
@@ -413,9 +418,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         Apps.nMainCat = category[1]
         Apps.nSubCat = numOf[1]
         Apps.nType = type
-    }
+    }*/
     
-    func showNotification(_ title:String,_ body:String){
+    /*func showNotification(_ title:String,_ body:String){
         //show notification alert with received title & body
         let content = UNMutableNotificationContent()
         content.title = title
@@ -430,9 +435,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
         print(Apps.badgeCount)
         UNUserNotificationCenter.current().add(request,withCompletionHandler: nil)
-    }
+    }*/
     
-    func showNotificationWithAttachment(_ title:String,_ body:String,_ img:URL){
+    /*func showNotificationWithAttachment(_ title:String,_ body:String,_ img:URL){
         //show notification pop up with received title & body
         let content = UNMutableNotificationContent()
         content.title = title
@@ -455,9 +460,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         }else{
             print("file is not present at given path")
         }
-    }
+    }*/
     
-    func setAttachment(_ tempImg : String) -> URL {
+    /*func setAttachment(_ tempImg : String) -> URL {
         // Create destination URL
         let  documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         print(documentsUrl)
@@ -492,14 +497,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         }
         task.resume()
         return destinationFileUrl
-    }
+    }*/
     //func called when user click on notification as received
     func actionAccordingToData(){
         if Apps.nType == "default" {
             //goTo homepage
         }else if Apps.nType == "category" {
             if Apps.nSubCat != "0" {
-                let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                 let subCatView:SubCategoryView = storyBoard.instantiateViewController(withIdentifier: "SubCategoryView") as! SubCategoryView
                 subCatView.catID = Apps.nMainCat //pass main category id to show subcategories regarding to main category there
                 self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -507,7 +512,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
                 self.window?.makeKeyAndVisible()
             }else if Apps.nMainCat != "0"{
                 //open level 1 of category id given
-                let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                 let levelScreen:LevelView = storyBoard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
                 levelScreen.maxLevel = Apps.nMaxLvl
                 levelScreen.catID = Int(Apps.nMainCat) ?? 0
@@ -521,13 +526,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
         }
     }
     
-    func removeTempImg(){ //remove Img before copying new image downloaded from url given with notification data
+   /* func removeTempImg(){ //remove Img before copying new image downloaded from url given with notification data
         let  documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let destinationFileUrl = documentsUrl.appendingPathComponent("tempImg.jpg")
         if FileManager.default.fileExists(atPath: destinationFileUrl.path){
             try? FileManager.default.removeItem(at: destinationFileUrl)
         }
-    }
+    }*/
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         /*

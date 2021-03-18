@@ -26,13 +26,18 @@ import UIKit
         }
     }
     
+    func viewWillAppear(_ animated: Bool) {
+        setGradient()
+    }
+    
     private func setGradient()
     {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [self.gradientColor1.cgColor, self.gradientColor2.cgColor]
         gradientLayer.startPoint = self.gradientStartPoint
         gradientLayer.endPoint = self.gradientEndPoint
-        gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width * Apps.screenWidth, height: self.frame.size.height * Apps.screenHeight)
+        //gradientLayer.layoutIfNeeded()
+        gradientLayer.frame =  CGRect(x: 0.0, y: 0.0, width: self.frame.size.width * Apps.screenWidth, height: self.frame.size.height * Apps.screenHeight)//self.bounds//
         if let topLayer = self.layer.sublayers?.first, topLayer is CAGradientLayer
         {
             topLayer.removeFromSuperlayer()

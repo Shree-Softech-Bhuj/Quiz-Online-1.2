@@ -1,0 +1,957 @@
+import Foundation
+import UIKit
+import AVFoundation
+import GoogleMobileAds
+
+class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBasedVideoAdDelegate
+    
+    let progressBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_true)
+    let progressFalseBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_false)
+    
+    @IBOutlet weak var titleBar: UILabel!
+    @IBOutlet var lblQuestion: UITextView!
+    @IBOutlet var question: UITextView!
+    
+    @IBOutlet var btnA: UIButton!
+    @IBOutlet var btnB: UIButton!
+    @IBOutlet var btnC: UIButton!
+    @IBOutlet var btnD: UIButton!
+    @IBOutlet var btnE: UIButton!
+        
+    @IBOutlet weak var bookmarkBtn: UIButton!
+    @IBOutlet var secondChildView: UIView!
+    
+    @IBOutlet weak var lifeLineView: UIView!
+        
+    @IBOutlet weak var questionImage: UIImageView!
+    @IBOutlet var mainQuestionView: UIView!
+    @IBOutlet var speakBtn: UIButton!
+    @IBOutlet var zoomBtn: UIButton!
+    @IBOutlet var scroll: UIScrollView!
+    @IBOutlet var zoomScroll: UIScrollView!
+    
+    @IBOutlet var scoreLbl: UILabel!
+    @IBOutlet var trueLbl: UILabel!
+    @IBOutlet var falseLbl: UILabel!
+    
+    @IBOutlet weak var progFalseView: UIView!
+    
+    @IBOutlet var topView: UIView!    
+    @IBOutlet weak var timerView: UIView!
+    @IBOutlet var trueAns: UILabel!
+    @IBOutlet var falseAns: UILabel!
+    
+    var count: CGFloat = 0.0
+    var score: Int = 0
+    
+    var progressRing: CircularProgressBar!
+    var timer: Timer!
+    var player: AVAudioPlayer?
+    
+    // Is an ad being loaded.
+    var adRequestInProgress = false
+    
+    // The reward-based video ad.
+   // var rewardBasedVideo: GADRewardBasedVideoAd?
+    var rewardedAd: GADRewardedAd?
+
+    var falseCount = 0
+    var trueCount = 0
+    
+    @IBOutlet weak var mainQuesCount: UILabel!
+    @IBOutlet weak var mainScoreCount: UILabel!
+    @IBOutlet weak var mainCoinCount: UILabel!
+    
+    @IBOutlet weak var proview: UIView!
+    @IBOutlet var verticalView: UIView!
+    
+    var jsonObj : NSDictionary = NSDictionary()
+    var quesData: [contestQuestion] = []  
+   // var reviewQues:[ReQuestionWithE] = []
+   // var BookQuesList:[QuestionWithE] = []
+    
+    var currentQuestionPos = 0
+   
+    var audioPlayer : AVAudioPlayer!
+    var isInitial = true
+    var Loader: UIAlertController = UIAlertController()
+    
+    var level = 0
+    var catID = 0
+    var questionType = "sub"
+    var zoomScale:CGFloat = 1
+    
+    var opt_ft = false
+    var opt_sk = false
+    var opt_au = false
+    var opt_re = false
+    
+    var correctAnswer = "a"
+    
+    var callLifeLine = ""
+    let speechSynthesizer = AVSpeechSynthesizer()
+    
+    var contestID = 0
+    var contestNm = "Contest"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        lblQuestion.backgroundColor = .white
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            btnE.isHidden = true
+            buttons = [btnA,btnB,btnC,btnD]
+        }
+        //Google AdMob
+//        rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
+//        rewardBasedVideo!.delegate = self
+        rewardedAd = GADRewardedAd() //adUnitID: Apps.INTERSTITIAL_AD_UNIT_ID
+         if Apps.opt_E == true {
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+         }else{
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+        }
+        
+        //font
+        resizeTextview()
+      //get questions of contest
+        if(Reachability.isConnectedToNetwork()){
+            let apiURL = "contest_id=\(contestID)" 
+//            print(apiURL)
+            self.getAPIData(apiName: "get_questions_by_contest", apiURL: apiURL,completion: getQuestions) 
+        }
+        //get bookmark list
+//        if (UserDefaults.standard.value(forKey: "booklist") != nil){
+//            BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:((UserDefaults.standard.value(forKey: "booklist") as? Data)!))
+//                print(BookQuesList)
+//        }
+        
+        self.RegisterNotification(notificationName: "PlayView")
+        self.CallNotification(notificationName: "ResultView")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ResumeTimer), name: NSNotification.Name(rawValue: "ResumeTimer"), object: nil)
+        
+        setVerticleProgress(view: proview, progress: progressBar)// true progres bar
+        setVerticleProgress(view: progFalseView, progress: progressFalseBar)// false progress bar
+        
+        let mScore = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+        mainScoreCount.text = "\(mScore.points)"
+        mainCoinCount.text = "\(mScore.coins)"
+
+        zoomScroll.minimumZoomScale = 1.0
+        zoomScroll.maximumZoomScale = 6.0
+        
+        setGradientBackground()
+           
+        self.mainQuestionView.DesignViewWithShadow()
+        
+        let xPosition = topView.center.x + 130 //timerView.frame.origin.x//
+        let yPosition = topView.center.y + 6 //timerView.frame.origin.y//
+        let position = CGPoint(x: xPosition, y: yPosition)
+        progressRing = CircularProgressBar(radius: (topView.frame.size.height - 50) / 2, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5)
+        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(10)
+        topView.layer.addSublayer(progressRing)
+                
+        quesData.shuffle()
+//        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+        // rewardedAd?.load(GADRequest())
+         GADRewardedAd.load()
+         /*
+          rewardedAd?.load(GADRequest()) { error in
+             if let error = error {
+              print("error \(error)")
+               // Handle ad failed to load case.
+             } else {
+               // Ad successfully loaded.
+              print("ad loaded successfully")
+             }
+           }
+          */
+         
+ //        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+         
+         RequestForRewardAds()
+        
+        self.titleBar.text = "\(contestNm)"//"\(Apps.LEVEL) \(level)"
+      //  self.loadQuestion()
+    }
+    
+    func getQuestions(jsonObj:NSDictionary){
+            print("JSON",jsonObj)
+            let status = jsonObj.value(forKey: "error") as! String
+            if (status == "true") {
+                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+            }else{
+                //get data for category
+                self.quesData.removeAll()
+                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                    for val in data{ //,type_id: "\(val["type_id"]!)"
+                        self.quesData.append(contestQuestion.init(id: "\(val["id"]!)", contest_id: "\(val["contest_id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)"))
+                        
+                        //check if admin have added questions with 5 options? if not, then hide option E btn by setting boolean variable to false even if option E mode is Enabled.
+//                            if let e = val["optione"] as? String {
+//                                if e == ""{
+//                                    Apps.opt_E = false
+//                                }else{
+//                                    Apps.opt_E = true
+//                                }
+//                            }
+                    }
+                    Apps.TOTAL_PLAY_QS = data.count
+                    print(Apps.TOTAL_PLAY_QS)
+                    //check this level has enough (10) question to play? or not
+                    if self.quesData.count >= Apps.TOTAL_PLAY_QS {
+                        //viewCont.quesData = self.quesData
+                        DispatchQueue.main.async {
+                            self.loadQuestion()
+//                            self.navigationController?.pushViewController(viewCont, animated: true)
+                        }
+                    }//else{
+//                            DispatchQueue.main.async {
+//                                print("This level does not have enough question",self.quesData.count)
+//                                self.ShowAlert(title: Apps.NOT_ENOUGH_QUESTION_TITLE, message: Apps.NO_ENOUGH_QUESTION_MSG)
+//                            }
+//                        }
+                }else{
+                }
+            }
+       // })
+    }
+    func RequestForRewardAds(){
+//        let request = GADRequest()
+        //request.testDevices = [ kGADSimulatorID ];
+       // request.testDevices = Apps.AD_TEST_DEVICE
+//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
+//        rewardBasedVideo?.load(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+        GADRewardedAd.load()
+    }
+    
+    @objc func ReloadFont(noti: NSNotification){
+        resizeTextview()
+    }
+    
+    func watchAd() {
+//        if rewardBasedVideo?.isReady == true {
+//            rewardBasedVideo?.present(fromRootViewController: self)
+//        }
+        if let ad = rewardedAd {
+            ad.present(fromRootViewController: self, userDidEarnRewardHandler: self.viewDidLoad)
+        }
+    }
+    
+    // MARK: GADRewardBasedVideoAdDelegate implementation
+   
+    private func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,didFailToLoadWithError error: Error) {
+        print("Reward based video ad failed to load: \(error.localizedDescription) - \(GADErrorCode.serverError)")
+    }
+    
+    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardedAd) {
+        print("Reward based video ad is received.")
+    }
+    
+    func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
+      print("Rewarded ad presented.")
+    }
+
+    func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
+      print("Rewarded ad failed to present.")
+    }
+//    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardedAd) {
+//        print("Opened reward based video ad.")
+//    }
+    
+    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardedAd) {
+        print("Reward based video ad started playing.")
+    }
+    
+    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
+        print("Reward based video ad is closed.")
+       timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+       timer.fire()
+       
+        GADRewardedAd.load()
+        //rewardedAd?.load(rewardedAd)
+        
+       //        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+    }
+//    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardedAd) {
+//        print("Reward based video ad is closed.")
+//        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+//        timer.fire()
+//
+//        rewardedAd?.load(GADRequest())
+////        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
+//    }
+    
+    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardedAd) {
+        print("Reward based video ad will leave application.")
+    }
+    
+    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
+        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+                 var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+                score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                mainCoinCount.text = "\(score.coins)"
+    }
+//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,didRewardUserWith reward: GADAdReward) {
+//        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+//         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+//        score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
+//        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+//        mainCoinCount.text = "\(score.coins)"
+//    }
+    
+    func resizeTextview(){
+        
+        var getFont = UserDefaults.standard.float(forKey: "fontSize")
+        if (getFont == 0){
+            getFont = 16
+        }
+        lblQuestion.font = lblQuestion.font?.withSize(CGFloat(getFont))
+        question.font = question.font?.withSize(CGFloat(getFont))
+        
+        lblQuestion.centerVertically()
+        question.centerVertically()
+        
+        btnA.titleLabel?.font = btnA.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnB.titleLabel?.font = btnB.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnC.titleLabel?.font = btnC.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnD.titleLabel?.font = btnD.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnE.titleLabel?.font = btnE.titleLabel?.font?.withSize(CGFloat(getFont))
+        
+        btnA.resizeButton()
+        btnB.resizeButton()
+        btnC.resizeButton()
+        btnD.resizeButton()
+        btnE.resizeButton()
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return questionImage
+    }
+
+    // resume timer when setting alert closed
+    @objc func ResumeTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+        timer.fire()
+    }
+    
+    // Note only works when time has not been invalidated yet
+    @objc func resetProgressCount() {
+       buttons.forEach{$0.isUserInteractionEnabled = true}
+        if self.timer != nil && self.timer.isValid{
+            self.timer.invalidate()
+        }
+        progressRing.innerTrackShapeLayer.strokeColor = UIColor.defaultInnerColor.cgColor
+        progressRing.progressLabel.textColor =  Apps.BASIC_COLOR
+        zoomScale = 1
+        zoomScroll.zoomScale = 1
+        count = 0
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+        timer.fire()
+    }
+    
+    @objc func incrementCount() {
+        count += 0.1
+        progressRing.progress = CGFloat(Apps.QUIZ_PLAY_TIME - count)
+        if count >= 20{
+              progressRing.innerTrackShapeLayer.strokeColor = Apps.WRONG_ANS_COLOR.cgColor
+              progressRing.progressLabel.textColor = Apps.WRONG_ANS_COLOR
+        }
+        if count >= Apps.QUIZ_PLAY_TIME { // set timer here
+            
+            timer.invalidate()
+            currentQuestionPos += 1
+               //mark it as wrong answer if user haven't selected any option from given 4/5 or 2 option
+            falseCount += 1
+            falseAns.text = "\(falseCount)"//falseLbl.text = "\(falseCount)"
+            progressFalseBar.setProgress(Float(falseCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
+            
+            var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            score.points = score.points - Apps.QUIZ_W_Q_POINTS
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+            
+            self.PlaySound(player: &audioPlayer, file: "wrong")
+              loadQuestion()
+//         for button in buttons{
+//            if button.tag != 1{
+//                wrongAnswer(btn: button)
+//                break
+//            }
+//        }
+      }
+    }
+    
+    @IBAction func settingButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
+        myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        myAlert.isPlayView = true
+        self.present(myAlert, animated: true, completion: {
+             self.timer.invalidate()
+        })
+    }
+    
+    @IBAction func backButton(_ sender: Any) {
+        let alert = UIAlertController(title: Apps.EXIT_APP_MSG,message: "",preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
+            (alertAction: UIAlertAction!) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
+            (alertAction: UIAlertAction!) in
+            self.timer.invalidate()
+            self.speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alert.view.tintColor = UIColor.black  // change text color of the buttons
+        alert.view.layer.cornerRadius = 25   // change corner radius
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func speakButton(_ sender: Any) {
+        let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "\(quesData[currentQuestionPos].question)")
+        speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 2.0
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: Apps.LANG)
+        speechSynthesizer.speak(speechUtterance)
+    }
+    
+    @IBAction func zoomBtn(_ sender: Any) {
+        if zoomScroll.zoomScale == zoomScroll.maximumZoomScale {
+                   zoomScale = 0
+               }
+        zoomScale += 1
+        zoomScroll.zoomScale = zoomScale
+    }
+    
+    //50 50 option select
+    @IBAction func fiftyButton(_ sender: Any) {
+        if(!opt_ft){
+             var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            
+            if(score.coins < Apps.OPT_FT_COIN){
+                // user does not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_FT_COIN, lifelineName: "fifty")
+            }else{
+                // if user have coins
+                var index = 0
+                for button in buttons{
+                          if button.tag == 0 && index < 2 { //To remove 3 options from 5, use 3 instead of 2 here
+                          button.isHidden = true
+                          index += 1
+                      }
+                }
+                opt_ft = true
+                //deduct coin for use lifeline and store it
+              score.coins = score.coins - Apps.OPT_FT_COIN
+                 UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                 mainCoinCount.text = "\(score.coins)"
+            }
+        }else{
+            self.ShowAlert(title: Apps.LIFELINE_ALREDY_USED_TITLE, message: Apps.LIFELINE_ALREDY_USED)
+        }
+    }
+    
+    //skip option select
+    @IBAction func SkipBtn(_ sender: Any) {
+        if(!opt_sk){
+            var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            
+            if(score.coins < Apps.OPT_SK_COIN){
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_SK_COIN, lifelineName: "skip")
+            }else{
+                // if user have coins
+                timer.invalidate()
+                currentQuestionPos += 1
+                loadQuestion()
+                
+                opt_sk = true
+                //deduct coin for use lifeline and store it
+                score.coins = score.coins - Apps.OPT_SK_COIN
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                 mainCoinCount.text = "\(score.coins)"
+            }
+        }else{
+            self.ShowAlert(title: Apps.LIFELINE_ALREDY_USED_TITLE, message: Apps.LIFELINE_ALREDY_USED)
+        }
+    }
+    
+    //Audios poll option select
+    @IBAction func AudionsBtn(_ sender: Any) {
+        if(!opt_au){
+            var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            
+            if(score.coins < Apps.OPT_SK_COIN){
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_AU_COIN, lifelineName: "audions")
+            }else{
+                // if user have coins
+                var r1:Int,r2:Int,r3:Int,r4:Int,r5:Int
+                
+                r1 = Int.random(in: 1 ... 96)
+                r2 = Int.random(in: 1 ... 97 - r1)
+                r3 = Int.random(in: 1 ... 98 - r1 - r2)
+                r5 = Int.random(in: 1 ... 98 - r1 - r2 - r3)
+                r4 = 100 - r1 - r2 - r3 - r5
+                
+                var randoms = [r1,r2,r3,r5,r4]
+                randoms.sort(){$0 > $1}
+                
+                var index = 0
+                for button in buttons{
+                    if button.tag == 1{
+                        drawCircle(btn: button, proVal: randoms[0])
+                    }else{
+                        index += 1
+                        drawCircle(btn: button, proVal: randoms[index])
+                    }
+                }
+                opt_au = true
+        
+                //deduct coin for use lifeline and store it
+                score.coins = score.coins - Apps.OPT_AU_COIN
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                mainCoinCount.text = "\(score.coins)"
+            }
+        }else{
+            self.ShowAlert(title: Apps.LIFELINE_ALREDY_USED_TITLE, message: Apps.LIFELINE_ALREDY_USED)
+        }
+    }
+    
+    //reset timer option select
+    @IBAction func ResetBtn(_ sender: Any) {
+        if(!opt_re){
+            var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+            
+            if(score.coins < Apps.OPT_RES_COIN){
+                // user dose not have enough coins
+                self.ShowAlertForNotEnoughCoins(requiredCoins: Apps.OPT_RES_COIN, lifelineName: "reset")
+            }else{
+                // if user have coins
+                timer.invalidate()
+                resetProgressCount()
+                opt_re = true
+                //deduct coin for use lifeline and store it
+                score.coins = score.coins - Apps.OPT_RES_COIN
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                mainCoinCount.text = "\(score.coins)"
+            }
+        }else{
+            self.ShowAlert(title: Apps.LIFELINE_ALREDY_USED_TITLE, message: Apps.LIFELINE_ALREDY_USED)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        clearColor()
+    }
+    
+//    @IBAction func BookMark(_ sender: Any) {
+//
+//        if(self.bookmarkBtn.tag == 0){
+//            let reQues = quesData[currentQuestionPos]
+//            self.BookQuesList.append(QuestionWithE.init(id: reQues.id, question: reQues.question, opetionA: reQues.opetionA, opetionB: reQues.opetionB, opetionC: reQues.opetionC, opetionD: reQues.opetionD, opetionE: reQues.opetionE, correctAns: reQues.correctAns, image: reQues.image, level: reQues.level, note: reQues.note, quesType: reQues.quesType))
+//            bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
+//            bookmarkBtn.tag = 1
+//        }else{
+//            BookQuesList.removeAll(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})
+//            bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
+//            bookmarkBtn.tag = 0
+//        }
+//
+//        UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
+//
+//    }
+    // right answer operation function
+    func rightAnswer(btn:UIView){
+        
+        //make timer invalidate
+        timer.invalidate()
+        
+        //score count
+        trueCount += 1
+        trueAns.text = "\(trueCount)"//trueLbl.text = "\(trueCount)"
+        progressBar.setProgress(Float(trueCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
+        
+        var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+        score.points = score.points + Apps.CONTEST_RIGHT_POINTS//Apps.QUIZ_R_Q_POINTS
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+        
+        btn.backgroundColor = Apps.RIGHT_ANS_COLOR
+        btn.tintColor = UIColor.white
+        
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.3
+        animation.repeatCount = 2
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: btn.center.x, y: btn.center.y - 5))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: btn.center.x, y: btn.center.y + 5))
+        btn.layer.add(animation, forKey: "position")
+        
+        // sound
+        self.PlaySound(player: &audioPlayer, file: "right")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            // load next question after 1 second
+            self.currentQuestionPos += 1 //increament for next question
+            self.loadQuestion()
+        })
+    }
+    
+    // wrong answer operation function
+    func wrongAnswer(btn:UIView?){
+        //make timer invalidate
+        timer.invalidate()
+        
+        //score count
+        falseCount += 1
+        falseAns.text = "\(falseCount)"//falseLbl.text = "\(falseCount)"
+        progressFalseBar.setProgress(Float(falseCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
+        
+        var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+        score.points = score.points - Apps.QUIZ_W_Q_POINTS
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+        
+        btn?.backgroundColor = Apps.WRONG_ANS_COLOR
+        btn?.tintColor = UIColor.white
+        
+        if Apps.ANS_MODE == "1"{
+            //show correct answer
+            for button in buttons{
+                if button.titleLabel?.text == correctAnswer{
+                     button.tag = 1
+                }
+                for button in buttons {
+                    if button.tag == 1{
+                        button.backgroundColor = Apps.RIGHT_ANS_COLOR
+                        button.tintColor = UIColor.white
+                        break
+                    }
+                }
+            }
+        }
+        
+        // sound
+        self.PlaySound(player: &audioPlayer, file: "wrong")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            // load next question after 1 second
+            self.currentQuestionPos += 1 //increament for next question
+            self.loadQuestion()
+        })
+    }
+    
+    func clearColor(views:UIView...){
+        for view in views{
+            view.isHidden = false
+            view.backgroundColor = UIColor.white
+            view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
+        }
+    }
+    
+    // set question vcalue and its answer here
+    @objc func loadQuestion() {
+        // Show next question
+        
+        speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
+        resetProgressCount() // reset timer
+//        if Apps.opt_E == true {
+//            clearColor(views: btnA,btnB,btnC,btnD,btnE)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+//        }else{
+//            clearColor(views: btnA,btnB,btnC,btnD)
+//            // enabled opetions button
+//            MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+//        }
+        print("curent question number \(currentQuestionPos) && total question in contest \(quesData.count) && total play question \(Apps.TOTAL_PLAY_QS)")
+        if(currentQuestionPos  < quesData.count && currentQuestionPos + 1 <= Apps.TOTAL_PLAY_QS ) {
+            if(quesData[currentQuestionPos].image == ""){
+                // if question dose not contain images
+                question.text = quesData[currentQuestionPos].question
+                question.stringFormation(quesData[currentQuestionPos].question)
+                question.centerVertically()
+                //hide some components
+                lblQuestion.isHidden = true
+                questionImage.isHidden = true
+                zoomBtn.isHidden = true                
+                question.isHidden = false
+            }else{
+                // if question has image
+                lblQuestion.text = quesData[currentQuestionPos].question
+                lblQuestion.stringFormation(quesData[currentQuestionPos].question)
+                lblQuestion.centerVertically()
+                questionImage.loadImageUsingCache(withUrl: quesData[currentQuestionPos].image)
+                //show some components
+                lblQuestion.isHidden = false
+                questionImage.isHidden = false
+                zoomBtn.isHidden = false
+                question.isHidden = true
+            }
+//            if(quesData[currentQuestionPos].opetionE == "")
+//               {
+//                   Apps.opt_E = false
+//               }else{
+//                   Apps.opt_E = true
+//               }
+//               if Apps.opt_E == true {
+//                   clearColor(views: btnA,btnB,btnC,btnD,btnE)
+//                   btnE.isHidden = false
+//                   buttons = [btnA,btnB,btnC,btnD,btnE]
+//                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+//                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+//                   // enabled opetions button
+//                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+//               }else{
+                   clearColor(views: btnA,btnB,btnC,btnD)
+                   btnE.isHidden = true
+                   buttons = [btnA,btnB,btnC,btnD]
+                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                   // enabled opetions button
+                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+              // }
+           self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].correctAns)
+            
+            mainQuesCount.roundCorners(corners: [ .bottomRight], radius: 5)
+            mainQuesCount.text = "\(currentQuestionPos + 1)" //"\(currentQuestionPos + 1)/10"
+            mainScoreCount.text = "\((trueCount * Apps.QUIZ_R_Q_POINTS) - (falseCount * Apps.QUIZ_W_Q_POINTS))"
+            
+            //check current question is in bookmark list or not
+//            if(BookQuesList.contains(where: {$0.id == quesData[currentQuestionPos].id && $0.correctAns == quesData[currentQuestionPos].correctAns})){
+//                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-on"), for: .normal)
+//                self.bookmarkBtn.tag = 1
+//            }else{
+//                self.bookmarkBtn.setBackgroundImage(UIImage(named: "book-off"), for: .normal)
+//                self.bookmarkBtn.tag = 0
+//            }
+        } else {
+            timer.invalidate()
+            // If there are no more questions show the results
+            let storyBoard:UIStoryboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let resultView:ContestResultsViewController = storyBoard.instantiateViewController(withIdentifier: "ContestResultsViewController") as! ContestResultsViewController
+            resultView.trueCount = trueCount
+            resultView.falseCount = falseCount
+            resultView.earnedPoints = (trueCount) - (falseCount)
+//            resultView.ReviewQues = reviewQues
+//            resultView.level = self.level
+            resultView.catID = self.catID
+            resultView.contestID = self.contestID
+            resultView.questionType = self.questionType
+            self.navigationController?.pushViewController(resultView, animated: true)
+        }
+    }
+    
+    var btnY = 0
+      func SetButtonHeight(buttons:UIButton...){
+          
+          var minHeight = 50
+          if UIDevice.current.userInterfaceIdiom == .pad{
+              minHeight = 90
+          }else{
+              minHeight = 50
+          }
+          self.scroll.setContentOffset(.zero, animated: true)
+          
+          let perButtonChar = 35
+          btnY = Int(self.secondChildView.frame.height + self.secondChildView.frame.origin.y)
+          
+          for button in buttons{
+              let btnWidth = button.frame.width
+              //let fonSize = 18
+              let charCount = button.title(for: .normal)?.count
+              
+              let btnX = button.frame.origin.x
+              
+              let charLine = Int(charCount! / perButtonChar) + 1
+              
+              let btnHeight = charLine * 20 < minHeight ? minHeight : charLine * 20
+              
+              let newFram = CGRect(x: Int(btnX), y: btnY, width: Int(btnWidth), height: btnHeight)
+              btnY += btnHeight + 8
+              
+              button.frame = newFram
+              
+              button.titleLabel?.lineBreakMode = .byWordWrapping
+              button.titleLabel?.numberOfLines = 0
+          }
+          let with = self.scroll.frame.width
+          self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+      }
+    
+    // set button opetion's
+    var buttons:[UIButton] = []
+    func SetButtonOpetion(opestions:String...){
+        clickedButton.removeAll()
+        var temp : [String]        
+        if opestions.contains("") {
+           print("true - \(opestions)")
+           temp = ["a","b","c","d"]
+           self.buttons = [btnA,btnB,btnC,btnD]
+       }else{
+             print("false - \(opestions)")
+             temp = ["a","b","c","d","e"]
+             self.buttons = [btnA,btnB,btnC,btnD,btnE]
+       }
+//        if Apps.opt_E == true {
+//             temp = ["a","b","c","d","e"]
+//             self.buttons = [btnA,btnB,btnC,btnD,btnE]
+//        }else{
+//             temp = ["a","b","c","d"]
+//             self.buttons = [btnA,btnB,btnC,btnD]
+//        }
+        let singleQues = quesData[currentQuestionPos]
+        if singleQues.quesType == "2"{
+            
+            clearColor(views: btnA,btnB)
+            MakeChoiceBtnDefault(btns: btnA,btnB)
+            
+            btnC.isHidden = true
+            btnD.isHidden = true
+
+            self.buttons = [btnA,btnB]
+            //btnE.isHidden = true
+             temp = ["a","b"]
+            self.buttons.forEach{
+                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+            }
+            //lifelines are not applicable for true/ false
+            lifeLineView.alpha = 0
+        }else{
+            btnC.isHidden = false
+            btnD.isHidden = false
+            
+//            btnA.setImage(UIImage(named: "btnA"), for: .normal)
+//            btnB.setImage(UIImage(named: "btnB"), for: .normal)
+//            btnC.setImage(UIImage(named: "btnc"), for: .normal)
+//            btnD.setImage(UIImage(named: "btnD"), for: .normal)
+//            btnE.setImage(UIImage(named: "btnE"), for: .normal)
+            
+            buttons.shuffle()
+            // show lifelines incase were hidden in previous questions
+            lifeLineView.alpha = 1
+        }
+        
+       let ans = temp
+        var rightAns = ""
+        if ans.contains("\(opestions.last!.lowercased())") { //last is answer here
+            rightAns = opestions[ans.firstIndex(of: opestions.last!.lowercased())!]
+        }else{
+            //self.ShowAlert(title: "Invalid Question", message: "This Question has wrong value.")
+            rightAnswer(btn: btnA)
+        }
+       
+        var index = 0
+        for button in buttons{
+            button.setTitle(opestions[index], for: .normal)
+            if opestions[index] == rightAns{
+                button.tag = 1
+                let ans = button.currentTitle
+                correctAnswer = ans!
+                print(correctAnswer)
+            }else{
+                button.tag = 0
+            }
+            button.addTarget(self, action: #selector(ClickButton), for: .touchUpInside)
+            button.addTarget(self, action: #selector(ButtonDown), for: .touchDown)
+            index += 1
+        }
+        self.SetButtonHeight(buttons: btnA,btnB,btnC,btnD,btnE)
+    }
+    // opetion buttons click action
+    @objc func ClickButton(button:UIButton){
+        buttons.forEach{$0.isUserInteractionEnabled = false}
+        if clickedButton.first?.title(for: .normal) == button.title(for: .normal){
+            if button.tag == 1{
+                rightAnswer(btn: button)
+            }else{
+                wrongAnswer(btn: button)
+            }
+//            AddToReview(opt: button.title(for: .normal)!)
+        }
+    }
+    
+    var clickedButton:[UIButton] = []
+    @objc func ButtonDown(button:UIButton){
+        clickedButton.append(button)
+    }
+    
+    // set default to four choice button
+    func MakeChoiceBtnDefault(btns:UIButton...){
+        for btn in btns {
+            btn.isEnabled = true
+            btn.resizeButton()
+            btn.subviews.forEach({
+                if($0.tag == 11){
+                    $0.removeFromSuperview()
+                }
+                //find if there is any circular progress on opetion button and remove it
+                for calayer in (btn.layer.sublayers)!{
+                    if calayer.name == "circle" {
+                        calayer.removeFromSuperlayer()
+                    }
+                }
+            })
+        }
+    }
+    
+    // Set the background as a blue gradient
+    func setGradientBackground() {
+        let colorTop =  UIColor(red: 243/255, green: 243/255, blue: 247/255, alpha: 1.0).cgColor
+        let colorBottom = UIColor.white.cgColor
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [ colorTop, colorBottom]
+        gradientLayer.locations = [ 0.0, 1.0]
+        gradientLayer.frame = self.view.bounds
+        
+        self.view.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    // add question to review array for later review it
+//    func AddToReview(opt:String){
+//        let ques = quesData[currentQuestionPos]
+//        reviewQues.append(ReQuestionWithE.init(id: ques.id, question: ques.question, opetionA: ques.opetionA, opetionB: ques.opetionB, opetionC: ques.opetionC, opetionD: ques.opetionD, opetionE:"0", correctAns: ques.correctAns, image: ques.image, level: "0", note: ques.note, quesType: ques.quesType, userSelect: opt))
+//    }
+    
+    // draw circle for audions poll lifeline
+    func drawCircle(btn: UIButton, proVal: Int){
+        let progRing = CircularProgressBar(radius: 20, position: CGPoint(x: btn.frame.size.width - 25, y: (btn.frame.size.height )/2), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5,progValue: 100)
+        progRing.name = "circle"
+        
+        progRing.progressLabel.numberOfLines = 1;
+        progRing.progressLabel.minimumScaleFactor = 0.7;
+        progRing.progressLabel.adjustsFontSizeToFitWidth = true;
+        
+        btn.layer.addSublayer(progRing)
+        var count:CGFloat = 0
+        Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { timer in
+            count += 1
+            progRing.progressManual = count
+            if count >= CGFloat(proVal){
+               timer.invalidate()
+            }
+        }
+    }
+    
+    //show alert for not enough coins
+    func ShowAlertForNotEnoughCoins(requiredCoins:Int, lifelineName:String){
+        self.timer.invalidate()
+        let alert = UIAlertController(title: Apps.MSG_ENOUGH_COIN, message: "\(Apps.NEED_COIN_MSG1) \(requiredCoins) \(Apps.NEED_COIN_MSG2) \n \(Apps.NEED_COIN_MSG3)", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: Apps.SKIP_COINS, style: UIAlertAction.Style.cancel, handler: {action in
+            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.incrementCount), userInfo: nil, repeats: true)
+            self.timer.fire()
+        }))
+        alert.addAction(UIAlertAction(title: Apps.WATCH_VIDEO, style: .default, handler: { action in
+            self.watchAd()
+            self.callLifeLine = lifelineName
+        }))
+        self.present(alert, animated: true)
+    }
+}

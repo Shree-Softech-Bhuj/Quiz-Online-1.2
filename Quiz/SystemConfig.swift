@@ -53,13 +53,15 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadData(jsonObj:NSDictionary){
-        //print("RS",jsonObj)
+        print("RS",jsonObj)
         // var optE = ""
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            self.Loader.dismiss(animated: true, completion: {
-                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-            })
+            DispatchQueue.main.async {
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                })
+            }
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") {
@@ -107,6 +109,23 @@ class SystemConfig: UIViewController {
                 let reward_coin = DATA["reward_coin"] as! String
                 Apps.REWARD_COIN = reward_coin
                // print("reward coin value -- \(reward_coin)")
+                
+                let force_updt_mode = DATA["force_update"]  as! String
+                Apps.FORCE_UPDT_MODE = force_updt_mode
+                
+                let contest_mode = DATA["contest_mode"]  as! String
+                Apps.CONTEST_MODE = contest_mode
+                
+                let daily_quiz_mode = DATA["daily_quiz_mode"]  as! String
+                Apps.DAILY_QUIZ_MODE = daily_quiz_mode
+                
+                let fix_num_ofQue = DATA["fix_question"]  as! String
+                Apps.FIX_QUE_LVL = fix_num_ofQue
+                //if fix_num_ofQue is true/1, then set total question per level as set in admin panel
+                if Apps.FIX_QUE_LVL == "1" {
+                    let ttl_que = DATA["total_question"] as! String
+                    Apps.TOTAL_PLAY_QS = Int(ttl_que) ?? 10
+                }
             }
         }
         //close loader here
@@ -131,11 +150,11 @@ class SystemConfig: UIViewController {
        // print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
-            DispatchQueue.main.async {
-                self.Loader.dismiss(animated: true, completion: {
-                //    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
-                })
-            }
+//            DispatchQueue.main.async {
+//                self.Loader.dismiss(animated: true, completion: {
+                //    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+//                })
+//            }
         }else{
             //get data for category
             self.NotificationList.removeAll()
@@ -164,9 +183,11 @@ class SystemConfig: UIViewController {
                 // var optE = ""
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
-                    self.Loader.dismiss(animated: true, completion: {
-                        self.ShowAlert(title:Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-                    })
+//                    DispatchQueue.main.async {
+//                        self.Loader.dismiss(animated: true, completion: {
+//                            self.ShowAlert(title:Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+//                        })
+//                    }
                 }else{
                     var lang_id = 0
                     //get data for category
@@ -189,5 +210,51 @@ class SystemConfig: UIViewController {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
     }
+    
+    func getUserDetails(){
+        //get data from server
+        if(Reachability.isConnectedToNetwork()){
+            if UserDefaults.standard.value(forKey:"user") != nil{
+                let userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+                let apiURL = "id=\(userD.userID)"
+                print(apiURL)
+               self.getAPIData(apiName: Apps.USERS_DATA, apiURL: apiURL,completion: getData)
+            }else{
+                ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+            }
+          }           
+    }
+    
+    func getData(jsonObj:NSDictionary){
+        print("RS",jsonObj)
+        let status = jsonObj.value(forKey: "error") as! String
+        if (status == "true") {
+            DispatchQueue.main.async {
+                 self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+            }
+        }else{
+            if let data = jsonObj.value(forKey: "data") as? [String:Any] {
+                print(data)
+                DispatchQueue.main.async {
+                    if let data = jsonObj.value(forKey: "data") {
+                        guard let DATA = data as? [String:Any] else{
+                            return
+                        }
+                        print(DATA)
+                        let rank = DATA["all_time_rank"] //as! String //as! Int //
+                        Apps.ALL_TIME_RANK = rank ?? 0
+                        
+                        let Coinsss = DATA["coins"]  as! String
+                        Apps.COINS = Coinsss
+                        
+                        let all_time_score = DATA["all_time_score"] as Any//as! String //Int(all_time_score) ?? 0))
+                        print(all_time_score)
+                        let intScore:Int = Int(all_time_score as! String) ?? 0 // as! Int //?? 0
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: (Int(Apps.COINS) ?? 0), points: intScore)), forKey: "UserScore")
+                }
+            }
+        }
+    }
+}
     
 }

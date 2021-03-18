@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="81" height="75" viewBox="0 0 81 75">
+  <g id="login_phone" transform="translate(0.328 0.181)">
+    <g id="Rectangle_241" data-name="Rectangle 241" transform="translate(-0.328 -0.181)" fill="none" stroke="#fff" stroke-width="1">
+      <rect width="81" height="75" rx="15" stroke="none"/>
+      <rect x="0.5" y="0.5" width="80" height="74" rx="14.5" fill="none"/>
+    </g>
+    <path id="Icon_awesome-mobile-alt" data-name="Icon awesome-mobile-alt" d="M19.125,0H3.375A3.376,3.376,0,0,0,0,3.375v29.25A3.376,3.376,0,0,0,3.375,36h15.75A3.376,3.376,0,0,0,22.5,32.625V3.375A3.376,3.376,0,0,0,19.125,0ZM11.25,33.75A2.25,2.25,0,1,1,13.5,31.5,2.248,2.248,0,0,1,11.25,33.75Zm7.875-7.594a.846.846,0,0,1-.844.844H4.219a.846.846,0,0,1-.844-.844V4.219a.846.846,0,0,1,.844-.844H18.281a.846.846,0,0,1,.844.844Z" transform="translate(28.922 19.319)" fill="#fff"/>
+  </g>
+</svg>
