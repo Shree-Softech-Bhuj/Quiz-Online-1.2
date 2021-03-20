@@ -3,9 +3,7 @@ import AVFoundation
 import GoogleMobileAds
 
 class SelfChallengeController: UIViewController {
-    
-    
-    
+        
     @IBOutlet var mainCatField:UITextField!
     @IBOutlet var subCatField:UITextField!
     @IBOutlet var startBtn:UIButton!

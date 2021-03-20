@@ -104,7 +104,7 @@ class ReView: UIViewController {
     let button = UIButton()
     let label = UILabel()
     func SetExtraNote(){
-        let color = UIColor.black
+        let color = UIColor.white//UIColor.black
         exLabel.removeFromSuperview()
         if ReviewQues[currentQuesPosition].note.isEmpty{
             
@@ -119,7 +119,7 @@ class ReView: UIViewController {
         exView.frame = CGRect(x: self.btnA.frame.origin.x, y: CGFloat(btnY + 20), width: self.btnA.frame.width, height: 50)
         exView.removeFromSuperview()
         
-        exView.backgroundColor = .white
+        exView.backgroundColor = Apps.BASIC_COLOR//.white
         exView.SetShadow()
         
         label.frame = CGRect(x: 5,y: 5, width: 250, height: 30)
@@ -134,7 +134,7 @@ class ReView: UIViewController {
         button.tintColor = color
         button.tag = 0
         if #available(iOS 13.0, *) {
-            let image = UIImage(systemName: "chevron.down")
+            let image = UIImage(named: "down")
             button.setImage(image, for: .normal)
         } else {
             // Fallback on earlier versions
@@ -158,7 +158,7 @@ class ReView: UIViewController {
         
         if sender.tag == 0{
             if #available(iOS 13.0, *) {
-                let image = UIImage(systemName: "chevron.up")
+                let image = UIImage(named: "up") //systemName: "chevron.up"
                 sender.setImage(image, for: .normal)
             } else {
                 // Fallback on earlier versions
@@ -182,7 +182,7 @@ class ReView: UIViewController {
         }else{
             exLabel.text = ""
             if #available(iOS 13.0, *) {
-                let image = UIImage(systemName: "chevron.down")
+                let image = UIImage(named: "down") //systemName: "chevron.down"
                 sender.setImage(image, for: .normal)
             } else {
                 // Fallback on earlier versions
@@ -503,7 +503,7 @@ class ReView: UIViewController {
     //reset options view color to default
     func ClearColor(btns:UIButton...){
         for btn in btns {
-            btn.backgroundColor = UIColor.white
+            btn.backgroundColor = Apps.BASIC_COLOR//UIColor.white
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }

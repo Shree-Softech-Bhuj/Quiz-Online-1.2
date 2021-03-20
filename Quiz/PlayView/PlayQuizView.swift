@@ -613,7 +613,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
     func clearColor(views:UIView...){
         for view in views{
             view.isHidden = false
-            view.backgroundColor = UIColor.white
+            view.backgroundColor = Apps.BASIC_COLOR //UIColor.white
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }
@@ -788,9 +788,9 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
             self.buttons = [btnA,btnB]
             //btnE.isHidden = true
              temp = ["a","b"]
-            self.buttons.forEach{
-                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
-            }
+//            self.buttons.forEach{
+//                 $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//            }
             //lifelines are not applicable for true/ false
             lifeLineView.alpha = 0
         }else{

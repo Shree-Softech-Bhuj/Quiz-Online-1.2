@@ -353,7 +353,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     // set default to four choice button
     func MakeChoiceBtnDefault(btns:UIButton...){
         for btn in btns {
-            btn.backgroundColor = UIColor.white
+            btn.backgroundColor = Apps.BASIC_COLOR// UIColor.white
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
             btn.subviews.forEach({
                 if($0.tag == 11){
@@ -402,9 +402,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                    self.buttons = [btnA,btnB]
                    //btnE.isHidden = true
                     temp = ["a","b"]
-                   self.buttons.forEach{
-                        $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
-                   }
+//                   self.buttons.forEach{
+//                        $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//                   }
                }else{
                 
 //                   self.buttons = [btnA,btnB,btnC,btnD]

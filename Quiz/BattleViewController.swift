@@ -34,7 +34,7 @@ class BattleViewController: UIViewController {
     var user:User!
     
     var DataList:[BattleStatistics] = []
-    var Loader: UIAlertController = UIAlertController()
+   // var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +71,7 @@ class BattleViewController: UIViewController {
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){
-            Loader = LoadLoader(loader: Loader)
+            //Loader = LoadLoader(loader: Loader)
             let apiURL = "user_id=\(user.userID)"
             self.getAPIData(apiName: "get_battle_statistics", apiURL: apiURL,completion: LoadData)
         }else{
@@ -93,9 +93,9 @@ class BattleViewController: UIViewController {
         let status = Bool(jsonObj.value(forKey: "error") as! String)
         if (status!) {
             DispatchQueue.main.async {
-                self.Loader.dismiss(animated: true, completion: {
+               // self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-                })
+                //})
             }
             
         }else{
@@ -110,7 +110,7 @@ class BattleViewController: UIViewController {
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             DispatchQueue.main.async {
-                self.DismissLoader(loader: self.Loader)
+               // self.DismissLoader(loader: self.Loader)
                 self.battleTableView.reloadData()
             }
         });

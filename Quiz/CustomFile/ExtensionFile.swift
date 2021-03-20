@@ -165,7 +165,7 @@ extension UIButton {
     }
     func setBorder(){
         self.layer.cornerRadius = self.frame.height / 3 //2 //15
-        self.layer.borderColor = UIColor.white.cgColor//Apps.BASIC_COLOR_CGCOLOR 
+        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR  //UIColor.white.cgColor//
         self.layer.borderWidth = 2
     }    
 }
@@ -228,11 +228,11 @@ extension UIViewController{
     }
     
     func SetClickedOptionView(otpStr:String) -> UIView{
-        let color = Apps.BASIC_COLOR
+        let color = UIColor.white //Apps.BASIC_COLOR
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center
-        lbl.textColor = .white
+        lbl.textColor = Apps.BASIC_COLOR//.white
         
         let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
         imgView.layer.cornerRadius = 4

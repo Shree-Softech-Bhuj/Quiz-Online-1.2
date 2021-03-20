@@ -39,27 +39,27 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             print("user details \(dUser!) ")
             emailAdrs.text = dUser?.email
-            userName.text = "\(Apps.HELLO)  \(dUser!.name)"
+            userName.text = "\(Apps.APP_NAME)"  //"\(Apps.HELLO) \(dUser!.name)"
             
             //imgProfile.SetShadow()
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
             imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
             
-            imgProfile.isUserInteractionEnabled = true
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-            imgProfile.addGestureRecognizer(tapRecognizer)
+//            imgProfile.isUserInteractionEnabled = true
+//            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+//            imgProfile.addGestureRecognizer(tapRecognizer)
             
-            DispatchQueue.main.async {
-                if(self.dUser!.image != ""){
-                    self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
-                }else{
-                    self.imgProfile.image = UIImage(named: "AppIcon")
-                }
-            }
+//            DispatchQueue.main.async {
+//                if(self.dUser!.image != ""){
+//                    self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
+//                }else{
+                    self.imgProfile.image = UIImage(named: "guest")
+//                }
+//            }
         }else{
             emailAdrs.text = ""
-            userName.text = "\(Apps.HELLO) \(Apps.USER)"
+            userName.text = "\(Apps.APP_NAME)"//"\(Apps.HELLO) \(Apps.USER)"
             imgProfile.image = UIImage(named: "AppIcon") //"user")
         }
         designImageView()
@@ -71,9 +71,9 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
         
     }
     
-    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
-        presentViewController("UpdateProfileView")
-    }
+//    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+//        presentViewController("UpdateProfileView")
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)

@@ -25,7 +25,7 @@ class ContestView: UIViewController, EVTabBar {
         }
     }
     var subviewControllers: [UIViewController] = []
-    var shadowView = UIImageView(image: #imageLiteral(resourceName: "menu"))
+    var shadowView = UIImageView(image: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()

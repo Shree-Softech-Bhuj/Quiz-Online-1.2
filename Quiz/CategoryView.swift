@@ -159,7 +159,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
         guard let cell = self.catetableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
-        
+        cell.cellView.layer.cornerRadius = 10
         // Name
         //cell.cellView.SetShadow()
 //        cell.cateLbl.SetShadow()
@@ -175,7 +175,7 @@ class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource
                 cell.cateImg.loadImageUsingCache(withUrl: self.catData[indexPath.row].image)// load image from url using cache
             }
         }
-        cell.cateImg.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: 10)    
+        cell.cateImg.roundCorners(corners: [.topLeft,.topRight,.bottomLeft,.bottomRight], radius: 10)
         
         cell.cellView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         

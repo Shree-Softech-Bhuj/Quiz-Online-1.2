@@ -99,11 +99,11 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
        // centerView.layer.addBorder(edge: .left, color: .darkGray, thickness: 1)
         centerView.layer.addBorder(edge: .right, color: .darkGray, thickness: 1)
         
-//        btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
-//        btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
-//        btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
-//        btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
-//        btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
+        btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
+        btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
+        btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
+        btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
+        btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
         
         self.topView.addBottomBorderWithColor(color: .gray, width: 1)
         //font
@@ -178,16 +178,16 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
     }
     
     func SetOptionView(otpStr:String) -> UIView{
-        let color = Apps.BASIC_COLOR
+        let color =  UIColor.white//Apps.BASIC_COLOR
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center
-        lbl.textColor = .black
+        lbl.textColor = .white //Apps.BASIC_COLOR //.black
         
         let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
         imgView.layer.cornerRadius = 4
         imgView.layer.borderColor = color.cgColor
-        imgView.layer.borderWidth = 1
+        imgView.layer.borderWidth = 2
        
         imgView.addSubview(lbl)
         return imgView
@@ -385,17 +385,16 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
 //            btnA.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
 //            btnB.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
 //        }else{
-//            btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
-//            btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
-//            btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
-//            btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
-//            btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
+            btnA.setImage(SetOptionView(otpStr: "A").createImage(), for: .normal)
+            btnB.setImage(SetOptionView(otpStr: "B").createImage(), for: .normal)
+            btnC.setImage(SetOptionView(otpStr: "C").createImage(), for: .normal)
+            btnD.setImage(SetOptionView(otpStr: "D").createImage(), for: .normal)
+            btnE.setImage(SetOptionView(otpStr: "E").createImage(), for: .normal)
 //        }
-       
       
         for view in views{
             view.isHidden = false
-            view.backgroundColor = UIColor.white
+            view.backgroundColor = Apps.BASIC_COLOR //UIColor.white
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }
@@ -588,7 +587,8 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
            //btnE.isHidden = true
             temp = ["a","b"]
            self.buttons.forEach{
-                $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+               // $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+                  $0.setImage(SetOptionView(otpStr: ($0.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
            }
        }else{
            btnC.isHidden = false
@@ -602,11 +602,11 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
         
         for button in buttons{
             if userSelectedAns != "" && userSelectedAns == opestions[index]{
-                if singleQues.quesType == "2"{
-                    button.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
-                }else{
+//                if singleQues.quesType == "2"{
+//                    button.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//                }else{
                     button.setImage(SetClickedOptionView(otpStr: temp[index]).createImage(), for: .normal)
-                }
+//                }
                 
             }
             button.setTitle(opestions[index], for: .normal)
@@ -628,18 +628,18 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
         
         buttons.forEach{
             $0.isUserInteractionEnabled = false
-            if singleQues.quesType == "2"{
-                $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
-            }else{
+//            if singleQues.quesType == "2"{
+//                $0.setImage(SetOptionView(otpStr: "o").createImage(), for: .normal)
+//            }else{
                 $0.setImage(SetOptionView(otpStr: ($0.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
-            }
+//            }
             
         }
-        if singleQues.quesType == "2"{
-            button.setImage(self.SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
-        }else{
+//        if singleQues.quesType == "2"{
+//            button.setImage(self.SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
+//        }else{
             button.setImage(self.SetClickedOptionView(otpStr: (button.accessibilityLabel?.uppercased())!).createImage(), for: .normal)
-        }
+//        }
       
         if clickedButton.first?.title(for: .normal) == button.title(for: .normal){
             if button.tag == 1{

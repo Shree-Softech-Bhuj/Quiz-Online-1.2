@@ -28,7 +28,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
     @IBOutlet weak var bannerView: GADBannerView!
     
     var userDefault:User? = nil
-    var Loader: UIAlertController = UIAlertController()
+   // var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         
         //get data from server
               if(Reachability.isConnectedToNetwork()){
-                  Loader = LoadLoader(loader: Loader)
+                //  Loader = LoadLoader(loader: Loader)
                   let apiURL = "user_id=\(userDefault!.userID)"
                   self.getAPIData(apiName: "get_users_statistics", apiURL: apiURL,completion: LoadData)
                   
@@ -93,9 +93,9 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
-                self.Loader.dismiss(animated: true, completion: {
+              //  self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-                })
+              //  })
             }
         }else{
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
@@ -118,9 +118,9 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
             DispatchQueue.main.async {
-                self.Loader.dismiss(animated: true, completion: {
+              //  self.Loader.dismiss(animated: true, completion: {
                     self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-                })
+               // })
             }
         }else{
             //get data for category
@@ -161,12 +161,11 @@ class UserStatisticsView: UIViewController,GADBannerViewDelegate {
                 }
             }
         }
-        //close loader here
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
-            DispatchQueue.main.async {
-                self.DismissLoader(loader: self.Loader)
-            }
-        });
+//        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
+//            DispatchQueue.main.async {
+//                self.DismissLoader(loader: self.Loader)
+//            }
+//        });
     }
     
     @IBAction func backButton(_ sender: Any) {

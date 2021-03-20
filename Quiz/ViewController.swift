@@ -23,20 +23,28 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var btnsView: UIView!
+    @IBOutlet weak var bgView: UIImageView!
     @IBOutlet weak var randomQuizBtn: UIButton!
     @IBOutlet weak var trueFalseBtn: UIButton!
     @IBOutlet weak var bookrmarksBtn: UIButton!
     
     @IBOutlet weak var leaderboardButton: UIButton!
+    @IBOutlet weak var allTimeScoreButton: UIButton!
+    @IBOutlet weak var coinsButton: UIButton!
         
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var imgProfile: UIImageView!
+    
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
     var setting:Setting? = nil
     
-      var sysConfig:SystemConfiguration!
-      var Loader: UIAlertController = UIAlertController()
+   var sysConfig:SystemConfiguration!
+   var Loader: UIAlertController = UIAlertController()
     
     let varSys = SystemConfig()
+    var userDATA:UserScore? = nil
+    var dUser:User? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +62,18 @@ class ViewController: UIViewController {
         contestButton.layer.cornerRadius = contestButton.frame.height / 3//32
         //contestButton.SetDarkShadow()
         
-        btnsView.layer.cornerRadius = btnsView.frame.height / 4//32
+      //  btnsView.layer.cornerRadius = btnsView.frame.height / 6//32
+        bgView.layer.cornerRadius = bgView.frame.height / 6//32
         bookrmarksBtn.layer.cornerRadius = bookrmarksBtn.frame.height / 4
         trueFalseBtn.layer.cornerRadius = trueFalseBtn.frame.height / 4
         randomQuizBtn.layer.cornerRadius = randomQuizBtn.frame.height / 4
+        
+        leaderboardButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        languageButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        
+        allTimeScoreButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        coinsButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        
         
         //check setting object in user default
         if UserDefaults.standard.value(forKey:"setting") != nil {
@@ -95,6 +111,32 @@ class ViewController: UIViewController {
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
+        
+        //user name and display image
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            userName.text = "\(Apps.HELLO)  \(dUser!.name)"
+            
+            //imgProfile.SetShadow()
+            imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
+            imgProfile.layer.masksToBounds = true//false
+            imgProfile.clipsToBounds = true
+            
+            imgProfile.isUserInteractionEnabled = true
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+            imgProfile.addGestureRecognizer(tapRecognizer)
+            
+            DispatchQueue.main.async {
+                if(self.dUser!.image != ""){
+                    self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
+                }else{
+                    self.imgProfile.image = UIImage(named: "guest")
+                }
+            }
+        }else{
+            userName.text = "\(Apps.HELLO) \(Apps.USER)"
+            imgProfile.image = UIImage(named: "guest") //"user")
+        }
        
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -122,6 +164,8 @@ class ViewController: UIViewController {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)//(String(Apps.ALL_TIME_RANK) , for: .normal)
+        allTimeScoreButton.setTitle(Apps.SCORE , for: .normal)
+        coinsButton.setTitle(Apps.COINS , for: .normal)
         
         varSys.getUserDetails()
         self.DailyQuiz.alpha = 0
@@ -134,6 +178,15 @@ class ViewController: UIViewController {
         }
         if Apps.CONTEST_MODE == "1" {
           self.contestButton.alpha = 1
+        }
+    }
+    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "UpdateProfileView")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }else{
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     @IBAction func showBookmarks(_ sender: Any) {

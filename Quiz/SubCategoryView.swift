@@ -123,7 +123,7 @@ class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSou
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
-        
+        cell.cellView1.layer.cornerRadius = 10
         // Name
         cell.sCateLbl.text = subCatData[indexPath.row].name
         cell.sCateQue.text = "Que: \(self.subCatData[indexPath.row].noOf)"

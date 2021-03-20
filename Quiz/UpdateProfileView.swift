@@ -34,7 +34,7 @@ class UpdateProfileView: UIViewController{
         usrImg.layer.cornerRadius = usrImg.frame.height / 2
         usrImg.layer.masksToBounds = true
         usrImg.layer.borderWidth = 1.5
-        usrImg.layer.borderColor = UIColor.black.cgColor
+        usrImg.layer.borderColor =  Apps.BASIC_COLOR_CGCOLOR//UIColor.black.cgColor
         
         
         nameTxt.text = dUser!.name
@@ -51,19 +51,19 @@ class UpdateProfileView: UIViewController{
         }
                 
         nmbrTxt.leftViewMode = UITextField.ViewMode.always
-        nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
+        //nmbrTxt.leftView = UIImageView(image: UIImage(named: "call"))
         if emailTxt.text != " " {
             nmbrTxt.rightViewMode = UITextField.ViewMode.always
             nmbrTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
             nmbrTxt.tintColor = Apps.BASIC_COLOR
             
             emailTxt.leftViewMode = UITextField.ViewMode.always
-            emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
+          //  emailTxt.leftView = UIImageView(image: UIImage(named: "email"))
         }else{
             nmbrTxt.isUserInteractionEnabled = false
         }
         nameTxt.leftViewMode = UITextField.ViewMode.always
-        nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
+        //nameTxt.leftView = UIImageView(image: UIImage(named: "username"))
         nameTxt.rightViewMode = UITextField.ViewMode.always
         nameTxt.rightView = UIImageView(image:  UIImage(named: "edit"))
         nameTxt.tintColor = Apps.BASIC_COLOR
@@ -72,7 +72,7 @@ class UpdateProfileView: UIViewController{
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
-        btnUpdate.layer.cornerRadius = btnUpdate.bounds.size.height/2 //15
+        btnUpdate.layer.cornerRadius = btnUpdate.frame.height / 3 //btnUpdate.bounds.size.height/2 //15
         
 //        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
 //        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)

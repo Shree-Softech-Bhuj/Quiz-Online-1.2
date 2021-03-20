@@ -62,8 +62,14 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
         btnSignUp.setBorder()
         btnLogin.layer.cornerRadius = btnLogin.frame.height / 3//10
 
-        btnNew.setBorder()
-        btnAccount.setBorder()
+        //btnNew.setBorder()
+        btnNew.layer.cornerRadius = btnNew.frame.height / 3
+        btnNew.layer.borderColor = UIColor.white.cgColor
+        btnNew.layer.borderWidth = 2
+        //btnAccount.setBorder()
+        btnAccount.layer.cornerRadius = btnAccount.frame.height / 3
+        btnAccount.layer.borderColor = UIColor.white.cgColor
+        btnAccount.layer.borderWidth = 2
         
         sBtnSignUp.setBorder()
         

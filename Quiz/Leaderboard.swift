@@ -550,6 +550,7 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
             let scoreLabel = UILabel(frame: CGRect(x: self.view.frame.width - 60, y: 10, width: 60, height: 35))
             scoreLabel.text = self.convertScoreString(Int(this[0].score)!) //this[0].score
             scoreLabel.textColor = Apps.BASIC_COLOR
+            scoreLabel.adjustsFontSizeToFitWidth = true
             scoreLabel.textAlignment = .center
             scoreLabel.backgroundColor = UIColor.white
             //  scoreLabel.layer.cornerRadius = 15

@@ -69,6 +69,7 @@ struct Apps{
     
     static var ALL_TIME_RANK:Any = "0" //0//
     static var COINS = "0"
+    static var SCORE = "0"
     //static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
     
     static let SYSTEM_CONFIG = "get_system_configurations"
