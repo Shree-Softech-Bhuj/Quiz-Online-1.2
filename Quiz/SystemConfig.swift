@@ -247,9 +247,9 @@ class SystemConfig: UIViewController {
                         let Coinsss = DATA["coins"]  as! String
                         Apps.COINS = Coinsss
                         
-                        let all_time_score = DATA["all_time_score"] as Any//as! String //Int(all_time_score) ?? 0))
+                        let all_time_score = DATA["all_time_score"] //as Any//as! String //Int(all_time_score) ?? 0))
                         print(all_time_score)
-                        Apps.SCORE = all_time_score as! String
+                        Apps.SCORE = all_time_score ?? 0 // as! Any //String
                         let intScore:Int = Int(all_time_score as! String) ?? 0 // as! Int //?? 0
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: (Int(Apps.COINS) ?? 0), points: intScore)), forKey: "UserScore")
                 }

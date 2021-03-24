@@ -133,12 +133,8 @@ class ReView: UIViewController {
         button.setTitleColor(color, for: .normal)
         button.tintColor = color
         button.tag = 0
-        if #available(iOS 13.0, *) {
-            let image = UIImage(named: "down")
-            button.setImage(image, for: .normal)
-        } else {
-            // Fallback on earlier versions
-        }
+        let image = UIImage(named: "down")
+        button.setImage(image, for: .normal)        
         button.addTarget(self,action:#selector(buttonClicked),for: .touchUpInside)
         exView.addSubview(button)
         
@@ -157,12 +153,8 @@ class ReView: UIViewController {
         exLabel.removeFromSuperview()
         
         if sender.tag == 0{
-            if #available(iOS 13.0, *) {
-                let image = UIImage(named: "up") //systemName: "chevron.up"
-                sender.setImage(image, for: .normal)
-            } else {
-                // Fallback on earlier versions
-            }
+            let image = UIImage(named: "up")
+            sender.setImage(image, for: .normal)
             let charCount = exNote.count
             let charLine = Int(charCount / 35)
             let labelHeight = charLine * 20 < 40 ? 40 : charLine * 20
@@ -181,12 +173,8 @@ class ReView: UIViewController {
             self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY) + 75 + labelHeight)
         }else{
             exLabel.text = ""
-            if #available(iOS 13.0, *) {
-                let image = UIImage(named: "down") //systemName: "chevron.down"
-                sender.setImage(image, for: .normal)
-            } else {
-                // Fallback on earlier versions
-            }
+            let image = UIImage(named: "down")
+            sender.setImage(image, for: .normal)
             view?.frame = CGRect(x: self.btnA.frame.origin.x, y: CGFloat(btnY + 20), width: self.btnA.frame.width, height: 50)
             sender.tag = 0
             

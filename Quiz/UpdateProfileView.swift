@@ -254,6 +254,7 @@ class UpdateProfileView: UIViewController{
         if(imageData==nil)  {return; }
         
         request.httpBody = createBodyWithParameters(parameters: param, filePathKey: "image", imageDataKey: imageData!, boundary: boundary) as Data
+        request.addValue("Bearer \(GetTokenHash())", forHTTPHeaderField: "Authorization")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {             // check for fundamental networking error
@@ -270,8 +271,8 @@ class UpdateProfileView: UIViewController{
             if let jsonObj = ((try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary) as NSDictionary??) {
                 if (jsonObj != nil)  {
                     print("JSON",jsonObj!)
-                    let status = jsonObj!.value(forKey: "error") as! Bool //as! NSNumber
-                    if (status) {
+                    let status = jsonObj!.value(forKey: "error") as! String //Bool //as! NSNumber //
+                    if (status == "true") {
                         self.Loader.dismiss(animated: true, completion: {
                             self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj!.value(forKey: "message")!)" )
                         })

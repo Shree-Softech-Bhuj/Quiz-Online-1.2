@@ -925,7 +925,7 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
         progRing.name = "circle"
         
         progRing.progressLabel.numberOfLines = 1;
-        progRing.progressLabel.minimumScaleFactor = 0.7;
+        progRing.progressLabel.minimumScaleFactor = 0.6;
         progRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
         btn.layer.addSublayer(progRing)

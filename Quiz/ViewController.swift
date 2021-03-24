@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         //selfChallange.SetDarkShadow()
         DailyQuiz.layer.cornerRadius = selfChallange.frame.height / 4//32
         //DailyQuiz.SetDarkShadow()
-        contestButton.layer.cornerRadius = contestButton.frame.height / 3//32
+        contestButton.layer.cornerRadius = contestButton.frame.height / 4//32
         //contestButton.SetDarkShadow()
         
       //  btnsView.layer.cornerRadius = btnsView.frame.height / 6//32
@@ -111,7 +111,9 @@ class ViewController: UIViewController {
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
-        
+        getUserNameImg()
+    }
+    func getUserNameImg(){
         //user name and display image
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
@@ -137,7 +139,6 @@ class ViewController: UIViewController {
             userName.text = "\(Apps.HELLO) \(Apps.USER)"
             imgProfile.image = UIImage(named: "guest") //"user")
         }
-       
     }
     override func viewDidAppear(_ animated: Bool) {
         languageButton.isHidden = true
@@ -164,7 +165,7 @@ class ViewController: UIViewController {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)//(String(Apps.ALL_TIME_RANK) , for: .normal)
-        allTimeScoreButton.setTitle(Apps.SCORE , for: .normal)
+        allTimeScoreButton.setTitle(Apps.SCORE as! String, for: .normal)
         coinsButton.setTitle(Apps.COINS , for: .normal)
         
         varSys.getUserDetails()
@@ -179,6 +180,7 @@ class ViewController: UIViewController {
         if Apps.CONTEST_MODE == "1" {
           self.contestButton.alpha = 1
         }
+        getUserNameImg()
     }
     @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){

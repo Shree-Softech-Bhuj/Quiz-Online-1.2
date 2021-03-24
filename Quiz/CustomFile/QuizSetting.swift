@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://quizdemo.wrteam.in/api-v2.php"
+    static var URL = "http://quizdemo.wrteam.in/api-v2.php" //"http://newquiz.wrteam.in/api-v2.php"//
     static var ACCESS_KEY = "6808"
     
     static let JWT = "set_your_strong_jwt_secret_key"
@@ -69,7 +69,7 @@ struct Apps{
     
     static var ALL_TIME_RANK:Any = "0" //0//
     static var COINS = "0"
-    static var SCORE = "0"
+    static var SCORE: Any = "0"
     //static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
     
     static let SYSTEM_CONFIG = "get_system_configurations"

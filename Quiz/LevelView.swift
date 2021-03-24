@@ -219,8 +219,7 @@ extension LevelView{
             mainCatID = self.mainCatid
             let apiURL = self.questionType == "main" ? "user_id=\(user.userID)&category=\(self.catID)&subcategory=0" : "user_id=\(user.userID)&category=\(self.mainCatid)&subcategory=\(self.catID)"
             self.getAPIData(apiName: "get_level_data", apiURL: apiURL,completion: { jsonObj in
-                
-               // print("JSON",jsonObj)
+                 print("JSON",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
                     DispatchQueue.main.async {
