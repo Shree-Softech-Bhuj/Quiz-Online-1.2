@@ -15,7 +15,6 @@
 		9A3DA0D62486306500879B2D /* SelfAttempAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */; };
 		9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */; };
 		9A7F9C6C247D45090074266F /* SelfChallengePlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7F9C6B247D45090074266F /* SelfChallengePlay.swift */; };
-		9AA9DE93246BB2BE00876AF0 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */; };
 		9AEF45562462FEB700B96893 /* DesignController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEF45552462FEB700B96893 /* DesignController.swift */; };
 		BC0139FF2281483A009DA93B /* ResultAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0139FE2281483A009DA93B /* ResultAlert.swift */; };
 		BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC027F6022A7A48B0024A1BF /* TopView.swift */; };
@@ -40,6 +39,7 @@
 		BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D723DF0767006BD387 /* LanguageView.swift */; };
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
+		C6389F17260C5EDD00104CB1 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6389F19260C5EDD00104CB1 /* Ipad.storyboard */; };
 		C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */; };
 		C646502F25DF846F006588CC /* ContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646502E25DF846F006588CC /* ContestView.swift */; };
 		C646503425DF84F2006588CC /* ContestMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646503325DF84F2006588CC /* ContestMainView.swift */; };
@@ -122,7 +122,6 @@
 		9A3DA0D52486306500879B2D /* SelfAttempAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfAttempAlertView.swift; sourceTree = "<group>"; };
 		9A3DA0D724866C2300879B2D /* SelfPlayResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfPlayResultView.swift; sourceTree = "<group>"; };
 		9A7F9C6B247D45090074266F /* SelfChallengePlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfChallengePlay.swift; sourceTree = "<group>"; };
-		9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Ipad.storyboard; sourceTree = "<group>"; };
 		9AEF45552462FEB700B96893 /* DesignController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignController.swift; sourceTree = "<group>"; };
 		AFD8825A392A072C67A62CBD /* Pods-QuizTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuizTests/Pods-QuizTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B622FD47A66C103B7CF2F264 /* Pods-QuizUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuizUITests/Pods-QuizUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +148,7 @@
 		BCE582D723DF0767006BD387 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
+		C6389F18260C5EDD00104CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Ipad.storyboard; sourceTree = "<group>"; };
 		C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewMobileController.swift; sourceTree = "<group>"; };
 		C646502E25DF846F006588CC /* ContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestView.swift; sourceTree = "<group>"; };
 		C646503325DF84F2006588CC /* ContestMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestMainView.swift; sourceTree = "<group>"; };
@@ -363,7 +363,7 @@
 				BC029826229CF47400A50E80 /* AssetsFile */,
 				BC029825229CF43900A50E80 /* CustomFile */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
-				9AA9DE92246BB2BE00876AF0 /* Ipad.storyboard */,
+				C6389F19260C5EDD00104CB1 /* Ipad.storyboard */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				BC5EAF6522B21A3A00094DF8 /* PlayView */,
 				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
@@ -527,7 +527,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AA9DE93246BB2BE00876AF0 /* Ipad.storyboard in Resources */,
+				C6389F17260C5EDD00104CB1 /* Ipad.storyboard in Resources */,
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
@@ -756,6 +756,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		C6389F19260C5EDD00104CB1 /* Ipad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C6389F18260C5EDD00104CB1 /* Base */,
+			);
+			name = Ipad.storyboard;
+			sourceTree = "<group>";
+		};
 		D7FCFC5D21A5282D00718EE2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

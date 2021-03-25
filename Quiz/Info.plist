@@ -62,11 +62,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This will use to capture a picture </string>
+	<string>This app requires access to the Camera to capture your profile photo.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This will use to get or pick imge from gallery</string>
+	<string>This will use to get or pick imge from gallery to set your profile photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>This app requires access to the photo library to set your profile photo.</string>
 	<key>UIBack</key>
 	<string></string>
 	<key>UIBackgroundModes</key>

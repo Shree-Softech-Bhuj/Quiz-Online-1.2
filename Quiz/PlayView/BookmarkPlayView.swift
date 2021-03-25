@@ -43,6 +43,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     var zoomScale:CGFloat = 1
     
     var correctAnswer = "a"
+    var ansOption = "A"
     
     @IBOutlet weak var showAns: UIButton!
     
@@ -131,7 +132,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     }
     
     @IBAction func showAnswer(_ sender: Any) {
-        
+        print(ansOption)
+        //showAns.setTitle("\(Apps.TRUE_ANS) \(ansOption)", for: .normal)
         for button in buttons{
             if button.tag == 1{
                 showAns.setTitle("\(Apps.TRUE_ANS) \(button.title(for: .normal)!)", for: .normal)
@@ -217,7 +219,6 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 lblQuestion.isHidden = true
                 questionImage.isHidden = true
                 zoomBtn.isHidden = true
-                
                 mainQuestionLbl.isHidden = false
             }else{
                 // if question has image
@@ -229,7 +230,6 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 lblQuestion.isHidden = false
                 questionImage.isHidden = false
                 zoomBtn.isHidden = false
-                
                 mainQuestionLbl.isHidden = true
             }
             if (BookQuesList[currentQuestionPos].opetionE) == ""{
@@ -239,9 +239,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 buttons = [btnA,btnB,btnC,btnD]
             }else{
                 Apps.opt_E = true
-                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
-                 btnE.isHidden = false
-                 buttons = [btnA,btnB,btnC,btnD,btnE]
+                MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+                btnE.isHidden = false
+                buttons = [btnA,btnB,btnC,btnD,btnE]
             }
             if Apps.opt_E == true {
                 self.SetButtonOpetion(opestions: BookQuesList[currentQuestionPos].opetionA,BookQuesList[currentQuestionPos].opetionB,BookQuesList[currentQuestionPos].opetionC,BookQuesList[currentQuestionPos].opetionD,BookQuesList[currentQuestionPos].opetionE,BookQuesList[currentQuestionPos].correctAns)
@@ -385,20 +385,15 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         if ans.contains("\(opestions.last!.lowercased())") {
             rightAns = opestions[ans.firstIndex(of: opestions.last!.lowercased())!]
         }else{
-            
             self.ShowAlert(title: Apps.INVALID_QUE, message: Apps.INVALID_QUE_MSG)
             rightAnswer(btn: btnA)
         }
         let singleQues = BookQuesList[currentQuestionPos]
                print("QUES",singleQues)
                if singleQues.quesType == "2"{
-                   
-                 
                    MakeChoiceBtnDefault(btns: btnA,btnB)
-                   
                    btnC.isHidden = true
                    btnD.isHidden = true
-
                    self.buttons = [btnA,btnB]
                    //btnE.isHidden = true
                     temp = ["a","b"]
@@ -406,21 +401,18 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
 //                        $0.setImage(SetClickedOptionView(otpStr: "o").createImage(), for: .normal)
 //                   }
                }else{
-                
 //                   self.buttons = [btnA,btnB,btnC,btnD]
 //                   temp = ["a","b","c","d"]
                    btnC.isHidden = false
                    btnD.isHidden = false
-                   
 //                   btnA.setImage(UIImage(named: "btnA"), for: .normal)
 //                   btnB.setImage(UIImage(named: "btnB"), for: .normal)
 //                   btnC.setImage(UIImage(named: "btnc"), for: .normal)
 //                   btnD.setImage(UIImage(named: "btnD"), for: .normal)
 //                   btnE.setImage(UIImage(named: "btnE"), for: .normal)
-                   
                    buttons.shuffle()
                }
-     
+    
         var index = 0
         for button in buttons{
             button.setTitle(opestions[index], for: .normal)
@@ -429,12 +421,15 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
                 let ans = button.currentTitle
                 correctAnswer = ans!
                 print(correctAnswer)
+              //  ansOption =  String(index)//.uppercased() //BookQuesList[currentQuestionPos].correctAns
+                ansOption = String(index)
             }else{
                 button.tag = 0
             }
             button.addTarget(self, action: #selector(ClickButton), for: .touchUpInside)
             button.addTarget(self, action: #selector(ButtonDown), for: .touchDown)
             index += 1
+            
         }
         
         self.SetButtonHeight(buttons: btnA,btnB,btnC,btnD,btnE)

@@ -219,9 +219,9 @@ class SystemConfig: UIViewController {
                 let apiURL = "id=\(userD.userID)"
                 print(apiURL)
                self.getAPIData(apiName: Apps.USERS_DATA, apiURL: apiURL,completion: getData)
-            }else{
-                ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-            }
+            }//else{
+//                ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+//            }
           }           
     }
     
