@@ -1365,12 +1365,17 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="bgMusicView" destination="Aru-ZO-kaE" id="hWG-4w-u7m"/>
                         <outlet property="bodyView" destination="UQ1-7d-lVa" id="dMG-sK-Awp"/>
+                        <outlet property="fontView" destination="2t8-c5-3VX" id="MaW-zU-KJQ"/>
                         <outlet property="fotr" destination="Xxb-Cv-AhX" id="gkL-sq-l75"/>
                         <outlet property="hedr" destination="nLE-G5-YXQ" id="hhh-VH-kgR"/>
                         <outlet property="musicToggle" destination="JbN-fi-ZIQ" id="aqb-HC-3Ac"/>
+                        <outlet property="rateusView" destination="5gf-ag-cWo" id="xZU-is-9yR"/>
                         <outlet property="soundToggle" destination="1vw-vE-BqC" id="stH-D2-brK"/>
+                        <outlet property="soundView" destination="oCd-jH-VMX" id="nV2-ba-fba"/>
                         <outlet property="vibToggle" destination="vFe-FK-JRi" id="xSj-Zn-DH5"/>
+                        <outlet property="vibrationView" destination="xWT-IN-MSQ" id="MT0-Pu-bTm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sjM-EB-5gL" userLabel="First Responder" sceneMemberID="firstResponder"/>

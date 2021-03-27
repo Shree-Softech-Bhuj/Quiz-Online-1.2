@@ -21,6 +21,12 @@ class AlertViewController: UIViewController {
   @IBOutlet var vibToggle: UISwitch!
   @IBOutlet var musicToggle: UISwitch!
     
+  @IBOutlet weak var soundView: UIView!
+  @IBOutlet weak var vibrationView: UIView!
+  @IBOutlet weak var bgMusicView: UIView!
+  @IBOutlet weak var fontView: UIView!
+  @IBOutlet weak var rateusView: UIView!
+    
     var soundEnabled = true
     var vibEnabled = true
     var isPlayView = false
@@ -35,9 +41,9 @@ class AlertViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-//        bodyView.layer.cornerRadius = 20
-//        hedr.roundCorners(corners: [.topLeft, .topRight], radius: 20)
-//        fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+        bodyView.layer.cornerRadius = 20
+        hedr.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+        fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
         
         //get setting value from user default
         setting = try! PropertyListDecoder().decode(Setting.self, from: (UserDefaults.standard.value(forKey:"setting") as? Data)!)
@@ -46,7 +52,40 @@ class AlertViewController: UIViewController {
         vibToggle.isOn = setting!.vibration
         musicToggle.isOn = setting!.backMusic
     
+        addElementsToStackView()
     }   
+    
+    func addElementsToStackView(){
+            
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.spacing = 7
+        stackView.backgroundColor = Apps.BASIC_COLOR//UIColor.systemGray5
+        stackView.layer.cornerRadius = 20
+        bodyView.addSubview(stackView)
+        
+       stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+          // Attaching the content's edges to the scroll view's edges
+          stackView.leadingAnchor.constraint(equalTo: bodyView.leadingAnchor),
+          stackView.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor),
+          stackView.topAnchor.constraint(equalTo: bodyView.topAnchor),
+          stackView.bottomAnchor.constraint(equalTo: bodyView.bottomAnchor),
+
+          // Satisfying size constraints
+          stackView.widthAnchor.constraint(equalTo: bodyView.widthAnchor)
+        ])
+            stackView.distribution = .fillEqually
+            bodyView.backgroundColor = .clear
+            stackView.addArrangedSubview(hedr)
+            stackView.addArrangedSubview(soundView)
+            stackView.addArrangedSubview(vibrationView)
+            stackView.addArrangedSubview(bgMusicView)
+            stackView.addArrangedSubview(fontView)
+            stackView.addArrangedSubview(rateusView)
+            stackView.addArrangedSubview(fotr)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

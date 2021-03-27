@@ -68,7 +68,7 @@ class SystemConfig: UIViewController {
                 guard let DATA = data as? [String:Any] else{
                     return
                 }
-                //print(DATA)
+                print(DATA)
                 let state = DATA["option_e_mode"]  as! String
                 if state == "1" {
                     Apps.opt_E = true
