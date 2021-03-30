@@ -165,7 +165,7 @@ class ViewController: UIViewController {
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)//(String(Apps.ALL_TIME_RANK) , for: .normal)
-        allTimeScoreButton.setTitle(Apps.SCORE as! String, for: .normal)
+        allTimeScoreButton.setTitle(Apps.SCORE as? String, for: .normal)
         coinsButton.setTitle(Apps.COINS , for: .normal)
         
         varSys.getUserDetails()

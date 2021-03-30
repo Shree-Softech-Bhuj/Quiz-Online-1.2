@@ -62,7 +62,7 @@ class AlertViewController: UIViewController {
         stackView.alignment = .fill
         stackView.spacing = 7
         stackView.backgroundColor = Apps.BASIC_COLOR//UIColor.systemGray5
-        stackView.layer.cornerRadius = 20
+        stackView.layer.cornerRadius = 30
         bodyView.addSubview(stackView)
         
        stackView.translatesAutoresizingMaskIntoConstraints = false

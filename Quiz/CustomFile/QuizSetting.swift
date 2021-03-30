@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //
+    static var URL = "http://quizdemo.wrteam.in/api-v2.php" //"http://newquiz.wrteam.in/api-v2.php"//
     static var ACCESS_KEY = "6808"
     
     static let JWT = "set_your_strong_jwt_secret_key"
