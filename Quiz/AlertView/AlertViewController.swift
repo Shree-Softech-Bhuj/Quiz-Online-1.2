@@ -61,7 +61,6 @@ class AlertViewController: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 7
-        stackView.backgroundColor = Apps.BASIC_COLOR//UIColor.systemGray5
         stackView.layer.cornerRadius = 30
         bodyView.addSubview(stackView)
         
@@ -77,7 +76,6 @@ class AlertViewController: UIViewController {
           stackView.widthAnchor.constraint(equalTo: bodyView.widthAnchor)
         ])
             stackView.distribution = .fillEqually
-            bodyView.backgroundColor = .clear
             stackView.addArrangedSubview(hedr)
             stackView.addArrangedSubview(soundView)
             stackView.addArrangedSubview(vibrationView)

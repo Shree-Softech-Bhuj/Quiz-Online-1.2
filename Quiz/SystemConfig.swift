@@ -250,15 +250,16 @@ class SystemConfig: UIViewController {
                         let all_time_score = DATA["all_time_score"] //as Any//as! String //Int(all_time_score) ?? 0))
                         print(all_time_score)
                         Apps.SCORE = all_time_score ?? 0 // as! Any //String
-                        var intScore:Int = 0
-                        print(Apps.SCORE)
-                        if Apps.SCORE as! String == "0" {
-                            intScore = Apps.SCORE as! Int
-                        }else{
-                            intScore = Int(Apps.SCORE as! String) ?? 0
-                        }
+//                        var intScore:Int = 0
+//                        print(Apps.SCORE)
+//                        if (Apps.SCORE as! String  == "0" || Apps.SCORE as! NSNumber == 0){ //for new user only
+//                        //if Apps.SCORE as! String == "0" { //for existing user only
+//                            intScore = Apps.SCORE as! Int
+//                        }else{
+//                            intScore = Int(Apps.SCORE as! String) ?? 0
+//                        }
                        // let intScore:Int = Int(Apps.SCORE as! String) ?? 0 //as! Int  //Int(all_time_score as! String) ?? 0 //?? 0
-                        UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: (Int(Apps.COINS) ?? 0), points: intScore)), forKey: "UserScore")
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(UserScore.init(coins: (Int(Apps.COINS) ?? 0), points: Int(Apps.SCORE as? String ?? "0") ?? 0)), forKey: "UserScore")
                 }
             }
         }
