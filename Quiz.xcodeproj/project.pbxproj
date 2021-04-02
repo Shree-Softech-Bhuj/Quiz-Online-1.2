@@ -50,6 +50,7 @@
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
+		C69D71D12616FCF7005737BD /* buttonRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69D71C92616FCED005737BD /* buttonRotate.swift */; };
 		C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */; };
 		C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDA8D1260245A2006AC97D /* GradientButton.swift */; };
 		C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC8FE425DAA2B1000046F9 /* OTPController.swift */; };
@@ -159,6 +160,7 @@
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
+		C69D71C92616FCED005737BD /* buttonRotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = buttonRotate.swift; path = Quiz/buttonRotate.swift; sourceTree = SOURCE_ROOT; };
 		C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdViewController.swift; sourceTree = "<group>"; };
 		C6DDA8D1260245A2006AC97D /* GradientButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		C6F6600A23F67E2600015F15 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -255,6 +257,7 @@
 		BC029825229CF43900A50E80 /* CustomFile */ = {
 			isa = PBXGroup;
 			children = (
+				C69D71C92616FCED005737BD /* buttonRotate.swift */,
 				D7BCD04B222AA86500B7E531 /* CircularProgressBar.swift */,
 				BC7B0BFA224D36240051D894 /* QuizSetting.swift */,
 				BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */,
@@ -700,6 +703,7 @@
 				BC7B0BFD224D3F860051D894 /* ExtensionFile.swift in Sources */,
 				C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */,
 				BC05417B229BB31400220644 /* RobotPlayView.swift in Sources */,
+				C69D71D12616FCF7005737BD /* buttonRotate.swift in Sources */,
 				D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */,
 				BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */,
 				BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */,
