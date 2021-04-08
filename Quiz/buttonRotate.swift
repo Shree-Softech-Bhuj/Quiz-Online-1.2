@@ -3,7 +3,6 @@ import UIKit
 class buttonRotate: UIButton {
     
     override func awakeFromNib() {
-        
         let animation = spinAnimation()
         self.layer.add(animation!, forKey: "rotationAnimation")
     }

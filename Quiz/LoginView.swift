@@ -54,6 +54,8 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ref = Database.database().reference()
+        
         GIDSignIn.sharedInstance().delegate=self
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
@@ -283,7 +285,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
                                         alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: { action in
                                             self.dismissCurrView()
                                             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                                            let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController")
+                                            let viewCont = storyboard.instantiateViewController(withIdentifier: "LoginView") //ViewController
                                             
                                             self.navigationController?.pushViewController(viewCont, animated: true)
                                             

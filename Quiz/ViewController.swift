@@ -46,6 +46,9 @@ class ViewController: UIViewController {
     var userDATA:UserScore? = nil
     var dUser:User? = nil
     
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var baseView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -181,6 +184,7 @@ class ViewController: UIViewController {
           self.contestButton.alpha = 1
         }
         getUserNameImg()
+        setUpStackView()
     }
     @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
@@ -191,6 +195,76 @@ class ViewController: UIViewController {
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
+    
+    func setUpStackView(){
+               
+        //set horizontal stackView
+        let hStackView = UIStackView()
+        hStackView.axis = .horizontal
+        hStackView.alignment = .center
+        hStackView.spacing = 10
+        hStackView.distribution = .fillEqually
+        topView.addSubview(hStackView)
+        
+        hStackView.translatesAutoresizingMaskIntoConstraints = false
+         NSLayoutConstraint.activate([
+           // Attaching the content's edges to the scroll view's edges
+            hStackView.leadingAnchor.constraint(equalTo: topView.leadingAnchor),//scrollView
+            hStackView.trailingAnchor.constraint(equalTo: topView.trailingAnchor),//scrollView
+            hStackView.topAnchor.constraint(equalTo: topView.topAnchor),//scrollView
+            hStackView.bottomAnchor.constraint(equalTo: topView.bottomAnchor),//scrollView
+           // Satisfying size constraints
+            hStackView.widthAnchor.constraint(equalTo: topView.widthAnchor)//scrollView
+         ])
+        
+        hStackView.addArrangedSubview(randomQuizBtn)
+        randomQuizBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        hStackView.addArrangedSubview(trueFalseBtn)
+        trueFalseBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        hStackView.addArrangedSubview(bookrmarksBtn)
+        bookrmarksBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+             
+        
+        //set vertical stackView
+        let stackView = UIStackView()
+         stackView.axis = .vertical
+         stackView.alignment = .fill
+         stackView.spacing = 10
+         baseView.addSubview(stackView)
+         
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+         NSLayoutConstraint.activate([
+           // Attaching the content's edges to the base view's edges
+           stackView.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+           stackView.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
+           stackView.topAnchor.constraint(equalTo: baseView.topAnchor),
+           stackView.bottomAnchor.constraint(equalTo: baseView.bottomAnchor),
+           // Satisfying size constraints
+           stackView.widthAnchor.constraint(equalTo: baseView.widthAnchor)
+         ])
+             stackView.distribution = .fillEqually
+             baseView.backgroundColor = .clear
+            // stackView.addArrangedSubview(hStackView)
+             hStackView.translatesAutoresizingMaskIntoConstraints = false
+             hStackView.heightAnchor.constraint(equalToConstant: 139).isActive = true
+             stackView.addArrangedSubview(playButton)
+             playButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+             stackView.addArrangedSubview(battleButton)
+             battleButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        
+            if self.contestButton.alpha == 1 {
+                stackView.addArrangedSubview(contestButton)
+                contestButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+            }
+             stackView.addArrangedSubview(selfChallange)
+             selfChallange.heightAnchor.constraint(equalToConstant: 56).isActive = true
+            if self.DailyQuiz.alpha == 1 {
+                stackView.addArrangedSubview(DailyQuiz)
+                DailyQuiz.heightAnchor.constraint(equalToConstant: 56).isActive = true
+            }
+        
+    }
+    
     @IBAction func showBookmarks(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "BookmarkView")

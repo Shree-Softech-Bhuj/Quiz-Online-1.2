@@ -552,14 +552,20 @@
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" red="0.0" green="0.76078431369999999" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </imageView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="Rhz-6u-3wz">
-                                                        <rect key="frame" x="7" y="36" width="86" height="78"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" id="QQ0-ty-uiU">
+                                                        <rect key="frame" x="12" y="3" width="280" height="139"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="Rhz-6u-3wz">
+                                                        <rect key="frame" x="7" y="36" width="86" height="80"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                                                         <color key="tintColor" red="0.0" green="0.76078431369999999" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <inset key="imageEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                        <state key="normal" title="QUIZ">
+                                                        <inset key="titleEdgeInsets" minX="-40" minY="55" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="25" minY="-20" maxX="0.0" maxY="0.0"/>
+                                                        <state key="normal" title="QUIZ" image="quiz">
                                                             <color key="titleColor" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
@@ -609,88 +615,23 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <view contentMode="scaleToFill" id="mAx-O4-d94">
-                                                <rect key="frame" x="56" y="186" width="305" height="59"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="9sn-TW-4b9" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="59"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.76078431372549016" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <inset key="imageEdgeInsets" minX="230" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                        <state key="normal" title="QUIZ ZONE" image="playquiz">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="point" keyPath="startLocation">
-                                                                <point key="value" x="0.0" y="1"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="point" keyPath="endLocation">
-                                                                <point key="value" x="1" y="0.0"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                                <color key="value" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                                <color key="value" red="0.0007211728953" green="0.8662440777" blue="0.84862571949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <variation key="heightClass=regular-widthClass=compact">
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                        </variation>
-                                                        <connections>
-                                                            <action selector="playBtn:" destination="Grs-38-bWD" eventType="touchUpInside" id="BMT-RD-Eus"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
+                                            <view contentMode="scaleToFill" id="6F3-AK-mE7">
+                                                <rect key="frame" x="57" y="170" width="300" height="393"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <view contentMode="scaleToFill" id="seb-0Q-xDb">
+                                            <view alpha="0.0" contentMode="scaleToFill" id="mAx-O4-d94">
+                                                <rect key="frame" x="56" y="186" width="305" height="59"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                            <view alpha="0.0" contentMode="scaleToFill" id="seb-0Q-xDb">
                                                 <rect key="frame" x="56" y="265" width="305" height="62"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jhl-nN-CEv" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="305" height="62"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
-                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <inset key="imageEdgeInsets" minX="230" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                        <state key="normal" title="BATTLE QUIZ" image="battle">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="point" keyPath="startLocation">
-                                                                <point key="value" x="0.0" y="1"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="point" keyPath="endLocation">
-                                                                <point key="value" x="1" y="0.0"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
-                                                                <color key="value" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
-                                                                <color key="value" red="0.0007211728953" green="0.8662440777" blue="0.84862571949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
-                                                        </userDefinedRuntimeAttributes>
-                                                        <variation key="heightClass=regular-widthClass=compact">
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                                        </variation>
-                                                        <connections>
-                                                            <action selector="battleBtn:" destination="Grs-38-bWD" eventType="touchUpInside" id="hnB-09-z5Y"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="mtj-2D-Xit" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
-                                                <rect key="frame" x="56" y="427" width="305" height="60"/>
+                                                <rect key="frame" x="56" y="427" width="305" height="62"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
@@ -722,8 +663,74 @@
                                                     <action selector="SelfChallengeBtn:" destination="Grs-38-bWD" eventType="touchUpInside" id="TyZ-Hc-E6D"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="jhl-nN-CEv" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
+                                                <rect key="frame" x="56" y="265" width="305" height="62"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="230" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="BATTLE QUIZ" image="battle">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="point" keyPath="startLocation">
+                                                        <point key="value" x="0.0" y="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="point" keyPath="endLocation">
+                                                        <point key="value" x="1" y="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                        <color key="value" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                        <color key="value" red="0.0007211728953" green="0.8662440777" blue="0.84862571949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="battleBtn:" destination="Grs-38-bWD" eventType="touchUpInside" id="hnB-09-z5Y"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="9sn-TW-4b9" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
+                                                <rect key="frame" x="56" y="186" width="305" height="62"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="0.0" green="0.76078431372549016" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="230" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="QUIZ ZONE" image="playquiz">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="point" keyPath="startLocation">
+                                                        <point key="value" x="0.0" y="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="point" keyPath="endLocation">
+                                                        <point key="value" x="1" y="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                        <color key="value" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                        <color key="value" red="0.0007211728953" green="0.8662440777" blue="0.84862571949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="playBtn:" destination="Grs-38-bWD" eventType="touchUpInside" id="BMT-RD-Eus"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="rR0-fC-V1A" customClass="GradientButton" customModule="Quiz" customModuleProvider="target">
-                                                <rect key="frame" x="56" y="502" width="305" height="63"/>
+                                                <rect key="frame" x="56" y="502" width="305" height="62"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.0" green="0.76029378179999996" blue="0.85212439299999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
@@ -867,6 +874,7 @@
                     <connections>
                         <outlet property="DailyQuiz" destination="rR0-fC-V1A" id="aka-T1-883"/>
                         <outlet property="allTimeScoreButton" destination="gPl-0I-VtO" id="KeQ-gk-Lb7"/>
+                        <outlet property="baseView" destination="6F3-AK-mE7" id="J6k-8u-2do"/>
                         <outlet property="battleButton" destination="jhl-nN-CEv" id="BzA-cf-6r9"/>
                         <outlet property="battleView" destination="seb-0Q-xDb" id="tCG-in-Pqv"/>
                         <outlet property="bgView" destination="SSI-hT-4mY" id="1t8-TB-8b8"/>
@@ -887,6 +895,7 @@
                         <outlet property="selfChallange" destination="mtj-2D-Xit" id="xWE-76-ZIP"/>
                         <outlet property="settingButton" destination="1KE-fs-sp9" id="tgE-7x-mJ6"/>
                         <outlet property="startView" destination="mAx-O4-d94" id="zFr-Xi-6ls"/>
+                        <outlet property="topView" destination="QQ0-ty-uiU" id="b8A-2a-zqt"/>
                         <outlet property="trueFalseBtn" destination="ojO-Ge-8nn" id="BPa-ZI-pfe"/>
                         <outlet property="userName" destination="w5h-Pq-Edm" id="y1x-7Q-TWj"/>
                     </connections>
@@ -940,7 +949,7 @@
                                             <color key="titleColor" red="0.0" green="0.76078431369999999" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="u0m-zs-DKs">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="u0m-zs-DKs" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="376" y="32" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1102,7 +1111,7 @@
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8YC-ch-TfK">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8YC-ch-TfK" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="372" y="35" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1245,7 +1254,7 @@
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-Tw-huC">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8Tp-Tw-huC" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="376" y="32" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1401,7 +1410,7 @@
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="AYU-Po-Ycb">
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="AYU-Po-Ycb" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="381" y="30" width="25" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2581,7 +2590,7 @@
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="hUK-PP-U1L">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="hUK-PP-U1L" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="376" y="31" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3246,7 +3255,7 @@ You have completed the level.</string>
                                             <action selector="LeaveBattle:" destination="oFS-df-hKM" eventType="touchUpInside" id="HmB-lY-V9w"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="lNZ-y0-NiH" userLabel="SettingButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="lNZ-y0-NiH" userLabel="SettingButton" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="376" y="30" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3646,7 +3655,7 @@ You have completed the level.</string>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="hfm-fV-xy1">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="hfm-fV-xy1" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="375" y="33" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4039,7 +4048,7 @@ You have completed the level.</string>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="56I-Ez-Xho" userLabel="SettingButton">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="56I-Ez-Xho" userLabel="SettingButton" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="359" y="32" width="29" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -6152,7 +6161,7 @@ You have completed the level.</string>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="sMt-g2-Ner">
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="sMt-g2-Ner" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="381" y="35" width="25" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -6433,7 +6442,7 @@ You have completed the level.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JUf-we-qKY" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2874" y="-532"/>
+            <point key="canvasLocation" x="2873.913043478261" y="-532.36607142857144"/>
         </scene>
         <!--Self Attemp Alert View-->
         <scene sceneID="jgh-92-yoU">
@@ -8444,7 +8453,7 @@ You have completed the level.</string>
                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fjq-fR-gyM">
+                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fjq-fR-gyM" customClass="buttonRotate" customModule="Quiz" customModuleProvider="target">
                                         <rect key="frame" x="381" y="30" width="25" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -9863,6 +9872,7 @@ You have completed the level.</string>
         <image name="playquiz" width="32.800998687744141" height="35.976001739501953"/>
         <image name="power" catalog="system" width="128" height="124"/>
         <image name="pre" width="30" height="30"/>
+        <image name="quiz" width="34" height="34"/>
         <image name="rate" width="30" height="30"/>
         <image name="refer" width="223.00100708007812" height="171.70599365234375"/>
         <image name="robot" width="55" height="55"/>
