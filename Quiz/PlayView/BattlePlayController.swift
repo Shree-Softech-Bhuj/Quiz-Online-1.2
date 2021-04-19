@@ -259,10 +259,12 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
               }else{
                   winnerID = battleUser.userID
               }
-              if !self.hasLeave{
-                  let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
-                  self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
-              }
+               // setStatistics()
+            
+//              if !self.hasLeave{
+//                  let apiURL = "user_id1=\(user.userID)&user_id2=\(battleUser.userID)&winner_id=\(winnerID)&is_drawn=\(rightCount == opponentRightCount ? 1 : 0)"
+//                  self.getAPIData(apiName: "set_battle_statistics", apiURL: apiURL,completion: {_ in })
+//              }
           }
           NotificationCenter.default.post(name: Notification.Name("QuitBattle"), object: nil)
           self.navigationController?.popViewController(animated: true)
@@ -606,7 +608,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
                                 if self.timer!.isValid{
                                     self.timer?.invalidate()
                                 }
-                                self.currentQuestionPos += 1 //increament for next question
+                                self.currentQuestionPos += 1 //increment for next question
                                 self.LoadQuestion()
                             })
                         }

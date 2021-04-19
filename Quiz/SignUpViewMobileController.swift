@@ -51,7 +51,7 @@ class SignUpViewMobileController: UIViewController, UITextFieldDelegate {
     @IBAction func SignupUser(_ sender: Any) {
        // print("length of num: \(self.phoneNumber.text?.count)")
         //chk for all text fields
-        if  (self.phoneNumber.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "") || (self.phoneNumber.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 10)
+        if  (self.phoneNumber.text!.trimmingCharacters(in: .whitespacesAndNewlines) == "") //|| (self.phoneNumber.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 10)
         {
             self.phoneNumber.becomeFirstResponder()
             let alert = UIAlertController(title: "", message: Apps.MSG_NUM, preferredStyle: UIAlertController.Style.alert)

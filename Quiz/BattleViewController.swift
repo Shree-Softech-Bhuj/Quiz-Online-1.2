@@ -97,7 +97,6 @@ class BattleViewController: UIViewController {
                     self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 //})
             }
-            
         }else{
             //get data for category
             DataList.removeAll()

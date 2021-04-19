@@ -35,7 +35,7 @@ class ResultAlert: UIViewController {
             userName.text = "\(winnerName) , \(Apps.WIN_BATTLE)"
             titleBtn.setTitle(Apps.CONGRATS, for: .normal)
         }else{
-            userName.text = "\(winnerName) , \(Apps.OPP_WIN_BATTLE)"
+            userName.text = "\(winnerName) \(Apps.OPP_WIN_BATTLE)"
             titleBtn.setTitle(Apps.LOSE_BATTLE, for: .normal)
         }
                 
