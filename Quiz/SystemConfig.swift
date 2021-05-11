@@ -45,7 +45,7 @@ class SystemConfig: UIViewController {
     func ConfigureSystem() {
         //get data from server
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = ""//Apps.OPTION_E
+            let apiURL = ""
             self.getAPIData(apiName: Apps.SYSTEM_CONFIG, apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
@@ -176,7 +176,7 @@ class SystemConfig: UIViewController {
     
     func LoadLanguages(completion:@escaping ()->Void){
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = ""//Apps.OPTION_E
+            let apiURL = ""
             self.getAPIData(apiName: API_LANGUAGE_LIST, apiURL: apiURL,completion: { jsonObj in
                 
              // print("RS- lang.",jsonObj.value(forKey: "data"))

@@ -143,6 +143,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         zoomScroll.minimumZoomScale = 1.0
         zoomScroll.maximumZoomScale = 6.0
         
+        NotificationCenter.default.addObserver(self, selector: #selector(BattlePlayController.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteRobotBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.DismissSelf),name: NSNotification.Name(rawValue: "CloseRobotPlay"),object: nil) // close this view controller
         
@@ -183,6 +184,35 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         }
         let with = self.scroll.frame.width
         self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+    }
+    
+    @objc func ReloadFont(noti: NSNotification){
+        resizeTextview()
+    }
+    
+    func resizeTextview(){
+        
+        var getFont = UserDefaults.standard.float(forKey: "fontSize")
+        if (getFont == 0){
+            getFont = 16
+        }
+        mainQuestionLbl.font = mainQuestionLbl.font?.withSize(CGFloat(getFont))
+        imageQuestionLbl.font = imageQuestionLbl.font?.withSize(CGFloat(getFont))
+        
+        mainQuestionLbl.centerVertically()
+        imageQuestionLbl.centerVertically()
+        
+        btnA.titleLabel?.font = btnA.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnB.titleLabel?.font = btnB.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnC.titleLabel?.font = btnC.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnD.titleLabel?.font = btnD.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnE.titleLabel?.font = btnE.titleLabel?.font?.withSize(CGFloat(getFont))
+        
+        btnA.resizeButton()
+        btnB.resizeButton()
+        btnC.resizeButton()
+        btnD.resizeButton()
+        btnE.resizeButton()
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

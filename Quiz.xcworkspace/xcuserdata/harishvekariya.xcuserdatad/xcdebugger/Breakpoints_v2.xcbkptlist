@@ -14,8 +14,8 @@
             filePath = "Quiz/PlayView/BattlePlayController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "600"
-            endingLineNumber = "600"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
             landmarkName = "ObserveQuestion()"
             landmarkType = "7">
          </BreakpointContent>

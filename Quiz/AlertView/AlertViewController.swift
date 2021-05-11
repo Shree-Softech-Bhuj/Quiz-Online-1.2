@@ -193,12 +193,8 @@ class AlertViewController: UIViewController {
     @IBAction func RateUsBtn(_ sender: Any) {
         if #available(iOS 10.3, *) {
             SKStoreReviewController.requestReview()
-        }else if let url = URL(string: "itms-apps://itunes.apple.com/app/" + "\(Apps.APP_ID)") {
-           if #available(iOS 10.0, *) {
+        }else if let url = URL(string: Apps.SHARE_APP){
             UIApplication.shared.canOpenURL(url)
-            }else {
-               UIApplication.shared.openURL(url)
-           }
         }
     }
 }

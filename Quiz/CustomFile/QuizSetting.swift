@@ -4,14 +4,14 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://quizdemo.wrteam.in/api-v2.php" //"http://newquiz.wrteam.in/api-v2.php"//
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //
     static var ACCESS_KEY = "6808"
     
     static let JWT = "set_your_strong_jwt_secret_key"
     
+    //set values
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
-    static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
-    
+       
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use 50-50 lifeline?
     static let OPT_SK_COIN = 4 // how many coins will be deduct when we use SKIP lifeline?
     static let OPT_AU_COIN = 4 // how many coins will be deduct when we use AUDIENCE POLL lifeline?
@@ -21,6 +21,8 @@ struct Apps{
     static let QUIZ_W_Q_POINTS = 2 // how many points will deduct when user select wrong answer in play area
     static let CONTEST_RIGHT_POINTS = 3 // how many points will user get when he select right answer in Contest
     
+    static var REWARD_COIN = "4" //used to add coins to user coins when user watch reward video ad
+    
     static let BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"//"ca-app-pub-9494734299483429/5838705416"
     static let REWARD_AD_UNIT_ID = "ca-app-pub-3940256099942544/1712485313"//"ca-app-pub-9494734299483429/7263467729"
     static let INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/4411468910"//"ca-app-pub-9494734299483429/1272774440"
@@ -28,16 +30,17 @@ struct Apps{
     static let AD_TEST_DEVICE = ["e61b6b6ac743a9c528bcda64b4ee77a7","8099b28d92fa3eae7101498204255467"]
     
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
-    static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color    
+    static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color
    
     static let BASIC_COLOR = UIColor.rgb(0, 194, 217, 1.0)//(57, 129, 156, 1.0)
     static let BASIC_COLOR_CGCOLOR = UIColor.rgb(0, 194, 217, 1.0).cgColor //rgb(57, 129, 156, 1.0)
     
-    static let APP_ID = "1467888574"
+    //App Information - set from admin panel
     static var SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
-    static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
+    static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
+    
     static var ANS_MODE = "0"
     static var FORCE_UPDT_MODE = "1"
     static var CONTEST_MODE = "1"
@@ -46,10 +49,7 @@ struct Apps{
     
     static var screenHeight = CGFloat(0)
     static var screenWidth = CGFloat(0)
-    
-    static var FCM_ID = " "
-    static let NO_NOTIFICATION = "Notifications not available"
-    static let NOTIFICATIONS = "get_notifications"
+     
     
     //variables to store push notification response parameters
     static var nTitle = ""
@@ -61,27 +61,30 @@ struct Apps{
     static var nType = ""
     static var badgeCount = UserDefaults.standard.integer(forKey: "badgeCount")
     
-    static let APP_NAME = "QUIZ"
-    
+    //APis - static values
     static let USERS_DATA = "get_user_by_id"
     static var REFER_CODE = "refer_code"
     static let FRIENDS_CODE = "friends_code"
+    static let SYSTEM_CONFIG = "get_system_configurations"
+    static let NOTIFICATIONS = "get_notifications"
+    static let API_BOOKMARK_GET = "get_bookmark"
+    static let API_BOOKMARK_SET = "set_bookmark"
     
+    static var opt_E = false
     static var ALL_TIME_RANK:Any = "0" //0//
     static var COINS = "0"
     static var SCORE: Any = "0"
-    //static let REFER_POINTS = "50" //50 coins added if ur referral code is used by any other user
-    
-    static let SYSTEM_CONFIG = "get_system_configurations"
-    //static let OPTION_E = "option_e_mode"
-    static var opt_E = false
-    //static var REFER_STRING = "Refer a Friend, and you will get 100 coins each time your referral code is used and your friend will get 50 coins by using your referral code"
     static var REFER_COIN = "0"// added to friend's coins
     static var EARN_COIN = "0" //added to user's own coins
-    static var REWARD_COIN = "4" //used to add coins to user coins when he/she watch reward video ad
-        
+    
+    static var FCM_ID = " "  
+    
+    //strings to Translate
+    static let APP_NAME = "QUIZ"
+    static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
+    static let NO_NOTIFICATION = "Notifications not available"
     static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
-    static let NOT_COMPLETE_LEVEL = "Oops!  Level not Completed.  Play again !"
+    static let NOT_COMPLETE_LEVEL = "Oops! Level not Completed.  Play again !"
     static let PLAY_AGAIN = "Play Again"
     static let NOT_ENOUGH_QUESTION_TITLE = "Not Enough Question"
     static let NO_ENOUGH_QUESTION_MSG = "This level does not have enough question to play quiz"
@@ -181,9 +184,6 @@ struct Apps{
     //---SHARE QUIZ PLAY RESULT---
     static let SHARE1 = "I have completed level"
     static let SHARE2 = "with score"
-    
-    static let LANG = "en-US"
-    
     // apps update info string
     static let UPDATE_TITLE = "New Update Available!!"
     static let UPDATE_MSG = "New Update is available for App, to get more functionality and good experiance please Update App"
@@ -194,15 +194,10 @@ struct Apps{
     static let DAILY_QUIZ_MSG_SUCCESS = "Daily Quiz Completed"
     static let DAILY_QUIZ_MSG_FAIL = "Daily Quiz Fail"
     static let DAILY_QUIZ_SHARE_MSG = "I have completed daily quiz with score "
-    //api url here
-    static let API_BOOKMARK_GET = "get_bookmark"
-    static let API_BOOKMARK_SET = "set_bookmark"
-    
     //leaderboard Filters / options
     static let ALL = "All"
     static let MONTHLY = "Monthly"
     static let DAILY = "Daily"
-    
     //---CONTEST---
     static let SHARE_CONTEST = "I have completed Contest With Score"
     static let MSG_CODE = "Please Enter Code"
@@ -210,9 +205,9 @@ struct Apps{
     static let NO_COINS_MSG = "Earn Coin and Join Contest"
     static let PLAY_BTN_TITLE = "Play"
     static let LB_BTN_TITLE = "Leaderboard"
-//    static let NO_COINS_MSG = ""
-    
-    //---MOBILE LOGIN---
+     //---MOBILE LOGIN---
     static let MSG_CC = "Please Enter Country Code in correct Format"
     static let MSG_NUM = "Please Enter Phone Number in correct Format"
+    
+    static let LANG = "en-US"
 }

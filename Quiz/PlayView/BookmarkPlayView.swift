@@ -69,7 +69,9 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             //set four option's view shadow
            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
         }
-                
+        
+        resizeTextview()
+        
         self.mainQuestionView.DesignViewWithShadow()
         
         let xPosition = progressview.center.x - 10
@@ -86,6 +88,8 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
         zoomScroll.zoomScale = 1
         self.zoomScroll.contentSize = questionImage.frame.size
         self.zoomScroll.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(BookmarkPlayView.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
         
         self.LoadQuestion()
     }
@@ -129,6 +133,35 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     
     @IBAction func backButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func ReloadFont(noti: NSNotification){
+        resizeTextview()
+    }
+    
+    func resizeTextview(){
+        
+        var getFont = UserDefaults.standard.float(forKey: "fontSize")
+        if (getFont == 0){
+            getFont = 16
+        }
+        lblQuestion.font = lblQuestion.font?.withSize(CGFloat(getFont))
+        mainQuestionLbl.font = mainQuestionLbl.font?.withSize(CGFloat(getFont))
+        
+        lblQuestion.centerVertically()
+        mainQuestionLbl.centerVertically()
+        
+        btnA.titleLabel?.font = btnA.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnB.titleLabel?.font = btnB.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnC.titleLabel?.font = btnC.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnD.titleLabel?.font = btnD.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnE.titleLabel?.font = btnE.titleLabel?.font?.withSize(CGFloat(getFont))
+        
+        btnA.resizeButton()
+        btnB.resizeButton()
+        btnC.resizeButton()
+        btnD.resizeButton()
+        btnE.resizeButton()
     }
     
     @IBAction func showAnswer(_ sender: Any) {

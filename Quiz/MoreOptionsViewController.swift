@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import GoogleMobileAds
+import Firebase
 
 class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelegate { //,GADInterstitialDelegate -10feb- //, UIDocumentInteractionControllerDelegate
     
@@ -20,6 +21,7 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
     @IBOutlet weak var showInviteFrnd: UIButton!
     @IBOutlet weak var showTermsOfService: UIButton!
     @IBOutlet weak var showPrivacyPolicy: UIButton!
+    @IBOutlet weak var logOutbtn: UIButton!
     
     var audioPlayer : AVAudioPlayer!
     var backgroundMusicPlayer: AVAudioPlayer!
@@ -46,6 +48,8 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
             imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
             
+            logOutbtn.alpha = 1
+            
 //            imgProfile.isUserInteractionEnabled = true
 //            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
 //            imgProfile.addGestureRecognizer(tapRecognizer)
@@ -58,6 +62,8 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
 //                }
 //            }
         }else{
+            logOutbtn.alpha = 0
+            
             emailAdrs.text = ""
             userName.text = "\(Apps.APP_NAME)"//"\(Apps.HELLO) \(Apps.USER)"
             imgProfile.image = UIImage(named: "AppIcon") //"user")
@@ -113,6 +119,58 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
     @IBAction func backButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func logOutButton(_ sender: Any){
+        let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
+            (alertAction: UIAlertAction!) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
+            (alertAction: UIAlertAction!) in
+            if self.dUser!.userType == "apple"{
+               // if app is not loged in than navigate to loginview controller
+               UserDefaults.standard.set(false, forKey: "isLogedin")
+               UserDefaults.standard.removeObject(forKey: "user")
+               
+               let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+               let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+               
+               let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+               navigationcontroller.setNavigationBarHidden(true, animated: false)
+               navigationcontroller.isNavigationBarHidden = true
+               
+               UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+               return
+           }
+            
+            if Auth.auth().currentUser != nil { 
+                do {
+                    try Auth.auth().signOut()
+                    UserDefaults.standard.removeObject(forKey: "isLogedin")
+                    //remove friend code
+                    UserDefaults.standard.removeObject(forKey: "fr_code")
+                    
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                    
+                    let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                    navigationcontroller.setNavigationBarHidden(true, animated: false)
+                    navigationcontroller.isNavigationBarHidden = true
+                    UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }))
+        
+        alert.view.tintColor = UIColor.black  // change text color of the buttons
+        alert.view.layer.cornerRadius = 25   // change corner radius
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     @IBAction func userStatistics(_ sender: Any) {
         self.controllerName = "UserStatistics"

@@ -100,6 +100,8 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         mainQuestionLbl.centerVertically()
         imageQuestionLbl.centerVertically()
         
+        resizeTextview()
+        
         // add ring progress to timer view
         if deviceStoryBoard == "Ipad"{
             progressRing = CircularProgressBar(radius:18, position: CGPoint(x: timerView.center.x, y: timerView.center.y - 15), innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6) //y: timerView.center.y - 20
@@ -147,6 +149,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         zoomScroll.minimumZoomScale = 1
         zoomScroll.maximumZoomScale = 6
+        NotificationCenter.default.addObserver(self, selector: #selector(BattlePlayController.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CompleteBattle),name: NSNotification.Name(rawValue: "CompleteBattle"),object: nil)
     }
     
@@ -186,6 +189,35 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         }
         let with = self.scroll.frame.width
         self.scroll.contentSize = CGSize(width: Int(with), height: Int(btnY))
+    }
+    
+    @objc func ReloadFont(noti: NSNotification){
+        resizeTextview()
+    }
+    
+    func resizeTextview(){
+        
+        var getFont = UserDefaults.standard.float(forKey: "fontSize")
+        if (getFont == 0){
+            getFont = 16
+        }
+        mainQuestionLbl.font = mainQuestionLbl.font?.withSize(CGFloat(getFont))
+        imageQuestionLbl.font = imageQuestionLbl.font?.withSize(CGFloat(getFont))
+        
+        mainQuestionLbl.centerVertically()
+        imageQuestionLbl.centerVertically()
+        
+        btnA.titleLabel?.font = btnA.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnB.titleLabel?.font = btnB.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnC.titleLabel?.font = btnC.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnD.titleLabel?.font = btnD.titleLabel?.font?.withSize(CGFloat(getFont))
+        btnE.titleLabel?.font = btnE.titleLabel?.font?.withSize(CGFloat(getFont))
+        
+        btnA.resizeButton()
+        btnB.resizeButton()
+        btnC.resizeButton()
+        btnD.resizeButton()
+        btnE.resizeButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

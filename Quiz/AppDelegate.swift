@@ -318,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
                           orientation: UIInterfaceOrientation.portrait,
                           completionHandler: { (appOpenAdIn, _) in
                             self.appOpenAd = appOpenAdIn
-                            self.appOpenAd!.fullScreenContentDelegate = self
+                            self.appOpenAd?.fullScreenContentDelegate = self
                             self.loadTime = Date()
                             //print("Ad is ready")
                           })
