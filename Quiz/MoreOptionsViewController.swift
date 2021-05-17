@@ -73,7 +73,7 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
         
         // calll button design button and pass button varaible those buttons nedd to be design
-        self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs,showPrivacyPolicy,showTermsOfService)
+        self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs,showPrivacyPolicy,showTermsOfService,logOutbtn)
         
     }
     
@@ -110,7 +110,7 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
     // make button custom design function
     func DesignButton(btns:UIButton...){
         for btn in btns {
-            btn.layer.cornerRadius = 0 //btn.frame.height / 2
+            btn.layer.cornerRadius = btn.frame.height / 3//2 //0 //
            // btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
             btn.SetShadow()
         }

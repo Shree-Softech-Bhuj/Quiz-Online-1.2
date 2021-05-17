@@ -5794,7 +5794,6 @@ You have completed the level.</string>
                                                 </variation>
                                                 <connections>
                                                     <action selector="logOutButton:" destination="UgB-IQ-4mC" eventType="touchUpInside" id="OpM-Dh-aPt"/>
-                                                    <action selector="privacyPolicy:" destination="UgB-IQ-4mC" eventType="touchUpInside" id="Kb9-tC-fDT"/>
                                                 </connections>
                                             </button>
                                         </subviews>

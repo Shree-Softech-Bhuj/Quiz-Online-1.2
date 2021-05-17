@@ -128,7 +128,7 @@ struct Apps{
     static let MSG_ERR = "Error Creating User"
     static let PROFILE_UPDT = "Profile Update"
     static let WARNING = "Warning"
-    static let WAIT = "Please wait..."
+    static let WAIT = "Please wait...⏳"
     static let DISMISS = "Dismiss"
     static let OK = "OK"
     static let HELLO = "Hello,"

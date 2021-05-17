@@ -5171,7 +5171,6 @@ You have completed the level.</string>
                                                 </variation>
                                                 <connections>
                                                     <action selector="logOutButton:" destination="iQo-dK-GKo" eventType="touchUpInside" id="aqX-YO-HbX"/>
-                                                    <action selector="privacyPolicy:" destination="iQo-dK-GKo" eventType="touchUpInside" id="Ia7-Z3-X5b"/>
                                                 </connections>
                                             </button>
                                         </subviews>

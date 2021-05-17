@@ -51,7 +51,7 @@ class SelfChallengeController: UIViewController {
         
         self.AddTimeButton(scrollView: timeScroll)
         
-        self.startBtn.layer.cornerRadius = self.startBtn.frame.height / 2
+        self.startBtn.layer.cornerRadius = self.startBtn.frame.height / 3//2
         
         self.mainPicker.delegate = self
         self.mainPicker.dataSource = self
@@ -194,14 +194,15 @@ class SelfChallengeController: UIViewController {
     
     func DesignTextField(textFields:UITextField...){
         for field in textFields{
-            field.layer.cornerRadius = field.frame.height / 2
+            field.layer.cornerRadius = field.frame.height / 3//2
             field.leftViewMode = .always
             field.leftView = UIView(frame: CGRect(x: 10, y: 0, width: 10, height: field.frame.height))
             
             let view = UIView(frame: CGRect(x: -10, y: 5, width: 30, height: field.frame.height))
             let img =  UIImageView(image: UIImage(named: "droparrow"))
+            img.tintColor = .white
             img.contentMode = .center
-            img.frame  = CGRect(x: -10, y: 0, width: field.frame.height, height: field.frame.height)
+            img.frame  = CGRect(x: -10, y: -5, width: field.frame.height, height: field.frame.height)
             
             view.addSubview(img)
             
@@ -233,9 +234,9 @@ class SelfChallengeController: UIViewController {
             button.accessibilityLabel = "ques"
             button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
             let color = Apps.BASIC_COLOR
-            button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
+            button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 60, height: 35) //width: 70
             
-            button.layer.cornerRadius = 35 / 2
+            button.layer.cornerRadius = 35 / 3 //2
             button.layer.borderColor = color.cgColor
             
             button.setTitleColor(color, for: .normal)
@@ -262,9 +263,9 @@ class SelfChallengeController: UIViewController {
             button.accessibilityLabel = "time"
             button.addTarget(self, action: #selector(self.ButtonClicked(_:)), for: UIControl.Event.touchUpInside)
             let color = Apps.BASIC_COLOR
-            button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 70, height: 35)
+            button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 60, height: 35)//width: 70
             
-            button.layer.cornerRadius = 35 / 2
+            button.layer.cornerRadius = 35 / 3//2
             button.layer.borderColor = color.cgColor
             
             button.setTitleColor(color, for: .normal)

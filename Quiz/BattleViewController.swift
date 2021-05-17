@@ -10,6 +10,7 @@ struct BattleUser {
     let name:String
     let image:String
     let matchingID:String
+    let langId:String
 }
 class BattleViewController: UIViewController {
     
@@ -133,11 +134,13 @@ class BattleViewController: UIViewController {
     @objc func CheckForBattle(){
         self.seconds = 10
         self.searchButton.isHidden = true
+        let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
         var userDetails:[String:String] = [:]
         userDetails["userID"] = self.user.userID
         userDetails["name"] = self.user.name
         userDetails["image"] = self.user.image
         userDetails["isAvail"] = "1"
+        userDetails["langId"] = "\(langID)"
         // set data for available to battle with users in firebase database
         self.ref.child(user.UID).setValue(userDetails)
         
@@ -151,13 +154,16 @@ class BattleViewController: UIViewController {
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             for fuser in (snapshot.children.allObjects as? [DataSnapshot])!{
                 let data = fuser.value as? [String:String]
+                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+                if (data?["langId"]) == "\(langID)"{
                 if (data?["isAvail"]) != nil{
                     if((data?["isAvail"])! == "1" && fuser.key != self.user.UID){
                         // this user is avalable for battle
-                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)")
+                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)", langId: "\(langID)")
                         self.isAvail = true
                     }
                 }
+            }
             }
             if(self.isAvail){
                 // if user is avalable for battle set its value for second user
@@ -203,12 +209,13 @@ class BattleViewController: UIViewController {
             
             if(snapshot.hasChild("isAvail") && snapshot.childSnapshot(forPath: "isAvail").value! as! String == "0"){
                 if snapshot.hasChild("opponentID") && snapshot.hasChild("matchingID"){
+                    let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                     let opponentID = snapshot.childSnapshot(forPath: "opponentID").value! as! String
                     if (opponentID != ""){
                         self.ref.child(opponentID).observeSingleEvent(of: .value, with: {(battleSnap) in
                             // this user is avalable for battle
                             if battleSnap.hasChild("matchingID"){
-                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
+                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)", langId: "\(battleSnap.childSnapshot(forPath: "langID").value!)")
                                 self.isAvail = true
                                 print("BBB",battleSnap.childSnapshot(forPath: "matchingID").value!)
                                 self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
