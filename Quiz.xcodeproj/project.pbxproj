@@ -38,6 +38,7 @@
 		BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D523DF068C006BD387 /* LanguageCell.swift */; };
 		BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE582D723DF0767006BD387 /* LanguageView.swift */; };
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
+		C6049D712660C4D000F17ADD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6049D702660C4D000F17ADD /* GradientView.swift */; };
 		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
 		C6389F17260C5EDD00104CB1 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6389F19260C5EDD00104CB1 /* Ipad.storyboard */; };
 		C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */; };
@@ -47,10 +48,14 @@
 		C646506325DF86B9006588CC /* PlayContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646506025DF86B9006588CC /* PlayContestView.swift */; };
 		C646506425DF86B9006588CC /* ContestResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646505F25DF86B9006588CC /* ContestResultsViewController.swift */; };
 		C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6500A1623EAA7C400AC93BF /* AboutUsView.swift */; };
+		C65A993E2671F869009667EB /* Room in Resources */ = {isa = PBXBuildFile; fileRef = C65A993D2671F869009667EB /* Room */; };
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
+		C673D0E226772F9B0019F9FA /* backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C673D0E126772F9A0019F9FA /* backButton.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
-		C69D71D12616FCF7005737BD /* buttonRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69D71C92616FCED005737BD /* buttonRotate.swift */; };
+		C67E0148265F8EEF005864BB /* TestHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E0147265F8EEF005864BB /* TestHomeView.swift */; };
+		C67E014A265FA9BC005864BB /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E0149265FA9BC005864BB /* CollectionViewCell.swift */; };
+		C6852FDB2657CE84005FFC26 /* testCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6852FDA2657CE84005FFC26 /* testCollection.swift */; };
 		C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */; };
 		C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDA8D1260245A2006AC97D /* GradientButton.swift */; };
 		C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC8FE425DAA2B1000046F9 /* OTPController.swift */; };
@@ -148,6 +153,7 @@
 		BCE582D523DF068C006BD387 /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
 		BCE582D723DF0767006BD387 /* LanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageView.swift; sourceTree = "<group>"; };
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
+		C6049D702660C4D000F17ADD /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
 		C6389F18260C5EDD00104CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Ipad.storyboard; sourceTree = "<group>"; };
 		C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewMobileController.swift; sourceTree = "<group>"; };
@@ -157,10 +163,14 @@
 		C646506025DF86B9006588CC /* PlayContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayContestView.swift; sourceTree = "<group>"; };
 		C646506125DF86B9006588CC /* ContestLeaderboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestLeaderboard.swift; sourceTree = "<group>"; };
 		C6500A1623EAA7C400AC93BF /* AboutUsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
+		C65A993D2671F869009667EB /* Room */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Room; sourceTree = "<group>"; };
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
+		C673D0E126772F9A0019F9FA /* backButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = backButton.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
-		C69D71C92616FCED005737BD /* buttonRotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = buttonRotate.swift; path = Quiz/buttonRotate.swift; sourceTree = SOURCE_ROOT; };
+		C67E0147265F8EEF005864BB /* TestHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHomeView.swift; sourceTree = "<group>"; };
+		C67E0149265FA9BC005864BB /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		C6852FDA2657CE84005FFC26 /* testCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testCollection.swift; sourceTree = "<group>"; };
 		C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdViewController.swift; sourceTree = "<group>"; };
 		C6DDA8D1260245A2006AC97D /* GradientButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		C6F6600A23F67E2600015F15 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -257,7 +267,7 @@
 		BC029825229CF43900A50E80 /* CustomFile */ = {
 			isa = PBXGroup;
 			children = (
-				C69D71C92616FCED005737BD /* buttonRotate.swift */,
+				C673D0E126772F9A0019F9FA /* backButton.swift */,
 				D7BCD04B222AA86500B7E531 /* CircularProgressBar.swift */,
 				BC7B0BFA224D36240051D894 /* QuizSetting.swift */,
 				BC7B0BFC224D3F860051D894 /* ExtensionFile.swift */,
@@ -321,6 +331,7 @@
 		D7FCFC5821A5282D00718EE2 /* Quiz */ = {
 			isa = PBXGroup;
 			children = (
+				C65A993D2671F869009667EB /* Room */,
 				D767B1E22239260D00B0A588 /* Quiz.entitlements */,
 				BCB79C50241CC78000465FEA /* GoogleService-Info.plist */,
 				D7FCFC6821A5283C00718EE2 /* Info.plist */,
@@ -361,6 +372,10 @@
 				D79A4E00223A730000F98E75 /* UpdateProfileView.swift */,
 				BCBE508D23E55DA3001FD5A9 /* UserStatisticsView.swift */,
 				D7FCFC5B21A5282D00718EE2 /* ViewController.swift */,
+				C67E0147265F8EEF005864BB /* TestHomeView.swift */,
+				C6852FDA2657CE84005FFC26 /* testCollection.swift */,
+				C6049D702660C4D000F17ADD /* GradientView.swift */,
+				C67E0149265FA9BC005864BB /* CollectionViewCell.swift */,
 				D7FCFC6321A5283C00718EE2 /* Assets.xcassets */,
 				BC029824229CF40A00A50E80 /* AlertView */,
 				BC029826229CF47400A50E80 /* AssetsFile */,
@@ -538,6 +553,7 @@
 				D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */,
 				D791BA9B2240B9AD00F6671C /* old_click.mp3 in Resources */,
 				D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */,
+				C65A993E2671F869009667EB /* Room in Resources */,
 				D7FCFC6421A5283C00718EE2 /* Assets.xcassets in Resources */,
 				D7FCFC5F21A5282D00718EE2 /* Main.storyboard in Resources */,
 			);
@@ -681,15 +697,18 @@
 				D7FCFC6221A5282D00718EE2 /* Quiz.xcdatamodeld in Sources */,
 				C646502F25DF846F006588CC /* ContestView.swift in Sources */,
 				C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */,
+				C67E014A265FA9BC005864BB /* CollectionViewCell.swift in Sources */,
 				C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */,
 				BC11D56022A4FD740035A6B4 /* ControllerExtension.swift in Sources */,
 				BC16479B22548E2E00FB7810 /* Structure.swift in Sources */,
+				C67E0148265F8EEF005864BB /* TestHomeView.swift in Sources */,
 				C646506225DF86B9006588CC /* ContestLeaderboard.swift in Sources */,
 				C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */,
 				D7A611962233D7B9002D1E8C /* BattleViewController.swift in Sources */,
 				D7FCFC8B21A52A6600718EE2 /* LoginView.swift in Sources */,
 				BC5105602278C48E005377C8 /* BattlePlayController.swift in Sources */,
 				9AEF45562462FEB700B96893 /* DesignController.swift in Sources */,
+				C673D0E226772F9B0019F9FA /* backButton.swift in Sources */,
 				BC69FF6023EA922A009B5DF8 /* BattleStatisticsCell.swift in Sources */,
 				C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */,
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
@@ -703,7 +722,6 @@
 				BC7B0BFD224D3F860051D894 /* ExtensionFile.swift in Sources */,
 				C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */,
 				BC05417B229BB31400220644 /* RobotPlayView.swift in Sources */,
-				C69D71D12616FCF7005737BD /* buttonRotate.swift in Sources */,
 				D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */,
 				BC027F6122A7A48B0024A1BF /* TopView.swift in Sources */,
 				BCE582D623DF068C006BD387 /* LanguageCell.swift in Sources */,
@@ -717,10 +735,12 @@
 				9A7F9C6C247D45090074266F /* SelfChallengePlay.swift in Sources */,
 				9A3782CD247B757800EF6996 /* SelfChallengeController.swift in Sources */,
 				C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */,
+				C6049D712660C4D000F17ADD /* GradientView.swift in Sources */,
 				D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */,
 				C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */,
 				D7BCD04C222AA86500B7E531 /* CircularProgressBar.swift in Sources */,
 				C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */,
+				C6852FDB2657CE84005FFC26 /* testCollection.swift in Sources */,
 				C646506325DF86B9006588CC /* PlayContestView.swift in Sources */,
 				BC0139FF2281483A009DA93B /* ResultAlert.swift in Sources */,
 				C646506425DF86B9006588CC /* ContestResultsViewController.swift in Sources */,

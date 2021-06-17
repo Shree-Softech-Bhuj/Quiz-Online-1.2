@@ -3,34 +3,36 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>814090722059-rh0fkjak5f9kqjqdeecls8qke7ee49om.apps.googleusercontent.com</string>
+	<string>391901475860-qov8479g80u8jrspfu7vcfcg8a4di91n.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.814090722059-rh0fkjak5f9kqjqdeecls8qke7ee49om</string>
+	<string>com.googleusercontent.apps.391901475860-qov8479g80u8jrspfu7vcfcg8a4di91n</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>391901475860-5qo5s5kuoehmkp5q3lpjkgatfp22k3s2.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyByh6IyA0hk-gnYKK48O466pEHAEoR_ado</string>
+	<string>AIzaSyB-jmYgcOVHdogROPz-Tk8spFut45IjDRc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>814090722059</string>
+	<string>391901475860</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>online.quiz</string>
 	<key>PROJECT_ID</key>
-	<string>quiz-online-34985</string>
+	<string>quiz-new-version</string>
 	<key>STORAGE_BUCKET</key>
-	<string>quiz-online-34985.appspot.com</string>
+	<string>quiz-new-version.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:814090722059:ios:fcbcf42d3dcb57c51de00e</string>
+	<string>1:391901475860:ios:1ea3eaa1f6c853a90d2301</string>
 	<key>DATABASE_URL</key>
-	<string>https://quiz-online-34985.firebaseio.com</string>
+	<string>https://quiz-new-version.firebaseio.com</string>
 </dict>
 </plist>

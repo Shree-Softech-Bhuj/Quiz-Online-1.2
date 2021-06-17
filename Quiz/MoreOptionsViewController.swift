@@ -42,9 +42,10 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
             print("user details \(dUser!) ")
             emailAdrs.text = dUser?.email
             userName.text = "\(Apps.APP_NAME)"  //"\(Apps.HELLO) \(dUser!.name)"
+            //userName.textChangeAnimationToRight()
             
             //imgProfile.SetShadow()
-            imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
+//            imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
             imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
             
@@ -58,23 +59,26 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
 //                if(self.dUser!.image != ""){
 //                    self.imgProfile.loadImageUsingCache(withUrl: self.dUser!.image)
 //                }else{
-                    self.imgProfile.image = UIImage(named: "guest")
+//                    self.imgProfile.image = UIImage(named: "guest")
 //                }
 //            }
         }else{
             logOutbtn.alpha = 0
-            
             emailAdrs.text = ""
             userName.text = "\(Apps.APP_NAME)"//"\(Apps.HELLO) \(Apps.USER)"
-            imgProfile.image = UIImage(named: "AppIcon") //"user")
         }
         designImageView()
+        imgProfile.image = UIImage(named: "homeIcon")
+
+//    imgProfile.layer.borderWidth = 2
+//    imgProfile.layer.borderColor = UIColor.white.cgColor
+//    imgProfile.layer.masksToBounds = true
+//    imgProfile.clipsToBounds = true
         
-        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 500)
         
         // calll button design button and pass button varaible those buttons nedd to be design
         self.DesignButton(btns: showUserStatistics,showBookmarks,showInstructions,showNotifications,showInviteFrnd,showAboutUs,showPrivacyPolicy,showTermsOfService,logOutbtn)
-        
     }
     
 //    @objc func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
@@ -93,17 +97,17 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
             if Apps.screenHeight > 750 {
                 imgProfile.heightAnchor.constraint(equalToConstant: 140).isActive = true
                 imgProfile.widthAnchor.constraint(equalToConstant: 140).isActive = true
-                imgProfile.layer.cornerRadius = 70
+               // imgProfile.layer.cornerRadius = 60 // 70
             }else {
                 imgProfile.heightAnchor.constraint(equalToConstant: 90).isActive = true
                 imgProfile.widthAnchor.constraint(equalToConstant: 90).isActive = true
-                imgProfile.layer.cornerRadius = 45
+               // imgProfile.layer.cornerRadius = 45
             }
-        }else{
-            imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
+//        }else{
+//            imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
         }
-        imgProfile.layer.borderWidth = 2
-        imgProfile.layer.borderColor = UIColor.white.cgColor
+       // imgProfile.layer.borderWidth = 2
+       // imgProfile.layer.borderColor = UIColor.white.cgColor
         imgProfile.layer.masksToBounds = true
         imgProfile.clipsToBounds = true
     }
@@ -121,7 +125,12 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
     }
     
     @IBAction func logOutButton(_ sender: Any){
-        let alert = UIAlertController(title: Apps.LOGOUT_MSG,message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: Apps.LOGOUT_TITLE,message: Apps.LOGOUT_MSG,preferredStyle: .alert)        
+        let imageView = UIImageView(frame: CGRect(x: 30, y: 100, width: 230, height: 100))
+        imageView.image = UIImage(named: "Sad Puppy")
+
+        alert.view.addSubview(imageView)
+        
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
@@ -164,6 +173,11 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
                 }
             }
         }))
+        
+        let height = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
+        let width = NSLayoutConstraint(item: alert.view! , attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
+        alert.view.addConstraint(height)
+        alert.view.addConstraint(width)
         
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius

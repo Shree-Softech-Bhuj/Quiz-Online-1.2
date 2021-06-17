@@ -154,6 +154,43 @@ extension UILabel{
            newFrame.size.height = expectedLabelSize.height
           self.frame = newFrame
        }
+    
+    func textChangeAnimation() {
+        let animationS:CATransition = CATransition()
+        animationS.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        animationS.type = CATransitionType.push
+        animationS.subtype = CATransitionSubtype.fromTop
+       // self.userCount1.text = "\(String(format: "%02d", rightCount))"
+        animationS.duration = 1.50
+        self.layer.add(animationS, forKey: "CATransition")
+    }
+   
+    func textChangeAnimationToRight() {
+        let animationS:CATransition = CATransition()
+        animationS.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        animationS.type = CATransitionType.push
+        animationS.subtype = CATransitionSubtype.fromLeft
+       // self.userCount1.text = "\(String(format: "%02d", rightCount))"
+        animationS.duration = 1.50
+        self.layer.add(animationS, forKey: "CATransition")
+    }
+    
+    func titleTextAnimation(){
+//        nameLabel = UILabel(frame: CGRect(x: -300, y: 130, width: 100, height: 25))
+//        nameLabel.text = "Midhet"
+//        nameLabel.font = UIFont(name: "Avenir", size: 30)
+//        self.view.addSubview(nameLabel)
+        
+        UIView.animate(withDuration: 1.5, animations: {
+            self.frame.origin.x = 20
+        }) {_ in
+            UIView.animate(withDuration: 1.5) {
+                self.frame.origin.x = 40
+            }
+        }
+        
+    }
+    
 }
 extension UIButton {
     
@@ -165,7 +202,7 @@ extension UIButton {
     }
     func setBorder(){
         self.layer.cornerRadius = self.frame.height / 3 //2 //15
-        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR  //UIColor.white.cgColor//
+        self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR  //UIColor.white.cgColor
         self.layer.borderWidth = 2
     }    
 }

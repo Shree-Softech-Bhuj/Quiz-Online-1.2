@@ -160,7 +160,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
             }else{
                 apiURL = "level=\(indexPath.row + 1)&subcategory=\(catID)"
             }
-            if sysConfig.LANGUAGE_MODE == 1{
+            if sysConfig.LANGUAGE_MODE != nil && sysConfig.LANGUAGE_MODE == 1{
                 let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                 apiURL += "&language_id=\(langID)"
             }

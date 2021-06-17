@@ -68,8 +68,11 @@ class BookmarkView: UIViewController, UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? TableViewCell  else {
             fatalError("The dequeued cell is not an instance.")
         }
+        cell.label1Char.text = "\(indexPath.row + 1)"
+        cell.label1Char.layer.masksToBounds = true
+        cell.label1Char.layer.cornerRadius = 5
         
-        cell.qstn.text = BookQuesList[indexPath.row].question
+        cell.qstn.text =  BookQuesList[indexPath.row].question //"\(indexPath.row + 1)" + " " + "\(BookQuesList[indexPath.row].question)"
         if(BookQuesList[indexPath.row].correctAns == "a"){
             cell.ansr.text = BookQuesList[indexPath.row].opetionA
         }else if(BookQuesList[indexPath.row].correctAns == "b"){

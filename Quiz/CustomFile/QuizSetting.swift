@@ -4,10 +4,10 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //"http://quiz.kas-app.com/api-v2.php"//
     static var ACCESS_KEY = "6808"
     
-    static let JWT = "set_your_strong_jwt_secret_key"
+    static let JWT = "set_your_strong_jwt_secret_key" //"quiz@123"
     
     //set values
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
@@ -32,8 +32,27 @@ struct Apps{
     static let RIGHT_ANS_COLOR = UIColor.rgb(35, 176, 75,1) //right answer color
     static let WRONG_ANS_COLOR = UIColor.rgb(237, 42, 42, 1) //wrong answer color
    
-    static let BASIC_COLOR = UIColor.rgb(0, 194, 217, 1.0)//(57, 129, 156, 1.0)
-    static let BASIC_COLOR_CGCOLOR = UIColor.rgb(0, 194, 217, 1.0).cgColor //rgb(57, 129, 156, 1.0)
+    static let BASIC_COLOR = UIColor.rgb(29, 108, 186, 1.0)//(0, 194, 217, 1.0)//(57, 129, 156, 1.0)
+    static let BASIC_COLOR_CGCOLOR = UIColor.rgb(29, 108, 186, 1.0).cgColor//(0, 194, 217, 1.0)//rgb(57, 129, 156, 1.0)
+    
+    //gradient Colors
+    let purple1 = UIColor.rgb(158, 89, 225, 1)
+    let purple2 = UIColor.rgb(241, 125, 196, 1.0)
+    
+    let sky1 = UIColor.rgb(67,155,210,1.0)
+    let sky2 = UIColor.rgb(115,225,192,1.0)
+    
+    let orange1 = UIColor.rgb(227,119,67,1.0)
+    let orange2 = UIColor.rgb(237,159,63,1.0)
+    
+    let blue1 = UIColor.rgb(29,108,186,1.0)
+    let blue2 = UIColor.rgb(84,193,255,1.0)
+    
+    let pink1 = UIColor.rgb(195,15,142,1.0)
+    let pink2 = UIColor.rgb(251,82,147,1.0)
+    
+    let green1 = UIColor.rgb(60,131,70,1.0)
+    let green2 = UIColor.rgb(139,209,136,1.0)
     
     //App Information - set from admin panel
     static var SHARE_APP = "https://itunes.apple.com/in/app/Quiz online App/1467888574?mt=8"
@@ -46,10 +65,11 @@ struct Apps{
     static var CONTEST_MODE = "1"
     static var DAILY_QUIZ_MODE = "1"
     static var FIX_QUE_LVL = "0"
+    static var RANDOM_BATTLE_WITH_CATEGORY = "1"
+    static var GROUP_BATTLE_WITH_CATEGORY = "1"
     
     static var screenHeight = CGFloat(0)
     static var screenWidth = CGFloat(0)
-     
     
     //variables to store push notification response parameters
     static var nTitle = ""
@@ -80,7 +100,7 @@ struct Apps{
     static var FCM_ID = " "  
     
     //strings to Translate
-    static let APP_NAME = "QUIZ"
+    static let APP_NAME = "Quiz (v7.0.0)"
     static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
     static let NO_NOTIFICATION = "Notifications not available"
     static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
@@ -98,10 +118,12 @@ struct Apps{
     static let NEED_COIN_MSG3 = "Watch a short video & get free coins."
     static let WATCH_VIDEO = "WATCH NOW"
     static let EXIT_APP_MSG = "Do you really want to quit?"
+    static let EXIT_PLAY = "Do you want to exit the Quiz?"
     static let NO_INTERNET_TITLE = "No Internet!"
     static let NO_INTERNET_MSG = "Please check you internet connection!"
     static let LEVEL_LOCK = "This level in lock for you"
-    static let LOGOUT_MSG = "Do you really want to log out?"
+    static let LOGOUT_TITLE = "LOGOUT"
+    static let LOGOUT_MSG = "Are you sure!! \n You really want to log out?"
     static let LIFELINE_ALREDY_USED_TITLE = "Life Line"
     static let LIFELINE_ALREDY_USED = "Already use"
     static let YES = "YES"
@@ -131,6 +153,7 @@ struct Apps{
     static let WAIT = "Please wait...⏳"
     static let DISMISS = "Dismiss"
     static let OK = "OK"
+    static let OKAY = "OKAY"
     static let HELLO = "Hello,"
     static let USER = "User"
     static let INVALID_QUE = "Invalid Question"

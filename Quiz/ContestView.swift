@@ -39,7 +39,7 @@ class ContestView: UIViewController, EVTabBar {
         //self.getAPIData(apiName: "get_user_coin_score", apiURL: apiURL,completion: getCoins)
         self.coins.setTitle(Apps.COINS, for: .normal)
         
-        topTabBar = EVPageViewTopTabBar(for: .three)
+        topTabBar = EVPageViewTopTabBar(for: .three) //, withIndicatorStyle: .buttonWidth
         
         let PAST = self.storyboard!.instantiateViewController(withIdentifier: "ContestMainView") as! ContestMainView
           PAST.tabSelect = "past_contest"

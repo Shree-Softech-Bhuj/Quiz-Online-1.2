@@ -121,6 +121,8 @@ class ViewController: UIViewController {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             userName.text = "\(Apps.HELLO)  \(dUser!.name)"
+           // userName.frame.origin = CGPoint(x: -100, y: userName.frame.origin.y)
+            userName.textChangeAnimationToRight()
             
             //imgProfile.SetShadow()
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
@@ -140,6 +142,7 @@ class ViewController: UIViewController {
             }
         }else{
             userName.text = "\(Apps.HELLO) \(Apps.USER)"
+            userName.textChangeAnimationToRight()
             imgProfile.image = UIImage(named: "guest") //"user")
         }
     }
@@ -218,11 +221,17 @@ class ViewController: UIViewController {
          ])
         
         hStackView.addArrangedSubview(randomQuizBtn)
-        randomQuizBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        var heightConst:CGFloat = 75
+        if deviceStoryBoard == "Ipad"{
+            heightConst = 165
+        }else{
+            heightConst = 75
+        }
+        randomQuizBtn.heightAnchor.constraint(equalToConstant: heightConst).isActive = true
         hStackView.addArrangedSubview(trueFalseBtn)
-        trueFalseBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        trueFalseBtn.heightAnchor.constraint(equalToConstant: heightConst).isActive = true
         hStackView.addArrangedSubview(bookrmarksBtn)
-        bookrmarksBtn.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        bookrmarksBtn.heightAnchor.constraint(equalToConstant: heightConst).isActive = true
              
         
         //set vertical stackView
@@ -296,7 +305,7 @@ class ViewController: UIViewController {
     
     //load Bookmark data here
     func LoadBookmarkData(jsonObj:NSDictionary){
-        // print("RS BK",jsonObj)
+        // print("RS",jsonObj)
         var BookQuesList: [QuestionWithE] = []
         
         let status = "\(jsonObj.value(forKey: "error") ?? "1")".bool ?? true

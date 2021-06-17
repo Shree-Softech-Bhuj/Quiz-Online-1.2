@@ -26,6 +26,7 @@ class AlertViewController: UIViewController {
   @IBOutlet weak var bgMusicView: UIView!
   @IBOutlet weak var fontView: UIView!
   @IBOutlet weak var rateusView: UIView!
+  @IBOutlet weak var footerView: UIView!
     
     var soundEnabled = true
     var vibEnabled = true
@@ -43,7 +44,8 @@ class AlertViewController: UIViewController {
         
         bodyView.layer.cornerRadius = 20
         hedr.roundCorners(corners: [.topLeft, .topRight], radius: 20)
-        fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+       // fotr.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 20)
+        
         
         //get setting value from user default
         setting = try! PropertyListDecoder().decode(Setting.self, from: (UserDefaults.standard.value(forKey:"setting") as? Data)!)
@@ -67,7 +69,7 @@ class AlertViewController: UIViewController {
        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
           // Attaching the content's edges to the scroll view's edges
-          stackView.leadingAnchor.constraint(equalTo: bodyView.leadingAnchor),
+          stackView.leadingAnchor.constraint(equalTo: (bodyView.leadingAnchor)),
           stackView.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor),
           stackView.topAnchor.constraint(equalTo: bodyView.topAnchor),
           stackView.bottomAnchor.constraint(equalTo: bodyView.bottomAnchor),
@@ -76,13 +78,13 @@ class AlertViewController: UIViewController {
           stackView.widthAnchor.constraint(equalTo: bodyView.widthAnchor)
         ])
             stackView.distribution = .fillEqually
-            stackView.addArrangedSubview(hedr)
+          //  stackView.addArrangedSubview(hedr)
             stackView.addArrangedSubview(soundView)
             stackView.addArrangedSubview(vibrationView)
             stackView.addArrangedSubview(bgMusicView)
             stackView.addArrangedSubview(fontView)
             stackView.addArrangedSubview(rateusView)
-            stackView.addArrangedSubview(fotr)
+            stackView.addArrangedSubview(footerView)
     }
     
     override func didReceiveMemoryWarning() {

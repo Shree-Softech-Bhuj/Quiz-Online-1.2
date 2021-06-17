@@ -126,6 +126,13 @@ class SystemConfig: UIViewController {
                     let ttl_que = DATA["total_question"] as! String
                     Apps.TOTAL_PLAY_QS = Int(ttl_que) ?? 10
                 }
+                
+                let group_btl = DATA["battle_group_category_mode"]  as! String
+                Apps.GROUP_BATTLE_WITH_CATEGORY = group_btl
+                
+                let rndm_btl = DATA["battle_random_category_mode"]  as! String
+                Apps.RANDOM_BATTLE_WITH_CATEGORY = rndm_btl
+                
             }
         }
         //close loader here

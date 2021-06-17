@@ -202,23 +202,23 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     
     @IBAction func pswdBtn(_ sender: UIButton) {
         //change img/icon accordingly and set text secure and unsecure as button tapped
-        if newView.alpha == 0 { //for user login
-            if pswdTxt.isSecureTextEntry == true {
-                pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
-                pswdTxt.isSecureTextEntry = false
-            }else{
-                pswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
-                pswdTxt.isSecureTextEntry = true
-            }
-        }else{ // for user signup
-            if sPassword.isSecureTextEntry == true {
-                sPswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
-                sPassword.isSecureTextEntry = false
-            }else{
-                sPswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
-                sPassword.isSecureTextEntry = true
-            }
-        }
+//        if newView.alpha == 0 { //for user login
+//            if pswdTxt.isSecureTextEntry == true {
+//                pswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
+//                pswdTxt.isSecureTextEntry = false
+//            }else{
+//                pswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
+//                pswdTxt.isSecureTextEntry = true
+//            }
+//        }else{ // for user signup
+//            if sPassword.isSecureTextEntry == true {
+//                sPswdButton.setImage(UIImage(named: "ios-eye-off"), for: UIControl.State.normal)
+//                sPassword.isSecureTextEntry = false
+//            }else{
+//                sPswdButton.setImage(UIImage(named: "eye"), for: UIControl.State.normal)
+//                sPassword.isSecureTextEntry = true
+//            }
+//        }
     }
     
     @IBAction func SignupUser(_ sender: Any) {
@@ -326,7 +326,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     }
     @IBAction func guestBtn(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-        let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController")
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "TestHomeView") //  ViewController
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     func checkIfEmailVerified(){

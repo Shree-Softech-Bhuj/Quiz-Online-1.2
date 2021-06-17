@@ -359,22 +359,25 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
     }
     
     @IBAction func backButton(_ sender: Any) {
-        let alert = UIAlertController(title: Apps.EXIT_APP_MSG,message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: Apps.EXIT_PLAY,message: "",preferredStyle: .alert)
+        
         alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             alert.dismiss(animated: true, completion: nil)
         }))
-        
+
         alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             self.timer.invalidate()
             self.speechSynthesizer.stopSpeaking(at: AVSpeechBoundary(rawValue: 0)!)
             self.navigationController?.popViewController(animated: true)
         }))
+        
         alert.view.tintColor = UIColor.black  // change text color of the buttons
         alert.view.layer.cornerRadius = 25   // change corner radius
         
         present(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func speakButton(_ sender: Any) {

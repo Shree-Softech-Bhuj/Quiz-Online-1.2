@@ -165,13 +165,48 @@ extension UIViewController{
     //show alert view here with any title and messages
     func ShowAlert(title:String,message:String){
         
+        let attributedTitle = NSAttributedString(string: title, attributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17), //your font here
+            NSAttributedString.Key.foregroundColor : Apps.BASIC_COLOR
+        ])
+
+        let attributedMsg = NSAttributedString(string: message, attributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13), //UIFont.systemFont(ofSize: 15)
+            NSAttributedString.Key.foregroundColor : UIColor.black
+        ])
+                
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Apps.DISMISS, style: UIAlertAction.Style.cancel, handler: nil))
+        alert.view.tintColor = Apps.BASIC_COLOR
+        alert.addAction(UIAlertAction(title: Apps.OKAY, style: UIAlertAction.Style.cancel, handler: nil)) //Apps.DISMISS
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.45, execute: {
             DispatchQueue.main.async {
                 self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
             }
         });
+        alert.setValue((attributedTitle), forKey: "attributedTitle")
+        alert.setValue(attributedMsg, forKey: "attributedMessage")
+        
+        /*let attributedTitle = NSAttributedString(string: title, attributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17), //your font here
+            NSAttributedString.Key.foregroundColor : Apps.BASIC_COLOR
+        ])
+
+        let attributedMsg = NSAttributedString(string: message, attributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13), //UIFont.systemFont(ofSize: 15)
+            NSAttributedString.Key.foregroundColor : UIColor.black
+        ])
+        let alert = UIAlertController(title: "", message: "",  preferredStyle: .alert)
+
+        alert.setValue((attributedTitle), forKey: "attributedTitle")
+        alert.setValue(attributedMsg, forKey: "attributedMessage")
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+        }
+        
+        alert.view.tintColor = Apps.BASIC_COLOR
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)*/
+        
     }
     //show alert view here with any title and messages & without button
     func ShowAlertOnly(title:String,message:String){

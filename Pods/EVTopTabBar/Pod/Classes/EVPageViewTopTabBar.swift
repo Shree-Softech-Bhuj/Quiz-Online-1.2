@@ -8,7 +8,6 @@ open class EVPageViewTopTabBar: UIView  {
     ///Delegate for the tab bar
     open weak var delegate: EVTabBarDelegate?
     internal var currentState: Int
-    //public var xx = "Main"
     fileprivate var indicatorView: UIView? {
         didSet {
             indicatorView?.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +100,7 @@ open class EVPageViewTopTabBar: UIView  {
             setNeedsLayout()
         }
     }
-       
+    
     //MARK: - Initialization
     ///init with frame
     public init(for tabs: NumberOfTabs) {

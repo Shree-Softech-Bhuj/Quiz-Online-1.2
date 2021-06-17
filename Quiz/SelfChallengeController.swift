@@ -153,10 +153,12 @@ class SelfChallengeController: UIViewController {
         }
         apiURL += "&limit=\(self.userSelectedQues)"
         self.getAPIData(apiName: "get_questions_for_self_challenge", apiURL: apiURL,completion: {jsonObj in
-           // print("JSON",jsonObj)
+            print("JSON",jsonObj)
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                DispatchQueue.main.async {
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                }
             }else{
                 //get data for category
                 self.quesData.removeAll()
@@ -379,7 +381,7 @@ extension SelfChallengeController:UIPickerViewDataSource,UIPickerViewDelegate{
             Loader = LoadLoader(loader: Loader)
             let apiURL = "main_id=\(mainCatID)"
             self.getAPIData(apiName: "get_subcategory_by_maincategory", apiURL: apiURL,completion: { jsonObj in
-                // print("RS",jsonObj)
+                print("RS",jsonObj)
                 let status = jsonObj.value(forKey: "error") as! String
                 if (status == "true") {
                     DispatchQueue.main.async {
