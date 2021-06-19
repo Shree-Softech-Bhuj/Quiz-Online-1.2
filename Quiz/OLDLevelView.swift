@@ -2,10 +2,10 @@ import UIKit
 import AVFoundation
 import GoogleMobileAds
 
-var scoreLavel = 0
-var mainCatID = 0
+//var scoreLavel = 0
+//var mainCatID = 0
 
-class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate {
+class OLDLevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate {
     
     @IBOutlet var tableView: UITableView!
     
@@ -47,7 +47,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
         
         self.tableView.isHidden = true
         if UserDefaults.standard.bool(forKey: "isLogedin"){
-            self.GetUserLevel()
+            self.GetUserLevel() 
         }else{
             self.tableView.isHidden = false
             self.tableView.reloadData()
@@ -210,7 +210,7 @@ class LevelView: UIViewController, UITableViewDelegate, UITableViewDataSource, G
     }
 }
 
-extension LevelView{
+extension OLDLevelView{
     
     func GetUserLevel(){
         if(Reachability.isConnectedToNetwork()){

@@ -36,6 +36,8 @@ class AlertViewController: UIViewController {
     
     var backgroundMusicPlayer: AVAudioPlayer!
     
+    var parentName = "" //battle modes
+    
     var setting:Setting? = nil
     
     override func viewDidLoad() {

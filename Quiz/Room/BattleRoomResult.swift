@@ -1,11 +1,3 @@
-//
-//  BattleRoomResult.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 15/12/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 import FirebaseDatabase
 
@@ -196,7 +188,7 @@ class BattleRoomResult: UIViewController,UITableViewDelegate,UITableViewDataSour
         cell.userName.text = user.userName
         cell.rankLabel.text = "\(indexPath.row + 1)"
         if user.userImage.isEmpty{
-            cell.userImage.image = UIImage(named: "userAvtar")
+            cell.userImage.image = UIImage(systemName: "person.fill")//(named: "userAvtar")
         }else{
             DispatchQueue.main.async {
                 cell.userImage.loadImageUsingCache(withUrl: user.userImage)

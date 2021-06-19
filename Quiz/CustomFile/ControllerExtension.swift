@@ -142,6 +142,14 @@ extension UIViewController{
         
         return referCode
     }
+    //random Numbers for battle game room code
+    func randomNumberForBattle() -> String {
+        var g = SystemRandomNumberGenerator()
+        let rn = Int.random(in: 00000...99999, using: &g)//5 digits
+        let referCode = String(rn)
+        
+        return referCode
+    }
    
         
     //load loader
@@ -286,7 +294,7 @@ extension UIViewController{
     func SetViewWithShadow(views:UIView...){
         for view in views{
             DispatchQueue.main.async {
-                view.layer.cornerRadius =  0 //25
+                view.layer.cornerRadius =  15//25//0 //
             }
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }

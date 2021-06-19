@@ -44,6 +44,9 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     var ref: DatabaseReference!
     
     var email = ""
+    let yourAttributes: [NSAttributedString.Key: Any] = [
+          .underlineStyle: NSUnderlineStyle.single.rawValue
+      ] // .double.rawValue, .thick.rawValue //.font: UIFont.systemFontSize,.foregroundColor: UIColor.blue,
     
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
@@ -62,7 +65,10 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
         self.hideKeyboardWhenTappedAround() //hide keyboard on tap anywhere in screen
         //rounded borders of buttons
         btnSignUp.setBorder()
-        btnLogin.layer.cornerRadius = btnLogin.frame.height / 3//10
+        btnLogin.layer.cornerRadius = btnLogin.frame.height / 2//10
+        btnLogin.SetShadow()
+        sBtnSignUp.layer.cornerRadius =  sBtnSignUp.frame.height / 2
+        sBtnSignUp.SetShadow()
 
         //btnNew.setBorder()
         btnNew.layer.cornerRadius = btnNew.frame.height / 3
@@ -73,7 +79,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
         btnAccount.layer.borderColor = UIColor.white.cgColor
         btnAccount.layer.borderWidth = 2
         
-        sBtnSignUp.setBorder()
+       // sBtnSignUp.setBorder()
         
         //slight curve in borders of views
         labelView.roundCorners(corners: [.topLeft, .bottomRight, .topRight, .bottomLeft], radius: 10)
@@ -83,19 +89,19 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     }
    
     @IBAction func newButton(_ sender: Any) {
-        btnAccount.backgroundColor = UIColor.clear
-        btnAccount.setTitleColor(UIColor.white, for: .normal)
+//        btnAccount.backgroundColor = UIColor.clear
+        btnAccount.setTitleColor(UIColor.lightGray, for: .normal)
         btnNew.backgroundColor = UIColor.white
-        btnNew.setTitleColor(Apps.BASIC_COLOR, for: .normal)
+        btnNew.setTitleColor(UIColor.black, for: .normal) //Apps.BASIC_COLOR
         accountView.alpha = 0
         newView.alpha = 1
     }
     
     @IBAction func accountButton(_ sender: Any) {
-        btnNew.backgroundColor = UIColor.clear
-        btnNew.setTitleColor(UIColor.white, for: .normal)
+//        btnNew.backgroundColor = UIColor.clear
+        btnNew.setTitleColor(UIColor.lightGray, for: .normal)
         btnAccount.backgroundColor = UIColor.white
-        btnAccount.setTitleColor(Apps.BASIC_COLOR, for: .normal)
+        btnAccount.setTitleColor(UIColor.black, for: .normal) //Apps.BASIC_COLOR
         accountView.alpha = 1
         newView.alpha = 0
     }
@@ -326,7 +332,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
     }
     @IBAction func guestBtn(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-        let viewCont = storyboard.instantiateViewController(withIdentifier: "TestHomeView") //  ViewController
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "ViewController") 
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     func checkIfEmailVerified(){

@@ -178,7 +178,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
     }
     
     func SetOptionView(otpStr:String) -> UIView{
-        let color =  UIColor.white//Apps.BASIC_COLOR
+       /* let color =  UIColor.white//Apps.BASIC_COLOR
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center
@@ -190,7 +190,21 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
         imgView.layer.borderWidth = 2
        
         imgView.addSubview(lbl)
+        return imgView*/
+        let color = Apps.BASIC_COLOR // UIColor.white//
+        let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        lbl.text = otpStr.uppercased()
+        lbl.textAlignment = .center
+        lbl.textColor = Apps.BASIC_COLOR //.black //.white //
+        
+        let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
+        imgView.layer.cornerRadius = 4
+        imgView.layer.borderColor = color.cgColor
+        imgView.layer.borderWidth = 2
+       
+        imgView.addSubview(lbl)
         return imgView
+        
     }
     
     func RequestForRewardAds(){
@@ -394,7 +408,7 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
       
         for view in views{
             view.isHidden = false
-            view.backgroundColor = Apps.BASIC_COLOR //UIColor.white
+            view.backgroundColor = UIColor.white// Apps.BASIC_COLOR //
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }

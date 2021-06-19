@@ -1,11 +1,3 @@
-//
-//  AvailUserListCell.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 23/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 
 class AvailUserListCell: UITableViewCell {
@@ -20,10 +12,10 @@ class AvailUserListCell: UITableViewCell {
         // Initialization code
         self.userImage.layer.cornerRadius = self.userImage.frame.height / 2
         self.userImage.layer.borderWidth = 1
-        self.userImage.layer.borderColor = Apps.COLOR_DARK_RED.cgColor
+        self.userImage.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
         
         self.inviteButton.layer.cornerRadius = 4
-        self.userView.layer.addBorder(edge: .bottom, color: Apps.COLOR_DARK_RED, thickness: 1)
+        self.userView.layer.addBorder(edge: .bottom, color: Apps.BASIC_COLOR, thickness: 1) 
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

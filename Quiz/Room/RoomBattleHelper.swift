@@ -1,11 +1,3 @@
-//
-//  RoomBattleHelper.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 02/12/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import Foundation
 import CallKit
 import UIKit
@@ -28,7 +20,7 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
                 cell.userImg.loadImageUsingCache(withUrl: currUser.userImage)
             }
         }else{
-            cell.userImg.image = UIImage(named: "userAvtar")
+            cell.userImg.image = UIImage(systemName: "person.fill")//(named: "userAvtar")
         }
         cell.userRight.text = currUser.rightAns
         cell.userWrong.text = currUser.wrongAns
@@ -36,7 +28,7 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
         //same user
         if self.user.UID == currUser.uID{
             cell.mainView.layer.borderWidth = 1
-            cell.mainView.layer.borderColor = Apps.COLOR_DARK_RED.cgColor
+            cell.mainView.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
             cell.mainView.layer.masksToBounds = true
         }else{
             cell.mainView.layer.borderWidth = 1
@@ -96,13 +88,13 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
             return
         }
         
-        let alert = UIAlertController(title: "Odada Oyuncu Kalmandı",message: "",preferredStyle: .alert)
+        let alert = UIAlertController(title: "\(Apps.NO_PLYR_LEFT)",message: "",preferredStyle: .alert)
 //        alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertActionStyle.default, handler: {
 //            (alertAction: UIAlertAction!) in
 //            alert.dismiss(animated: true, completion: nil)
 //        }))
         
-        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertActionStyle.default, handler: {
+        alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.default, handler: {
             (alertAction: UIAlertAction!) in
             //  if let validTimer = self.timer?.isValid {
             self.LeaveBattleProc()

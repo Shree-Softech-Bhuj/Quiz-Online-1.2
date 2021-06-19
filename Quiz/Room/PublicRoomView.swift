@@ -1,11 +1,3 @@
-//
-//  PrivateRoomView.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 23/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 import FirebaseDatabase
 import AVFoundation
@@ -37,10 +29,10 @@ class PublicRoomView: UIViewController {
         self.topView.addBottomBorderWithColor(color: .lightGray, width: 1.2)
         
         self.playButton.layer.cornerRadius = 10
-        self.roomName.layer.addBorder(edge: .bottom, color: Apps.COLOR_DARK_RED, thickness: 1)
+        self.roomName.layer.addBorder(edge: .bottom, color: Apps.BASIC_COLOR, thickness: 1) 
         
         self.roomName.text = roomInfo!.roomName
-        self.roomDetails.text = "\(Apps.BULLET) \(roomInfo!.catName)   \(Apps.BULLET) \(roomInfo!.noOfQues) Que.  \(Apps.BULLET) \(roomInfo!.playTime) min."
+        self.roomDetails.text = "\(Apps.BULLET) \(roomInfo!.catName)   \(Apps.BULLET) \(roomInfo!.noOfQues) \(Apps.QSTN).  \(Apps.BULLET) \(roomInfo!.playTime) \(Apps.MINUTES)."
         self.ref = Database.database().reference().child(Apps.ROOM_NAME)
         
         if selfUser{
@@ -106,7 +98,7 @@ class PublicRoomView: UIViewController {
                     self.ref.removeAllObservers()
                     refR.removeAllObservers()
                     
-                    let refOnline = Database.database().reference().child(Apps.ROOM_NAME).child(user.UID)
+                    let refOnline = Database.database().reference().child(Apps.ROOM_NAME).child(user.UID) 
                     refOnline.child("status").setValue("free")
                     refOnline.removeAllObservers()
                     

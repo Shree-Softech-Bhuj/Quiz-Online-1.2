@@ -97,7 +97,46 @@ struct Apps{
     static var REFER_COIN = "0"// added to friend's coins
     static var EARN_COIN = "0" //added to user's own coins
     
-    static var FCM_ID = " "  
+    static var FCM_ID = " "
+    //-----------Home ViewController Strings-------------
+    static let QUIZ_ZONE = "Quiz Zone"
+    static let PLAY_ZONE = "Play Zone"
+    static let BATTLE_ZONE = "Battle Zone"
+    static let CONTEST_ZONE = "Contest Zone"
+    static let IMG_QUIZ_ZONE = "quizzone"
+    static let IMG_PLAYQUIZ = "playquiz"
+    static let IMG_BATTLE_QUIZ = "battlequiz"
+    static let IMG_CONTEST_QUIZ = "contestquiz"
+    
+    static let DAILY_QUIZ_PLAY = "Daily Quiz"
+    static let RNDM_QUIZ = "Random Quiz"
+    static let TRUE_FALSE = "True / False"
+    static let SELF_CHLNG = "Self Challenge"
+    static let PRACTICE = "Practice"
+    static let GROUP_BTL = "Group Battle"
+    static let RNDM_BTL = "Random Battle"
+    
+    static let CONTEST_PLAY_TEXT = "Contest Play"
+    static let JOIN_NOW = "Join Now"
+    
+    //----colors-----
+    static let SKY1 = "sky1"
+    static let ORANGE1 = "orange1"
+    static let PURPLE1 = "purple1"
+    static let GREEN1 = "green1"
+    static let BLUE1 = "blue1"
+    static let PINK1 = "pink1"
+    
+    static let SKY2 = "sky2"
+    static let ORANGE2 = "orange2"
+    static let PURPLE2 = "purple2"
+    static let GREEN2 = "green2"
+    static let BLUE2 = "blue2"
+    static let PINK2 = "pink2"
+    
+    static let GRP_BTL = "groupbattle"
+    static let RNDM = "random"
+    static let CONTEST_IMG = "contest"
     
     //strings to Translate
     static let APP_NAME = "Quiz (v7.0.0)"
@@ -231,6 +270,28 @@ struct Apps{
      //---MOBILE LOGIN---
     static let MSG_CC = "Please Enter Country Code in correct Format"
     static let MSG_NUM = "Please Enter Phone Number in correct Format"
+    //---BATTLE MODES----
+    static let ROOM_NAME = "OnlineUser"
+    static let PRIVATE_ROOM_NAME = "PrivateRoom"
+    static let PUBLIC_ROOM_NAME = "PublicRoom"
+    
+    static let GAMEROOM_DESTROY_MSG = "Are you sure? You want to destroy Gameroom?"
+    static let GAMEROOM_EXIT_MSG = "Are you sure you want to exit the game?"
+    static let USER_NOT_JOIN = "User has not joined yet, at least one user must join to get started"
+    static let MAX_USER_REACHED = "Maximum User Reached"
+    static let NO_PLYR_LEFT = "No Player Left in the Room"
+    
+    static let SELECT_CATGORY = "Select Category"
+    static let NO_OFF_QSN = "Number of questions"
+    static let TIMER = "Time"
+    
+    static let QSTN = "Questions"
+    static let MINUTES = "Minutes"
+    static let PLYR = "Player"
+    static let BULLET = "●"
+    
+    static let BUSY = "busy"
+    static let INVITE = "Invite"
     
     static let LANG = "en-US"
 }

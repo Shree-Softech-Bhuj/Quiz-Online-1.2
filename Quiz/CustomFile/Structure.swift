@@ -143,6 +143,41 @@ struct BattleStatistics:Codable{
     let battleDate:String
     
 }
+//=============Battle Structures===============
+struct OnlineUser:Codable{
+    
+    let uID:String
+    let userID:String
+    let userName:String
+    let userImage:String
+    let status:String
+    
+}
+
+struct JoinedUser:Codable{
+    
+    let uID:String
+    let userID:String
+    let userName:String
+    let userImage:String
+    var isJoined:Bool
+    var rightAns:String
+    var wrongAns:String
+    var isLeave:Bool? = false
+
+}
+
+struct RoomDetails:Codable{
+    var ID:String
+    let roomFID:String
+    let userID:String
+    let roomName:String
+    let catName:String
+    let catLavel:String
+    let noOfPlayer:String
+    let noOfQues:String
+    let playTime:String
+}
 
 //=============== constance variable ===========
 

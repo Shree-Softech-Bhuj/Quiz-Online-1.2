@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import FirebaseDatabase
-import GoogleMobileAds
 
 // create battle user structer to get user's information
 struct BattleUser {
@@ -10,21 +9,18 @@ struct BattleUser {
     let name:String
     let image:String
     let matchingID:String
-    let langId:String
 }
 class BattleViewController: UIViewController {
     
     @IBOutlet var user1: UIImageView!
     @IBOutlet var user2: UIImageView!
+    @IBOutlet var vsImg: UIImageView!
     @IBOutlet var name1: UILabel!
     @IBOutlet var name2: UILabel!
-    @IBOutlet weak var timerLabel: UILabel!
     
-    @IBOutlet weak var playerView: UIView!
- 
-    @IBOutlet weak var battleTableView: UITableView!
+    @IBOutlet weak var player2View: UIView!
+    
     @IBOutlet weak var searchButton:UIButton!
-    @IBOutlet var adsView:GADBannerView!
     
     var ref: DatabaseReference!
     var timer:Timer!
@@ -35,23 +31,21 @@ class BattleViewController: UIViewController {
     var user:User!
     
     var DataList:[BattleStatistics] = []
-   // var Loader: UIAlertController = UIAlertController()
+    var Loader: UIAlertController = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Google AdMob Banner
-        adsView.adUnitID = Apps.BANNER_AD_UNIT_ID
-        adsView.rootViewController = self
-        let request = GADRequest()
-        //request.testDevices = Apps.AD_TEST_DEVICE
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
-        adsView.load(request)
+        player2View.alpha = 0
+        vsImg.alpha = 0
         
+        vsImg.layer.cornerRadius = 20
+        vsImg.SetShadow()
+        
+        vsImg.center.x = self.view.center.x
+        searchButton.layer.cornerRadius = 8
+        searchButton.layer.masksToBounds = true
         self.ref = Database.database().reference().child("AvailUserForBattle")
-        
-        //playerView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
-        playerView.SetShadow()
         
         self.DesignViews(views: user1,user2)
         
@@ -60,8 +54,10 @@ class BattleViewController: UIViewController {
         NotificationCenter.default.addObserver(self,selector: #selector(self.CheckForBattle),name: NSNotification.Name(rawValue: "CheckBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
         
+        NotificationCenter.default.addObserver(self,selector: #selector(self.ResteToBattleCheck),name: NSNotification.Name(rawValue: "ResetBattle"),object: nil)
+        
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        print("B USER",user.UID)
+       // print("B USER",user.UID)
         self.ref.child("AvailUserForBattle").child(user.UID).removeValue()
         
         //set value for this user
@@ -74,12 +70,19 @@ class BattleViewController: UIViewController {
         if(Reachability.isConnectedToNetwork()){
             //Loader = LoadLoader(loader: Loader)
             let apiURL = "user_id=\(user.userID)"
-            self.getAPIData(apiName: "get_battle_statistics", apiURL: apiURL,completion: LoadData)
+            //self.getAPIData(apiName: "get_battle_statistics", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if self.isSearchingStart{
+           // self.imgAnimation()
+        }
+    }
+    
     @IBAction func settingButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let myAlert = storyboard.instantiateViewController(withIdentifier: "AlertView") as! AlertViewController
@@ -94,10 +97,11 @@ class BattleViewController: UIViewController {
         let status = Bool(jsonObj.value(forKey: "error") as! String)
         if (status!) {
             DispatchQueue.main.async {
-               // self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
-                //})
+                self.Loader.dismiss(animated: true, completion: {
+                    self.ShowAlert(title: "Error", message:"\(jsonObj.value(forKey: "message")!)" )
+                })
             }
+            
         }else{
             //get data for category
             DataList.removeAll()
@@ -110,8 +114,8 @@ class BattleViewController: UIViewController {
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             DispatchQueue.main.async {
-               // self.DismissLoader(loader: self.Loader)
-                self.battleTableView.reloadData()
+                self.DismissLoader(loader: self.Loader)
+                //self.battleTableView.reloadData()
             }
         });
     }
@@ -132,15 +136,14 @@ class BattleViewController: UIViewController {
     }
     // check for battle
     @objc func CheckForBattle(){
+        imgAnimation()
         self.seconds = 10
         self.searchButton.isHidden = true
-        let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
         var userDetails:[String:String] = [:]
         userDetails["userID"] = self.user.userID
         userDetails["name"] = self.user.name
         userDetails["image"] = self.user.image
         userDetails["isAvail"] = "1"
-        userDetails["langId"] = "\(langID)"
         // set data for available to battle with users in firebase database
         self.ref.child(user.UID).setValue(userDetails)
         
@@ -154,16 +157,13 @@ class BattleViewController: UIViewController {
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             for fuser in (snapshot.children.allObjects as? [DataSnapshot])!{
                 let data = fuser.value as? [String:String]
-                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
-                if (data?["langId"]) == "\(langID)"{
                 if (data?["isAvail"]) != nil{
                     if((data?["isAvail"])! == "1" && fuser.key != self.user.UID){
                         // this user is avalable for battle
-                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)", langId: "\(langID)")
+                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)")
                         self.isAvail = true
                     }
                 }
-            }
             }
             if(self.isAvail){
                 // if user is avalable for battle set its value for second user
@@ -186,7 +186,7 @@ class BattleViewController: UIViewController {
 //                userVal["isAvail"] = "0"
 //                userVal["opponentID"] = self.user.UID
 //                userVal["matchingID"] = self.user.UID
-//
+//                
 //                self.ref.child(self.user.UID).updateChildValues(userVal)
                 
                 self.ref.child(self.user.UID).child("matchingID").setValue(self.user.UID)
@@ -209,13 +209,12 @@ class BattleViewController: UIViewController {
             
             if(snapshot.hasChild("isAvail") && snapshot.childSnapshot(forPath: "isAvail").value! as! String == "0"){
                 if snapshot.hasChild("opponentID") && snapshot.hasChild("matchingID"){
-                    let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                     let opponentID = snapshot.childSnapshot(forPath: "opponentID").value! as! String
                     if (opponentID != ""){
                         self.ref.child(opponentID).observeSingleEvent(of: .value, with: {(battleSnap) in
                             // this user is avalable for battle
                             if battleSnap.hasChild("matchingID"){
-                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)", langId: "\(battleSnap.childSnapshot(forPath: "langID").value!)")
+                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
                                 self.isAvail = true
                                 print("BBB",battleSnap.childSnapshot(forPath: "matchingID").value!)
                                 self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
@@ -226,6 +225,7 @@ class BattleViewController: UIViewController {
                             }else{
                                 print("MATCH NULLLL")
                             }
+                            
                         })
                     }
                 }
@@ -241,7 +241,6 @@ class BattleViewController: UIViewController {
         if timer != nil && timer.isValid{
             timer.invalidate()
         }
-        self.searchButton.isHidden = false
         // remove user data from firebase database
        // self.ref.child(self.user.UID).removeValue()
         self.ref.removeAllObservers()
@@ -263,60 +262,93 @@ class BattleViewController: UIViewController {
         </html>
         """
         let data = Data(html.utf8)
-        if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-            timerLabel.attributedText = attributedString
+        if (try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)) != nil {
+          //  timerLabel.attributedText = attributedString
         }
         seconds -= 1
         if seconds < 0 {
             // invalidate timer and no user is avalable for battle
-            self.ref.child(user.UID).child("isAvail").setValue("0")
-            timer.invalidate()
+            self.ResteToBattleCheck()
             self.ShowRobotAlert()
-            self.isSearchingStart = false
-            self.seconds = 10
-            self.searchButton.isHidden = false
         }
     }
     
+    @objc func ResteToBattleCheck(){
+        self.ref.child(user.UID).child("isAvail").setValue("0")
+        timer.invalidate()
+      
+        self.isSearchingStart = false
+        self.vsImg.layer.removeAllAnimations()
+        self.seconds = 10
+        self.searchButton.isHidden = false
+    }
     // set Custom Design function
     func DesignViews(views:UIView...){
         for view in views{
-            view.layer.borderWidth = 2
-            view.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
-            view.SetShadow()
-            view.layer.cornerRadius = view.frame.height / 2
+            view.layer.borderWidth = 1
+            view.layer.borderColor = UIColor.rgb(255, 255, 255, 1.0).cgColor
+            //view.SetShadow()
+            view.layer.cornerRadius = view.frame.height / 2 
             view.clipsToBounds = true
         }
     }
     
     @IBAction func backButton(_ sender: Any) {
         if timer != nil{
-            let alert = UIAlertController(title: "", message: Apps.LEAVE_MSG, preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "Are you sure , You want to leave ?", preferredStyle: UIAlertController.Style.alert)
             // add the actions (buttons)
-            alert.addAction(UIAlertAction(title: Apps.NO, style: UIAlertAction.Style.default, handler: nil))
-            alert.addAction(UIAlertAction(title: Apps.YES, style: UIAlertAction.Style.destructive, handler: { action in
+            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { action in
                 self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
             alert.view.tintColor = UIColor.red //alert Action font color changes to red
         }else{
             self.navigationController?.popViewController(animated: true)
+        }        
+    }
+    
+    func imgAnimation(){
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: [.repeat,.autoreverse,UIView.AnimationOptions.curveEaseIn,], animations: {
+                
+               // HERE
+            self.vsImg.transform = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3) // Scale your image
+
+         }) { (finished) in
+             UIView.animate(withDuration: 1, animations: {
+               
+              self.vsImg
+                .transform = CGAffineTransform.identity // undo in 1 seconds
+
+           })
         }
     }
     
     var isSearchingStart = false
     @IBAction func CheckBattleButton(_ sender:UIButton){
+        
+        player2View.alpha = 1
+        vsImg.alpha = 1
+        
+        if(!Reachability.isConnectedToNetwork()){
+            self.ShowAlert(title: Apps.NO_INTERNET_TITLE, message: Apps.NO_INTERNET_MSG)
+            return
+        }
         sender.isHidden = true
+        
         if isSearchingStart{
             return
         }
         self.isSearchingStart = true
-//        if self.battleUser != nil{
-//            if(Reachability.isConnectedToNetwork()){
-//                let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
-//                //self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {json in print("JSON",json) })
-//            }
-//        }
+        if self.isSearchingStart{
+          
+        }
+        if self.battleUser != nil{
+            if(Reachability.isConnectedToNetwork()){
+                let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+                //self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {json in print("JSON",json) })
+            }
+        }
         self.CheckForBattle()
     }
     //start battle and pass data to battleplaycontroller
@@ -343,8 +375,8 @@ class BattleViewController: UIViewController {
     
     //Show robot alert view to ask user play with robot or try again
     func ShowRobotAlert(){
-        
-        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        //vsImg.layer.removeAllAnimations()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let alert = storyboard.instantiateViewController(withIdentifier: "RobotAlert") as! RobotAlert
         alert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         alert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
@@ -362,53 +394,6 @@ extension BattleViewController:RobotDelegate{
         let viewCont = storyboard.instantiateViewController(withIdentifier: "RobotPlayController") as! RobotPlayView
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
+    
 }
 
-extension BattleViewController: UITableViewDelegate, UITableViewDataSource{
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if DataList.count == 0{
-            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text          = ""//Apps.STATISTICS_NOT_AVAIL
-            noDataLabel.textColor     = UIColor.black
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView  = noDataLabel
-            tableView.separatorStyle  = .none
-        }
-        return self.DataList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // create a new cell if needed or reuse an old one
-        let cellIdentifier = "BattleStatisticsCell"
-        
-        guard let cell = self.battleTableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BattleStatisticsCell  else {
-            fatalError("The dequeued cell is not an instance.")
-        }
-       // cell.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.3, radius: 30, scale: true)
-        cell.contentView.SetShadow()
-        let data = DataList[indexPath.row]
-        if !(user.image.isEmpty){
-            DispatchQueue.main.async {
-                cell.userImage.loadImageUsingCache(withUrl: self.user.image)
-                self.DesignViews(views: cell.userImage)
-            }
-        }
-        cell.userName.text = user.name
-        
-        if !data.oppImage.isEmpty{
-            DispatchQueue.main.async {
-                cell.opponentImage.loadImageUsingCache(withUrl: data.oppImage)
-                self.DesignViews(views: cell.opponentImage)
-            }
-        }
-        cell.opponentName.text = data.oppName
-        
-        cell.matchStatusLabel.text = data.battleStatus
-        
-        
-        return cell
-    }
-}

@@ -1,12 +1,3 @@
-//
-//  ResultCell.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 15/12/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
-
 import UIKit
 
 class ResultCell: UITableViewCell {

@@ -30,7 +30,7 @@ class SelfAttempAlertView: UIViewController {
             let color = Apps.BASIC_COLOR
             button.frame = CGRect(x: xOffset, y: CGFloat(buttonPadding), width: 35, height: 35)
             
-            button.layer.cornerRadius = 35 / 2
+            button.layer.cornerRadius = 35 / 3//35 / 2
             button.layer.borderColor = color.cgColor
             
             button.layer.borderWidth = 1

@@ -2,14 +2,14 @@ import UIKit
 import AVFoundation
 import GoogleMobileAds
 
-struct SubCategory {
-    let id:String
-    let name:String
-    let image:String
-    let maxlevel:String
-    let status:String
-    let noOf:String
-}
+//struct SubCategory {
+//    let id:String
+//    let name:String
+//    let image:String
+//    let maxlevel:String
+//    let status:String
+//    let noOf:String
+//} // due to duplicate declaration
 
 class SubCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource,GADBannerViewDelegate {
     

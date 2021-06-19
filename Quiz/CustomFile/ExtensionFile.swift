@@ -201,10 +201,24 @@ extension UIButton {
         self.titleLabel?.sizeThatFits(desiredButtonSize)
     }
     func setBorder(){
-        self.layer.cornerRadius = self.frame.height / 3 //2 //15
+        self.layer.cornerRadius = self.frame.height / 2 //15 /// 3 //
         self.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR  //UIColor.white.cgColor
         self.layer.borderWidth = 2
-    }    
+    }
+
+//    func addBottomBorder(width: CGFloat) {
+//        let border = CALayer()
+//        border.backgroundColor = UIColor.black.cgColor
+//        border.frame = CGRect(x: 0, y: self.frame.size.height - 5, width: self.frame.size.width, height: width)
+//      //  self.layer.addSublayer(border)
+//        self.layer.insertSublayer(border, at: 0)
+//    }
+//    func removeBottomBorder(){
+//        if let topLayer = self.layer.sublayers?.last, topLayer is CALayer
+//        {
+//        self.layer.removeFromSuperlayer()
+//        }
+//    }
 }
 
 extension UIView{
@@ -253,6 +267,14 @@ extension UIView{
         border.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: width)
         self.layer.addSublayer(border)
     }
+    
+    //battle modes
+    func addCenterBorderWithColor(color: UIColor, width: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x:0,y: self.frame.height / 2, width:self.frame.size.width, height:width)
+        self.layer.addSublayer(border)
+    }
 }
 
 extension UIViewController{
@@ -265,11 +287,24 @@ extension UIViewController{
     }
     
     func SetClickedOptionView(otpStr:String) -> UIView{
-        let color = UIColor.white //Apps.BASIC_COLOR
+      /*  let color = Apps.BASIC_COLOR //UIColor.white //
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         lbl.text = otpStr.uppercased()
         lbl.textAlignment = .center
-        lbl.textColor = Apps.BASIC_COLOR//.white
+        lbl.textColor = .white //Apps.BASIC_COLOR//
+        
+        let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
+        imgView.layer.cornerRadius = 4
+        imgView.layer.borderColor = color.cgColor
+        imgView.layer.borderWidth = 1
+        imgView.backgroundColor = color
+        imgView.addSubview(lbl)
+        return imgView*/
+        let color = Apps.BASIC_COLOR //UIColor.white //
+        let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        lbl.text = otpStr.uppercased()
+        lbl.textAlignment = .center
+        lbl.textColor = .white //Apps.BASIC_COLOR//
         
         let imgView = UIView(frame: CGRect(x: 3, y: 3, width: 35, height: 35))
         imgView.layer.cornerRadius = 4
@@ -347,4 +382,55 @@ extension String {
     var htmlToString: String {
         return htmlToAttributedString?.string ?? ""
     }
+}
+//battle modes
+extension UITextField{
+    func bordredTextfield(textField: UITextField){
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor(red: 198/255, green: 198/255, blue: 198/255, alpha: 1.0).cgColor
+        textField.layer.cornerRadius = 5
+        textField.backgroundColor = UIColor.white
+    }
+    
+    func PaddingLeft(_ amount:CGFloat){
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView = paddingView
+        self.leftViewMode = .always
+    }
+    func PaddingRight(_ amount:CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.rightView = paddingView
+        self.rightViewMode = .always
+    }
+    
+    func bottomBorderWithColor(color: UIColor, width: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width: self.frame.size.width, height: width)
+        self.layer.addSublayer(border)
+    }
+    
+    func AddAccessoryView(){
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = Apps.BASIC_COLOR
+        toolBar.backgroundColor = .white
+        toolBar.barTintColor = .white
+        toolBar.sizeToFit()
+        toolBar.addTopBorderWithColor(color: Apps.BASIC_COLOR, width: 1)
+        
+        let doneButton = UIBarButtonItem(title: Apps.DONE, style: UIBarButtonItem.Style.done, target: self, action: #selector(self.DismisPicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: Apps.CANCEL, style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.DismisPicker))
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        self.inputAccessoryView = toolBar
+    }
+    @objc func DismisPicker(){
+        self.resignFirstResponder()
+    }
+    
 }

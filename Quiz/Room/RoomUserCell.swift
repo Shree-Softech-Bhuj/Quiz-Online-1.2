@@ -1,11 +1,3 @@
-//
-//  RoomUserCell.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 23/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 
 class RoomUserCell: UICollectionViewCell {
@@ -24,30 +16,30 @@ class RoomUserCell: UICollectionViewCell {
     }
     
     func ConfigCell(){
-        if  let currUser = self.joinUser{
+        if  let currUser = self.joinUser{ 
             
             let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             
             if user.UID == currUser.uID{
-                userImage.layer.borderColor = Apps.COLOR_DARK_RED.cgColor
+                userImage.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
             }else{
                 userImage.layer.borderColor = UIColor.white.cgColor
             }
             if !currUser.userImage.isEmpty{
                 userImage.loadImageUsingCache(withUrl: currUser.userImage)
             }else{
-                userImage.image = UIImage(named: "userAvtar")
+                userImage.image = UIImage(systemName: "person.fill")//(named: "userAvtar")
             }
             userName.text = currUser.userName
             if currUser.isJoined{
-                userName.textColor = Apps.COLOR_DARK_RED
+                userName.textColor = Apps.BASIC_COLOR
             }else{
                 userName.textColor = .lightGray
             }
         }else{
             userName.text = "???"
-            userImage.image = UIImage(named: "userAvtar")
-            userName.textColor = Apps.COLOR_DARK_RED
+            userImage.image = UIImage(systemName: "person.fill")//(named: "userAvtar")
+            userName.textColor = Apps.BASIC_COLOR
             
             userImage.layer.borderColor = UIColor.white.cgColor
         }

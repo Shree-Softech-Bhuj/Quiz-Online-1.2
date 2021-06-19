@@ -1,11 +1,3 @@
-//
-//  PrivateRoomView.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 23/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 import FirebaseDatabase
 import AVFoundation
@@ -26,7 +18,7 @@ class PrivateRoomView: UIViewController {
     var availUser:[OnlineUser] = []
     var joinUser:[JoinedUser] = []
     
-    var roomInfo:RoomDetails?
+    var roomInfo:RoomDetails? 
     var selfUser = true
     var audioPlayer : AVAudioPlayer!
     var isInitial = true
@@ -39,10 +31,10 @@ class PrivateRoomView: UIViewController {
         
         self.tableView.layer.cornerRadius = 10
         self.playButton.layer.cornerRadius = 10
-        self.roomName.layer.addBorder(edge: .bottom, color: Apps.COLOR_DARK_RED, thickness: 1)
+        self.roomName.layer.addBorder(edge: .bottom, color: Apps.BASIC_COLOR, thickness: 1)
         
         self.roomName.text =  roomInfo!.roomName
-        self.roomDetails.text = "\(Apps.BULLET) \(roomInfo!.catName)  \(Apps.BULLET) \(roomInfo!.noOfQues) Soru. \(Apps.BULLET) \(roomInfo!.playTime) Dakika. \(Apps.BULLET) \(roomInfo!.noOfPlayer) Oyuncu."
+        self.roomDetails.text = "\(Apps.BULLET) \(roomInfo!.catName)  \(Apps.BULLET) \(roomInfo!.noOfQues) \(Apps.QSTN). \(Apps.BULLET) \(roomInfo!.playTime) \(Apps.MINUTES). \(Apps.BULLET) \(roomInfo!.noOfPlayer) \(Apps.PLYR)."
         self.ref = Database.database().reference().child(Apps.ROOM_NAME)
         
         if selfUser{
@@ -76,9 +68,9 @@ class PrivateRoomView: UIViewController {
     
     @IBAction func backButton(_ sender: Any) {
         if self.selfUser{
-            let alert = UIAlertController(title: "Emin misiniz? Gameroom'u yok etmek mi istiyorsunuz?", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: "\(Apps.GAMEROOM_DESTROY_MSG)", message: "", preferredStyle: .alert)
             
-            let acceptAction = UIAlertAction(title: "Yes", style: .default, handler: {_ in
+            let acceptAction = UIAlertAction(title: Apps.YES, style: .default, handler: {_ in
                 // make room deactive and leave viewcontroller
                 DispatchQueue.main.async {
                     let refR = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME).child(self.roomInfo!.roomFID)
@@ -88,7 +80,7 @@ class PrivateRoomView: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             })
-            let rejectAction = UIAlertAction(title: "No", style: .cancel, handler: {_ in
+            let rejectAction = UIAlertAction(title: Apps.NO, style: .cancel, handler: {_ in
               // do nothing here
             })
             
@@ -98,9 +90,9 @@ class PrivateRoomView: UIViewController {
             self.present(alert, animated: true, completion: nil)
             return
         }else{
-            let alert = UIAlertController(title: "Oyundan Çıkmak İstediğinize Emin misiniz?", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: "\(Apps.GAMEROOM_EXIT_MSG)", message: "", preferredStyle: .alert)
             
-            let acceptAction = UIAlertAction(title: "Yes", style: .default, handler: {_ in
+            let acceptAction = UIAlertAction(title: Apps.YES, style: .default, handler: {_ in
                 // make room deactive and leave viewcontroller
                 DispatchQueue.main.async {
                     let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
@@ -118,7 +110,7 @@ class PrivateRoomView: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             })
-            let rejectAction = UIAlertAction(title: "No", style: .cancel, handler: {_ in
+            let rejectAction = UIAlertAction(title: Apps.NO, style: .cancel, handler: {_ in
               // do nothing here
             })
             
@@ -133,7 +125,7 @@ class PrivateRoomView: UIViewController {
     @IBAction func PlayBattle(_ sender: Any) {
         
         if self.joinUser.count <= 1 || self.joinUser.filter({ $0.isJoined }).count <= 1{
-            self.ShowAlert(title: "Kullanıcı henüz katılmadı, başlamak için en az bir kullanıcının katılması gerekiyor", message: "")
+            self.ShowAlert(title: "\(Apps.USER_NOT_JOIN)", message: "")
             return
         }
         let refR = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME).child(self.roomInfo!.roomFID)
@@ -186,7 +178,7 @@ class PrivateRoomView: UIViewController {
     
     func ShowRoomLeaveAlert(){
         DispatchQueue.main.async {
-            self.ShowAlert(title: "Oyundan Çıkmak İstediğinize Emin misiniz?", message: "")
+            self.ShowAlert(title: "\(Apps.GAMEROOM_EXIT_MSG)", message: "")
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
@@ -260,13 +252,13 @@ extension PrivateRoomView:UITableViewDelegate,UITableViewDataSource{
         if !currUser.userImage.isEmpty{
             cell.userImage.loadImageUsingCache(withUrl: currUser.userImage)
         }else{
-            cell.userImage.image = UIImage(named: "userAvtar")
+            cell.userImage.image = UIImage(systemName: "person.fill")//(named: "userAvtar")
         }
         
         if currUser.status == "busy"{
-            cell.inviteButton.setTitle("Meşgul", for: .normal)
+            cell.inviteButton.setTitle("\(Apps.BUSY)", for: .normal)
         }else{
-            cell.inviteButton.setTitle("Davet Et", for: .normal)
+            cell.inviteButton.setTitle("\(Apps.INVITE)", for: .normal)
         }
         cell.inviteButton.tag = index
         cell.inviteButton.addTarget(self, action: #selector(InviteButtonAction), for: .touchUpInside)
@@ -276,13 +268,13 @@ extension PrivateRoomView:UITableViewDelegate,UITableViewDataSource{
     
     @objc func InviteButtonAction(button:UIButton){
         if self.joinUser.count >= Int(self.roomInfo!.noOfPlayer)!{
-            self.ShowAlert(title: "Maksimum Kullanıcıya Ulaşıldı", message: "")
+            self.ShowAlert(title: "\(Apps.MAX_USER_REACHED)", message: "")
             return
         }
         let currUser = self.availUser[button.tag]
         // print("CURR",currUser)
         if self.joinUser.contains(where: {$0.uID == currUser.uID}){
-            print("Invitation already send")
+            print("Invitation already sent")
             return
         }
         var userDetails:[String:String] = [:]
@@ -308,10 +300,10 @@ extension PrivateRoomView:UITableViewDelegate,UITableViewDataSource{
                 // print("JSON",jsonObj)
                 let status = "\(jsonObj.value(forKey: "error")!)".bool ?? true
                 if (status) {
-                    self.ShowAlert(title: "Error", message: "\(jsonObj.value(forKey: "message")!)")
+                    self.ShowAlert(title: Apps.ERROR, message: "\(jsonObj.value(forKey: "message")!)")
                     return
                 }else{
-                    print("Invitation send successfull")
+                    print("Invitation sent successfull")
                 }
             })
             

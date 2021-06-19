@@ -75,6 +75,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
     var level = 0
     var catID = 0
     var questionType = "sub"
+    var titlebartext = ""
     var zoomScale:CGFloat = 1
     
     var opt_ft = false
@@ -172,8 +173,11 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
 //        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
         
         RequestForRewardAds()
-        
-        self.titleBar.text = self.playType == "main" ? "\(Apps.LEVEL) \(level)" : Apps.DAILY_QUIZ
+        if titlebartext == ""{
+            self.titleBar.text = self.playType == "main" ? "\(Apps.LEVEL) \(level)" : Apps.DAILY_QUIZ
+        }else{
+            self.titleBar.text = titlebartext
+        }
         self.loadQuestion()
     }
     
@@ -616,7 +620,7 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate { //, GADRewardedAdDe
     func clearColor(views:UIView...){
         for view in views{
             view.isHidden = false
-            view.backgroundColor = Apps.BASIC_COLOR //UIColor.white
+            view.backgroundColor = UIColor.white // Apps.BASIC_COLOR
             view.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
         }
     }

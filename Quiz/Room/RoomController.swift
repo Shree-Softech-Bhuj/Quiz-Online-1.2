@@ -1,11 +1,3 @@
-//
-//  RoomController.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 20/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 import AVFoundation
 import FirebaseDatabase
@@ -57,24 +49,24 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
         roomNameField.layer.cornerRadius = 10
         roomNameField.PaddingLeft(10)
         roomNameField.attributedPlaceholder = NSAttributedString(string: "Oda Adi Girin",
-                                                                 attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         let rect = CGRect(origin: roomSegment.frame.origin, size: CGSize(width: roomSegment.frame.size.width, height: 50))
         roomSegment.frame = rect
         //roomLabel.layer.addBorder(edge: .none, color: Apps.COLOR_DARK_RED, thickness: 1)
         
         noOffPlayerField.attributedPlaceholder = NSAttributedString(string: "0",
-                                                                    attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray])
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
         
         noOffPlayerField.inputView = self.pickerView
         noOffPlayerField.AddAccessoryView()
         
-        orLabelView.addCenterBorderWithColor(color: Apps.COLOR_DARK_RED, width: 1)
+        orLabelView.addCenterBorderWithColor(color: Apps.BASIC_COLOR, width: 1)
         
         let font = UIFont.systemFont(ofSize: 20)
         let normalText = [NSAttributedString.Key.foregroundColor: UIColor.lightGray,NSAttributedString.Key.font:font]
-        let selected = [NSAttributedString.Key.foregroundColor: Apps.COLOR_DARK_RED]
+        let selected = [NSAttributedString.Key.foregroundColor: Apps.BASIC_COLOR]
         roomSegment.setTitleTextAttributes(normalText, for: .normal)
         roomSegment.setTitleTextAttributes(selected, for: .selected)
         
@@ -91,7 +83,7 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
         self.joinRoomBtn.layer.cornerRadius = 10
         
         //self.orLabelView.layer.addBorder(edge: .none, color: Apps.COLOR_DARK_RED, thickness: 1)
-        self.orLabelView.bringSubview(toFront: self.orLabel)
+        self.orLabelView.bringSubviewToFront(self.orLabel)
         
         self.InitTextField(fields: categoryTextField)
         self.InitTextField(fields: timerTextField)
@@ -162,7 +154,7 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
         if (status) {
             DispatchQueue.main.async {
                 self.Loader.dismiss(animated: true, completion: {
-                    self.ShowAlert(title: "Hata", message:"\(jsonObj.value(forKey: "message")!)" )
+                    self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
                 })
             }
             
@@ -175,8 +167,8 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
                 let levelName = jsonObj.value(forKey: "level_name") as! String
                 let apiNameID = self.NameValue(name: levelName)
                 for val in data{
-                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)", image: "\(val["image"]!)", noOffQues: "\(val["no_of_que"]!)", isPaid: "\(val["is_paid"] ?? false)".bool!, lang_id: "\(val["language_id"]!)", isLevelExist: "\(val["level_exist"]!)".bool!, time: "\(val["time"]!)", visible: "\(val["visible_in"] ?? "")", levelName: levelName,isRandom: "\(val["is_random"] ?? false)".bool!,quesLimit:"\(val["que_limit"] ?? "0")"))
-                    
+//                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)", image: "\(val["image"]!)", noOffQues: "\(val["no_of_que"]!)", isPaid: "\(val["is_paid"] ?? false)".bool!, lang_id: "\(val["language_id"]!)", isLevelExist: "\(val["level_exist"]!)".bool!, time: "\(val["time"]!)", visible: "\(val["visible_in"] ?? "")", levelName: levelName,isRandom: "\(val["is_random"] ?? false)".bool!,quesLimit:"\(val["que_limit"] ?? "0")"))
+                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
                     searchData.append(SearchData.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)"))
                 }
             }
@@ -185,7 +177,7 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
                 DispatchQueue.main.async {
                     self.DismissLoader(loader: self.Loader)
                     self.catData.sort { (obj1, obj2) -> Bool in
-                        return Int(obj1.noOffQues)! > Int(obj2.noOffQues)!
+                        return Int(obj1.noOfQues)! > Int(obj2.noOfQues)!
                     }
                     
                     let datas = self.catData.flatMap({ $0.id })
@@ -218,7 +210,8 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
                     if "\(val["is_random"] ?? false)".bool!{
                         continue
                     }
-                    subCatData.append(Category.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)", image: "\(val["image"]!)", noOffQues: "\(val["no_of_que"]!)", isPaid: "\(val["is_paid"] ?? false)".bool!, lang_id: "\(val["language_id"]!)", isLevelExist: "\(val["level_exist"]!)".bool!, time: "\(val["time"]!)", visible: "\(val["visible_in"] ?? "")", levelName: levelName,isRandom: "\(val["is_random"] ?? false)".bool!,quesLimit:"\(val["que_limit"] ?? "0")" ))
+//                    subCatData.append(Category.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)", image: "\(val["image"]!)", noOffQues: "\(val["no_of_que"]!)", isPaid: "\(val["is_paid"] ?? false)".bool!, lang_id: "\(val["language_id"]!)", isLevelExist: "\(val["level_exist"]!)".bool!, time: "\(val["time"]!)", visible: "\(val["visible_in"] ?? "")", levelName: levelName,isRandom: "\(val["is_random"] ?? false)".bool!,quesLimit:"\(val["que_limit"] ?? "0")" ))
+                    subCatData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
                     
                     searchData.append(SearchData.init(id: "\(val["id"]!)", name: "\(val[apiNameID.nameValue]!)"))
                 }
@@ -258,7 +251,7 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
         
         switch textField {
         case self.categoryTextField:
-            if self.catData.first(where: {$0.id == selectedData.id})!.isLevelExist{
+           /* if self.catData.first(where: {$0.id == selectedData.id})!.isLevelExist{
                 if(Reachability.isConnectedToNetwork()){
                     Loader = LoadLoader(loader: Loader)
                     self.clearCatField()
@@ -271,7 +264,8 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
                 }
             }else{
                
-            }
+            } */
+            break
         case self.noOffQsnTextField:
             break
         case self.timerTextField:
@@ -289,14 +283,14 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
             }
           
             if  let data = self.catFieldData[index!].first(where: {$0.id == selectedData.id}){
-                if let noOfQues = Int(data.noOffQues){
+                if let noOfQues = Int(data.noOfQues){
                     self.noOffQsnTextField.tag = noOfQues
                     self.nooffQsnViewLabel.text = "En fazla \(noOfQues) soru sınırı seçin"
                 }
                 
-                if !data.isLevelExist{
+               /* if !data.isLevelExist{
                     return
-                }
+                }*/
             }
             
             if(Reachability.isConnectedToNetwork()){
@@ -317,7 +311,7 @@ class RoomController: UIViewController, LPKSearchTextFieldDelegate, UITextFieldD
         
         let field = LPKSearchTextField(frame: CGRect(x: newFrame.origin.x, y: newFrame.height + 10, width: newFrame.width, height: newFrame.height))
         field.bordredTextfield(textField: field)
-        field.textColor = Apps.COLOR_DARK_RED
+        field.textColor = Apps.BASIC_COLOR
         field.PaddingLeft(10)
         field.font = self.categoryTextField.font
         field.attributedPlaceholder = NSAttributedString(string: Apps.SELECT_CATGORY, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
@@ -428,8 +422,21 @@ extension RoomController{
                 userDetails["name"] = user.name
                 userDetails["image"] = user.image
                 
-                var roomDetails = RoomDetails.init(ID: "", roomFID: user.UID, userID: user.userID, roomName: "\(self.roomNameField.text!)", catName: "\(self.catFields.last!.selectedData!.name)", catLavel: "\(self.catFields.count + 1)", noOfPlayer: "\(self.noOffPlayerField.text!)", noOfQues: "\(self.noOffQsnTextField.text!)", playTime: "\(self.timerTextField.text!)")
-           
+                let gameRoomCode = randomNumberForBattle()                
+                var roomDetails = RoomDetails.init(ID: "", roomFID: gameRoomCode, userID: user.userID, roomName: "", catName: "\(self.catFields.last!.selectedData!.name)", catLavel: "\(self.catFields.count + 1)", noOfPlayer: "\(self.noOffPlayerField.text!)", noOfQues: "\(self.noOffQsnTextField.text!)", playTime: "\(self.timerTextField.text!)")
+                
+                //var roomDetails = RoomDetails.init(ID: "", roomFID: user.UID, userID: user.userID, roomName: "\(self.roomNameField.text!)", catName: "\(self.catFields.last!.selectedData!.name)", catLavel: "\(self.catFields.count + 1)", noOfPlayer: "\(self.noOffPlayerField.text!)", noOfQues: "\(self.noOffQsnTextField.text!)", playTime: "\(self.timerTextField.text!)")
+                /*
+                        user_id:1
+                        room_id:1
+                        room_type:public / private
+                        language_id:2   //{optional}
+                        category:1      // required if room category enable form panel
+                        no_of_que:10
+                 
+                 */
+                
+                
                 let refR = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME)
                 roomDetails.ID = refR.childByAutoId().key!
                 
@@ -455,10 +462,28 @@ extension RoomController{
                     }
                 })
                 
+                /*
+                        user_id:1
+                        room_id:1
+                        language_id:2   //{optional}
+                        category:1      // required if room category enable form panel
+                        no_of_que:10
+                 */
+                
                 if(Reachability.isConnectedToNetwork()){
                     let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-                    let levelName = self.catFields.count == 0 ? "category" : "level\(self.catFields.count)"
-                    let apiURL = "user_id=\(user.userID)&room_id=\(roomDetails.ID)&room_type=private&category_id=\(self.categoryTextField.selectedData!.id)&no_of_que=\(roomDetails.noOfQues)&level_name=\(levelName)&level_id=\(self.catFields.last!.selectedData!.id)"
+                    //let levelName = self.catFields.count == 0 ? "category" : "level\(self.catFields.count)"
+                    let gameRoomCode = randomNumberForBattle()
+                    var apiURL = ""
+                    if Apps.GROUP_BATTLE_WITH_CATEGORY == "1" {
+                        apiURL = "user_id=\(user.userID)&room_id=\(gameRoomCode)&room_type=private&category=\(self.categoryTextField.selectedData!.id)&no_of_que=\(roomDetails.noOfQues)"
+                    }else{
+                        apiURL = "user_id=\(user.userID)&room_id=\(gameRoomCode)&room_type=private&category=&no_of_que=\(roomDetails.noOfQues)"
+                    }
+                    
+                    
+                 //   apiURL = "user_id=\(user.userID)&room_id=\(user.UID)&room_type=private&category_id=\(self.categoryTextField.selectedData!.id)&no_of_que=\(roomDetails.noOfQues)&level_name=\(levelName)&level_id=\(self.catFields.last!.selectedData!.id)"
+                    
                     self.getAPIData(apiName: "create_room", apiURL: apiURL,completion: {jsonObj in
                         //print("JSON",jsonObj)
                         let status = "\(jsonObj.value(forKey: "error")!)".bool ?? true
@@ -626,7 +651,7 @@ extension RoomController:UIPickerViewDataSource,UIPickerViewDelegate{
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
             }

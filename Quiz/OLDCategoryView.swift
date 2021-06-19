@@ -3,15 +3,15 @@ import AVFoundation
 import GoogleMobileAds
 
 //structure for category
-struct Category {
-    let id:String
-    let name:String
-    let image:String
-    let maxlvl:String
-    let noOf:String
-    let noOfQues:String
-}
-class CategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate { //, LanguageViewDelegate
+//struct Category {
+//    let id:String
+//    let name:String
+//    let image:String
+//    let maxlvl:String
+//    let noOf:String
+//    let noOfQues:String
+//} //due duplicate file 
+class OLDCategoryView: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate { //, LanguageViewDelegate
     
     @IBOutlet var catetableView: UITableView!
     @IBOutlet var bannerView: GADBannerView!

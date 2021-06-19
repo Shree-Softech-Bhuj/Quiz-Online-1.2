@@ -1,11 +1,3 @@
-//
-//  PublicRoomListView.swift
-//  Themiscode Q&A
-//
-//  Created by LPK's Mini on 25/11/20.
-//  Copyright © 2020 LPK Techno. All rights reserved.
-//
-
 import UIKit
 import FirebaseDatabase
 import AVFoundation
@@ -65,7 +57,7 @@ class PublicRoomListView: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = "Herkese Açık Oda Bulunamadı. İlk Sen Oluştur."
-            noDataLabel.textColor     = Apps.COLOR_DARK_RED
+            noDataLabel.textColor     = Apps.BASIC_COLOR
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
             noDataLabel.lineBreakMode = .byWordWrapping
@@ -79,7 +71,7 @@ class PublicRoomListView: UIViewController,UITableViewDelegate,UITableViewDataSo
             useButton.setTitleColor(.white, for: .normal)
             useButton.center.y = tableView.center.y
             useButton.center.x = tableView.center.x
-            useButton.backgroundColor = Apps.COLOR_DARK_RED
+            useButton.backgroundColor = Apps.BASIC_COLOR
             useButton.addTarget(self, action: #selector(ReturnBack), for: .touchUpInside)
         }else{
             useButton.isHidden = true
@@ -100,7 +92,7 @@ class PublicRoomListView: UIViewController,UITableViewDelegate,UITableViewDataSo
         let index = indexPath.row
         let currRoom = self.roomList[index]
         cell.roomCatNate.text = currRoom.roomName
-        cell.roomDetails.text  = "\(Apps.BULLET) \(currRoom.catName)   \(Apps.BULLET) \(currRoom.noOfQues) Soru.   \(Apps.BULLET) \(currRoom.playTime) Dakika.    \(Apps.BULLET) \(currRoom.noOfPlayer) Oyuncu."
+        cell.roomDetails.text  = "\(Apps.BULLET) \(currRoom.catName)   \(Apps.BULLET) \(currRoom.noOfQues) \(Apps.QSTN).   \(Apps.BULLET) \(currRoom.playTime) \(Apps.TIMER).   \(Apps.BULLET) \(currRoom.noOfPlayer) \(Apps.PLYR)."
         cell.joinButton.tag = index
         cell.joinButton.addTarget(self, action: #selector(self.JoinRoom), for: .touchUpInside)
         return cell
