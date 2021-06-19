@@ -22,7 +22,9 @@ class CategoryViewController: UIViewController, GADBannerViewDelegate{
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
-    var catData:[Category] = []
+    var isCategoryBattle = false
+    
+    var catData:[Category] = [] 
     var langList:[Language] = []
     var refreshController = UIRefreshControl()
     var config:SystemConfiguration?
@@ -126,7 +128,6 @@ class CategoryViewController: UIViewController, GADBannerViewDelegate{
             //Add collectionView dimesnsions from ASACollection
             DispatchQueue.main.async {
                 self.collectionView.register(UINib(nibName: self.collectionElementKindHeader, bundle: nil), forSupplementaryViewOfKind:  self.collectionElementKindHeader, withReuseIdentifier: "header")
-               
             }
         }
         //close loader here
@@ -212,24 +213,32 @@ extension CategoryViewController: ASCollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("clicked")
-        if catData.count > 0 {
-            if(catData[indexPath.row].noOf == "0"){
-                // this category dose not have any sub category so move to direct level screen
-                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                let viewCont = storyboard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
-                if catData[indexPath.row].maxlvl.isInt{
-                    viewCont.maxLevel = Int(catData[indexPath.row].maxlvl)!
-                }
-                viewCont.catID = Int(self.catData[indexPath.row].id)!
-                viewCont.questionType = "main"
-                self.navigationController?.pushViewController(viewCont, animated: true)
-            }else{
+        if isCategoryBattle == true{
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-            let viewCont = storyboard.instantiateViewController(withIdentifier: "subcategoryview") as! subCategoryViewController
-            viewCont.catID = catData[indexPath.row].id
-            viewCont.catName = catData[indexPath.row].name
-            print("cat id and name -- \(catData[indexPath.row].id) \(catData[indexPath.row].name)")
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController") as! BattleViewController
+            viewCont.isCategoryBattle = true
+            viewCont.catID = Int(self.catData[indexPath.row].id)!
             self.navigationController?.pushViewController(viewCont, animated: true)
+        }else{
+            if catData.count > 0 {
+                if(catData[indexPath.row].noOf == "0"){
+                    // this category dose not have any sub category so move to direct level screen
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let viewCont = storyboard.instantiateViewController(withIdentifier: "LevelView") as! LevelView
+                    if catData[indexPath.row].maxlvl.isInt{
+                        viewCont.maxLevel = Int(catData[indexPath.row].maxlvl)!
+                    }
+                    viewCont.catID = Int(self.catData[indexPath.row].id)!
+                    viewCont.questionType = "main"
+                    self.navigationController?.pushViewController(viewCont, animated: true)
+                }else{
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "subcategoryview") as! subCategoryViewController
+                viewCont.catID = catData[indexPath.row].id
+                viewCont.catName = catData[indexPath.row].name
+                print("cat id and name -- \(catData[indexPath.row].id) \(catData[indexPath.row].name)")
+                self.navigationController?.pushViewController(viewCont, animated: true)
+                }
             }
         }
     }

@@ -212,7 +212,6 @@ class MoreOptionsViewController: UIViewController{ //,GADFullScreenContentDelega
            ad.present(fromRootViewController: self)
          }else{
             presentViewController("UserStatistics")
-           // presentViewController("SelfChallengeController")
         }
     }
     

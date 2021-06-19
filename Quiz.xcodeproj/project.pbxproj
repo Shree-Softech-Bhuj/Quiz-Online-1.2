@@ -40,7 +40,6 @@
 		C600A0E823BF12E50095022E /* ForgotPswdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600A0E723BF12E50095022E /* ForgotPswdView.swift */; };
 		C6049D712660C4D000F17ADD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6049D702660C4D000F17ADD /* GradientView.swift */; };
 		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
-		C6389F17260C5EDD00104CB1 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6389F19260C5EDD00104CB1 /* Ipad.storyboard */; };
 		C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */; };
 		C646502F25DF846F006588CC /* ContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646502E25DF846F006588CC /* ContestView.swift */; };
 		C646503425DF84F2006588CC /* ContestMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646503325DF84F2006588CC /* ContestMainView.swift */; };
@@ -50,6 +49,7 @@
 		C6500A1723EAA7C400AC93BF /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6500A1623EAA7C400AC93BF /* AboutUsView.swift */; };
 		C662045523DFEB770028ED5B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662045423DFEB770028ED5B /* NotificationsView.swift */; };
 		C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */; };
+		C66DD80C267E004600AE07A5 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DD80B267E004600AE07A5 /* HomeScreenController.swift */; };
 		C673D0E226772F9B0019F9FA /* backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C673D0E126772F9A0019F9FA /* backButton.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
 		C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */; };
@@ -72,7 +72,6 @@
 		C6DDF980267B5AEB0081FF79 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF977267B5AEB0081FF79 /* HomeTableViewCell.swift */; };
 		C6DDF981267B5AEB0081FF79 /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF978267B5AEB0081FF79 /* RoundedView.swift */; };
 		C6DDF982267B5AEB0081FF79 /* ASCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF979267B5AEB0081FF79 /* ASCollectionViewLayout.swift */; };
-		C6DDF983267B5AEB0081FF79 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97A267B5AEB0081FF79 /* HomeScreenController.swift */; };
 		C6DDF984267B5AEB0081FF79 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97B267B5AEB0081FF79 /* CategoryViewController.swift */; };
 		C6DDF985267B5AEB0081FF79 /* subCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97C267B5AEB0081FF79 /* subCategoryViewController.swift */; };
 		C6DDF986267B5AEB0081FF79 /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97D267B5AEB0081FF79 /* TestCollectionViewCell.swift */; };
@@ -83,7 +82,6 @@
 		D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75C4C49223289AA006C68EF /* Leaderboard.swift */; };
 		D76C6EEC222FD4AA00A7458C /* ReView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EEB222FD4A900A7458C /* ReView.swift */; };
 		D76C6EEE222FEB6100A7458C /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EED222FEB6000A7458C /* AlertViewController.swift */; };
-		D791BA9B2240B9AD00F6671C /* old_click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA972240B9AB00F6671C /* old_click.mp3 */; };
 		D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA982240B9AC00F6671C /* snd_bg.mp3 */; };
 		D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA992240B9AD00F6671C /* right.mp3 */; };
 		D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D791BA9A2240B9AD00F6671C /* wrong.mp3 */; };
@@ -174,7 +172,6 @@
 		C600A0E723BF12E50095022E /* ForgotPswdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPswdView.swift; sourceTree = "<group>"; };
 		C6049D702660C4D000F17ADD /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
-		C6389F18260C5EDD00104CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Ipad.storyboard; sourceTree = "<group>"; };
 		C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewMobileController.swift; sourceTree = "<group>"; };
 		C646502E25DF846F006588CC /* ContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestView.swift; sourceTree = "<group>"; };
 		C646503325DF84F2006588CC /* ContestMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestMainView.swift; sourceTree = "<group>"; };
@@ -184,6 +181,7 @@
 		C6500A1623EAA7C400AC93BF /* AboutUsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		C662045423DFEB770028ED5B /* NotificationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		C66221D723E95B9A000519DC /* MoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsViewController.swift; sourceTree = "<group>"; };
+		C66DD80B267E004600AE07A5 /* HomeScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
 		C673D0E126772F9A0019F9FA /* backButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = backButton.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
 		C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdViewController.swift; sourceTree = "<group>"; };
@@ -206,7 +204,6 @@
 		C6DDF977267B5AEB0081FF79 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		C6DDF978267B5AEB0081FF79 /* RoundedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		C6DDF979267B5AEB0081FF79 /* ASCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASCollectionViewLayout.swift; sourceTree = "<group>"; };
-		C6DDF97A267B5AEB0081FF79 /* HomeScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
 		C6DDF97B267B5AEB0081FF79 /* CategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		C6DDF97C267B5AEB0081FF79 /* subCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subCategoryViewController.swift; sourceTree = "<group>"; };
 		C6DDF97D267B5AEB0081FF79 /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -220,7 +217,6 @@
 		D767B1E22239260D00B0A588 /* Quiz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quiz.entitlements; sourceTree = "<group>"; };
 		D76C6EEB222FD4A900A7458C /* ReView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReView.swift; sourceTree = "<group>"; };
 		D76C6EED222FEB6000A7458C /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		D791BA972240B9AB00F6671C /* old_click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = old_click.mp3; sourceTree = "<group>"; };
 		D791BA982240B9AC00F6671C /* snd_bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = snd_bg.mp3; sourceTree = "<group>"; };
 		D791BA992240B9AD00F6671C /* right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = right.mp3; sourceTree = "<group>"; };
 		D791BA9A2240B9AD00F6671C /* wrong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wrong.mp3; sourceTree = "<group>"; };
@@ -325,7 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				9A2E3E4224F4CC860099144B /* click.mp3 */,
-				D791BA972240B9AB00F6671C /* old_click.mp3 */,
 				D791BA992240B9AD00F6671C /* right.mp3 */,
 				D791BA982240B9AC00F6671C /* snd_bg.mp3 */,
 				D791BA9A2240B9AD00F6671C /* wrong.mp3 */,
@@ -368,11 +363,11 @@
 		C6DDF975267B5AA10081FF79 /* ColectionViewFiles */ = {
 			isa = PBXGroup;
 			children = (
+				C66DD80B267E004600AE07A5 /* HomeScreenController.swift */,
 				C6DDF976267B5AEB0081FF79 /* ASCollectionView.swift */,
 				C6DDF979267B5AEB0081FF79 /* ASCollectionViewLayout.swift */,
 				C6DDF97B267B5AEB0081FF79 /* CategoryViewController.swift */,
 				C6DDF977267B5AEB0081FF79 /* HomeTableViewCell.swift */,
-				C6DDF97A267B5AEB0081FF79 /* HomeScreenController.swift */,
 				C6DDF97E267B5AEB0081FF79 /* LevelView.swift */,
 				C6DDF978267B5AEB0081FF79 /* RoundedView.swift */,
 				C6DDF97C267B5AEB0081FF79 /* subCategoryViewController.swift */,
@@ -454,7 +449,6 @@
 				BC029826229CF47400A50E80 /* AssetsFile */,
 				BC029825229CF43900A50E80 /* CustomFile */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
-				C6389F19260C5EDD00104CB1 /* Ipad.storyboard */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				BC5EAF6522B21A3A00094DF8 /* PlayView */,
 				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
@@ -618,13 +612,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6389F17260C5EDD00104CB1 /* Ipad.storyboard in Resources */,
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
 				9A2E3E4324F4CC860099144B /* click.mp3 in Resources */,
 				D791BA9E2240B9AD00F6671C /* wrong.mp3 in Resources */,
-				D791BA9B2240B9AD00F6671C /* old_click.mp3 in Resources */,
 				D791BA9D2240B9AD00F6671C /* right.mp3 in Resources */,
 				D7FCFC6421A5283C00718EE2 /* Assets.xcassets in Resources */,
 				D7FCFC5F21A5282D00718EE2 /* Main.storyboard in Resources */,
@@ -796,7 +788,6 @@
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
 				C6DDF968267B07510081FF79 /* BattleUserScoreCell.swift in Sources */,
 				C6DDF96A267B07510081FF79 /* BattleRoomResult.swift in Sources */,
-				C6DDF983267B5AEB0081FF79 /* HomeScreenController.swift in Sources */,
 				C66221D823E95B9A000519DC /* MoreOptionsViewController.swift in Sources */,
 				C6DDF957267B010B0081FF79 /* RoomBattlePlayView.swift in Sources */,
 				D79A4E01223A730000F98E75 /* UpdateProfileView.swift in Sources */,
@@ -820,6 +811,7 @@
 				D75C4C4A223289AB006C68EF /* Leaderboard.swift in Sources */,
 				D7FCFC5A21A5282D00718EE2 /* AppDelegate.swift in Sources */,
 				BC03109F229F964B00923A3F /* ImagePickerManager.swift in Sources */,
+				C66DD80C267E004600AE07A5 /* HomeScreenController.swift in Sources */,
 				BC62687F23E04652008E3B38 /* ReferAndEarnView.swift in Sources */,
 				BCE582D823DF0767006BD387 /* LanguageView.swift in Sources */,
 				D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */,
@@ -872,14 +864,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C6389F19260C5EDD00104CB1 /* Ipad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C6389F18260C5EDD00104CB1 /* Base */,
-			);
-			name = Ipad.storyboard;
-			sourceTree = "<group>";
-		};
 		D7FCFC5D21A5282D00718EE2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1040,7 +1024,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1064,7 +1048,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

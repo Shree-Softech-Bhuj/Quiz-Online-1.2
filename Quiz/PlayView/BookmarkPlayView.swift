@@ -386,7 +386,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
     // set default to four choice button
     func MakeChoiceBtnDefault(btns:UIButton...){
         for btn in btns {
-            btn.backgroundColor = Apps.BASIC_COLOR// UIColor.white
+            btn.backgroundColor =  UIColor.white //Apps.BASIC_COLOR//
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
             btn.subviews.forEach({
                 if($0.tag == 11){

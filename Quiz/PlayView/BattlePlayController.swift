@@ -73,6 +73,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
     var updatedOnce = false
     var callObserver: CXCallObserver!
     
+    var isCategoryBattle = false
+    var catID = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -137,6 +140,9 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
             Loader = LoadLoader(loader: Loader)
             var apiURL = "match_id=\(battleUser.matchingID)" //user_id1=\(user.UID)&user_id2=\(battleUser.UID)&
             //var apiURL = "user_id_1=\(user.UID)&user_id_2=\(battleUser.UID)&match_id=\(battleUser.matchingID)&destroy_match=0"
+            if isCategoryBattle == true{
+                apiURL += "&category="
+            }
             if sysConfig.LANGUAGE_MODE == 1{
                 let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                 apiURL += "&language_id=\(langID)"
@@ -756,7 +762,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         for btn in btns {
             btn.isEnabled = true
             btn.isHidden = false
-            btn.backgroundColor = Apps.BASIC_COLOR//UIColor.white
+            btn.backgroundColor = UIColor.white //Apps.BASIC_COLOR//
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
             btn.subviews.forEach({
                 if($0.tag == 11){

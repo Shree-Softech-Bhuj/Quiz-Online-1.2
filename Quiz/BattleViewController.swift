@@ -33,6 +33,9 @@ class BattleViewController: UIViewController {
     var DataList:[BattleStatistics] = []
     var Loader: UIAlertController = UIAlertController()
     
+    var isCategoryBattle = false
+    var catID = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -248,7 +251,10 @@ class BattleViewController: UIViewController {
             return
         }
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+            var apiURL = "user_id1=\(self.user.UID)&user_id2=\(self.battleUser.UID)&match_id=\(self.battleUser.matchingID)&destroy_match=1"
+            if isCategoryBattle == true {
+                apiURL += "&category=\(catID)"
+            }
             self.getAPIData(apiName: "get_random_questions", apiURL: apiURL,completion: {_ in })
         }
     }
@@ -369,6 +375,8 @@ class BattleViewController: UIViewController {
         self.isBattlePlay = true
         self.isSearchingStart = false
         self.searchButton.isHidden = false
+        viewCont.isCategoryBattle = self.isCategoryBattle
+        viewCont.catID = self.catID
         self.navigationController?.pushViewController(viewCont, animated: true)
         
     }
@@ -392,6 +400,8 @@ extension BattleViewController:RobotDelegate{
     func playWithRobot() {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "RobotPlayController") as! RobotPlayView
+        viewCont.isCategoryBattle = self.isCategoryBattle
+        viewCont.catID = self.catID
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     

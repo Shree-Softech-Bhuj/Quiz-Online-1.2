@@ -21,7 +21,7 @@ class subCategoryViewController: UIViewController,UICollectionViewDataSource, UI
     var isInitial = true
     var Loader: UIAlertController = UIAlertController()
     
-    var catID:String = "0"
+    var catID:String = "48"
     var catName:String = ""
     var subCatData:[SubCategory] = []
     var refreshController = UIRefreshControl()

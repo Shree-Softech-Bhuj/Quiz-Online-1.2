@@ -77,6 +77,9 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
     
      var correctAnswer = "a"
     
+    var isCategoryBattle = false
+    var catID = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         imageQuestionLbl.backgroundColor = .white
@@ -131,6 +134,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
             var apiURL = ""//"user_id_1=\(user.UID)&user_id_2=0987654321&match_id=\(user.UID)"
+            apiURL += "&category=\(catID)"
             if sysConfig.LANGUAGE_MODE == 1{
                            let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
                            apiURL = "&language_id=\(langID)" //+=
@@ -595,7 +599,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         for btn in btns {
             btn.isEnabled = true
             btn.isHidden = false
-            btn.backgroundColor = Apps.BASIC_COLOR//UIColor.white
+            btn.backgroundColor = UIColor.white //Apps.BASIC_COLOR//
             btn.shadow(color: .lightGray, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
             btn.subviews.forEach({
                 if($0.tag == 11){

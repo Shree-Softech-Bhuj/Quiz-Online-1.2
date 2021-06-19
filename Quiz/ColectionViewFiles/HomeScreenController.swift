@@ -31,21 +31,17 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     var catData:[Category] = []
     var langList:[Language] = []
     
-    let arr = [Apps.QUIZ_ZONE,Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE] //[Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE,Apps.QUIZ_ZONE]//
+    let arr = [Apps.QUIZ_ZONE,Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE]
     let leftImg = [Apps.IMG_QUIZ_ZONE,Apps.IMG_PLAYQUIZ,Apps.IMG_BATTLE_QUIZ,Apps.IMG_CONTEST_QUIZ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "QuizZone")
-
         
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
         leaderboardButton.layer.cornerRadius = leaderboardButton.frame.height / 4
         leaderboardButton.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         languageButton.layer.cornerRadius = leaderboardButton.frame.height / 4
-      //  moreButton.layer.cornerRadius = moreButton.frame.height / 4
         allTimeScoreButton.layer.cornerRadius = leaderboardButton.frame.height / 4
         allTimeScoreButton.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         coinsButton.layer.cornerRadius = leaderboardButton.frame.height / 4
@@ -76,7 +72,6 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
         getUserNameImg()
-      //  getQuestions("random")//("true/false")
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -97,6 +92,14 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
+        
+        //Add collectionView dimesnsions from ASACollection
+        DispatchQueue.main.async {
+            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "QuizZone")
+            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "PlayZone")
+            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "BattleZone")
+            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "ContestZone")
+        }
     }
     
     func getUserNameImg(){
@@ -104,10 +107,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
             userName.text = "\(Apps.HELLO)  \(dUser!.name)"
-           // userName.frame.origin = CGPoint(x: -100, y: userName.frame.origin.y)
-//            userName.textChangeAnimationToRight()
-            
-            //imgProfile.SetShadow()
+          
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
             imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
@@ -125,7 +125,6 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }else{
             userName.text = "\(Apps.HELLO) \(Apps.USER)"
-//            userName.textChangeAnimationToRight()
             imgProfile.image = UIImage(named: "guest") //"user")
         }
     }
@@ -169,27 +168,16 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
-        leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)//(String(Apps.ALL_TIME_RANK) , for: .normal)
+        leaderboardButton.setTitle(Apps.ALL_TIME_RANK as? String , for: .normal)
         allTimeScoreButton.setTitle(Apps.SCORE as? String, for: .normal)
         coinsButton.setTitle(Apps.COINS , for: .normal)
         
         varSys.getUserDetails()
-//        self.DailyQuiz.alpha = 0
-//        self.contestButton.alpha = 0
-//        if Apps.FORCE_UPDT_MODE == "1" {
-//            self.CheckAppsUpdate()
-//        }
-//        if Apps.DAILY_QUIZ_MODE == "1" {
-//            self.DailyQuiz.alpha = 1
-//        }
-//        if Apps.CONTEST_MODE == "1" {
-//          self.contestButton.alpha = 1
-//        }
+
         getUserNameImg()
     }
     //load Bookmark data here
     func LoadBookmarkData(jsonObj:NSDictionary){
-        // print("RS",jsonObj)
         var BookQuesList: [QuestionWithE] = []
         
         let status = "\(jsonObj.value(forKey: "error") ?? "1")".bool ?? true
@@ -204,7 +192,6 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         //close loader here
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: {
             DispatchQueue.main.async {
-                //self.DismissLoader(loader: self.Loader)
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(BookQuesList), forKey: "booklist")
             }
         });
@@ -242,21 +229,11 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
         //check if language is enabled and not selected
-//        if languageButton.isHidden == false{
-//            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
-//                LanguageButton(self)
-//            }
-//        }
+
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "subcategoryview") as! subCategoryViewController
         self.navigationController?.pushViewController(viewCont, animated: true)
         
-//        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-//        let viewCont = storyboard.instantiateViewController(withIdentifier: "CategoryView")
-//        self.navigationController?.pushViewController(viewCont, animated: true)
-
-//        performSegue(withIdentifier: "CategoryView", sender: nil)
-
     }
     @IBAction func leaderboardBtn(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
@@ -286,17 +263,24 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cellIdentifier = "QuizZone"
-//        if indexPath.row == 1 {
-//            cellIdentifier = "PlayZone"
-//        }
-//        if indexPath.row == 0 {
-//            cellIdentifier = "QuizZone"
-//        }
+        if indexPath.row == 1 {
+            cellIdentifier = "PlayZone"
+        }
+        if indexPath.row == 0 {
+            cellIdentifier = "QuizZone"
+        }
+        if indexPath.row == 2 {
+            cellIdentifier = "BattleZone"
+        }
+        if indexPath.row == 3 {
+            cellIdentifier = "ContestZone"
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HomeTableViewCell
         print("test -- \(arr[indexPath.row])")
         
         cell.titleLabel.text = arr[indexPath.row]
         cell.leftImg.image = UIImage(named: leftImg[indexPath.row])
+        
         cell.cellDelegate = self
         return cell
     }
@@ -316,35 +300,31 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
 extension HomeScreenController:CellSelectDelegate{
     
     func didCellSelected(_ type: String){
-        print("Call FUNCTION HERE+")
+        print("Call FUNCTION HERE+ \(type) -- catdaa \(catData.count)")
                 
         //[Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG]
         if type == "playzone-0"{
             getQuestions("daily")//("true/false"))
-        }
-        if type == "playzone-1"{
+        }else if type == "playzone-1"{
             getQuestions("random")//("true/false"))
-        }
-        if type == "playzone-2"{
+        }else if type == "playzone-2"{
             getQuestions("true/false")
-        }
-        if type == "playzone-3"{ //self challenge
+        }else if type == "playzone-3"{ //self challenge
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
             self.navigationController?.pushViewController(viewCont, animated: true)
-        }
-        if type == "battlezone-1"{
+        }else if type == "battlezone-1"{
             if Apps.RANDOM_BATTLE_WITH_CATEGORY == "1"{
                 let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview")
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview") as! CategoryViewController
                 //pass value to identify to jump to battle and not play quiz view.
+                viewCont.isCategoryBattle = true
                 self.navigationController?.pushViewController(viewCont, animated: true)
             }else{
                 let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                 let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
                 self.navigationController?.pushViewController(viewCont, animated: true)
             }
-            
         }else{
             self.PlaySound(player: &audioPlayer, file: "click") // play sound
             self.Vibrate() // make device vibrate
@@ -356,6 +336,11 @@ extension HomeScreenController:CellSelectDelegate{
             }
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: type) //as! subCategoryViewController
+            if type == "subcategory"{
+                let viewCont = storyboard.instantiateViewController(withIdentifier: type) as! subCategoryViewController
+                viewCont.catID = "1"//catData[1].id
+                viewCont.catName = ""//catData[1].name
+            }
             self.navigationController?.pushViewController(viewCont, animated: true)
         }
     }
@@ -451,7 +436,7 @@ extension HomeScreenController:CellSelectDelegate{
             });
             let status = jsonObj.value(forKey: "error") as! String
             if (status == "true") {
-                self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
+                //self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )
             }else{
 //                loadTrueFalseQues(jsonObj: jsonObj)
                 quesData.removeAll()
@@ -472,11 +457,7 @@ extension HomeScreenController:CellSelectDelegate{
                     }
                 }
             }
-        })
-//        func loadTrueFalseQues(jsonObj:NSDictionary){
-//
-//        }
-        
+        })        
     }
     
     func getQuestions(_ type: String){ //type should be random,true/false or daily only
