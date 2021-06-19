@@ -10642,6 +10642,7 @@ You have completed the level.</string>
                                                         </attributedString>
                                                     </state>
                                                     <connections>
+                                                        <action selector="viewAllCategory:" destination="Jun-j0-7my" eventType="touchUpInside" id="KvM-vG-bRD"/>
                                                         <segue destination="BcC-ba-zB2" kind="push" id="Sn9-Zg-ZcP"/>
                                                     </connections>
                                                 </button>

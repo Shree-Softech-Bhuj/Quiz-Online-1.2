@@ -278,20 +278,20 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         self.present(view, animated: true, completion: nil)
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arr.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cellIdentifier = ""
-        if indexPath.row == 1 {
-            cellIdentifier = "PlayZone"
-        }
-        if indexPath.row == 0 {
-            cellIdentifier = "QuizZone"
-        }
+        var cellIdentifier = "QuizZone"
+//        if indexPath.row == 1 {
+//            cellIdentifier = "PlayZone"
+//        }
+//        if indexPath.row == 0 {
+//            cellIdentifier = "QuizZone"
+//        }
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HomeTableViewCell
         print("test -- \(arr[indexPath.row])")
         
@@ -306,29 +306,47 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected - \(indexPath.row)")
     }
-}
-extension HomeScreenController:CellSelectDelegate{
     
-    func didCellSelected(){
-        print("Call FUNCTION HERE+")
-        
-        self.PlaySound(player: &audioPlayer, file: "click") // play sound
-        self.Vibrate() // make device vibrate
-        //check if language is enabled and not selected
-        if languageButton.isHidden == false{
-            if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
-                LanguageButton(self)
-            }
-        }
-        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-        let viewCont = storyboard.instantiateViewController(withIdentifier: "subcategoryview") //as! subCategoryViewController
-        self.navigationController?.pushViewController(viewCont, animated: true)
-    }
-    func viewAll() {
+    @IBAction func viewAllCategory(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview") as! CategoryViewController
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
+}
+extension HomeScreenController:CellSelectDelegate{
+    
+    func didCellSelected(_ type: String){
+        print("Call FUNCTION HERE+")
+                
+        //[Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG]
+        if type == "playzone-0"{
+            getQuestions("daily")//("true/false"))
+        }
+        if type == "playzone-1"{
+            getQuestions("random")//("true/false"))
+        }
+        if type == "playzone-2"{
+            getQuestions("true/false")
+        }
+        if type == "playzone-3"{ //self challenge
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }else{
+            self.PlaySound(player: &audioPlayer, file: "click") // play sound
+            self.Vibrate() // make device vibrate
+            //check if language is enabled and not selected
+            if languageButton.isHidden == false{
+                if UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG) == 0 {
+                    LanguageButton(self)
+                }
+            }
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: type) //as! subCategoryViewController
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }
+    }
+    
     
     enum VersionError: Error {
         case invalidResponse, invalidBundleInfo

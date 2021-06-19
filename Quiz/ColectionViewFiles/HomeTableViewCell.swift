@@ -2,8 +2,7 @@ import UIKit
 import AVFoundation
 
 protocol CellSelectDelegate {
-    func didCellSelected()
-    func viewAll()
+    func didCellSelected(_ type: String)
 }
 
 class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -20,11 +19,11 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     var arrColors2 = [UIColor(named: Apps.SKY1),UIColor(named: Apps.ORANGE1),UIColor(named: Apps.PURPLE1),UIColor(named: Apps.GREEN1),UIColor(named: Apps.BLUE1),UIColor(named: Apps.PINK1)]
     var arrColors1 = [UIColor(named: Apps.SKY2),UIColor(named: Apps.ORANGE2),UIColor(named: Apps.PURPLE2),UIColor(named: Apps.GREEN2),UIColor(named: Apps.BLUE2),UIColor(named: Apps.PINK2)]
     
-    let arrCAT = ["General Knowledge","Movies","Movies","Movies","Movies","Movies","Movies","Movies"]
+    //let arrCAT = ["General Knowledge","Movies","Movies","Movies","Movies","Movies","Movies","Movies"]
     
-    let playZoneData = [Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG,Apps.PRACTICE]
-    let battleData = [Apps.GROUP_BTL,Apps.RNDM_BTL]
-    let battleImgData = [Apps.GRP_BTL,Apps.RNDM]
+    let playZoneData = [Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG] //,Apps.PRACTICE
+    let battleData = [Apps.RNDM_BTL] //Apps.GROUP_BTL,
+    let battleImgData = [Apps.RNDM] //Apps.GRP_BTL,
     
     let numOfColumns = 7
     let prog_val = 65
@@ -141,7 +140,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
                 cell.simpleView.setGradient(arrColors1[indexPath.row + 1] ?? UIColor.blue,arrColors2[indexPath.row + 1] ?? UIColor.cyan)
             break
             default:
-                cell.catTitle.text = "\(arrCAT[indexPath.row])"//"category \(indexPath.row)"
+                cell.catTitle.text = "category \(indexPath.row)"
                 //cell.catTitle.textChangeAnimationToRight()
                 cell.noOfQues.text = "11 Ques"
                 cell.noOfQues.backgroundColor = UIColor.white.withAlphaComponent(0.4)
@@ -258,22 +257,20 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var cellName = ""
-        switch (indexPath.row) {
-        case 1:
-            cellName = "\(titleLabel.text)"
-        case 2:
-            self.cellDelegate?.didCellSelected()
-        default:
-            self.cellDelegate?.didCellSelected()
-        }
+        var cellName = "" //identifier of ViewController
         
-        if indexPath.row == 2 {
-//            print("click")
-//           // homeScreen.showAllCategories()
-//
-        }else if indexPath.row == 3 {
-            
+        switch (indexPath.row) {
+        case 0: //quiz zone
+            cellName = "subcategoryview"//cellName = "\(titleLabel.text)"
+        case 1: //play zone - playZoneData [indexPath.row]
+            cellName = "playzone-\(playZoneData[indexPath.row])"
+        case 2: //battle zone
+            cellName = "subcategoryview"
+        case 3: //contest zone
+            cellName = "ContestView"
+        default:
+            cellName = "categoryview"
         }
+        self.cellDelegate?.didCellSelected(cellName)
     }
 }
