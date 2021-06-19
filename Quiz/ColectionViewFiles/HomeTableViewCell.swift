@@ -264,8 +264,8 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
             cellName = "subcategoryview"//cellName = "\(titleLabel.text)"
         case 1: //play zone - playZoneData [indexPath.row]
             cellName = "playzone-\(playZoneData[indexPath.row])"
-        case 2: //battle zone
-            cellName = "subcategoryview"
+        case 2: //battle zone - battleData
+            cellName = "battlezone-1"
         case 3: //contest zone
             cellName = "ContestView"
         default:

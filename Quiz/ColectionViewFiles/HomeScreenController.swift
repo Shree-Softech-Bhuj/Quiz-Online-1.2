@@ -332,6 +332,19 @@ extension HomeScreenController:CellSelectDelegate{
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
             let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
             self.navigationController?.pushViewController(viewCont, animated: true)
+        }
+        if type == "battlezone-1"{
+            if Apps.RANDOM_BATTLE_WITH_CATEGORY == "1"{
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview")
+                //pass value to identify to jump to battle and not play quiz view.
+                self.navigationController?.pushViewController(viewCont, animated: true)
+            }else{
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
+                self.navigationController?.pushViewController(viewCont, animated: true)
+            }
+            
         }else{
             self.PlaySound(player: &audioPlayer, file: "click") // play sound
             self.Vibrate() // make device vibrate
