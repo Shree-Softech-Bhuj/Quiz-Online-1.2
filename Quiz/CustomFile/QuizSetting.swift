@@ -256,6 +256,12 @@ struct Apps{
     static let DAILY_QUIZ_MSG_SUCCESS = "Daily Quiz Completed"
     static let DAILY_QUIZ_MSG_FAIL = "Daily Quiz Fail"
     static let DAILY_QUIZ_SHARE_MSG = "I have completed daily quiz with score "
+    static let RANDOM_QUIZ_MSG_SUCCESS = "Random Quiz Completed"
+    static let RANDOM_QUIZ_MSG_FAIL = "Random Quiz Fail"
+    static let RANDOM_QUIZ_SHARE_MSG = "I have completed Random quiz with score "
+    static let TF_QUIZ_MSG_SUCCESS = "TRUE/FALSE Quiz Completed"
+    static let TF_QUIZ_MSG_FAIL = "TRUE/FALSE Quiz Fail"
+    static let TF_QUIZ_SHARE_MSG = "I have completed TRUE/FALSE Quiz with score "
     //leaderboard Filters / options
     static let ALL = "All"
     static let MONTHLY = "Monthly"

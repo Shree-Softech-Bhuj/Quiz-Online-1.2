@@ -146,10 +146,19 @@ class LevelView: UIViewController,UICollectionViewDataSource, UICollectionViewDe
         gridCell.circleImgView.image = UIImage(named: "circle")
         gridCell.circleImgView.tintColor = UIColor.init(named: tintArr[indexPath.row])
         if (self.unLockLevel >= indexPath.row){
-            gridCell.lockButton.setImage(UIImage(named: "unlock"), for: .normal)
+            if deviceStoryBoard == "Ipad"{
+                gridCell.lockButton.setBackgroundImage(UIImage(named: "unlock"), for: .normal)
+            }else{
+                gridCell.lockButton.setImage(UIImage(named: "unlock"), for: .normal)
+            }
             gridCell.lockButton.tintColor = UIColor.gray
         }else{
-            gridCell.lockButton.setImage(UIImage(named: "lock"), for: .normal)
+            if deviceStoryBoard == "Ipad"{
+                gridCell.lockButton.setBackgroundImage(UIImage(named: "lock"), for: .normal)
+            }else{
+                gridCell.lockButton.setImage(UIImage(named: "lock"), for: .normal)
+            }
+            
             gridCell.lockButton.tintColor = Apps.BASIC_COLOR
         }
         
@@ -213,7 +222,7 @@ class LevelView: UIViewController,UICollectionViewDataSource, UICollectionViewDe
                     apiURL += "&language_id=\(langID)"
                 }
                 self.getAPIData(apiName: "get_questions_by_level", apiURL: apiURL,completion: {jsonObj in
-                    //print("JSON",jsonObj)
+                    print("JSON",jsonObj)
                     let status = jsonObj.value(forKey: "error") as! String
                     if (status == "true") {
                         self.ShowAlert(title: Apps.ERROR, message:"\(jsonObj.value(forKey: "message")!)" )

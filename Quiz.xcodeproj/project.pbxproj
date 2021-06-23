@@ -52,6 +52,7 @@
 		C66DD80C267E004600AE07A5 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DD80B267E004600AE07A5 /* HomeScreenController.swift */; };
 		C673D0E226772F9B0019F9FA /* backButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C673D0E126772F9A0019F9FA /* backButton.swift */; };
 		C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67708AC23D0394800DC90B5 /* SystemConfig.swift */; };
+		C69C9F1B2680568400B7A1C4 /* Ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C69C9F192680568400B7A1C4 /* Ipad.storyboard */; };
 		C6A6A3542601F29900E17FCB /* InterstitialAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */; };
 		C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDA8D1260245A2006AC97D /* GradientButton.swift */; };
 		C6DDF957267B010B0081FF79 /* RoomBattlePlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF956267B010B0081FF79 /* RoomBattlePlayView.swift */; };
@@ -184,6 +185,7 @@
 		C66DD80B267E004600AE07A5 /* HomeScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
 		C673D0E126772F9A0019F9FA /* backButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = backButton.swift; sourceTree = "<group>"; };
 		C67708AC23D0394800DC90B5 /* SystemConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemConfig.swift; sourceTree = "<group>"; };
+		C69C9F1A2680568400B7A1C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Ipad.storyboard; sourceTree = "<group>"; };
 		C6A6A3532601F29900E17FCB /* InterstitialAdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterstitialAdViewController.swift; sourceTree = "<group>"; };
 		C6DDA8D1260245A2006AC97D /* GradientButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		C6DDF956267B010B0081FF79 /* RoomBattlePlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomBattlePlayView.swift; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				C6DDF956267B010B0081FF79 /* RoomBattlePlayView.swift */,
+				C646506025DF86B9006588CC /* PlayContestView.swift */,
 				BC03759F227D530C006C0042 /* BookmarkPlayView.swift */,
 				D74A119721A6B4D80026B327 /* PlayQuizView.swift */,
 				BC51055F2278C48E005377C8 /* BattlePlayController.swift */,
@@ -408,7 +411,6 @@
 				D7FCFC6821A5283C00718EE2 /* Info.plist */,
 				C646506125DF86B9006588CC /* ContestLeaderboard.swift */,
 				C646505F25DF86B9006588CC /* ContestResultsViewController.swift */,
-				C646506025DF86B9006588CC /* PlayContestView.swift */,
 				C646503325DF84F2006588CC /* ContestMainView.swift */,
 				C646502E25DF846F006588CC /* ContestView.swift */,
 				C6FC8FE425DAA2B1000046F9 /* OTPController.swift */,
@@ -449,6 +451,7 @@
 				BC029826229CF47400A50E80 /* AssetsFile */,
 				BC029825229CF43900A50E80 /* CustomFile */,
 				D7FCFC6521A5283C00718EE2 /* LaunchScreen.storyboard */,
+				C69C9F192680568400B7A1C4 /* Ipad.storyboard */,
 				D7FCFC5D21A5282D00718EE2 /* Main.storyboard */,
 				BC5EAF6522B21A3A00094DF8 /* PlayView */,
 				D7FCFC6021A5282D00718EE2 /* Quiz.xcdatamodeld */,
@@ -612,6 +615,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C69C9F1B2680568400B7A1C4 /* Ipad.storyboard in Resources */,
 				D7FCFC6721A5283C00718EE2 /* LaunchScreen.storyboard in Resources */,
 				BCB79C51241CC78000465FEA /* GoogleService-Info.plist in Resources */,
 				D791BA9C2240B9AD00F6671C /* snd_bg.mp3 in Resources */,
@@ -864,6 +868,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		C69C9F192680568400B7A1C4 /* Ipad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C69C9F1A2680568400B7A1C4 /* Base */,
+			);
+			name = Ipad.storyboard;
+			sourceTree = "<group>";
+		};
 		D7FCFC5D21A5282D00718EE2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1024,7 +1036,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1048,7 +1060,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -198,7 +198,7 @@ class SelfPlayResultView: UIViewController,GADFullScreenContentDelegate { //,GAD
         self.Vibrate() // make device vibrate
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-        let viewCont = storyboard.instantiateViewController(withIdentifier: "CategoryView")
+        let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview")//CategoryView
         self.navigationController?.pushViewController(viewCont, animated: true)
     }
     

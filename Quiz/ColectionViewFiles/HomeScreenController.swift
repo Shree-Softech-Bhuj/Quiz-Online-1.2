@@ -31,11 +31,15 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     var catData:[Category] = []
     var langList:[Language] = []
     
-    let arr = [Apps.QUIZ_ZONE,Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE]
+    var arr = [Apps.QUIZ_ZONE,Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE]
     let leftImg = [Apps.IMG_QUIZ_ZONE,Apps.IMG_PLAYQUIZ,Apps.IMG_BATTLE_QUIZ,Apps.IMG_CONTEST_QUIZ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Apps.CONTEST_MODE == "0"{
+            arr.removeLast() //as contest mode is last
+        }
         
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
@@ -79,28 +83,29 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     //load category data here
-    func LoadData(jsonObj:NSDictionary){
-        print("RS",jsonObj)
-        let status = jsonObj.value(forKey: "error") as! String
-        if (status == "true"){
-        }else{
-            //get data for category
-            catData.removeAll()
-            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
-                for val in data{
-                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
-                }
-            }
-        }
-        
-        //Add collectionView dimesnsions from ASACollection
-        DispatchQueue.main.async {
-            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "QuizZone")
-            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "PlayZone")
-            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "BattleZone")
-            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "ContestZone")
-        }
-    }
+//    func LoadData(jsonObj:NSDictionary){
+//        print("RS",jsonObj)
+//        let status = jsonObj.value(forKey: "error") as! String
+//        if (status == "true"){
+//        }else{
+//            //get data for category
+//            catData.removeAll()
+//            if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+//                for val in data{
+//                    catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
+//                }
+//            }
+//
+//        }
+//
+//        //Add tableview cells
+//        DispatchQueue.main.async {
+//            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "QuizZone")
+//            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "PlayZone")
+//            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "BattleZone")
+//            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "ContestZone")
+//        }
+//    }
     
     func getUserNameImg(){
         //user name and display image
@@ -149,16 +154,16 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             return
         }
 //        call and get API response for categories
-        if(Reachability.isConnectedToNetwork()){
-            if config?.LANGUAGE_MODE == 1{
-                apiName = "get_categories_by_language"
-                apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
-            }
-            let apiURL = "" + apiExPeraforLang
-            self.getAPIData(apiName: apiName, apiURL: apiURL,completion: LoadData)
-        }else{
-            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-        }
+//        if(Reachability.isConnectedToNetwork()){
+//            if config?.LANGUAGE_MODE == 1{
+//                apiName = "get_categories_by_language"
+//                apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+//            }
+//            let apiURL = "" + apiExPeraforLang
+//            self.getAPIData(apiName: apiName, apiURL: apiURL,completion: LoadData)
+//        }else{
+//            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+//        }
         
         //get data from server
         if(Reachability.isConnectedToNetwork()){
@@ -298,9 +303,10 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 }
 extension HomeScreenController:CellSelectDelegate{
-    
-    func didCellSelected(_ type: String){
-        print("Call FUNCTION HERE+ \(type) -- catdaa \(catData.count)")
+        
+   
+    func didCellSelected(_ type: String,_ rowIndex: Int){
+        print("Call FUNCTION HERE+ \(type) -- catdata total \(catData.count) -- row Index - \(rowIndex)")
                 
         //[Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG]
         if type == "playzone-0"{
@@ -310,20 +316,32 @@ extension HomeScreenController:CellSelectDelegate{
         }else if type == "playzone-2"{
             getQuestions("true/false")
         }else if type == "playzone-3"{ //self challenge
-            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-            let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
-            self.navigationController?.pushViewController(viewCont, animated: true)
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
+                self.navigationController?.pushViewController(viewCont, animated: true)
         }else if type == "battlezone-1"{
-            if Apps.RANDOM_BATTLE_WITH_CATEGORY == "1"{
-                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview") as! CategoryViewController
-                //pass value to identify to jump to battle and not play quiz view.
-                viewCont.isCategoryBattle = true
-                self.navigationController?.pushViewController(viewCont, animated: true)
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+                if Apps.RANDOM_BATTLE_WITH_CATEGORY == "1"{
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview") as! CategoryViewController
+                    //pass value to identify to jump to battle and not play quiz view.
+                    viewCont.isCategoryBattle = true
+                    self.navigationController?.pushViewController(viewCont, animated: true)
+                }else{
+                    let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                    let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
+                    self.navigationController?.pushViewController(viewCont, animated: true)
+                }
             }else{
-                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController")
-                self.navigationController?.pushViewController(viewCont, animated: true)
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }else if type == "ContestView" {
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+              let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+              let viewCont = storyboard.instantiateViewController(withIdentifier: type)
+              self.navigationController?.pushViewController(viewCont, animated: true)
+            }else{
+              self.navigationController?.popToRootViewController(animated: true)
             }
         }else{
             self.PlaySound(player: &audioPlayer, file: "click") // play sound
@@ -335,13 +353,31 @@ extension HomeScreenController:CellSelectDelegate{
                 }
             }
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-            let viewCont = storyboard.instantiateViewController(withIdentifier: type) //as! subCategoryViewController
-            if type == "subcategory"{
+        
+            if type == "subcategoryview"{
                 let viewCont = storyboard.instantiateViewController(withIdentifier: type) as! subCategoryViewController
-                viewCont.catID = "1"//catData[1].id
-                viewCont.catName = ""//catData[1].name
-            }
-            self.navigationController?.pushViewController(viewCont, animated: true)
+                if (UserDefaults.standard.value(forKey: "categories") != nil){
+                    self.catData = try! PropertyListDecoder().decode([Category].self,from:(UserDefaults.standard.value(forKey: "categories") as? Data)!)
+                }
+                viewCont.catID = catData[rowIndex].id
+                viewCont.catName = catData[rowIndex].name
+                print("call subcategoryview with id and name - \(catData[rowIndex].id) - \(catData[rowIndex].name)")
+                self.navigationController?.pushViewController(viewCont, animated: true)
+            }else if type == "LevelView"{
+                let viewCont = storyboard.instantiateViewController(withIdentifier: type) as! LevelView
+                if (UserDefaults.standard.value(forKey: "categories") != nil){
+                    self.catData = try! PropertyListDecoder().decode([Category].self,from:(UserDefaults.standard.value(forKey: "categories") as? Data)!)
+                }
+                if catData[rowIndex].maxlvl.isInt{
+                    viewCont.maxLevel = Int(catData[rowIndex].maxlvl)!
+                }
+                viewCont.catID = Int(self.catData[rowIndex].id)!
+                viewCont.questionType = "main"
+                self.navigationController?.pushViewController(viewCont, animated: true)
+            }else{
+                let viewCont = storyboard.instantiateViewController(withIdentifier: type)
+                self.navigationController?.pushViewController(viewCont, animated: true)
+            }            
         }
     }
     
@@ -464,7 +500,7 @@ extension HomeScreenController:CellSelectDelegate{
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
         let viewCont = storyboard.instantiateViewController(withIdentifier: "PlayQuizView") as! PlayQuizView
-        viewCont.playType = "daily"
+        //viewCont.playType = "daily"
         
         self.PlaySound(player: &audioPlayer, file: "click") // play sound
         self.Vibrate() // make device vibrate
@@ -482,12 +518,15 @@ extension HomeScreenController:CellSelectDelegate{
             apiName = "get_questions_by_type" //"get_random_questions"
             apiURL += "&type=1&limit=10&"//type:1  //1=normal ,2 = true/false
             viewCont.titlebartext = "Random Quiz"
+            viewCont.playType = "RandomQuiz"
         }else if type == "true/false"{
             apiName = "get_questions_by_type"
             apiURL += "&type=2&limit=10"
             viewCont.titlebartext = "True/False"
+            viewCont.playType = "True/False"
         }else{ //Daily
             apiName = "get_daily_quiz"
+            viewCont.playType = "daily"
         }
         self.getAPIData(apiName: "\(apiName)", apiURL: apiURL,completion: {jsonObj in
             print("JSON",jsonObj)

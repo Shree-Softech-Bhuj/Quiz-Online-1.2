@@ -51,7 +51,7 @@ class SelfChallengeController: UIViewController {
         
         self.AddTimeButton(scrollView: timeScroll)
         
-        self.startBtn.layer.cornerRadius = self.startBtn.frame.height / 3//2
+        self.startBtn.layer.cornerRadius = self.startBtn.frame.height / 2 //3
         
         self.mainPicker.delegate = self
         self.mainPicker.dataSource = self
@@ -196,7 +196,7 @@ class SelfChallengeController: UIViewController {
     
     func DesignTextField(textFields:UITextField...){
         for field in textFields{
-            field.layer.cornerRadius = field.frame.height / 3//2
+            field.layer.cornerRadius = field.frame.height / 2 //3
             field.leftViewMode = .always
             field.leftView = UIView(frame: CGRect(x: 10, y: 0, width: 10, height: field.frame.height))
             

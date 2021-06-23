@@ -32,7 +32,7 @@ class RobotAlert: UIViewController {
          NotificationCenter.default.addObserver(self,selector: #selector(self.DismissAlert),name: NSNotification.Name(rawValue: "DismissAlert"),object: nil)
         
         mainView.SetShadow()
-        tryAgain.layer.cornerRadius = tryAgain.frame.height / 3//tryAgain.bounds.size.height/2 //20
+        tryAgain.layer.cornerRadius = tryAgain.frame.height / 2//3//tryAgain.bounds.size.height/2 //20
         playWithRobot.setBorder()
         
     }

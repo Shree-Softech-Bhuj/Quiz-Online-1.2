@@ -1,9 +1,8 @@
 import Foundation
 import UIKit
 import AVFoundation
-import GoogleMobileAds
 
-class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBasedVideoAdDelegate
+class SelfChallengePlay: UIViewController, UIScrollViewDelegate  {
     
     @IBOutlet weak var titleBar: UILabel!
     @IBOutlet var lblQuestion: UITextView!
@@ -42,9 +41,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
     // Is an ad being loaded.
     var adRequestInProgress = false
     
-    // The reward-based video ad.
-    var rewardBasedVideo: GADRewardedAd? //GADRewardBasedVideoAd?
-
     var falseCount = 0
     var trueCount = 0
     
@@ -125,10 +121,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
         self.mainQuestionView.DesignViewWithShadow()
         
         quesData.shuffle()
-        GADRewardedAd.load()//GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-        
-        RequestForRewardAds()
-        
         seconds = self.quizPlayTime * 60
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         timer.fire()
@@ -207,68 +199,9 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
         
     }
     
-    func RequestForRewardAds(){
-//        let request = GADRequest()
-        //request.testDevices = [ kGADSimulatorID ];
-       // request.testDevices = Apps.AD_TEST_DEVICE
-//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
-        GADRewardedAd.load()//(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-    }
-    
     @objc func ReloadFont(noti: NSNotification){
         resizeTextview()
     }
-    
-    func watchAd() {
-        /*  if rewardedAd?.isReady == true {
-              rewardedAd!.present(fromRootViewController: self, delegate:self)
-          } -10feb- */
-          if let ad = rewardBasedVideo {
-              ad.present(fromRootViewController: self, userDidEarnRewardHandler: self.viewDidLoad)
-          }
-    }
-    
-    // MARK: GADRewardBasedVideoAdDelegate implementation
-    
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,
-                            didFailToLoadWithError error: Error) {
-        print("Reward based video ad failed to load: \(error.localizedDescription)")
-    }
-    
-    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad is received.")
-    }
-    
-    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Opened reward based video ad.")
-    }
-    
-    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad started playing.")
-    }
-    
-    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardedAd) { //GADRewardBasedVideoAd
-        print("Reward based video ad is closed.")
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
-        timer.fire()
-        
-        GADRewardedAd.load()//GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-    }
-    
-    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad will leave application.")
-    }
-    
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,
-                            didRewardUserWith reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        
-         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-        score.coins = score.coins + Int(Apps.REWARD_COIN)!//4
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
-      
-    }
-    
     func resizeTextview(){
         
         var getFont = UserDefaults.standard.float(forKey: "fontSize")
@@ -366,10 +299,6 @@ class SelfChallengePlay: UIViewController, UIScrollViewDelegate  { //GADRewardBa
                }
         zoomScale += 1
         zoomScroll.zoomScale = zoomScale
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-       // clearColor()
     }
     
 //    @IBAction func BookMark(_ sender: Any) {

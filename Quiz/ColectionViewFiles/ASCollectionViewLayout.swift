@@ -384,7 +384,12 @@ import UIKit
     
     private func setDefaultValues() {
         self.previousBoundsSize = .zero
-        self.gridCellSize = CGSize(width: 200, height: 100)
+       
+        if deviceStoryBoard == "Ipad" {
+            self.gridCellSize = CGSize(width: 300, height: 200)
+        }else{
+            self.gridCellSize = CGSize(width: 200, height: 100)
+        }
         self.parallaxCellSize = CGSize(width: 400, height: 200)
         self.gridCellSpacing = CGSize(width: 10, height: 10)
         self.headerSize = CGSize(width: 200, height: 200)

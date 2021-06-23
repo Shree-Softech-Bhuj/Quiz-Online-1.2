@@ -82,7 +82,7 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
        // view1.SetShadow()
         viewProgress.SetShadow()
         
-        if self.playType == "daily"{
+        if (self.playType == "daily") || (self.playType == "RandomQuiz") || (self.playType == "True/False"){
             titleText.text = Apps.DAILY_QUIZ_TITLE
             nxtLvl.setTitle( Apps.DAILY_QUIZ_TITLE, for: .normal)
         }
@@ -90,29 +90,53 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
         // Based on the percentage of questions you got right present the user with different message
         if(percentage >= 30 && percentage < 50) {
             earnedCoin = 1
-            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            setResultLabel()
+           // lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
-            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            setResultLabel()
+           // lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 70 && percentage < 90) {
             earnedCoin = 3
-            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            setResultLabel()
+//            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 90) {
             earnedCoin = 4
-            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            setResultLabel()
+//            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
             viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else{
             earnedCoin = 0
-            lblResults.text = self.playType == "main" ? Apps.NOT_COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_FAIL
+            if (self.playType == "daily") {
+                lblResults.text = Apps.DAILY_QUIZ_MSG_FAIL
+            }else if (self.playType == "RandomQuiz") {
+                lblResults.text = Apps.RANDOM_QUIZ_MSG_FAIL
+            }else if (self.playType == "True/False"){
+                lblResults.text = Apps.TF_QUIZ_MSG_FAIL
+            }else{
+                lblResults.text = Apps.NOT_COMPLETE_LEVEL
+            }
+//            lblResults.text = self.playType == "main" ? Apps.NOT_COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_FAIL
             viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
             //chng backcolor of containing view to red-pink & titlebar txt to play again
             titleText.text = self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE
             nxtLvl.setTitle(self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE, for: .normal)
         }
-        
+        func setResultLabel(){
+//            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
+            if (self.playType == "daily") {
+                lblResults.text = Apps.DAILY_QUIZ_MSG_SUCCESS
+            }else if (self.playType == "RandomQuiz") {
+                lblResults.text = Apps.RANDOM_QUIZ_MSG_SUCCESS
+            }else if (self.playType == "True/False"){
+                lblResults.text = Apps.TF_QUIZ_MSG_SUCCESS
+            }else{
+                lblResults.text = Apps.COMPLETE_LEVEL
+            }
+        }
         //apps has level lock unlock, remove this code if add no need level lock unlock
         if true { //if (percentage >= 30){
             if true { // if scoreLavel + 1 == self.level{
@@ -266,6 +290,8 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
                         
                         viewCont.catID = self.catID
                         viewCont.level = playLavel
+                        print("\(self.questionType) - \(self.playType)")
+                        viewCont.playType = self.playType
                         viewCont.questionType = self.questionType
                         viewCont.quesData = self.quesData
                         DispatchQueue.main.async {
@@ -309,8 +335,13 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
     @IBAction func scoreButton(_ sender: UIButton) {
         let str  = Apps.APP_NAME
         var shareUrl = ""
+        
         if self.playType == "main"{
             shareUrl = "\(Apps.SHARE1) \(self.level) \(Apps.SHARE2) \(self.earnedPoints)"
+        } else if self.playType == "True/False"{
+            shareUrl = "\(Apps.TF_QUIZ_SHARE_MSG) \(self.earnedPoints)"
+        } else if self.playType == "RandomQuiz" {
+            shareUrl = "\(Apps.RANDOM_QUIZ_SHARE_MSG) \(self.earnedPoints)"
         }else{
             shareUrl = "\(Apps.DAILY_QUIZ_SHARE_MSG) \(self.earnedPoints)"
         }

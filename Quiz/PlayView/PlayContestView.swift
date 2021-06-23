@@ -3,7 +3,7 @@ import UIKit
 import AVFoundation
 import GoogleMobileAds
 
-class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBasedVideoAdDelegate
+class PlayContestView: UIViewController, UIScrollViewDelegate,GADFullScreenContentDelegate {
     
     let progressBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_true)
     let progressFalseBar = UIProgressView.Vertical(color: UIColor.Vertical_progress_false)
@@ -48,13 +48,9 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
     var timer: Timer!
     var player: AVAudioPlayer?
     
-    // Is an ad being loaded.
-    var adRequestInProgress = false
-    
     // The reward-based video ad.
-   // var rewardBasedVideo: GADRewardBasedVideoAd?
     var rewardedAd: GADRewardedAd?
-
+    
     var falseCount = 0
     var trueCount = 0
     
@@ -104,10 +100,6 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
             btnE.isHidden = true
             buttons = [btnA,btnB,btnC,btnD]
         }
-        //Google AdMob
-//        rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
-//        rewardBasedVideo!.delegate = self
-        rewardedAd = GADRewardedAd() //adUnitID: Apps.INTERSTITIAL_AD_UNIT_ID
          if Apps.opt_E == true {
             DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
          }else{
@@ -132,7 +124,7 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
         self.CallNotification(notificationName: "ResultView")
         
         NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ReloadFont), name: NSNotification.Name(rawValue: "ReloadFont"), object: nil)
-         NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ResumeTimer), name: NSNotification.Name(rawValue: "ResumeTimer"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayQuizView.ResumeTimer), name: NSNotification.Name(rawValue: "ResumeTimer"), object: nil)
         
         setVerticleProgress(view: proview, progress: progressBar)// true progres bar
         setVerticleProgress(view: progFalseView, progress: progressFalseBar)// false progress bar
@@ -145,6 +137,8 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
         zoomScroll.maximumZoomScale = 6.0
         
         setGradientBackground()
+        
+        RequestForRewardAds()
            
         self.mainQuestionView.DesignViewWithShadow()
         
@@ -156,24 +150,6 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
         topView.layer.addSublayer(progressRing)
                 
         quesData.shuffle()
-//        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-        // rewardedAd?.load(GADRequest())
-         GADRewardedAd.load()
-         /*
-          rewardedAd?.load(GADRequest()) { error in
-             if let error = error {
-              print("error \(error)")
-               // Handle ad failed to load case.
-             } else {
-               // Ad successfully loaded.
-              print("ad loaded successfully")
-             }
-           }
-          */
-         
- //        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-         
-         RequestForRewardAds()
         
         self.titleBar.text = "\(contestNm)"//"\(Apps.LEVEL) \(level)"
       //  self.loadQuestion()
@@ -220,90 +196,72 @@ class PlayContestView: UIViewController, UIScrollViewDelegate {//, GADRewardBase
             }
        // })
     }
-    func RequestForRewardAds(){
-//        let request = GADRequest()
-        //request.testDevices = [ kGADSimulatorID ];
-       // request.testDevices = Apps.AD_TEST_DEVICE
-//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
-//        rewardBasedVideo?.load(request,withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-        GADRewardedAd.load()
-    }
     
+    func RequestForRewardAds(){
+        GADRewardedAd.load(withAdUnitID: Apps.REWARD_AD_UNIT_ID, request: GADRequest()) { (ad, error) in
+              if let error = error {
+                print("Rewarded ad failed to load with error: \(error.localizedDescription)")
+                return
+              }
+              print("Loading Succeeded")
+              self.rewardedAd = ad
+              self.rewardedAd?.fullScreenContentDelegate = self
+            }
+    }
+       
     @objc func ReloadFont(noti: NSNotification){
         resizeTextview()
     }
     
     func watchAd() {
-//        if rewardBasedVideo?.isReady == true {
-//            rewardBasedVideo?.present(fromRootViewController: self)
-//        }
         if let ad = rewardedAd {
-            ad.present(fromRootViewController: self, userDidEarnRewardHandler: self.viewDidLoad)
-        }
-    }
-    
-    // MARK: GADRewardBasedVideoAdDelegate implementation
-   
-    private func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,didFailToLoadWithError error: Error) {
-        print("Reward based video ad failed to load: \(error.localizedDescription) - \(GADErrorCode.serverError)")
-    }
-    
-    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad is received.")
-    }
-    
-    func rewardedAdDidPresent(_ rewardedAd: GADRewardedAd) {
-      print("Rewarded ad presented.")
-    }
+             ad.present(fromRootViewController: self) {
+               let reward = ad.adReward
+               // TODO: Reward the user.
+                print("Reward received with currency: \(reward.type), amount \(reward.amount).")
+                         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
+                        score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
+                self.mainCoinCount.text = "\(score.coins)"
+             }
+           } else {
+             let alert = UIAlertController(
+               title: "Rewarded ad isn't available yet.",
+               message: "The rewarded ad cannot be shown at this time",
+               preferredStyle: .alert)
+             let alertAction = UIAlertAction(
+               title: "OK",
+               style: .cancel,
+               handler: { [weak self] action in
+               })
+             alert.addAction(alertAction)
+             self.present(alert, animated: true, completion: nil)
+           }
+         }
 
-    func rewardedAd(_ rewardedAd: GADRewardedAd, didFailToPresentWithError error: Error) {
-      print("Rewarded ad failed to present.")
-    }
-//    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardedAd) {
-//        print("Opened reward based video ad.")
-//    }
-    
-    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad started playing.")
-    }
-    
-    func rewardedAdDidDismiss(_ rewardedAd: GADRewardedAd) {
-        print("Reward based video ad is closed.")
-       timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
-       timer.fire()
-       
-        GADRewardedAd.load()
-        //rewardedAd?.load(rewardedAd)
-        
-       //        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-    }
-//    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardedAd) {
-//        print("Reward based video ad is closed.")
-//        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
-//        timer.fire()
-//
-//        rewardedAd?.load(GADRequest())
-////        rewardBasedVideo?.load(GADRequest(),withAdUnitID: Apps.REWARD_AD_UNIT_ID)
-//    }
-    
-    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardedAd) {
-        print("Reward based video ad will leave application.")
-    }
-    
-    func rewardedAd(_ rewardedAd: GADRewardedAd, userDidEarn reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-                 var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-                score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
-                UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
-                mainCoinCount.text = "\(score.coins)"
-    }
-//    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardedAd,didRewardUserWith reward: GADAdReward) {
-//        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-//         var score = try! PropertyListDecoder().decode(UserScore.self, from: (UserDefaults.standard.value(forKey:"UserScore") as? Data)!)
-//        score.coins = score.coins + Int(Apps.REWARD_COIN)! //4
-//        UserDefaults.standard.set(try? PropertyListEncoder().encode(score),forKey: "UserScore")
-//        mainCoinCount.text = "\(score.coins)"
-//    }
+         // MARK: GADFullScreenContentDelegate
+         func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+           print("Rewarded ad presented.")
+         }
+
+         func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+           print("Rewarded ad dismissed.")
+         }
+
+         func ad(_ ad: GADFullScreenPresentingAd,didFailToPresentFullScreenContentWithError error: Error) {
+           print("Rewarded ad failed to present with error: \(error.localizedDescription).")
+           let alert = UIAlertController(
+             title: "Rewarded ad failed to present",
+             message: "The reward ad could not be presented.",
+             preferredStyle: .alert)
+           let alertAction = UIAlertAction(
+             title: "Drat",
+             style: .cancel,
+             handler: { [weak self] action in
+             })
+           alert.addAction(alertAction)
+           self.present(alert, animated: true, completion: nil)
+         }
     
     func resizeTextview(){
         

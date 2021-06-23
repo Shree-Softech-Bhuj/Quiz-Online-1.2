@@ -90,10 +90,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
        varSys.ConfigureSystem()
        varSys.getUserDetails()
        varSys.LoadLanguages(completion: {})
+       varSys.loadCategories()
        varSys.getNotifications()
-       
-        
-        
+             
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self 

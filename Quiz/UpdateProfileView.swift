@@ -72,7 +72,7 @@ class UpdateProfileView: UIViewController{
         //hide updt btn by default, show it on editing of any of textfields
         mainview.heightAnchor.constraint(equalToConstant: 380).isActive = true
         btnUpdate.isHidden = true
-        btnUpdate.layer.cornerRadius = btnUpdate.frame.height / 3 //btnUpdate.bounds.size.height/2 //15
+        btnUpdate.layer.cornerRadius = btnUpdate.frame.height / 2 //btnUpdate.bounds.size.height/3 //15
         
 //        mainview.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)
 //        optionsView.shadow(color: .black, offSet: CGSize(width: 3, height: 3), opacity: 0.7, radius: 30, scale: true)

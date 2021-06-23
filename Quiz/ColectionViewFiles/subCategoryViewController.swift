@@ -45,6 +45,14 @@ class subCategoryViewController: UIViewController,UICollectionViewDataSource, UI
         GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = Apps.AD_TEST_DEVICE
         adBannerView.load(request)
         
+        //refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
+        //tableView.refreshControl = refreshController
+        titleBarTxt.text = catName
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("view appear - subcategoryview with id and name - \(catID) - \(catName)")
         //get data from server
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
@@ -53,13 +61,7 @@ class subCategoryViewController: UIViewController,UICollectionViewDataSource, UI
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
         }
-        
-        //refreshController.addTarget(self,action: #selector(self.RefreshDataOnPullDown),for: .valueChanged)
-        //tableView.refreshControl = refreshController
-        titleBarTxt.text = catName
-        
     }
-    
     func checkForValues(){
         if arrColors1.count < numberOfItems{
             let dif = numberOfItems - (arrColors1.count - 1)

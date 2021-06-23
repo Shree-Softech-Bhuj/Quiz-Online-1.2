@@ -7,6 +7,10 @@ class SystemConfig: UIViewController {
     var Loader: UIAlertController = UIAlertController()
     var NotificationList: [Notifications] = []
     
+    var apiExPeraforLang = ""
+    var config:SystemConfiguration?
+    var catData:[Category] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.LoadLanguages(completion: {})
@@ -40,7 +44,34 @@ class SystemConfig: UIViewController {
             print(msg)
         }
     }
-    
+    func loadCategories(){
+        //        call and get API response for categories
+        if(Reachability.isConnectedToNetwork()){
+            if  config?.LANGUAGE_MODE == 1{
+                apiExPeraforLang = "&language_id=\(UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG))"
+            }
+            let apiURL = "" //+ apiExPeraforLang
+            self.getAPIData(apiName: "get_categories", apiURL: apiURL,completion: {jsonObj in
+                print("JSON",jsonObj)
+            let status = jsonObj.value(forKey: "error") as! String
+            if (status == "true"){
+            }else{
+                //get data for category
+                self.catData.removeAll()
+                if let data = jsonObj.value(forKey: "data") as? [[String:Any]] {
+                    for val in data{
+                        self.catData.append(Category.init(id: "\(val["id"]!)", name: "\(val["category_name"]!)", image: "\(val["image"]!)", maxlvl: "\(val["maxlevel"]!)", noOf: "\(val["no_of"]!)", noOfQues: "\(val["no_of_que"]!)"))
+                    }
+                }
+                print("categoryData loaded - \(self.catData)")
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(self.catData), forKey: "categories")
+            }
+                
+          })
+        }else{
+            ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
+        }
+    }
     
     func ConfigureSystem() {
         //get data from server
@@ -131,8 +162,7 @@ class SystemConfig: UIViewController {
                 Apps.GROUP_BATTLE_WITH_CATEGORY = group_btl
                 
                 let rndm_btl = DATA["battle_random_category_mode"]  as! String
-                Apps.RANDOM_BATTLE_WITH_CATEGORY = rndm_btl
-                
+                Apps.RANDOM_BATTLE_WITH_CATEGORY = rndm_btl                
             }
         }
         //close loader here
@@ -154,7 +184,7 @@ class SystemConfig: UIViewController {
     }
     //load category data here
     func LoadNotifications(jsonObj:NSDictionary){
-       // print("RS",jsonObj)
+        print("RS",jsonObj)
         let status = jsonObj.value(forKey: "error") as! String
         if (status == "true") {
 //            DispatchQueue.main.async {

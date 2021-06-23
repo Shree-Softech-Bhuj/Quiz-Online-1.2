@@ -57,7 +57,7 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             btnE.isHidden = true
             buttons = [btnA,btnB,btnC,btnD]
         }
-        
+        SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
         //get bookmark list
         if (UserDefaults.standard.value(forKey: "booklist") != nil){
             BookQuesList = try! PropertyListDecoder().decode([QuestionWithE].self, from:(UserDefaults.standard.value(forKey: "booklist") as? Data)!)
@@ -268,11 +268,13 @@ class BookmarkPlayView: UIViewController, UIScrollViewDelegate{
             if (BookQuesList[currentQuestionPos].opetionE) == ""{
                 Apps.opt_E = false
                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+                SetViewWithShadow(views: btnA,btnB,btnC,btnD)
                 btnE.isHidden = true
                 buttons = [btnA,btnB,btnC,btnD]
             }else{
                 Apps.opt_E = true
                 MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+                SetViewWithShadow(views: btnA,btnB,btnC,btnD,btnE)
                 btnE.isHidden = false
                 buttons = [btnA,btnB,btnC,btnD,btnE]
             }

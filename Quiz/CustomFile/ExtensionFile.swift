@@ -23,17 +23,17 @@ extension UIProgressView{
     
     // set  verticle progress bar here
     static func Vertical(color: UIColor)->UIProgressView{
-        let prgressView = UIProgressView() 
-        prgressView.progress = 0.0
-        prgressView.progressTintColor = color
-        prgressView.trackTintColor = UIColor.clear
-        prgressView.layer.borderColor = color.cgColor
-        prgressView.layer.borderWidth = 2
-        prgressView.layer.cornerRadius = 10
-        prgressView.clipsToBounds = true
-        prgressView.transform = CGAffineTransform(rotationAngle: .pi / -2)
-        prgressView.translatesAutoresizingMaskIntoConstraints = false
-        return prgressView
+            let prgressView = UIProgressView()
+            prgressView.progress = 0.0
+            prgressView.progressTintColor = color
+            prgressView.trackTintColor = UIColor.clear
+            prgressView.layer.borderColor = color.cgColor
+            prgressView.layer.borderWidth = 2
+            prgressView.layer.cornerRadius = 10
+            prgressView.clipsToBounds = true
+            prgressView.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            prgressView.translatesAutoresizingMaskIntoConstraints = false
+            return prgressView
     }
     
     static func Horizontal(color: UIColor)->UIProgressView{
@@ -274,6 +274,55 @@ extension UIView{
         border.backgroundColor = color.cgColor
         border.frame = CGRect(x:0,y: self.frame.height / 2, width:self.frame.size.width, height:width)
         self.layer.addSublayer(border)
+    }
+    
+    func setGradient(_ color1: UIColor,_ color2: UIColor)
+    {
+        let gradientLayer = CAGradientLayer()
+        self.backgroundColor = .clear
+        gradientLayer.colors = [color1.cgColor, color2.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0,y: 1)
+        gradientLayer.endPoint = CGPoint(x: 1,y: 0)
+        gradientLayer.locations = [0.50, 0.1]
+        gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width * UIScreen.main.bounds.width, height: self.frame.size.height * UIScreen.main.bounds.height)
+        //gradientLayer.cornerRadius = 25 //self.layer.cornerRadius
+//        gradientLayer.roundCorners(corners: [ .bottomLeft, .topLeft], radius: 10)
+        if let topLayer = self.layer.sublayers?.first, topLayer is CAGradientLayer
+        {
+            topLayer.removeFromSuperlayer()
+        }
+       //self.layer.addSublayer(gradientLayer)
+        self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+//    func setGradientHome(_ color1: UIColor,_ color2: UIColor)
+//    {
+//        let l = CAGradientLayer()
+//        l.type = kCAGradientLayerAxial
+//        self.backgroundColor = .clear
+//        l.colors = [ color1.cgColor,color2.cgColor]
+//        l.locations = [ 0.1,1.5 ]
+////        l.startPoint = CGPoint(x: 1.0, y: 0.5)
+////        l.endPoint = CGPoint(x: 0.5, y: 1.0)
+//        l.startPoint = CGPoint(x: 0.5, y: 1.5)
+//        l.endPoint = CGPoint(x: 1.0, y: 2.5)
+//        l.frame = self.bounds
+//        if let topLayer = self.layer.sublayers?.first, topLayer is CAGradientLayer
+//        {
+//            topLayer.removeFromSuperlayer()
+//        }
+//        self.layer.insertSublayer(l, at: 0)
+//        print("home gradient - color -- \(color2) - \(color1)")
+//
+//    }
+    
+    func setShadow(){
+        self.layer.cornerRadius = 15
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowOffset = CGSize(width: 3, height: 4)
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 4
+        self.layer.masksToBounds = false
     }
 }
 

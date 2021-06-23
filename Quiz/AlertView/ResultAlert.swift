@@ -50,7 +50,7 @@ class ResultAlert: UIViewController {
         }
         
         reBattle.setBorder()
-        exit.layer.cornerRadius = exit.frame.height / 3 //exit.bounds.size.height/2 //15
+        exit.layer.cornerRadius = exit.frame.height / 2//3 //exit.bounds.size.height/2 //15
     }
     
     @IBAction func RebattleBtn(_ sender: Any) {
