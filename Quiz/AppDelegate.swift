@@ -275,7 +275,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        
+        //battle modes
+        NotificationCenter.default.post(name: Notification.Name("MakeUserOffline"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("ResetBattle"), object: nil)
         print("called resignActive")
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -293,7 +295,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate , Messag
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        //battle modes
+        NotificationCenter.default.post(name: Notification.Name("MakeUserOnline"), object: nil)
         //test
         self.tryToPresentAd()
         //test

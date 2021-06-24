@@ -16,7 +16,6 @@ extension UIColor{
     
     static let Vertical_progress_true = Apps.RIGHT_ANS_COLOR //verticle proress bar color for true answer
     static let Vertical_progress_false = Apps.WRONG_ANS_COLOR // verticle progress bar color for false answer
-    
 }
 
 extension UIProgressView{
@@ -316,13 +315,16 @@ extension UIView{
 //
 //    }
     
-    func setShadow(){
-        self.layer.cornerRadius = 15
-        self.layer.shadowColor = UIColor.gray.cgColor
-        self.layer.shadowOffset = CGSize(width: 3, height: 4)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 4
-        self.layer.masksToBounds = false
+    func setCellShadow(){
+        
+        let subLayer = self.layer//.superlayer//sublayers?.last
+        
+        subLayer.cornerRadius = 5
+        subLayer.shadowColor = UIColor.gray.cgColor
+        subLayer.shadowOffset = CGSize(width: 3, height: 4)
+        subLayer.shadowOpacity = 1
+        subLayer.shadowRadius = 4
+        subLayer.masksToBounds = false//subLayer!.masksToBounds = false //self.layer.
     }
 }
 

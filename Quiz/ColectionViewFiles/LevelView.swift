@@ -166,7 +166,11 @@ class LevelView: UIViewController,UICollectionViewDataSource, UICollectionViewDe
         if (unLockLevel >= 0 && indexPath.row < unLockLevel) {
             print("values - \(unLockLevel) - \(indexPath.row)")
             gridCell.levelNumber.textColor = UIColor.rgb(168.0, 168.0, 168.0, 1.0)
-            gridCell.lockButton.setImage(UIImage(named: "unlock"), for: .normal)
+            if deviceStoryBoard == "Ipad"{
+                gridCell.lockButton.setBackgroundImage(UIImage(named: "unlock"), for: .normal)
+            }else{
+                gridCell.lockButton.setImage(UIImage(named: "unlock"), for: .normal)
+            }
             gridCell.lockButton.tintColor = UIColor.gray
         }
         
@@ -176,6 +180,8 @@ class LevelView: UIViewController,UICollectionViewDataSource, UICollectionViewDe
         gridCell.bgView.layer.masksToBounds = true
         gridCell.bgView.layer.borderColor = UIColor.lightGray.cgColor
         gridCell.bgView.layer.borderWidth = 1
+        
+       // gridCell.setCellShadow()
         
         return gridCell
     }

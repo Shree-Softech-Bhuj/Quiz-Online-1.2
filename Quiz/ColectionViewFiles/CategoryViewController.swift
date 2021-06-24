@@ -200,9 +200,11 @@ extension CategoryViewController: ASCollectionViewDataSource {
         gridCell.catLabel.textChangeAnimationToRight()
         gridCell.circleImgView.image = UIImage(named: "circle")
         gridCell.circleImgView.tintColor = UIColor.init(named: tintArr[indexPath.row])//UIColor.init(named: "pink1")
-        gridCell.bottomLineView.setGradient(arrColors1[indexPath.row] ?? UIColor.blue,arrColors2[indexPath.row] ?? UIColor.cyan)
+//        gridCell.bottomLineView.setGradient(arrColors1[indexPath.row] ?? UIColor.blue,arrColors2[indexPath.row] ?? UIColor.cyan)
+//        gridCell.bottomLineView.backgroundColor = UIColor.systemRed
+        gridCell.bottomLineView.backgroundColor = arrColors1[indexPath.row]
         
-        //gridCell.setShadow()
+        gridCell.setCellShadow()
         
         return gridCell
     }
@@ -262,6 +264,38 @@ class GridCell: UICollectionViewCell {
     @IBOutlet weak var logoImg: UIImageView!
     @IBOutlet weak var bottomLineView: UIView!
     @IBOutlet weak var gotoButton: UIButton!
+    
+   /* override public func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let subLayer = self.layer//.superlayer//sublayers?.last
+        
+        subLayer.cornerRadius = 5
+        subLayer.shadowColor = UIColor.gray.cgColor
+        subLayer.shadowOffset = CGSize(width: 3, height: 4)
+        subLayer.shadowOpacity = 1
+        subLayer.shadowRadius = 4
+        subLayer.masksToBounds = false//subLayer!.masksToBounds = false //self.layer.
+        
+        //setLayerGradient()
+    } */
+    
+    func setLayerGradient(){
+        //set gradient layer
+        
+        let gradientLayer = CAGradientLayer()
+        self.backgroundColor = .clear
+        gradientLayer.colors = [arrColors1[0] ?? UIColor.blue,arrColors2[0] ?? UIColor.cyan]
+        gradientLayer.startPoint = CGPoint(x: 0,y: 1)
+        gradientLayer.endPoint = CGPoint(x: 1,y: 0)
+        gradientLayer.locations = [0.50, 0.1]
+        gradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.bottomLineView.frame.size.width * UIScreen.main.bounds.width, height: self.bottomLineView.frame.size.height * UIScreen.main.bounds.height)
+//        if let topLayer = self.layer.sublayers?.first, topLayer is CAGradientLayer
+//        {
+//            topLayer.removeFromSuperlayer()
+//        }
+        self.bottomLineView.layer.addSublayer(gradientLayer)
+    }
 }
 
 //extension UIView{

@@ -19,8 +19,8 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     var arrColors1 = [UIColor(named: Apps.SKY2),UIColor(named: Apps.ORANGE2),UIColor(named: Apps.PURPLE2),UIColor(named: Apps.GREEN2),UIColor(named: Apps.BLUE2),UIColor(named: Apps.PINK2)]
     
     var playZoneData = [Apps.DAILY_QUIZ_PLAY,Apps.RNDM_QUIZ,Apps.TRUE_FALSE,Apps.SELF_CHLNG] //,Apps.PRACTICE
-    let battleData = [Apps.RNDM_BTL] //Apps.GROUP_BTL,
-    let battleImgData = [Apps.RNDM] //Apps.GRP_BTL,
+    let battleData = [Apps.GROUP_BTL,Apps.RNDM_BTL] //
+    let battleImgData = [Apps.GRP_BTL,Apps.RNDM] //
         
     var catData = ["Best Quiz","General Knowledge","Sports","Best Quiz","General Knowledge","Sports","Best Quiz","General Knowledge","Sports"]
     
@@ -41,6 +41,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         
         if (UserDefaults.standard.value(forKey: "categories") != nil){
                 initialCatData = try! PropertyListDecoder().decode([Category].self,from:(UserDefaults.standard.value(forKey: "categories") as? Data)!)
+                numberOfItems = initialCatData.count
         }else{
             print("cat data not loaded")
         }
@@ -74,6 +75,8 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
             return playZoneData.count//4
         }else if titleLabel.text == Apps.QUIZ_ZONE {
             return numOfColumns
+        }else if titleLabel.text == Apps.BATTLE_ZONE {
+            return battleData.count
         }else{
             return 1
         }
@@ -115,7 +118,7 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         print("titleLabel text - \(String(describing: titleLabel.text)) -cellIdentifier- \(cellIdentifier)")
         switch cellIdentifier {
             case "PlayZone":
-                cell.catTitle.frame = CGRect(x: 20, y: 0, width: 300, height: 55)
+               // cell.catTitle.frame = CGRect(x: 20, y: 0, width: 300, height: 55)
                 cell.catTitle.text = "\(playZoneData[indexPath.row])"
 //                cell.lockImgRight.alpha = 1
 //                cell.image2.alpha = 1
@@ -129,10 +132,10 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
                 cell.catTitle.text = initialCatData[indexPath.row].name//catData[indexPath.row]
                 cell.noOfQues.layer.cornerRadius = CGFloat(cell.noOfQues.frame.height / 2)
                 cell.noOfQues.layer.masksToBounds = true
-                cell.numOfsubCat.layer.cornerRadius = CGFloat(cell.noOfQues.frame.height / 2)
-                cell.numOfsubCat.layer.masksToBounds = true
                 cell.noOfQues.text = "\(initialCatData[indexPath.row].noOfQues) Ques"//"11 Ques"
                 cell.noOfQues.backgroundColor = UIColor.white.withAlphaComponent(0.4)
+                cell.numOfsubCat.layer.cornerRadius = CGFloat(cell.noOfQues.frame.height / 2)
+                cell.numOfsubCat.layer.masksToBounds = true
                 cell.numOfsubCat.text = "\(initialCatData[indexPath.row].noOf) Category"//"0 Category"
                 cell.numOfsubCat.backgroundColor = UIColor.white.withAlphaComponent(0.4)
                 cell.simpleView.setGradient(arrColors1[indexPath.row] ?? UIColor.blue,arrColors2[indexPath.row] ?? UIColor.cyan)
@@ -154,13 +157,13 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
 //                cell.playIcon.alpha = 1
 //                cell.txtPlayJoinNow.alpha = 1
                 //cell.txtPlayJoinNow.text = Apps.JOIN_NOW
-                if deviceStoryBoard == "Ipad"{
+                /*if deviceStoryBoard == "Ipad"{
                     cell.txtPlayJoinNow.frame = CGRect(x: 80, y: 100, width: 85, height: 30)
                     cell.playIcon.frame = CGRect(x: 40, y: 100, width: 30, height: 30)
                 }else{
                     cell.txtPlayJoinNow.frame = CGRect(x: 60, y: 80, width: 85, height: 30)
                     cell.playIcon.frame = CGRect(x: 20, y: 80, width: 30, height: 30)
-                }
+                }*/
                 
 //                cell.noOfQues.alpha = 0//.text = "100 Ques"
 //                cell.numOfsubCat.alpha = 0//.text = "10 Subcategories"
@@ -184,16 +187,20 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
             switch (titleLabel.text) {
             case Apps.PLAY_ZONE:
               //  collectionView.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 0, right: 10)
-                let height = (collectionView.frame.size.height / 2) - 2
-                let width = collectionView.frame.size.width - 100
-                print("chk -- \(String(describing: titleLabel.text))")
+                let hh =  deviceStoryBoard == "Ipad" ? collectionView.frame.size.height :collectionView.frame.size.height - 30
+                let height = (hh / 2) - 2
+                let deductionVal:CGFloat = deviceStoryBoard == "Ipad" ? 200 : 100
+                let width = collectionView.frame.size.width - deductionVal//100
                 return CGSize(width: width, height: height)
-    //        case Apps.BATTLE_ZONE:
-    //            let height = (collectionView.frame.size.height / 2) - 3
-    //            let width = collectionView.frame.size.width - 20
-    //            print("chk -- \(String(describing: titleLabel.text))")
-    //            return CGSize(width: width, height: height)
-            default:
+            case Apps.BATTLE_ZONE:
+                let height = (collectionView.frame.size.height / 2) - 3
+                let width = collectionView.frame.size.width - 20
+               // print("chk -- \(String(describing: titleLabel.text))")
+                return CGSize(width: width, height: height)
+            case Apps.QUIZ_ZONE:
+                let testWidth = deviceStoryBoard == "Ipad" ? collectionView.frame.size.width - 120 : collectionView.frame.size.width - 20
+                return CGSize(width: testWidth, height: collectionView.frame.size.height - 20)
+            default: //contest zone
                 print("default chk -- \(String(describing: titleLabel.text))")
                 return CGSize(width: collectionView.frame.size.width - 20, height: collectionView.frame.size.height - 20)
         }
@@ -202,11 +209,9 @@ class HomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var cellName = "categoryview" //identifier of ViewController
         print(indexPath.row)
-        print(titleLabel.text)
-       
-        
+//        print(titleLabel.text)        
         if titleLabel.text == Apps.BATTLE_ZONE {
-            cellName = "battlezone-1"
+            cellName = "battlezone-\(indexPath.row)"
         }
         if titleLabel.text == Apps.PLAY_ZONE {
             //playZoneData

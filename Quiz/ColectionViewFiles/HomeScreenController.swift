@@ -3,7 +3,7 @@ import Firebase
 import AVFoundation
 
 class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var leaderboardButton: UIButton!
@@ -34,6 +34,13 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     var arr = [Apps.QUIZ_ZONE,Apps.PLAY_ZONE,Apps.BATTLE_ZONE,Apps.CONTEST_ZONE]
     let leftImg = [Apps.IMG_QUIZ_ZONE,Apps.IMG_PLAYQUIZ,Apps.IMG_BATTLE_QUIZ,Apps.IMG_CONTEST_QUIZ]
     
+    //battle modes
+    var ref: DatabaseReference!
+    var roomDetails:RoomDetails?
+    var isUserBusy = false
+    
+    @IBOutlet var selectBattleTypeView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,12 +50,11 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.PlayBackgrounMusic(player: &backgroundMusicPlayer, file: "snd_bg")
         
-        leaderboardButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        leaderboardButton.layer.cornerRadius = leaderboardButton.frame.height / 2//4
         leaderboardButton.backgroundColor = UIColor.white.withAlphaComponent(0.4)
-        languageButton.layer.cornerRadius = leaderboardButton.frame.height / 4
-        allTimeScoreButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        allTimeScoreButton.layer.cornerRadius = leaderboardButton.frame.height / 2//4
         allTimeScoreButton.backgroundColor = UIColor.white.withAlphaComponent(0.4)
-        coinsButton.layer.cornerRadius = leaderboardButton.frame.height / 4
+        coinsButton.layer.cornerRadius = leaderboardButton.frame.height / 2//4
         coinsButton.backgroundColor = UIColor.white.withAlphaComponent(0.4)
         
         //check setting object in user default
@@ -80,6 +86,12 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tableView.reloadData()
+        
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            if self.isUserBusy{
+                self.isUserBusy = false
+            }
+        }
     }
     
     //load category data here
@@ -116,6 +128,8 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
             imgProfile.layer.masksToBounds = true//false
             imgProfile.clipsToBounds = true
+            imgProfile.layer.borderWidth = 2
+            imgProfile.layer.borderColor = UIColor.white.cgColor
             
             imgProfile.isUserInteractionEnabled = true
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
@@ -210,6 +224,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
+    
     @IBAction func moreBtn(_ sender: UIButton) {
         
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -290,7 +305,14 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        var heightVal:CGFloat = 0
+        if indexPath.row == 1 || indexPath.row == 2 { //playzone OR BattleZone
+            heightVal = (deviceStoryBoard == "Ipad" ? 800 : 400)
+            return heightVal
+        }else{
+            heightVal = (deviceStoryBoard == "Ipad" ? 400 : 300)
+            return heightVal
+        }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected - \(indexPath.row)")
@@ -319,6 +341,16 @@ extension HomeScreenController:CellSelectDelegate{
                 let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                 let viewCont = storyboard.instantiateViewController(withIdentifier: "SelfChallengeController")
                 self.navigationController?.pushViewController(viewCont, animated: true)
+        }else if type == "battlezone-0"{
+            if UserDefaults.standard.bool(forKey: "isLogedin"){
+              let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+              let viewCont = storyboard.instantiateViewController(withIdentifier: "GroupBattleTypeSelection")
+                viewCont.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+                viewCont.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                self.present(viewCont, animated: true, completion: nil)
+            }else{
+              self.navigationController?.popToRootViewController(animated: true)
+            }
         }else if type == "battlezone-1"{
             if UserDefaults.standard.bool(forKey: "isLogedin"){
                 if Apps.RANDOM_BATTLE_WITH_CATEGORY == "1"{
@@ -577,5 +609,149 @@ extension HomeScreenController:CellSelectDelegate{
         }
         
     }
+    
+    //battle modes
+    @objc func MakeUserOnline(){
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            if let userDT = UserDefaults.standard.value(forKey:"user"){
+                let user = try! PropertyListDecoder().decode(User.self, from: (userDT as? Data)!)
+                var userDetails:[String:String] = [:]
+                // userDetails["UID"] = user.UID
+                userDetails["userID"] = user.userID
+                userDetails["name"] = user.name
+                userDetails["image"] = user.image
+                userDetails["status"] = "free"
+                // set data for available to battle with users in firebase database
+                self.ref.child(user.UID).setValue(userDetails)
+            }
+        }
+    }
+    
+    @objc func MakeUserOffiline(){
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
+            if let userDT = UserDefaults.standard.value(forKey:"user"){
+                let ref = Database.database().reference().child(Apps.ROOM_NAME)
+                let user = try! PropertyListDecoder().decode(User.self, from: (userDT as? Data)!)
+                ref.child(user.UID).removeValue()
+            }
+        }
+    }
+    
+    @objc func ShowInvitationAlert(){
+        
+        if self.isUserBusy{
+            ref.removeAllObservers()
+            return
+        }        
+        
+        
+        let alert = UIAlertController(title: "Game Invitation", message: "You have been invited to room \(self.roomDetails!.roomName) by your friend", preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "Invitation Accepted", style: .default, handler: {_ in
+            print("Invitation accepted")
+            
+            DispatchQueue.main.async {
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let viewCont = storyboard.instantiateViewController(withIdentifier: "PrivateRoomView") as! PrivateRoomView
+                
+                viewCont.roomInfo = self.roomDetails
+                viewCont.selfUser = false
+                self.isUserBusy = true
+                
+                self.navigationController?.pushViewController(viewCont, animated: true)
+                let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+                let refR = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME).child(self.roomDetails!.roomFID).child("joinUser").child(user.UID)
+                refR.child("isJoined").setValue("true")
+                
+                self.ref.child(user.UID).child("status").setValue("busy")
+                
+                
+            }
+        })
+        let rejectAction = UIAlertAction(title: "Invitation Rejected", style: .cancel, handler: {_ in
+            print("Invitation rejected")
+            
+            let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            
+            let refR = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME).child(self.roomDetails!.roomFID).child("joinUser")
+            refR.child(user.UID).removeValue()
+            
+            self.ref.removeAllObservers()
+            refR.removeAllObservers()
+            
+            let refOnline = Database.database().reference().child(Apps.ROOM_NAME).child(user.UID)
+            refOnline.child("status").setValue("free")
+            refOnline.removeAllObservers()
+            
+        })
+        
+        alert.addAction(acceptAction)
+        alert.addAction(rejectAction)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        if Apps.badgeCount > 0 {
+            Apps.badgeCount -= 1
+            UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
+           
+        }
+        UIApplication.shared.applicationIconBadgeNumber = Apps.badgeCount
+        
+    }
+    
+    func ObserveInvitation(){
+        if self.isUserBusy{
+            ref.removeAllObservers()
+            return
+        }
+        let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+        let  ref = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME)
+        ref.observe(.value, with: { (snapshot) in
+            if let data = snapshot.value as? [String:Any]{
+                for val in data{
+                    if let fireroom = val.value as? [String:Any]{
+                        if  "\(fireroom["isStarted"] ?? "false")".bool ?? false{
+                            // room is already started
+                            continue
+                        }
+                        if "\(fireroom["isRoomActive"] ?? "false")".bool ?? false {
+                            // room is active still & room is not started
+                        }else{
+                            //room is deactive by room owner
+                            continue
+                        }
+                        if let roomUser = fireroom["roomUser"] as? [String:Any]{
+                            if  let joinUser = fireroom["joinUser"] as? [String:Any]{
+                                for ju in joinUser{
+                                    if let udj = ju.value as? [String:Any]{
+                                        if "\(udj["userID"]!)" == "\(roomUser["userID"] ?? "0")"{
+                                            // same user do not show any invitation alert
+                                            continue
+                                        }else{
+                                            if joinUser.keys.contains(user.UID){
+                                                if let uUser = joinUser[user.UID] as? [String:Any]{
+                                                    // print("UU USER",uUser)
+                                                    if uUser["userID"] as! String == "\(roomUser["userID"] ?? "0")"{
+                                                        // same user do not show any invitation alert
+                                                        continue
+                                                    }
+                                                }
+                                                //print("User got invitation here")
+                                                self.roomDetails = RoomDetails.init(ID:  "\(fireroom["roomID"]!)", roomFID: val.key, userID: "\(roomUser["userID"] ?? "0")", roomName: "\(fireroom["roomName"]!)", catName: "\(fireroom["category"]!)", catLavel: "\( fireroom["catLavel"] ?? "0")", noOfPlayer: "\(fireroom["noOfPlayer"]!)", noOfQues: "\(fireroom["noOfQuestion"]!)", playTime: "\( fireroom["time"]!)")
+                                                
+                                                self.ShowInvitationAlert()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        })
+    }
+    
     
 }

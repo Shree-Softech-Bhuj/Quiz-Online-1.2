@@ -77,6 +77,7 @@
 		C6DDF985267B5AEB0081FF79 /* subCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97C267B5AEB0081FF79 /* subCategoryViewController.swift */; };
 		C6DDF986267B5AEB0081FF79 /* TestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97D267B5AEB0081FF79 /* TestCollectionViewCell.swift */; };
 		C6DDF987267B5AEB0081FF79 /* LevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DDF97E267B5AEB0081FF79 /* LevelView.swift */; };
+		C6E49E032684A7F3002DAA39 /* GroupBattleTypeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E49E022684A7F3002DAA39 /* GroupBattleTypeSelection.swift */; };
 		C6FC8FE525DAA2B1000046F9 /* OTPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC8FE425DAA2B1000046F9 /* OTPController.swift */; };
 		D74A119821A6B4D80026B327 /* PlayQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119721A6B4D80026B327 /* PlayQuizView.swift */; };
 		D74A119A21A6B8B60026B327 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A119921A6B8B60026B327 /* ResultsViewController.swift */; };
@@ -210,6 +211,7 @@
 		C6DDF97C267B5AEB0081FF79 /* subCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = subCategoryViewController.swift; sourceTree = "<group>"; };
 		C6DDF97D267B5AEB0081FF79 /* TestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCell.swift; sourceTree = "<group>"; };
 		C6DDF97E267B5AEB0081FF79 /* LevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelView.swift; sourceTree = "<group>"; };
+		C6E49E022684A7F3002DAA39 /* GroupBattleTypeSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupBattleTypeSelection.swift; sourceTree = "<group>"; };
 		C6F6600A23F67E2600015F15 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		C6F6600C23F67E2600015F15 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		C6FC8FE425DAA2B1000046F9 /* OTPController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPController.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				BC02A0B922A919E80089025C /* FloatingTF.swift */,
 				C600A0E723BF12E50095022E /* ForgotPswdView.swift */,
 				C6DDA8D1260245A2006AC97D /* GradientButton.swift */,
+				C6E49E022684A7F3002DAA39 /* GroupBattleTypeSelection.swift */,
 				C605949B23ED70120047A2E1 /* InstructionsViewController.swift */,
 				BCE582D523DF068C006BD387 /* LanguageCell.swift */,
 				BCE582D723DF0767006BD387 /* LanguageView.swift */,
@@ -789,6 +792,7 @@
 				BC69FF6023EA922A009B5DF8 /* BattleStatisticsCell.swift in Sources */,
 				C6DDA8D2260245A2006AC97D /* GradientButton.swift in Sources */,
 				C6DDF970267B111D0081FF79 /* LPKSearchTextField.swift in Sources */,
+				C6E49E032684A7F3002DAA39 /* GroupBattleTypeSelection.swift in Sources */,
 				C67708AD23D0394900DC90B5 /* SystemConfig.swift in Sources */,
 				C6DDF968267B07510081FF79 /* BattleUserScoreCell.swift in Sources */,
 				C6DDF96A267B07510081FF79 /* BattleRoomResult.swift in Sources */,

@@ -280,6 +280,7 @@ class UpdateProfileView: UIViewController{
                     }else{
                         //get data for success response
                         self.dUser?.image = jsonObj!.value(forKey: "file_path") as! String
+                        print("image path - \(self.dUser?.image)")
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.dUser), forKey: "user")
                     }
                 }else{

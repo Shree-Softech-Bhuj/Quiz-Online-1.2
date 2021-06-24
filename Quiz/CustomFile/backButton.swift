@@ -20,7 +20,7 @@ class backButton: UIButton {
     override func awakeFromNib() {
 //        self.contentMode = .center
 //        self.imageView?.contentMode = .center
-        self.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        self.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0) //left: 5
         self.backgroundColor = UIColor.white
         SetbgShadow()
     }

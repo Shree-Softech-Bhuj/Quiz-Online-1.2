@@ -60,6 +60,9 @@ class Leaderboard: UIViewController, UITableViewDelegate, UITableViewDataSource 
         segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         segmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Apps.BASIC_COLOR], for: .selected)
         segmentControl.backgroundColor = Apps.BASIC_COLOR
+        if deviceStoryBoard == "Ipad"{
+            segmentControl.frame = CGRect(x: segmentControl.frame.origin.x, y: segmentControl.frame.origin.y, width: segmentControl.frame.width, height: segmentControl.frame.height + 10)
+        }
         
 //        segmentControl.layer.borderColor = UIColor.black.cgColor
 //        segmentControl.layer.borderWidth = 5
