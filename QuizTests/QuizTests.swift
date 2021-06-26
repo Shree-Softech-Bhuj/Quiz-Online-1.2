@@ -1,11 +1,3 @@
-//
-//  QuizTests.swift
-//  QuizTests
-//
-//  Created by Bhavesh Lalji on 21/11/18.
-//  Copyright © 2018 LPK Techno. All rights reserved.
-//
-
 import XCTest
 @testable import Quiz
 

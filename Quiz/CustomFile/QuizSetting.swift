@@ -11,6 +11,7 @@ struct Apps{
     
     //set values
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
+    static let PLAYER_SEARCH_TIME:CGFloat = 30 // set timer value for players to join group battle
        
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use 50-50 lifeline?
     static let OPT_SK_COIN = 4 // how many coins will be deduct when we use SKIP lifeline?
@@ -142,8 +143,8 @@ struct Apps{
     static let APP_NAME = "Quiz (v7.0.0)"
     static var SHARE_MSG = "I have earned coins using this Quiz app. you can also earn coin by downloading app from below link and enter referral code while login - "
     static let NO_NOTIFICATION = "Notifications not available"
-    static let COMPLETE_LEVEL = "Congratulations !! \n You have completed the level."
-    static let NOT_COMPLETE_LEVEL = "Oops! Level not Completed.  Play again !"
+    static let COMPLETE_LEVEL = "Congratulations !! \n VICTORY" //\n You have completed the level.
+    static let NOT_COMPLETE_LEVEL = "Better Luck next Time \n DEFEAT"//"Oops! Level not Completed.  Play again !"
     static let PLAY_AGAIN = "Play Again"
     static let NOT_ENOUGH_QUESTION_TITLE = "Not Enough Question"
     static let NO_ENOUGH_QUESTION_MSG = "This level does not have enough question to play quiz"

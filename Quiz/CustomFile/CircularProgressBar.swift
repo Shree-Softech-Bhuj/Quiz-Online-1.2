@@ -69,14 +69,14 @@ public class CircularProgressBar: CALayer {
         progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
         progressLabel.text = "0"
         progressLabel.font = progressLabel.font.withSize(12)
-        progressLabel.textColor = Apps.BASIC_COLOR
+        progressLabel.textColor = UIColor.white//Apps.BASIC_COLOR
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
-        shapeLayer.fillColor = UIColor.rgb(248, 248, 248,1).cgColor//UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
+        shapeLayer.fillColor =  UIColor.defaultPulseFillColor.cgColor //UIColor.rgb(248, 248, 248,1).cgColor//UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
         insertSublayer(shapeLayer, at: 0)
     }
     
@@ -114,14 +114,14 @@ public class CircularProgressBar: CALayer {
         progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
         progressLabel.text = "0"
         progressLabel.font = progressLabel.font.withSize(12)
-        progressLabel.textColor = Apps.BASIC_COLOR
+        progressLabel.textColor = UIColor.white//Apps.BASIC_COLOR
         progressLabel.textAlignment = .center
         insertSublayer(progressLabel.layer, at: 0)
         
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: position.x , y: position.y), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
-        shapeLayer.fillColor = UIColor.rgb(248, 248, 248,1).cgColor//UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
+        shapeLayer.fillColor =  UIColor.defaultPulseFillColor.cgColor //UIColor.rgb(248, 248, 248,1).cgColor//UIColor(red: 64 / 255, green: 70 / 255, blue: 102 / 255, alpha: 1).cgColor
         insertSublayer(shapeLayer, at: 0)
     }
     
@@ -158,7 +158,7 @@ public class CircularProgressBar: CALayer {
            progressLabel.font = UIFont.boldSystemFont(ofSize: radius * 0.27)
            //progressLabel.text = "0"
            progressLabel.font = progressLabel.font.withSize(12)
-           progressLabel.textColor = Apps.BASIC_COLOR
+           progressLabel.textColor = UIColor.white//Apps.BASIC_COLOR
            progressLabel.textAlignment = .center
            insertSublayer(progressLabel.layer, at: 0)
            

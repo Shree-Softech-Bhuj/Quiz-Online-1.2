@@ -22,7 +22,9 @@ class SelfPlayResultView: UIViewController,GADFullScreenContentDelegate { //,GAD
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var titleText: UILabel!
     
-    @IBOutlet var adsView:GADBannerView!
+    @IBOutlet var adsView:GADBannerView!    
+    
+    @IBOutlet weak var backImg: UIImageView!
     
     var interstitialAd : GADInterstitialAd? //GADInterstitialAdBeta?
     //GADInterstitial! -10feb-
@@ -52,20 +54,33 @@ class SelfPlayResultView: UIViewController,GADFullScreenContentDelegate { //,GAD
         
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 430)
         
-        let xPosition = viewProgress.center.x - 20
-        let yPosition = viewProgress.center.y-viewProgress.frame.origin.y - 15
+        var xPosition = viewProgress.center.x - 20
+        var yPosition = viewProgress.center.y-viewProgress.frame.origin.y - 15
+        
+        var progRadius:CGFloat = 35
+        var minScale:CGFloat = 0.5
+        var fontSize:CGFloat = 20
+        // set circular progress bar here and pass required parameters
+        if Apps.screenHeight < 750 {
+            progRadius = 25
+            minScale = 0.3
+            fontSize = 12
+            
+            xPosition = viewProgress.center.x - 20
+            yPosition = viewProgress.center.y-viewProgress.frame.origin.y
+        }
+        
         let position = CGPoint(x: xPosition, y: yPosition)
         
-        // set circular progress bar here and pass required parameters
-        progressRing = CircularProgressBar(radius: 35, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5,progValue: CGFloat(self.totalTime))
+        progressRing = CircularProgressBar(radius: progRadius, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 5,progValue: CGFloat(self.totalTime))
         viewProgress.layer.addSublayer(progressRing)
         progressRing.progressLabel.numberOfLines = 1;
-        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(20)
-        progressRing.progressLabel.minimumScaleFactor = 0.5;
+        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(fontSize)
+        progressRing.progressLabel.minimumScaleFactor = minScale;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
         self.lblResults.text = "\(Apps.RESULT_TXT) \(self.secondsToHoursMinutesSeconds(seconds: (self.totalTime - self.completedTime))) \(Apps.SECONDS)"
-        // Calculate the percentage of quesitons you got right here 
+        // Calculate the percentage of questions you got right here
         self.timerLabel.text = "\(Apps.CHLNG_TIME) \(self.secondsToHoursMinutesSeconds(seconds: self.totalTime))"
         
         var attempCount = 0

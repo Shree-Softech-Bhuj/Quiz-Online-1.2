@@ -22,6 +22,10 @@ class ContestResultsViewController: UIViewController, GADFullScreenContentDelega
     @IBOutlet var scrollView: UIScrollView!
     
     @IBOutlet weak var titleText: UILabel!
+        
+    @IBOutlet weak var backImg: UIImageView!
+    
+    @IBOutlet weak var resultImg: UIImageView!
     
     var interstitialAd : GADInterstitialAd?
     
@@ -84,22 +88,29 @@ class ContestResultsViewController: UIViewController, GADFullScreenContentDelega
         if(percentage >= 30 && percentage < 50) {
             earnedCoin = 1
             lblResults.text = Apps.COMPLETE_LEVEL
+            resultImg.image = UIImage(named: "trophy")
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
             lblResults.text = Apps.COMPLETE_LEVEL
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
+          //  viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 70 && percentage < 90) {
             earnedCoin = 3
             lblResults.text = Apps.COMPLETE_LEVEL
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
+           // viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else if(percentage >= 90) {
             earnedCoin = 4
             lblResults.text = Apps.COMPLETE_LEVEL
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
+           // viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
         }else{
             earnedCoin = 0
             lblResults.text = Apps.NOT_COMPLETE_LEVEL
-            viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
+            resultImg.image = UIImage(named: "defeat")
+            //set backtop tint to Red
+            backImg.tintColor = UIColor.red
+          //  viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
             //chng backcolor of containing view to red-pink & titlebar txt to play again
             titleText.text = Apps.PLAY_AGAIN
             nxtLvl.setTitle(Apps.PLAY_AGAIN, for: .normal)

@@ -480,7 +480,15 @@ extension RoomController{
                     }else{
                         apiURL = "user_id=\(user.userID)&room_id=\(gameRoomCode)&room_type=private&category=&no_of_que=\(roomDetails.noOfQues)"
                     }
-                    
+                    /*
+                     create_room()
+                             user_id:1
+                             room_id:1
+                             room_type:public / private
+                             language_id:2   //{optional}
+                             category:1      // required if room category enable form panel
+                             no_of_que:10
+                     */
                     
                  //   apiURL = "user_id=\(user.userID)&room_id=\(user.UID)&room_type=private&category_id=\(self.categoryTextField.selectedData!.id)&no_of_que=\(roomDetails.noOfQues)&level_name=\(levelName)&level_id=\(self.catFields.last!.selectedData!.id)"
                     

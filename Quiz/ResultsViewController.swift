@@ -21,7 +21,11 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
     @IBOutlet var view1: UIView!
     @IBOutlet var scrollView: UIScrollView!
     
+    @IBOutlet weak var resultImg: UIImageView!
+    
     @IBOutlet weak var titleText: UILabel!
+        
+    @IBOutlet weak var backImg: UIImageView!
     
     var interstitialAd : GADInterstitialAd?
     //GADInterstitial! -10feb-
@@ -53,15 +57,33 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
         self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: 400)
         
         let xPosition = viewProgress.center.x - 20
-        let yPosition = viewProgress.center.y-viewProgress.frame.origin.y + 20
+        var yPosition = viewProgress.center.y-viewProgress.frame.origin.y + 120//20
+        
+        var progRadius:CGFloat = 38
+        var minScale:CGFloat = 0.6
+        var fontSize:CGFloat = 20
+        
+        if deviceStoryBoard == "Ipad"{
+            yPosition = viewProgress.center.y-viewProgress.frame.origin.y + 150
+        }
+        
+        if Apps.screenHeight < 750 {
+            progRadius = 25
+            minScale = 0.3
+            fontSize = 12
+            
+           // xPosition = viewProgress.center.x - 20
+            yPosition = viewProgress.center.y-viewProgress.frame.origin.y + 90
+        }
+        
         let position = CGPoint(x: xPosition, y: yPosition)
         
         // set circular progress bar here and pass required parameters
-        progressRing = CircularProgressBar(radius: 38, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6, progValue: 100)
+        progressRing = CircularProgressBar(radius: progRadius, position: position, innerTrackColor: .defaultInnerColor, outerTrackColor: .defaultOuterColor, lineWidth: 6, progValue: 100)
         viewProgress.layer.addSublayer(progressRing)
         progressRing.progressLabel.numberOfLines = 1;
-        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(20)
-        progressRing.progressLabel.minimumScaleFactor = 0.6;
+        progressRing.progressLabel.font = progressRing.progressLabel.font.withSize(fontSize)
+        progressRing.progressLabel.minimumScaleFactor = minScale;
         progressRing.progressLabel.adjustsFontSizeToFitWidth = true;
         
         self.RegisterNotification(notificationName: "ResultView")
@@ -92,22 +114,26 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
             earnedCoin = 1
             setResultLabel()
            // lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+           // viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
         } else if(percentage >= 50 && percentage < 70) {
             earnedCoin = 2
             setResultLabel()
            // lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+           // viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
         }else if(percentage >= 70 && percentage < 90) {
             earnedCoin = 3
             setResultLabel()
 //            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+//            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
         }else if(percentage >= 90) {
             earnedCoin = 4
             setResultLabel()
 //            lblResults.text = self.playType == "main" ? Apps.COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_SUCCESS
-            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+//            viewProgress.backgroundColor = UIColor.rgb(212, 247, 248, 1.0)
+            resultImg.image = UIImage(named: "trophy")
         }else{
             earnedCoin = 0
             if (self.playType == "daily") {
@@ -120,7 +146,10 @@ class ResultsViewController: UIViewController,GADFullScreenContentDelegate {//,G
                 lblResults.text = Apps.NOT_COMPLETE_LEVEL
             }
 //            lblResults.text = self.playType == "main" ? Apps.NOT_COMPLETE_LEVEL : Apps.DAILY_QUIZ_MSG_FAIL
-            viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
+//            viewProgress.backgroundColor = UIColor.rgb(255, 226, 244, 1.0)
+            resultImg.image = UIImage(named: "defeat")
+            //set backtop tint to Red
+            backImg.tintColor = UIColor.red
             //chng backcolor of containing view to red-pink & titlebar txt to play again
             titleText.text = self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE
             nxtLvl.setTitle(self.playType == "main" ? Apps.PLAY_AGAIN : Apps.DAILY_QUIZ_TITLE, for: .normal)

@@ -1,11 +1,3 @@
-//
-//  QuizUITests.swift
-//  QuizUITests
-//
-//  Created by Bhavesh Lalji on 21/11/18.
-//  Copyright © 2018 LPK Techno. All rights reserved.
-//
-
 import XCTest
 
 class QuizUITests: XCTestCase {

@@ -453,6 +453,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
         rightCount += 1
         trueCount.text = "\(rightCount)"
         trueVerticleBar.setProgress(Float(rightCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
+        self.userCount1.textChangeAnimation()
         self.userCount1.text = "\(String(format: "%02d", rightCount))"
         
         btn.backgroundColor = Apps.RIGHT_ANS_COLOR
@@ -653,6 +654,7 @@ class RobotPlayView: UIViewController, UIScrollViewDelegate {
                 break
             }
         }
+        self.userCount2.textChangeAnimation()
         self.userCount2.text = "\(String(format: "%02d", self.opponentRightCount))"
     }
 }

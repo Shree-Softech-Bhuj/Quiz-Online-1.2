@@ -10,9 +10,9 @@ extension UIColor{
         return UIColor.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
     }
     
-    static let defaultOuterColor = UIColor.rgb(224, 224, 224,1)
-    static let defaultInnerColor = Apps.BASIC_COLOR
-    static let defaultPulseFillColor = UIColor.rgb(248, 248, 248,1)
+    static let defaultOuterColor = Apps.BASIC_COLOR//UIColor.rgb(224, 224, 224,1)
+    static let defaultInnerColor = UIColor.rgb(84,193,255,1)
+    static let defaultPulseFillColor = UIColor.clear //UIColor.rgb(248, 248, 248,1)
     
     static let Vertical_progress_true = Apps.RIGHT_ANS_COLOR //verticle proress bar color for true answer
     static let Vertical_progress_false = Apps.WRONG_ANS_COLOR // verticle progress bar color for false answer

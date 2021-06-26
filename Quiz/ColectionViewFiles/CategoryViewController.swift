@@ -23,6 +23,7 @@ class CategoryViewController: UIViewController, GADBannerViewDelegate{
     var Loader: UIAlertController = UIAlertController()
     
     var isCategoryBattle = false
+    var isGroupCategoryBattle = false
     
     var catData:[Category] = [] 
     var langList:[Language] = []
@@ -153,7 +154,12 @@ class CategoryViewController: UIViewController, GADBannerViewDelegate{
         }
     }
     @IBAction func backButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+//        if isGroupCategoryBattle == true {
+//           // self.dismiss(animated: false, completion: nil)
+//            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil) //dismiss categoryView and it's parent/GroupBattleTypeSelection view also.
+//        }else{
+            self.navigationController?.popViewController(animated: true)
+//        }
     }
     @IBAction func settingButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
@@ -221,6 +227,12 @@ extension CategoryViewController: ASCollectionViewDataSource {
             let viewCont = storyboard.instantiateViewController(withIdentifier: "BattleViewController") as! BattleViewController
             viewCont.isCategoryBattle = true
             viewCont.catID = Int(self.catData[indexPath.row].id)!
+            self.navigationController?.pushViewController(viewCont, animated: true)
+        }else if isGroupCategoryBattle == true {
+            let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "PrivateRoomView") as! PrivateRoomView
+//            viewCont.isCategoryBattle = true
+//            viewCont.catID = Int(self.catData[indexPath.row].id)!
             self.navigationController?.pushViewController(viewCont, animated: true)
         }else{
             if catData.count > 0 {

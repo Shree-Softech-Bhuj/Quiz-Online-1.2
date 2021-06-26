@@ -9,6 +9,10 @@ struct BattleUser {
     let name:String
     let image:String
     let matchingID:String
+    
+    let cateId:String
+    let langId:String
+    
 }
 class BattleViewController: UIViewController {
     
@@ -35,6 +39,7 @@ class BattleViewController: UIViewController {
     
     var isCategoryBattle = false
     var catID = 0
+    var langID = "-1"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +53,7 @@ class BattleViewController: UIViewController {
         vsImg.center.x = self.view.center.x
         searchButton.layer.cornerRadius = 8
         searchButton.layer.masksToBounds = true
-        self.ref = Database.database().reference().child("AvailUserForBattle")
+        self.ref = Database.database().reference().child("RandomBattleRoom") //AvailUserForBattle
         
         self.DesignViews(views: user1,user2)
         
@@ -61,7 +66,7 @@ class BattleViewController: UIViewController {
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
        // print("B USER",user.UID)
-        self.ref.child("AvailUserForBattle").child(user.UID).removeValue()
+        self.ref.child("RandomBattleRoom").child(user.UID).removeValue() //AvailUserForBattle
         
         //set value for this user
         name1.text = user.name
@@ -76,13 +81,12 @@ class BattleViewController: UIViewController {
             //self.getAPIData(apiName: "get_battle_statistics", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
-        }
-        
+        }        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         if self.isSearchingStart{
-           // self.imgAnimation()
+            self.imgAnimation()
         }
     }
     
@@ -142,11 +146,18 @@ class BattleViewController: UIViewController {
         imgAnimation()
         self.seconds = 10
         self.searchButton.isHidden = true
+        
+        if UserDefaults.standard.value(forKey: DEFAULT_USER_LANG) != nil{
+            langID = UserDefaults.standard.string(forKey: DEFAULT_USER_LANG) ?? "-1"
+        }
+
         var userDetails:[String:String] = [:]
         userDetails["userID"] = self.user.userID
         userDetails["name"] = self.user.name
         userDetails["image"] = self.user.image
         userDetails["isAvail"] = "1"
+        userDetails["cateId"] = String(self.catID)
+        userDetails["langId"] = self.langID
         // set data for available to battle with users in firebase database
         self.ref.child(user.UID).setValue(userDetails)
         
@@ -161,9 +172,9 @@ class BattleViewController: UIViewController {
             for fuser in (snapshot.children.allObjects as? [DataSnapshot])!{
                 let data = fuser.value as? [String:String]
                 if (data?["isAvail"]) != nil{
-                    if((data?["isAvail"])! == "1" && fuser.key != self.user.UID){
+                    if((data?["isAvail"])! == "1" && fuser.key != self.user.UID && (data?["cateId"])! == String(self.catID) && (data?["langId"])! == self.langID) { //(data?["isAvail"])! == "1" && fuser.key != self.user.UID)
                         // this user is avalable for battle
-                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)")
+                        self.battleUser = BattleUser.init(UID: "\(fuser.key)", userID: "\((data?["userID"])!)", name: "\((data?["name"])!)", image: "\((data?["image"])!)",matchingID: "\(self.user.UID)",cateId: "\((data?["cateId"])!)",langId: "\((data?["langId"])!)")
                         self.isAvail = true
                     }
                 }
@@ -217,7 +228,7 @@ class BattleViewController: UIViewController {
                         self.ref.child(opponentID).observeSingleEvent(of: .value, with: {(battleSnap) in
                             // this user is avalable for battle
                             if battleSnap.hasChild("matchingID"){
-                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)")
+                                self.battleUser = BattleUser.init(UID: "\(battleSnap.key)", userID: "\(battleSnap.childSnapshot(forPath: "userID").value!)", name: "\(battleSnap.childSnapshot(forPath: "name").value!)", image: "\(battleSnap.childSnapshot(forPath: "image").value!)",matchingID: "\(battleSnap.childSnapshot(forPath: "matchingID").value!)",cateId: "\(battleSnap.childSnapshot(forPath: "cateId").value!)",langId: "\(battleSnap.childSnapshot(forPath: "langId").value!)")
                                 self.isAvail = true
                                 print("BBB",battleSnap.childSnapshot(forPath: "matchingID").value!)
                                 self.name2.text = "\(battleSnap.childSnapshot(forPath: "name").value!)"
@@ -300,7 +311,7 @@ class BattleViewController: UIViewController {
     }
     
     @IBAction func backButton(_ sender: Any) {
-        if timer != nil{
+//        if timer != nil{
             let alert = UIAlertController(title: "", message: "Are you sure , You want to leave ?", preferredStyle: UIAlertController.Style.alert)
             // add the actions (buttons)
             alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.default, handler: nil))
@@ -309,23 +320,18 @@ class BattleViewController: UIViewController {
             }))
             self.present(alert, animated: true, completion: nil)
             alert.view.tintColor = UIColor.red //alert Action font color changes to red
-        }else{
-            self.navigationController?.popViewController(animated: true)
-        }        
+//        }else{
+//            self.navigationController?.popViewController(animated: true)
+//        }
     }
     
     func imgAnimation(){
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: [.repeat,.autoreverse,UIView.AnimationOptions.curveEaseIn,], animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat,.autoreverse,UIView.AnimationOptions.curveEaseIn,], animations: { //1.0
                 
-               // HERE
             self.vsImg.transform = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3) // Scale your image
-
          }) { (finished) in
              UIView.animate(withDuration: 1, animations: {
-               
-              self.vsImg
-                .transform = CGAffineTransform.identity // undo in 1 seconds
-
+              self.vsImg.transform = CGAffineTransform.identity // undo in 1 seconds
            })
         }
     }
@@ -378,7 +384,6 @@ class BattleViewController: UIViewController {
         viewCont.isCategoryBattle = self.isCategoryBattle
         viewCont.catID = self.catID
         self.navigationController?.pushViewController(viewCont, animated: true)
-        
     }
     
     //Show robot alert view to ask user play with robot or try again

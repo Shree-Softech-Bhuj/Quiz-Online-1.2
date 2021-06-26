@@ -38,9 +38,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
     var ref: DatabaseReference!
     var roomDetails:RoomDetails?
     var isUserBusy = false
-    
-    @IBOutlet var selectBattleTypeView: UIView!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -345,9 +343,10 @@ extension HomeScreenController:CellSelectDelegate{
             if UserDefaults.standard.bool(forKey: "isLogedin"){
               let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
               let viewCont = storyboard.instantiateViewController(withIdentifier: "GroupBattleTypeSelection")
-                viewCont.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-                viewCont.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-                self.present(viewCont, animated: true, completion: nil)
+//                viewCont.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+//                viewCont.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+//                self.present(viewCont, animated: true, completion: nil)
+                self.navigationController?.pushViewController(viewCont, animated: true)
             }else{
               self.navigationController?.popToRootViewController(animated: true)
             }
@@ -692,8 +691,7 @@ extension HomeScreenController:CellSelectDelegate{
         
         if Apps.badgeCount > 0 {
             Apps.badgeCount -= 1
-            UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")
-           
+            UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")           
         }
         UIApplication.shared.applicationIconBadgeNumber = Apps.badgeCount
         

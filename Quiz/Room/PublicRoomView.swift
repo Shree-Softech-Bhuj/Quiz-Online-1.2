@@ -63,9 +63,9 @@ class PublicRoomView: UIViewController {
     
     @IBAction func backButton(_ sender: Any) {
         if self.selfUser{
-            let alert = UIAlertController(title: "Emin misiniz? Gameroom'u yok etmek mi istiyorsunuz?", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: Apps.GAMEROOM_DESTROY_MSG , message: "", preferredStyle: .alert)
             
-            let acceptAction = UIAlertAction(title: "Yes", style: .default, handler: {_ in
+            let acceptAction = UIAlertAction(title: Apps.YES, style: .default, handler: {_ in
                 // make room deactive and leave viewcontroller
                 DispatchQueue.main.async {
                     let refR = Database.database().reference().child(Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID)
@@ -75,7 +75,7 @@ class PublicRoomView: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             })
-            let rejectAction = UIAlertAction(title: "No", style: .cancel, handler: {_ in
+            let rejectAction = UIAlertAction(title: Apps.NO, style: .cancel, handler: {_ in
               // do nothing here
             })
             
@@ -85,9 +85,9 @@ class PublicRoomView: UIViewController {
             self.present(alert, animated: true, completion: nil)
             return
         }else{
-            let alert = UIAlertController(title: "Oyundan Çıkmak İstediğinize Emin misiniz?", message: "", preferredStyle: .alert)
+            let alert = UIAlertController(title: Apps.GAMEROOM_EXIT_MSG, message: "", preferredStyle: .alert)
             
-            let acceptAction = UIAlertAction(title: "Yes", style: .default, handler: {_ in
+            let acceptAction = UIAlertAction(title: Apps.YES, style: .default, handler: {_ in
                 // make room deactive and leave viewcontroller
                 DispatchQueue.main.async {
                     let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
@@ -105,7 +105,7 @@ class PublicRoomView: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             })
-            let rejectAction = UIAlertAction(title: "No", style: .cancel, handler: {_ in
+            let rejectAction = UIAlertAction(title: Apps.NO, style: .cancel, handler: {_ in
               // do nothing here
             })
             
@@ -132,8 +132,7 @@ class PublicRoomView: UIViewController {
         viewCont.roomInfo = self.roomInfo
         self.isRoomStarted = true
         
-        self.navigationController?.pushViewController(viewCont, animated: true)
-        
+        self.navigationController?.pushViewController(viewCont, animated: true)        
     }
 }
 

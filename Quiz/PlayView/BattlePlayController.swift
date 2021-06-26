@@ -99,7 +99,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         buttons = [btnA,btnB,btnC,btnD]
         
         // set refrence for firebase database
-        self.ref = Database.database().reference().child("AvailUserForBattle")
+        self.ref = Database.database().reference().child("RandomBattleRoom") //AvailUserForBattle
         mainQuestionLbl.centerVertically()
         imageQuestionLbl.centerVertically()
         
@@ -529,6 +529,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         trueCount.text = "\(rightCount)"
         trueVerticleBar.setProgress(Float(rightCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         self.ref.child(user.UID).child("rightAns").setValue("\(rightCount)")
+        self.userCount1.textChangeAnimation()
         self.userCount1.text = "\(String(format: "%02d", rightCount))"
         
         btn.backgroundColor = Apps.RIGHT_ANS_COLOR
@@ -563,6 +564,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         
         //score count
         wrongCount += 1
+        falseCount.textChangeAnimation()
         falseCount.text = "\(wrongCount)"
         falseVerticleBar.setProgress(Float(wrongCount) / Float(Apps.TOTAL_PLAY_QS), animated: true)
         
@@ -614,6 +616,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
         if self.ref != nil{
             self.ref.child(battleUser.UID).observe(.value, with: {(snapshot) in
                 if snapshot.hasChild("rightAns"){
+                    self.userCount2.textChangeAnimation()
                     self.userCount2.text = "\(String(format: "%02d",Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!))"
                     self.opponentRightCount = Int(snapshot.childSnapshot(forPath: "rightAns").value as! String)!
                 }

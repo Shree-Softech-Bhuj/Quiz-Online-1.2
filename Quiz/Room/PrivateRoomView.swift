@@ -28,7 +28,6 @@ class PrivateRoomView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         self.tableView.layer.cornerRadius = 10
         self.playButton.layer.cornerRadius = 10
         self.roomName.layer.addBorder(edge: .bottom, color: Apps.BASIC_COLOR, thickness: 1)
@@ -62,8 +61,7 @@ class PrivateRoomView: UIViewController {
             self.indicatorView.isHidden = false
             self.GetInvitedUser()
             self.ObserveRoomActive()
-        }
-        
+        }        
     }
     
     @IBAction func backButton(_ sender: Any) {
