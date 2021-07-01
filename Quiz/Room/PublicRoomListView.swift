@@ -35,7 +35,7 @@ class PublicRoomListView: UIViewController,UITableViewDelegate,UITableViewDataSo
                 self.roomList.removeAll()
                 for val in data{
                     if let room = val.value as? [String:Any]{
-                        // print("DDD",room)
+                         print("DDD",room)
                         if let roomUser = room["roomUser"] as? [String:Any]{
                             if !("\(room["isRoomActive"] ?? "false")".bool ?? false){
                                 continue

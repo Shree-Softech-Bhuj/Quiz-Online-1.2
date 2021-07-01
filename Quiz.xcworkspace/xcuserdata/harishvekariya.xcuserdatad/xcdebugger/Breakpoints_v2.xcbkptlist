@@ -62,8 +62,8 @@
             filePath = "Quiz/ColectionViewFiles/HomeScreenController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "didCellSelected(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -145,6 +145,70 @@
             startingLineNumber = "23"
             endingLineNumber = "23"
             landmarkName = "createRoom(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94E67158-C48B-4A09-93AC-C5A8DAD8AB20"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/AlertView/EnterInGroupBattleAlert.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "checkForAvailability()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "94E67158-C48B-4A09-93AC-C5A8DAD8AB20 - 9a8c9f119b7329ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Quiz.EnterInGroupBattleAlert.checkForAvailability() -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online/Quiz/AlertView/EnterInGroupBattleAlert.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  uuid = "94E67158-C48B-4A09-93AC-C5A8DAD8AB20 - e4bd6cc4e050a0c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.FIRDataSnapshot) -&gt; () in Quiz.EnterInGroupBattleAlert.checkForAvailability() -&gt; ()"
+                  moduleName = "Quiz"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/harishvekariya/Documents/GitHub/Quiz-Online/Quiz/AlertView/EnterInGroupBattleAlert.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "185">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E11BB6B7-4750-40F4-A627-BBA18DC9C804"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Quiz/Room/GroupBattleView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "incrementCount()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

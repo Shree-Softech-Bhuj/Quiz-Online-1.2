@@ -62,7 +62,7 @@ class BattleViewController: UIViewController {
         NotificationCenter.default.addObserver(self,selector: #selector(self.CheckForBattle),name: NSNotification.Name(rawValue: "CheckBattle"),object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(self.CloseThisController),name: NSNotification.Name(rawValue: "CloseBattleViewController"),object: nil)
         
-        NotificationCenter.default.addObserver(self,selector: #selector(self.ResteToBattleCheck),name: NSNotification.Name(rawValue: "ResetBattle"),object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.ResetToBattleCheck),name: NSNotification.Name(rawValue: "ResetBattle"),object: nil)
         
         user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
        // print("B USER",user.UID)
@@ -164,8 +164,8 @@ class BattleViewController: UIViewController {
         self.battleUser = nil
         self.isBattlePlay = false
         
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
-        timer.fire()
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+//        timer.fire()
         
         // check if user is avalable for battle
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -270,27 +270,7 @@ class BattleViewController: UIViewController {
         }
     }
     
-    @objc func incrementCount() {
-        let html = """
-        <html>
-        <body>
-        <span style="font-size: 26px;  font-family: sans-serif;">\(String(format: "%02d", seconds))</span><span style="font-size: 20px; font-family: sans-serif;">sec</span>
-        </body>
-        </html>
-        """
-        let data = Data(html.utf8)
-        if (try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)) != nil {
-          //  timerLabel.attributedText = attributedString
-        }
-        seconds -= 1
-        if seconds < 0 {
-            // invalidate timer and no user is avalable for battle
-            self.ResteToBattleCheck()
-            self.ShowRobotAlert()
-        }
-    }
-    
-    @objc func ResteToBattleCheck(){
+    @objc func ResetToBattleCheck(){
         self.ref.child(user.UID).child("isAvail").setValue("0")
         timer.invalidate()
       

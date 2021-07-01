@@ -41,6 +41,8 @@
 		C6049D712660C4D000F17ADD /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6049D702660C4D000F17ADD /* GradientView.swift */; };
 		C605949C23ED70120047A2E1 /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C605949B23ED70120047A2E1 /* InstructionsViewController.swift */; };
 		C639AEB625E1526E00534FE5 /* SignUpViewMobileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */; };
+		C63C1D25268983FA00285DBB /* EnterInGroupBattleAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63C1D24268983FA00285DBB /* EnterInGroupBattleAlert.swift */; };
+		C63C1D272689ECEA00285DBB /* GroupBattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63C1D262689ECEA00285DBB /* GroupBattleView.swift */; };
 		C646502F25DF846F006588CC /* ContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646502E25DF846F006588CC /* ContestView.swift */; };
 		C646503425DF84F2006588CC /* ContestMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646503325DF84F2006588CC /* ContestMainView.swift */; };
 		C646506225DF86B9006588CC /* ContestLeaderboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C646506125DF86B9006588CC /* ContestLeaderboard.swift */; };
@@ -175,6 +177,8 @@
 		C6049D702660C4D000F17ADD /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		C605949B23ED70120047A2E1 /* InstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
 		C639AEB525E1526D00534FE5 /* SignUpViewMobileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewMobileController.swift; sourceTree = "<group>"; };
+		C63C1D24268983FA00285DBB /* EnterInGroupBattleAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterInGroupBattleAlert.swift; sourceTree = "<group>"; };
+		C63C1D262689ECEA00285DBB /* GroupBattleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupBattleView.swift; path = Quiz/Room/GroupBattleView.swift; sourceTree = SOURCE_ROOT; };
 		C646502E25DF846F006588CC /* ContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestView.swift; sourceTree = "<group>"; };
 		C646503325DF84F2006588CC /* ContestMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestMainView.swift; sourceTree = "<group>"; };
 		C646505F25DF86B9006588CC /* ContestResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestResultsViewController.swift; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 		BC029824229CF40A00A50E80 /* AlertView */ = {
 			isa = PBXGroup;
 			children = (
+				C63C1D24268983FA00285DBB /* EnterInGroupBattleAlert.swift */,
 				D76C6EED222FEB6000A7458C /* AlertViewController.swift */,
 				BC0139FE2281483A009DA93B /* ResultAlert.swift */,
 				BC029822229CE4B800A50E80 /* RobotAlert.swift */,
@@ -350,6 +355,7 @@
 		C6DDF958267B073D0081FF79 /* BatttleRoomFiles */ = {
 			isa = PBXGroup;
 			children = (
+				C63C1D262689ECEA00285DBB /* GroupBattleView.swift */,
 				C6DDF95A267B07510081FF79 /* AvailUserListCell.swift */,
 				C6DDF95F267B07510081FF79 /* BattleRoomResult.swift */,
 				C6DDF95D267B07510081FF79 /* BattleUserScoreCell.swift */,
@@ -756,6 +762,7 @@
 			files = (
 				D7FCFC5C21A5282D00718EE2 /* ViewController.swift in Sources */,
 				D7BCD04A222A667900B7E531 /* OLDLevelView.swift in Sources */,
+				C63C1D25268983FA00285DBB /* EnterInGroupBattleAlert.swift in Sources */,
 				C6DDF965267B07510081FF79 /* AvailUserListCell.swift in Sources */,
 				D7FCFC9221A57E2800718EE2 /* SubCategoryView.swift in Sources */,
 				C6DDF964267B07510081FF79 /* PrivateRoomView.swift in Sources */,
@@ -802,6 +809,7 @@
 				C6DDF966267B07510081FF79 /* PublicRoomView.swift in Sources */,
 				BCBE508E23E55DA3001FD5A9 /* UserStatisticsView.swift in Sources */,
 				9A3DA0D824866C2300879B2D /* SelfPlayResultView.swift in Sources */,
+				C63C1D272689ECEA00285DBB /* GroupBattleView.swift in Sources */,
 				C6DDF967267B07510081FF79 /* RoomUserCell.swift in Sources */,
 				D7964A49223B8BAF00D847A4 /* BookmarkView.swift in Sources */,
 				BC02A0BA22A919E90089025C /* FloatingTF.swift in Sources */,

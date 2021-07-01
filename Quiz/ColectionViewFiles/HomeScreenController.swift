@@ -41,7 +41,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+            
         if Apps.CONTEST_MODE == "0"{
             arr.removeLast() //as contest mode is last
         }
@@ -80,6 +80,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
         getUserNameImg()
+        self.ObserveInvitation()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -90,8 +91,8 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.isUserBusy = false
             }
         }
-    }
-    
+    }    
+ 
     //load category data here
 //    func LoadData(jsonObj:NSDictionary){
 //        print("RS",jsonObj)
@@ -663,8 +664,6 @@ extension HomeScreenController:CellSelectDelegate{
                 refR.child("isJoined").setValue("true")
                 
                 self.ref.child(user.UID).child("status").setValue("busy")
-                
-                
             }
         })
         let rejectAction = UIAlertAction(title: "Invitation Rejected", style: .cancel, handler: {_ in
@@ -694,7 +693,6 @@ extension HomeScreenController:CellSelectDelegate{
             UserDefaults.standard.set(Apps.badgeCount, forKey: "badgeCount")           
         }
         UIApplication.shared.applicationIconBadgeNumber = Apps.badgeCount
-        
     }
     
     func ObserveInvitation(){
@@ -702,6 +700,7 @@ extension HomeScreenController:CellSelectDelegate{
             ref.removeAllObservers()
             return
         }
+        if UserDefaults.standard.bool(forKey: "isLogedin"){
         let user = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
         let  ref = Database.database().reference().child(Apps.PRIVATE_ROOM_NAME)
         ref.observe(.value, with: { (snapshot) in
@@ -749,7 +748,15 @@ extension HomeScreenController:CellSelectDelegate{
                 }
             }
         })
+        }
     }
     
+    func timeFormatter(_ totalSeconds: Int) -> String {
+            let seconds: Int = totalSeconds % 60
+            let minutes: Int = (totalSeconds / 60) % 60
+//            let hours: Int = (totalSeconds / 60 / 60) % 24
+//            let days: Int = (totalSeconds / 60 / 60 / 24)
+            return String(format: "%02d : %02d", minutes, seconds)
+        }
     
 }

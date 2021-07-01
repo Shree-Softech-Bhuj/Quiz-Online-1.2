@@ -7,6 +7,10 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
      
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var bodyView: UIView!
+    @IBOutlet var header: UIView!
+    @IBOutlet var footer: UIView!
+    
     var langList:[Language] = []
     var selectedElement:Language?
     var Loader: UIAlertController = UIAlertController()
@@ -32,6 +36,55 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
             }
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        addlangToStackView()
+        bodyView.center = bodyView.convert(self.view.center, from: bodyView)
+    }
+    func addlangToStackView(){
+        
+        //let tblHeight = self.tableView.frame.height //* CGFloat(langList.count)
+        var heightOfTableView: CGFloat = 0.0
+        let cells = self.tableView.visibleCells
+            for cell in cells {
+                heightOfTableView += cell.frame.height
+            }
+        //heightOfTableView += 50
+        print("heights - \(heightOfTableView) - \(self.header.frame.height) - \(self.footer.frame.height)")
+        let heightVal = heightOfTableView + self.header.frame.height + self.footer.frame.height //- 50 //tblHeight
+        print(heightVal)
+        
+        //set height anchor for stackView.distribution = .fillProportionally only
+        header.heightAnchor.constraint(equalToConstant: self.header.frame.width).isActive = true //80
+        footer.heightAnchor.constraint(equalToConstant: self.footer.frame.height).isActive = true //80
+        tableView.heightAnchor.constraint(equalToConstant: heightOfTableView).isActive = true
+               
+       // tableView.frame = CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.width, height: tblHeight)
+        bodyView.frame = CGRect(x: bodyView.frame.origin.x, y: bodyView.frame.origin.y, width: bodyView.frame.width, height: heightVal)
+        
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.spacing = 7
+        stackView.layer.cornerRadius = 30
+        bodyView.addSubview(stackView)
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+          // Attaching the content's edges to the scroll view's edges
+          stackView.leadingAnchor.constraint(equalTo: (bodyView.leadingAnchor)),
+          stackView.trailingAnchor.constraint(equalTo: bodyView.trailingAnchor),
+          stackView.topAnchor.constraint(equalTo: bodyView.topAnchor),
+          stackView.bottomAnchor.constraint(equalTo: bodyView.bottomAnchor),
+
+          // Satisfying size constraints
+          stackView.widthAnchor.constraint(equalTo: bodyView.widthAnchor)
+        ])
+        stackView.distribution = .fillProportionally //.fillEqually
+        stackView.addArrangedSubview(header)
+        stackView.addArrangedSubview(tableView)
+        stackView.addArrangedSubview(footer)
+    }
     
     @IBAction func OKButton(_ sender: Any){
         self.dismiss(animated: true, completion: nil)
@@ -46,9 +99,9 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(langList.count)
         return langList.count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:LanguageCell =
@@ -87,11 +140,11 @@ class LanguageView:UIViewController, UITableViewDelegate, UITableViewDataSource,
                    }
               }
     }
+        
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let cell:LanguageCell = self.tableView.cellForRow(at: indexPath) as! LanguageCell
         cell.radioButtonTapped(cell.radioButton)
         
     }
-    
 }

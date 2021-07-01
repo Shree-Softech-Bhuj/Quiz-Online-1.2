@@ -146,9 +146,12 @@ extension UIViewController{
     func randomNumberForBattle() -> String {
         var g = SystemRandomNumberGenerator()
         let rn = Int.random(in: 00000...99999, using: &g)//5 digits
-        let referCode = String(rn)
-        
-        return referCode
+        var code = String(rn)
+        if code.count < 5 {
+            code = "0\(code)"
+        }
+        print(code)
+        return code
     }
    
         

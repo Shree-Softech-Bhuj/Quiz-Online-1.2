@@ -4,14 +4,14 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://quizdemo.wrteam.in/api-v2.php" //"http://newquiz.wrteam.in/api-v2.php"//
+    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //
     static var ACCESS_KEY = "6808"
     
     static let JWT = "set_your_strong_jwt_secret_key" //"quiz@123"
     
     //set values
     static let QUIZ_PLAY_TIME:CGFloat = 25 // set timer value for play quiz
-    static let PLAYER_SEARCH_TIME:CGFloat = 30 // set timer value for players to join group battle
+    static let GROUP_BTL_WAIT_TIME:Int = 180//30 // set timer value for players to join group battle
        
     static let OPT_FT_COIN = 4 // how many coins will be deduct when we use 50-50 lifeline?
     static let OPT_SK_COIN = 4 // how many coins will be deduct when we use SKIP lifeline?
@@ -194,6 +194,8 @@ struct Apps{
     static let DISMISS = "Dismiss"
     static let OK = "OK"
     static let OKAY = "OKAY"
+    static let STAY_BACK = "STAY BACK"
+    static let LEAVE = "LEAVE"
     static let HELLO = "Hello,"
     static let USER = "User"
     static let INVALID_QUE = "Invalid Question"
@@ -299,6 +301,11 @@ struct Apps{
     
     static let BUSY = "busy"
     static let INVITE = "Invite"
+    
+    static let GAMECODE_INVALID = "GameCode is Invalid"
+    static let GAME_CLOSED = "GameRoom is Deactivated Or Game Already Started"
+    static let GAMEROOM_ENTERCODE = "Enter GameRoom Code"
+    static let MSG_GAMEROOM_SHARE = "Here is My Group Battle Game Code: "
     
     static let LANG = "en-US"
 }

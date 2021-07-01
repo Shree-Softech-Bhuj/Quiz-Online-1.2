@@ -22,23 +22,16 @@ class GroupBattleTypeSelection: UIViewController {
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             if Apps.GROUP_BATTLE_WITH_CATEGORY == "1"{
                 print("battle with category")
-              //  self.dismiss(animated: false, completion: {//nil)
                     let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
                     let viewCont = storyboard.instantiateViewController(withIdentifier: "categoryview") as! CategoryViewController
                     //pass value to identify to jump to battle and not play quiz view.
                     viewCont.isGroupCategoryBattle = true
-//                    viewCont.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-//                    viewCont.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-//                    self.present(viewCont, animated: true, completion: { //nil)
                     self.navigationController?.pushViewController(viewCont, animated: true)
-//                        self.parent?.dismiss(animated: true, completion: nil)
-                    print("dismiss done and push controller executed")
-//                })
             }else{
                 print("battle without category")
                 self.dismiss(animated: false, completion:{
                     let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-                    let viewCont = storyboard.instantiateViewController(withIdentifier: "PrivateRoomView")
+                    let viewCont = storyboard.instantiateViewController(withIdentifier: "GroupBattleView") //"PrivateRoomView"
                     self.navigationController?.pushViewController(viewCont, animated: true)
                 })
             }
@@ -51,6 +44,13 @@ class GroupBattleTypeSelection: UIViewController {
     
     @IBAction func JoinRoom(_ sender: Any) {
         //enter room code and join / play group battle
+        let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+        let myAlert = storyboard.instantiateViewController(withIdentifier: "EnterInGroupBattleAlert") as! EnterInGroupBattleAlert
+        myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+//        hideContentController(content: myAlert)
+//        displayContentController(content:myAlert)
+        self.present(myAlert, animated: true, completion: nil)
     }
     
 } 

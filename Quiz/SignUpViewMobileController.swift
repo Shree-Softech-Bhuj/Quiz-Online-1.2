@@ -63,7 +63,7 @@ class SignUpViewMobileController: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "", message: Apps.MSG_CC, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: Apps.OK, style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true)
-        }else if  self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+        }else if self.name.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""
         {
             self.name.becomeFirstResponder()
             let alert = UIAlertController(title: "", message: Apps.MSG_NM, preferredStyle: UIAlertController.Style.alert)

@@ -130,13 +130,13 @@ class PlayQuizView: UIViewController, UIScrollViewDelegate,GADFullScreenContentD
         
         setGradientBackground()
         
-        if Apps.opt_E == true {
+       /* if Apps.opt_E == true {
             //set five option's view shadow
            // self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
         }else{
             //set four option's view shadow
            // self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
-        }
+        }*/
                 
         self.mainQuestionView.DesignViewWithShadow()
         
