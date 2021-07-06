@@ -10,10 +10,10 @@ class backButton: UIButton {
     }
     func SetbgShadow(){
        // self.layer.cornerRadius = 3
-        self.layer.shadowColor = UIColor.white.cgColor //lightGray
-        self.layer.shadowOffset = CGSize(width: 3, height: 4)
+        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0.3, height: 0.4)//width: 3, height: 4
         self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 4
+        self.layer.shadowRadius = 1.0//4
         self.layer.masksToBounds = false
     }
     

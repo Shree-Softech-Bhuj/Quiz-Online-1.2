@@ -17,8 +17,10 @@ class ResultCell: UITableViewCell {
         self.userImage.layer.masksToBounds = true
         self.userImage.layer.cornerRadius = self.userImage.frame.size.height / 2
         
-        self.userRightAns.layer.cornerRadius = 4
-        self.userWrongAns.layer.cornerRadius = 4
+        self.userRightAns.layer.masksToBounds = true
+        self.userRightAns.layer.cornerRadius = 15//4
+        self.userWrongAns.layer.masksToBounds = true
+        self.userWrongAns.layer.cornerRadius = 15//4
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

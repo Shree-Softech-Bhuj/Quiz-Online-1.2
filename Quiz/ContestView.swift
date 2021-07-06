@@ -39,7 +39,7 @@ class ContestView: UIViewController, EVTabBar {
         //self.getAPIData(apiName: "get_user_coin_score", apiURL: apiURL,completion: getCoins)
         self.coins.setTitle(Apps.COINS, for: .normal)
         
-        topTabBar = EVPageViewTopTabBar(for: .three) //, withIndicatorStyle: .buttonWidth
+        topTabBar = EVPageViewTopTabBar(for: .three, withIndicatorStyle: .buttonWidth )
         
         let PAST = self.storyboard!.instantiateViewController(withIdentifier: "ContestMainView") as! ContestMainView
           PAST.tabSelect = "past_contest"
@@ -92,5 +92,16 @@ extension ContestView: EVTabBarDelegate {
         } else {
             pageController.setViewControllers([subviewControllers[index]], direction: direction, animated: true, completion: nil)
         }
+    }
+    
+    func setupConstraints() {
+        let views: [String:AnyObject] = ["menuBar" : topTabBar!, "pageView" : pageController.view, "shadow" : shadowView]
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[menuBar]|", options: [], metrics: nil, views: views))
+//        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[menuBar(==50)][pageView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-75-[menuBar(==50)][pageView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[pageView]|", options: [], metrics: nil, views: views))
+        
+        pageController.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[shadow]|", options: [], metrics: nil, views: views))
+        pageController.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[shadow(0)]", options: [], metrics: nil, views: ["shadow" : shadowView]))
     }
 }

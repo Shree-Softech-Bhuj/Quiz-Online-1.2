@@ -169,7 +169,6 @@ extension UILabel{
         animationS.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
         animationS.type = CATransitionType.push
         animationS.subtype = CATransitionSubtype.fromLeft
-       // self.userCount1.text = "\(String(format: "%02d", rightCount))"
         animationS.duration = 1.50
         self.layer.add(animationS, forKey: "CATransition")
     }
@@ -181,15 +180,13 @@ extension UILabel{
 //        self.view.addSubview(nameLabel)
         
         UIView.animate(withDuration: 1.5, animations: {
-            self.frame.origin.x = 20
+            self.frame.origin.x -= 40//20
         }) {_ in
             UIView.animate(withDuration: 1.5) {
-                self.frame.origin.x = 40
+                self.frame.origin.x += 40
             }
         }
-        
     }
-    
 }
 extension UIButton {
     

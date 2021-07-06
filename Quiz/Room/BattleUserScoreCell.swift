@@ -11,16 +11,17 @@ class BattleUserScoreCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        let radius:CGFloat = 6
-        
-        self.mainView.layer.cornerRadius = radius
+       // let radius:CGFloat = 15//6
+       // self.mainView.setGradient(UIColor(named: Apps.BLUE1) ?? UIColor.systemBlue ,UIColor(named: Apps.BLUE2) ?? UIColor.cyan)
+       // self.mainView.layer.cornerRadius = radius
+       // self.mainView.layer.masksToBounds = true
        // self.mainView.SetShadow()
-        self.userImg.layer.cornerRadius = radius
+        self.userImg.layer.cornerRadius = self.userImg.frame.height / 2 //radius
         
-        self.userRight.layer.cornerRadius = 3
+        self.userRight.layer.cornerRadius = self.userRight.frame.height / 3//15//3
         self.userRight.layer.masksToBounds = true
         
-        self.userWrong.layer.cornerRadius = 3
+        self.userWrong.layer.cornerRadius = self.userWrong.frame.height / 3 //15//3
         self.userWrong.layer.masksToBounds = true
     }
     

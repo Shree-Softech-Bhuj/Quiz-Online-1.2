@@ -1,3 +1,10 @@
+//
+//  EVTabBar.swift
+//  Pods
+//
+//  Created by Eric Vennaro on 2/29/16.
+//
+//
 import UIKit
 ///Protocol determines the layout of the tab bar
 public protocol EVTabBar: class {
@@ -14,15 +21,13 @@ public protocol EVTabBar: class {
 public extension EVTabBar where Self: UIViewController {
     ///Sets up the UI of the page view and tab bar
     func setupPageView() {
-        
         topTabBar?.translatesAutoresizingMaskIntoConstraints = false
-//        topTabBar?.backgroundColor = UIColor.black
         view.addSubview(topTabBar!)
         pageController.view.translatesAutoresizingMaskIntoConstraints = false
         pageController.view.frame = view.bounds
         shadowView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(shadowView)
-        pageController.setViewControllers([subviewControllers[1]], direction: .forward, animated: false, completion: nil) // by default view LIVE on index 1
+        pageController.setViewControllers([subviewControllers[0]], direction: .forward, animated: false, completion: nil)
         addChild(pageController)
         view.addSubview(pageController.view)
         pageController.didMove(toParent: self)
@@ -32,11 +37,11 @@ public extension EVTabBar where Self: UIViewController {
     func setupConstraints() {
         let views: [String:AnyObject] = ["menuBar" : topTabBar!, "pageView" : pageController.view, "shadow" : shadowView]
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[menuBar]|", options: [], metrics: nil, views: views))
-//        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[menuBar(==50)][pageView]|", options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-75-[menuBar(==50)][pageView]|", options: [], metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[menuBar(==40)][pageView]|", options: [], metrics: nil, views: views))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[pageView]|", options: [], metrics: nil, views: views))
         
         pageController.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|[shadow]|", options: [], metrics: nil, views: views))
-        pageController.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[shadow(0)]", options: [], metrics: nil, views: ["shadow" : shadowView]))
+        pageController.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[shadow(7)]", options: [], metrics: nil, views: ["shadow" : shadowView]))
     }
 }
+

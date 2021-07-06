@@ -26,7 +26,7 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
         cell.userWrong.text = currUser.wrongAns
         
         //same user
-        if self.user.UID == currUser.uID{
+      /*  if self.user.UID == currUser.uID{
             cell.mainView.layer.borderWidth = 1
             cell.mainView.layer.borderColor = Apps.BASIC_COLOR_CGCOLOR
             cell.mainView.layer.masksToBounds = true
@@ -34,7 +34,8 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
             cell.mainView.layer.borderWidth = 1
             cell.mainView.layer.masksToBounds = true
             cell.mainView.layer.borderColor = UIColor.white.cgColor
-        }
+        }*/
+        
         //user leave
         if currUser.isLeave ?? false{
             cell.mainView.backgroundColor = .lightGray
@@ -45,13 +46,13 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
         return cell
     }
     
-    func ObserveUser(){
+    func ObserveUser(_ roomcode: String){
         self.joinedUsers.removeAll()
-        let refR = Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser")
-        refR.observe(.value, with: {(snapshot) in
-          //  print("Observe val",snapshot)
+        let refR = Database.database().reference().child("MultiplayerRoom").child(roomcode).child("joinUser")//.child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser")
+            refR.observe(.value, with: {(snapshot) in
+            print("Observe val",snapshot)
             if let data = snapshot.value as? [String:Any]{
-              //  print("DATA",data)
+                print("DATA",data)
                 self.joinedUsers.removeAll()
                 for val in data{
                     if let user = val.value as? [String:Any]{
@@ -61,11 +62,11 @@ extension RoomBattlePlayView:UICollectionViewDataSource{
                 self.collectionView.reloadData()
                 
                 if self.joinedUsers.count == 1 || self.joinedUsers.count == 2 {
-                    self.DesignViews(battleHeight: 50)
+                    self.DesignViews(battleHeight: 60) //50
                 }else if self.joinedUsers.count == 3 || self.joinedUsers.count == 4 {
-                    self.DesignViews(battleHeight: 100)
+                    self.DesignViews(battleHeight: 110) //100
                 }else if self.joinedUsers.count == 5 || self.joinedUsers.count == 6 {
-                    self.DesignViews(battleHeight: 150)
+                    self.DesignViews(battleHeight: 160) //150
                 }
                 
                 self.CheckPlayerAttemp()

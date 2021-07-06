@@ -60,6 +60,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
     var seconds = 0
     
     var roomType = "private"
+    var roomCode = "00000"
     var isCompleted = false
     
     override func viewDidLoad() {
@@ -67,7 +68,19 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         
         self.leaveButton.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.4)
         
-        DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+        if Apps.opt_E == true {
+            btnE.isHidden = false
+            buttons = [btnA,btnB,btnC,btnD,btnE]
+        }else{
+            btnE.isHidden = true
+            buttons = [btnA,btnB,btnC,btnD]
+        }
+    
+         if Apps.opt_E == true {
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+         }else{
+            DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+        }
         
         questionView1.layer.cornerRadius = 15
         callObserver = CXCallObserver()
@@ -75,16 +88,16 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         
         NotificationCenter.default.post(name: Notification.Name("PlayMusic"), object: nil)
         //show 4 options by default & set 5th later by checking for opt E mode
-       // btnE.isHidden = true
+        btnE.isHidden = true
         hasLeave = false
         buttons = [btnA,btnB,btnC,btnD]
         
         // set refrence for firebase database
-        self.ref = Database.database().reference().child("AvailUserForBattle")
+        self.ref = Database.database().reference().child("MultiplayerRoom") //AvailUserForBattle
         mainQuestionLbl.centerVertically()
         imageQuestionLbl.centerVertically()
         
-        self.seconds = Int(self.roomInfo!.playTime)! * 60
+        self.seconds = Int(Apps.GROUP_BTL_WAIT_TIME) //Int(self.roomInfo!.playTime)! * 60
         
        // battleScoreView.SetShadow()
        // self.questionView.DesignViewWithShadow()
@@ -100,11 +113,11 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         if(Reachability.isConnectedToNetwork()){
             Loader = LoadLoader(loader: Loader)
 
-            var apiURL = "room_id=\(self.roomInfo!.ID)"
-            if sysConfig.LANGUAGE_MODE == 1{
-                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
-                apiURL += "&language_id=\(langID)"
-            }
+            var apiURL = "room_id=\(self.roomCode)" //self.roomInfo!.ID
+//            if sysConfig.LANGUAGE_MODE == 1{
+//                let langID = UserDefaults.standard.integer(forKey: DEFAULT_USER_LANG)
+//                apiURL += "&language_id=\(langID)"
+//            }
             self.getAPIData(apiName: "get_question_by_room_id", apiURL: apiURL,completion: LoadData)
         }else{
             ShowAlert(title: Apps.NO_INTERNET_TITLE, message:Apps.NO_INTERNET_MSG)
@@ -142,8 +155,8 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         let battleFrame = CGRect(x: self.battleScoreView.frame.origin.x, y: self.battleScoreView.frame.origin.y, width: self.battleScoreView.frame.width, height: battleHeight)
         self.battleScoreView.frame = battleFrame
         
-        let secondFram = CGRect(x: self.secondChildView.frame.origin.x, y: self.battleScoreView.frame.height + self.battleScoreView.frame.origin.y + 20, width: self.secondChildView.frame.width, height: self.secondChildView.frame.height)
-        self.secondChildView.frame = secondFram
+        let secondFrame = CGRect(x: self.secondChildView.frame.origin.x, y: self.battleScoreView.frame.height + self.battleScoreView.frame.origin.y + 20, width: self.secondChildView.frame.width, height: self.secondChildView.frame.height)
+        self.secondChildView.frame = secondFrame
         
     }
     
@@ -186,13 +199,26 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
     func LeaveBattleProc(){
         self.hasLeave = true
         let users = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        let refR = Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser").child(users.UID)
+        let refR = ref.child(roomCode).child("joinUser").child(users.UID) //Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser").child(users.UID)
         refR.child("isLeave").setValue("true")
+       
+        let roomVal = ref.child(roomCode)
+        roomVal.observeSingleEvent(of: .value, with: { (snapshot) in
+             if let data = snapshot.value as? [String:Any]{
+               // print(data)
+                let authID = data["authId"] as! String
+               // print(authID)
+                if authID == self.user.UID {
+                    //let roomL = authId//self.ref.child(self.roomCode)//Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID)
+                    roomVal.child("isRoomActive").setValue("false")//roomL.child("isRoomActive").setValue("false")
+                }
+             }
+        })
         
-        if self.roomInfo!.roomFID ==  user.UID{
-            let roomL = Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID)
-            roomL.child("isRoomActive").setValue("false")
-        }
+        //if authId ==  user.UID{ //  if self.roomInfo!.roomFID ==  user.UID{
+            // let roomL = ref.child(roomCode)//Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID)
+           // roomL.child("isRoomActive").setValue("false")
+        //}
         
         if  let index = self.joinedUsers.firstIndex(where: {$0.uID == "\(user.UID)"}){
             self.joinedUsers[index].isLeave = true
@@ -206,7 +232,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         self.ref.removeAllObservers()
      
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = "room_id=\(self.roomInfo!.ID)"
+            let apiURL = "room_id=\(self.roomCode)" //self.roomInfo!.ID
             self.getAPIData(apiName: "destroy_room_by_room_id", apiURL: apiURL,completion: {_ in })
         }
         NotificationCenter.default.post(name: Notification.Name("StopMusic"), object: nil)
@@ -224,12 +250,12 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         }
         if ref != nil{
             self.ref.removeAllObservers()
-            self.ref.removeValue()
+//            self.ref.removeValue()
             self.ref = nil
         }
         
         if(Reachability.isConnectedToNetwork()){
-            let apiURL = "room_id=\(self.roomInfo!.ID)"
+            let apiURL = "room_id=\(self.roomCode)"//self.roomInfo!.ID
             self.getAPIData(apiName: "destroy_room_by_room_id", apiURL: apiURL,completion: {_ in })
         }
         
@@ -238,6 +264,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         viewCont.joinedUsers = self.joinedUsers
         viewCont.roomType = self.roomType
         viewCont.roomInfo = self.roomInfo
+        viewCont.roomCode = self.roomCode
         self.navigationController?.pushViewController(viewCont, animated: true)
         
     }
@@ -262,7 +289,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
                 for val in data{
                     quesData.append(QuestionWithE.init(id: "\(val["id"]!)", question: "\(val["question"]!)", opetionA: "\(val["optiona"]!)", opetionB: "\(val["optionb"]!)", opetionC: "\(val["optionc"]!)", opetionD: "\(val["optiond"]!)", opetionE: "\(val["optione"]!)", correctAns: ("\(val["answer"]!)").lowercased(), image: "\(val["image"]!)", level: "\(val["level"]!)", note: "\(val["note"]!)", quesType: "\(val["question_type"]!)")) //, quesStatus: "\(val["que_status"]!)".bool ?? false
                     
-                    if let e = val["optione"] as? String {
+                  /*  if let e = val["optione"] as? String {
                         if e == ""{
                             Apps.opt_E = false
                             buttons = [btnA,btnB,btnC,btnD]
@@ -272,7 +299,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
                             buttons = [btnA,btnB,btnC,btnD,btnE]
                            // self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -284,7 +311,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
                 self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.incrementCount), userInfo: nil, repeats: true)
                 self.timer!.fire()
                 self.LoadQuestion()
-                self.ObserveUser()
+                self.ObserveUser(self.roomCode)
                 //print("QSN",self.quesData.count)
             }
         });
@@ -292,8 +319,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
     
     // Note only works when time has not been invalidated yet
     @objc func resetProgressCount() {
-        buttons.forEach{$0.isUserInteractionEnabled = true}
- 
+        buttons.forEach{$0.isUserInteractionEnabled = true} 
     }
     
     @objc func incrementCount() {
@@ -356,6 +382,27 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
                 
                 mainQuestionLbl.isHidden = true
             }
+            if(quesData[currentQuestionPos].opetionE == "")
+               {
+                   Apps.opt_E = false
+               }else{
+                   Apps.opt_E = true
+               }
+               if Apps.opt_E == true {
+                   btnE.isHidden = false
+                   buttons = [btnA,btnB,btnC,btnD,btnE]
+                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD,btnE)
+                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD, btnE)
+                   // enabled opetions button
+                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD,btnE)
+               }else{
+                   btnE.isHidden = true
+                   buttons = [btnA,btnB,btnC,btnD]
+                   DesignOpetionButton(buttons: btnA,btnB,btnC,btnD)
+                   self.SetViewWithShadow(views: btnA,btnB, btnC, btnD)
+                   // enabled opetions button
+                   MakeChoiceBtnDefault(btns: btnA,btnB,btnC,btnD)
+               }
             self.SetButtonOpetion(opestions: quesData[currentQuestionPos].opetionA,quesData[currentQuestionPos].opetionB,quesData[currentQuestionPos].opetionC,quesData[currentQuestionPos].opetionD,quesData[currentQuestionPos].opetionE,quesData[currentQuestionPos].correctAns)
             
           //  self.emojiImageView.removeFromSuperview()
@@ -382,7 +429,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
             self.btnE.isHidden = true
             
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: self.scroll.frame.width, height: self.scroll.frame.height))
-            noDataLabel.text          = "Lütfen Bekleyin! Sonuçları Süre Tamamlandıktan Sonra Göreceksiniz."
+            noDataLabel.text          = Apps.BTL_WAIT_MSG
             noDataLabel.textColor     = Apps.BASIC_COLOR
             noDataLabel.textAlignment = .center
             noDataLabel.numberOfLines = 0
@@ -523,7 +570,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
     func SetRightWrongtoFIR(){
         
         let users = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
-        let refR = Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser").child(users.UID)
+        let refR = ref.child(roomCode).child("joinUser").child(users.UID)//Database.database().reference().child(self.roomType == "private" ? Apps.PRIVATE_ROOM_NAME : Apps.PUBLIC_ROOM_NAME).child(self.roomInfo!.roomFID).child("joinUser").child(users.UID)
         
         refR.child("rightAns").setValue("\(self.rightCount)")
         refR.child("wrongAns").setValue("\(self.wrongCount)")
@@ -566,11 +613,14 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
             self.btnA.contentHorizontalAlignment = .left
             self.btnB.contentHorizontalAlignment = .left
             
+            if Apps.opt_E == true {
             self.buttons = [btnA,btnB,btnC,btnD,btnE]
-            
+                btnE.isHidden = false
+            }else{
+                self.buttons = [btnA,btnB,btnC,btnD]
+            }
             btnC.isHidden = false
             btnD.isHidden = false
-            btnE.isHidden = false
             
             btnA.setImage(UIImage(named: "btnA"), for: .normal)
             btnB.setImage(UIImage(named: "btnB"), for: .normal)
@@ -630,7 +680,7 @@ class RoomBattlePlayView: UIViewController, UIScrollViewDelegate {
         for btn in btns {
             btn.isEnabled = true
             btn.isHidden = false
-            btn.frame = self.btnE.frame
+            btn.frame = self.btnA.frame //btnE.frame
             btn.backgroundColor = .clear
             btn.layer.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2).cgColor
             btn.subviews.forEach({

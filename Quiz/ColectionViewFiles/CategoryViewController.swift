@@ -230,9 +230,9 @@ extension CategoryViewController: ASCollectionViewDataSource {
             self.navigationController?.pushViewController(viewCont, animated: true)
         }else if isGroupCategoryBattle == true {
             let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
-            let viewCont = storyboard.instantiateViewController(withIdentifier: "PrivateRoomView") as! PrivateRoomView
+            let viewCont = storyboard.instantiateViewController(withIdentifier: "GroupBattleView") as! GroupBattleView //(withIdentifier: "PrivateRoomView") as! PrivateRoomView
 //            viewCont.isCategoryBattle = true
-//            viewCont.catID = Int(self.catData[indexPath.row].id)!
+            viewCont.catID = Int(self.catData[indexPath.row].id)! 
             self.navigationController?.pushViewController(viewCont, animated: true)
         }else{
             if catData.count > 0 {

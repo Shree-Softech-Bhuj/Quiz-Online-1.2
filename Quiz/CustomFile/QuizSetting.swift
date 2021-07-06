@@ -4,7 +4,7 @@ import AVFoundation
 
 //apps setting and default value will be store here and used everywhere
 struct Apps{
-    static var URL = "http://newquiz.wrteam.in/api-v2.php"//"http://quizdemo.wrteam.in/api-v2.php" //
+    static var URL = "http://quizdemo.wrteam.in/api-v2.php" // "http://newquiz.wrteam.in/api-v2.php"//
     static var ACCESS_KEY = "6808"
     
     static let JWT = "set_your_strong_jwt_secret_key" //"quiz@123"
@@ -60,6 +60,7 @@ struct Apps{
     static var MORE_APP = "itms-apps://itunes.com/apps/89C47N4UTZ"
     static var SHARE_APP_TXT = "Hello"
     static var TOTAL_PLAY_QS = 10 // how many there will be total question in quiz play
+    static var TOTAL_BATTLE_QS = 10 // no_of_que for Group Battle
     
     static var ANS_MODE = "0"
     static var FORCE_UPDT_MODE = "1"
@@ -194,8 +195,6 @@ struct Apps{
     static let DISMISS = "Dismiss"
     static let OK = "OK"
     static let OKAY = "OKAY"
-    static let STAY_BACK = "STAY BACK"
-    static let LEAVE = "LEAVE"
     static let HELLO = "Hello,"
     static let USER = "User"
     static let INVALID_QUE = "Invalid Question"
@@ -279,6 +278,9 @@ struct Apps{
      //---MOBILE LOGIN---
     static let MSG_CC = "Please Enter Country Code in correct Format"
     static let MSG_NUM = "Please Enter Phone Number in correct Format"
+    //---USER STATUS----
+    static let DEACTIVATED = "Account Deactivated"
+    static let DEACTIVATED_MSG = "Your account is Deactivated by Admin"
     //---BATTLE MODES----
     static let ROOM_NAME = "OnlineUser"
     static let PRIVATE_ROOM_NAME = "PrivateRoom"
@@ -306,6 +308,17 @@ struct Apps{
     static let GAME_CLOSED = "GameRoom is Deactivated Or Game Already Started"
     static let GAMEROOM_ENTERCODE = "Enter GameRoom Code"
     static let MSG_GAMEROOM_SHARE = "Here is My Group Battle Game Code: "
+    
+    static let GAMEROOM_CLOSE_MSG = "GameRoom is Deactivated"
+    static let GAMEROOM_WAIT_ALERT = "Wait for at least one user to join the game"
+    static let STAY_BACK = "STAY BACK"
+    static let LEAVE = "LEAVE"
+    
+    static let NO_USER_JOINED = "No One Joined"
+    static let NO_USER_JOINED_MSG = "Looks like No user joined game yet."
+    static let EXIT = "EXIT"
+    
+    static let BTL_WAIT_MSG = "Please wait! You will see the results after the time is up."
     
     static let LANG = "en-US"
 }

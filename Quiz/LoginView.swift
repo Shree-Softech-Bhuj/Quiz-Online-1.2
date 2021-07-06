@@ -551,7 +551,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
         }else{
             //get data for category
             if let data = jsonObj.value(forKey: "data") as? [String:Any] {
-                //print("Data -- \(data)")
+                print("Data -- \(data)")
                 var userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
                 userD.name = "\((data["name"])!)"
                 userD.userID = "\((data["user_id"])!)"
@@ -559,7 +559,7 @@ class LoginView: UIViewController,GIDSignInDelegate, ASAuthorizationControllerPr
                 userD.image = "\((data["profile"])!)"
                 //userD.frnd_code = "\((data["friends_code"]) ?? " ")"
                 userD.ref_code = "\((data["refer_code"])!)"
-                
+                userD.status = "\((data["status"])!)"
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
                 
 //                let uScore:UserScore = UserScore.init(coins: 0, points: 00)

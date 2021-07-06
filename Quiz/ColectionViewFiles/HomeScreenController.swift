@@ -79,7 +79,7 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
         if UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) != nil {
             sysConfig = try! PropertyListDecoder().decode(SystemConfiguration.self, from: (UserDefaults.standard.value(forKey:DEFAULT_SYS_CONFIG) as? Data)!)
         }
-        getUserNameImg()
+       // getUserNameImg()
         self.ObserveInvitation()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -117,12 +117,52 @@ class HomeScreenController: UIViewController, UITableViewDelegate, UITableViewDa
 //            self.tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: "ContestZone")
 //        }
 //    }
-    
+    func logOutUserAndGoBackToLogin(){
+        if self.dUser!.userType == "apple"{
+           // if app is not loged in than navigate to loginview controller
+           UserDefaults.standard.set(false, forKey: "isLogedin")
+           UserDefaults.standard.removeObject(forKey: "user")
+           
+           let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+           let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+           
+           let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+           navigationcontroller.setNavigationBarHidden(true, animated: false)
+           navigationcontroller.isNavigationBarHidden = true
+           
+           UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+           return
+       }
+        if Auth.auth().currentUser != nil {
+            do {
+                try Auth.auth().signOut()
+                UserDefaults.standard.removeObject(forKey: "isLogedin")
+                //remove friend code
+                UserDefaults.standard.removeObject(forKey: "fr_code")
+                
+                let storyboard = UIStoryboard(name: deviceStoryBoard, bundle: nil)
+                let initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                
+                let navigationcontroller = UINavigationController(rootViewController: initialViewController)
+                navigationcontroller.setNavigationBarHidden(true, animated: false)
+                navigationcontroller.isNavigationBarHidden = true
+                UIApplication.shared.keyWindow?.rootViewController = navigationcontroller
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+    }
     func getUserNameImg(){
         //user name and display image
         if UserDefaults.standard.bool(forKey: "isLogedin"){
             dUser = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+            print("user data - \(dUser)")
+            if dUser?.status == "0" { //user status is - deactivated
+                ShowAlert(title: Apps.DEACTIVATED, message: "\(Apps.HELLO) \(dUser!.name)\n \(Apps.DEACTIVATED_MSG)")
+                logOutUserAndGoBackToLogin()
+            }
             userName.text = "\(Apps.HELLO)  \(dUser!.name)"
+            //userName.titleTextAnimation()
           
             imgProfile.layer.cornerRadius =  imgProfile.frame.height / 2
             imgProfile.layer.masksToBounds = true//false

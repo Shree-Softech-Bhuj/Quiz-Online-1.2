@@ -278,6 +278,13 @@ class SystemConfig: UIViewController {
                             return
                         }
                         print(DATA)
+                        
+                        let stts = DATA["status"]
+                        var userD:User = try! PropertyListDecoder().decode(User.self, from: (UserDefaults.standard.value(forKey:"user") as? Data)!)
+                        userD.status = stts as! String
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
+                        
+                        
                         let rank = DATA["all_time_rank"] //as! String //as! Int //
                         Apps.ALL_TIME_RANK = rank ?? 0
                         

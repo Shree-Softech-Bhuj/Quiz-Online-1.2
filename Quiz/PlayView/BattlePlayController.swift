@@ -281,7 +281,7 @@ class BattlePlayController: UIViewController, UIScrollViewDelegate {
           }
           if ref != nil{
               self.ref.removeAllObservers()
-              self.ref.removeValue()
+              //self.ref.removeValue()
               self.ref = nil
           }
           

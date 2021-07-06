@@ -109,6 +109,7 @@ class OTPController: UIViewController ,UITextFieldDelegate{
                 userD.phone = "\((data["mobile"])!)"
                 userD.image = "\((data["profile"])!)"
                 userD.ref_code = "\((data["refer_code"])!)"
+                userD.status = "\((data["status"])!)"
                 
                 UserDefaults.standard.set(try? PropertyListEncoder().encode(userD), forKey: "user")
             }
